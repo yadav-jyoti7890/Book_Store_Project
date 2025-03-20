@@ -1,0 +1,122 @@
+.order-list {   
+    min-height: 100vh;
+    width: 100%;
+    /* background-color: blue; */
+    display: flex;  
+    gap: 1vw; 
+    position: relative;
+}
+
+.left {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    /* padding: 10px; */
+    /* overflow-y: auto; */
+    margin-top: 2vw;
+}
+
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.completed {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.progress {
+    background-color: #ffc107;
+    color: #fff;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.controls select, .controls input[type="text"] {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+img.product-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+
+
+.left h2, .right h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.box {
+    background-color: #fff;
+    color: #333;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.box strong {
+    color: #6200ea;
+}
+
+

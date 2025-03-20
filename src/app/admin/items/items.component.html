@@ -1,0 +1,58 @@
+ 
+  <div class="order_header" *ngFor="let item of user_items; let i = index">
+   <h1 *ngIf="i === 0"> <strong>OrderId #{{item.random_number}}</strong> </h1>
+  </div>
+  <hr>
+
+<div class="user_items">
+    <div class="left">
+       
+        <table class="table">
+            <tr>
+                <th>S.N</th>
+                <th>image</th>
+                <th>price</th>
+                <th>quantity</th>
+                <th>total_amount</th>
+                <th>action</th>
+            </tr>
+    
+          
+            <tr *ngFor="let item of user_items; let i = index"> 
+                <td> {{i+1}} </td>
+                <img [src]="item.image ? 'http://localhost:3000/' + item.image : ''" alt="Book image" height="100px" width="100px">
+                <td>{{item.price}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.total_amount}}</td>
+                <td><i class="ri-delete-bin-fill"></i></td>
+                <td><i class="ri-edit-box-fill"></i></td>
+            </tr>
+        
+          
+        </table>
+    </div>
+    
+    <div class="right">
+        <h3>user address</h3>
+        <div class="box" *ngFor="let item of user_items; let i = index">
+            <div class="right_in1" *ngIf="i === 0">
+                <i class="ri-map-pin-2-fill"></i> <label for>Shipping Address</label><br />
+                <span>{{item.full_name}}</span><br />
+                <span>{{item.house_no}}, {{item.road_name}} </span><br />
+                <span> {{item.city}}, {{item.state}} </span>
+                <span>{{item.pincode}}</span><br />
+                <span> {{item.contact}} </span>
+            </div>
+        </div>
+        <div class="box"  id="amount" *ngFor="let item of user_items; let i = index">
+            <div class="right_in1" *ngIf="i === 0">
+                <i class="ri-file-list-3-fill"></i> <label for> Total Billing </label><br />
+                <span> total number of items : {{item.total_item}}</span><br />
+                <span>total quantity : {{item.quantity}}</span><br />
+                <span>Subtotal : {{item.total_pay}} </span><br>
+                <span>Discount : 10% </span><br /><hr>
+                <span>Grand total : {{item.total_amount}} </span>
+            </div>
+        </div>
+    </div>
+</div>

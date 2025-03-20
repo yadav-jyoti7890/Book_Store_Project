@@ -1,0 +1,31 @@
+<div class="form">
+    <form action>
+        <h1>ADD YOUR <span>ADDRESS</span></h1>
+        <button class="close-btn" (click)="close()">✖</button>
+        <label for>Full_Name</label>
+        <input type="text" name="name" placeholder="Enter Full_Name"
+            [(ngModel)]="address.fullname">
+        <label for>Contact</label>
+        <input type="number" name="contact" placeholder="Contact*"
+            [(ngModel)]="address.contact">
+        <label for>Pincode</label>
+        <input type="number" name="pincode" placeholder="pincode"
+            [(ngModel)]="address.pincode">
+        <label for>City</label>
+        <input type="text" name="city" placeholder="city*"
+            [(ngModel)]="address.city">
+        <label for>State</label>
+        <input type="text" name="state" placeholder="state"
+            [(ngModel)]="address.state">
+
+        <label for>house no./building name</label>
+        <input type="text" placeholder="house no./building name"
+            [(ngModel)]="address.house_no" name="house_no">
+
+        <label for>road name/area/colony*</label>
+        <input type="text" placeholder="house no./building name"
+            [(ngModel)]="address.road_name" name="road_name">
+        <button type="submit" (click)="add_address()">Add Address</button>
+
+    </form>
+</div>

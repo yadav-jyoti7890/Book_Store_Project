@@ -1,0 +1,20 @@
+
+<div class="view_page">
+    <div class="view_in" *ngFor="let book_detail of view_book">
+        <div class="left">
+            <img [src]="book_detail.image ? 'http://localhost:3000/' + book_detail.image : ''" alt="Book image">
+        </div>
+        <div class="right">
+            <h5>title : {{book_detail.title}}</h5>
+            <p>author : {{book_detail.author}}</p>
+            <p>description : {{book_detail.description}}</p>
+            <p>price : {{book_detail.price}}</p>
+            <p>quantity : <label> <button  (click)="substract()">-</button><span>   {{quantity}}   </span> <button (click)="add()"> + </button></label></p>
+            <button type="button" class="addtocart" (click)="add_cart(book_detail)">add to cart</button>
+            <i class="ri-heart-line" id="heart"></i>
+        </div>
+    </div>
+</div>
+
+
+

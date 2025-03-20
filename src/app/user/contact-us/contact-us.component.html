@@ -1,0 +1,35 @@
+<div class="contact_us">
+    <div class="left">
+       <!-- <img src="./assets/image/contact.png" alt=""> -->
+       <div class="contact_detail">
+        <h1>contact-us</h1>
+        <p>how can i help you </p>
+        <p>we are here to help to answers and any questions you might have we look forward to hearing from you !</p>
+       <div *ngFor="let companyInfo of address">
+        <label for=""><i class="ri-mail-check-fill" id="email"></i> {{companyInfo.email}}, {{companyInfo.email2}}</label><br>
+        <label for=""><i class="ri-phone-fill" id="contact"></i> {{companyInfo.contact}}, {{companyInfo.contact2}}</label><br>
+        <label for=""><i class="ri-map-pin-fill" id="address"></i> {{companyInfo.address}}.</label>
+       </div>
+       </div>
+
+
+    </div>
+    <div class="right">
+        <div class="form">
+            <form>
+                <h1 class="header1">welcome to <span> Contact-Us</span></h1><hr>
+                <label for="email">Enter email</label>
+                <input type="email" name="email" id="email" placeholder="someone@gmail.com" required [(ngModel)]="contact.email">
+        
+                <label for="contact">Enter contact</label>
+                <input type="number" name="contact" id="password" placeholder="******" [(ngModel)]="contact.contact">
+
+                <label for="message">Message</label>
+                <textarea type="text" name="message" id="" cols="10" rows="4" [(ngModel)]="contact.message">Enter message</textarea>
+
+                <button type="submit" (click)="contact_us()">Send</button>
+        
+            </form>
+        </div>
+    </div>
+</div>

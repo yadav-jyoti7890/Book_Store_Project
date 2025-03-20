@@ -1,0 +1,212 @@
+.form{
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f4f4f4;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form{
+    min-width:400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 3vw;
+    z-index: 10;
+}
+form label{
+    color: #000;
+    font-size: 1vw;
+    text-transform: capitalize;
+    font-family: neue-light;
+    font-weight: 200;
+    letter-spacing: 0.1vw;
+    margin-bottom: 0.5vw;
+}
+form h1{
+    color: #000;
+    text-align: center;
+    margin-bottom: 2vw;
+    font-size: 3vw;
+    text-transform: uppercase;
+    font-family: neue-bold;
+    font-weight: 200;
+}
+form input,button{
+    display: block;
+    width: 100%;
+    padding: 0.7vw;
+    margin-bottom: 1vw;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color:#fff;
+    color: #000;
+    padding-left: 1vw;
+}
+
+input,textarea::placeholder{
+    font-family: verdana;
+    font-weight: 100;
+    font-size: 1vw;
+    font-family: neue-light;
+    letter-spacing: 0.1vw;
+    color: #000;
+}
+span{
+    color: #4b0084;
+}
+button{
+    width: 50%;
+    background-color: #4b0084;
+    color: #fff;
+    font-family: neue-bold;
+    font-size: 1vw;
+    margin: auto auto;
+    cursor: pointer;
+}
+.flex{
+    padding-bottom: 1vw;
+    width: 100%;
+    display: flex;
+    justify-content: space-between !important;
+    align-items: center;
+}
+ .flex p{
+    text-transform: uppercase;
+    font-family: verdana;
+    font-weight: 100;
+    font-size: 0.9vw;
+    color: #000;
+}
+ .flex a{
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: verdana;
+    font-weight: 100;
+    font-size: 0.9vw;
+    color: #000;
+    cursor: pointer;
+}
+form textarea{
+    display: block;
+    width: 100%;
+    padding: 0.7vw;
+    margin-bottom: 1vw;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color: rgba(67, 66, 66, 0.848);
+    color: #000;
+    padding-left: 1vw;
+}
+small{
+    color: red;
+    font-size: 1vw;
+    text-transform: capitalize;
+    font-family: neue-light;
+    letter-spacing: 1px;
+}
+button:disabled{
+    background-color: #857e7e85;
+    cursor: not-allowed;
+    color: #fff;
+}
+button:valid{
+    background-color: #4b0084;
+    color: #fff;
+}
+.password_sec{
+    width: 100%;
+    position: relative;
+    display: flex;
+    color: red;  
+}
+.password_sec i{
+    position: absolute;
+    font-size: 1.3vw;
+    color: #000;
+    right: 10px;
+    top: 30%;
+    transform: translateY(-30%);
+}
+/* styles.css or app.component.css */
+.top-snackbar {
+    margin-top: 20px;  /* Adjust as needed */
+    background-color: #1976d2;  /* Custom background color */
+    color: #fff;  /* Custom text color */
+  }
+  
+
+@media (max-width:500px) {
+    .form{
+        min-height: calc(100vh - 60px);
+    }
+    form{
+        min-width:100%;
+        padding: 7vw;
+    }
+    form label{
+        font-size: 4vw;
+    }
+    form h1{
+        margin-bottom: 8vw;
+        font-size: 6vw;
+    }
+    form input,button{
+        width: 100%;
+        padding: 4vw;
+        margin-bottom: 3vw;
+        border-radius: 3px;
+        padding-left: 1vw;
+    }
+    
+    input,textarea::placeholder{
+        font-family: verdana;
+        font-weight: 100;
+        font-size: 4vw;
+        font-family: neue-light;
+        letter-spacing: 0.1vw;
+    }
+    span{
+        color: #24CFA6;
+    }
+    button{
+        font-size: 4vw;
+    }
+    .flex{
+        padding-bottom: 1vw;
+        width: 100%;
+        display: flex;
+        justify-content: space-between !important;
+        align-items: center;
+    }
+     .flex p{
+        font-size: 3vw;
+    }
+     .flex a{
+        font-size: 3vw;
+    }
+    form textarea{
+        display: block;
+        width: 100%;
+        padding: 0.7vw;
+        margin-bottom: 1vw;
+        border-radius: 5px;
+        padding-left: 1vw;
+    }
+    small{
+        font-size: 1vw;
+    }
+    button:disabled{
+        background-color: #857e7e85;
+        cursor: not-allowed;
+        color: #fff;
+    }
+    button:valid{
+        background-color: #24CFA6;
+        color: #fff;
+    }
+}

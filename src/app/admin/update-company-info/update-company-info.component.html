@@ -1,0 +1,21 @@
+<!-- <h1>change company address </h1> -->
+<h1><strong>change company address</strong></h1><hr>
+<div class="form"> 
+    <form (submit)="updateCompany()">
+      
+        <label for="">Enter Email</label>
+        <input type="email" name="email" [(ngModel)]="companyData.email">
+        <label for="">Enter alter email</label>
+        <input type="email" name="email2" [(ngModel)]="companyData.email2">
+        <label for="">Enter contact </label>
+        <input type="number" name="contact" [(ngModel)]="companyData.contact"> 
+        <label for="">Enter alter contact</label>
+        <input type="number" name="contact2" [(ngModel)]="companyData.contact2">
+        <label for="">Enter address</label>
+        <textarea name="address" [(ngModel)]="companyData.address"></textarea>
+       <button type="submit">update Address</button>   
+    </form>
+</div>
+
+
+

@@ -1,0 +1,44 @@
+.read_task{
+    min-height: 100vh;
+    background-color: #fff;
+    width: 100%;
+    padding: 2vw 0vw;
+    border-bottom: #dadada;
+    color: #000;
+}
+table{
+    width: 100%;
+}
+table th{
+    border-bottom: 1px solid #dadada3e;
+    padding: 1vw 0vw;
+    font-family: neue-bold;
+    text-transform: capitalize;
+    /* width: 100%; */
+}
+table td{
+    text-align: center;
+    font-family: neue-light;   
+}
+table tr{
+    margin-top: 1vw 0vw;
+}
+i{
+    cursor: pointer;
+}
+td button{
+    background-color: #24CFA6;
+    color: #000;
+    font-size: 1vw;
+    font-family: neue;
+    text-transform: capitalize;
+    padding: 0.2vw 1vw;
+    border: none;
+    outline: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+tr td{
+    margin: 2vw 2vw !important;
+}
+

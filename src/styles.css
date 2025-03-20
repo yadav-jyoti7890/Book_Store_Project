@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: neue;
+    src: url(./assets/font/NeueMachina-Regular.otf);
+}
+@font-face {
+    font-family: neue-light;
+    src: url(./assets/font/NeueMachina-Light.otf);
+}
+@font-face {
+    font-family: neue-bold;
+    src: url(./assets/font/NeueMachina-Ultrabold.otf);
+}
+
+
+
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+html, body { height: 100%; width: 100%;}
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

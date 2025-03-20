@@ -1,0 +1,189 @@
+.contact_us{
+    min-height: calc(100vh - 60px);
+    width: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+}
+.left{
+    min-height:calc(100vh - 60px);
+    width: 50%;
+    padding: 2vw 4vw;
+    color: #000;
+    border-right: 1px solid #ffffff6b;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    background-color: #fff;
+    margin: 3vw;
+}
+.left .contact_detail{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+.left .contact_detail  label{
+    font-family: neue-light;
+    font-size: 1vw;
+    color:#4b0082 ;
+}
+.left .contact_detail i{
+    font-size: 1.7vw;
+}
+#email{
+    color: rgb(0, 187, 255);
+}
+#contact{
+    color: #2a4f2a;
+}
+#address{
+    color: #2493cf;
+}
+.left .contact_detail p{
+    font-family: neue;
+    font-size: 1vw;
+    text-transform: capitalize;
+}
+.left .contact_detail h1{
+    font-family: neue-bold;
+    font-size: 1.5vw;
+    text-transform: uppercase;
+}
+.right{
+    min-height:calc(100vh - 60px);
+    width: 50%;
+    padding: 2vw 4vw;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    margin: 2vw;
+    background-color: #fff;
+    /* justify-content: center; */
+}
+.right form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.right h1{
+    font-size: 1.5vw;
+    font-family: neue-bold;
+    text-transform: uppercase;
+}
+form label{
+    font-size: 1vw;
+    font-family: neue;
+    text-transform: capitalize;
+}
+form input::placeholder{
+   
+}
+form input,textarea{
+    padding: 1vw;
+    border-radius: 3px;
+    margin: 0.5vw 0vw;
+    border: none;
+    outline: none;
+    font-size: 0.9vw;
+    font-family: neue;
+    background-color: #f4f4f4;
+    color: #000;
+}
+form .header1{
+    font-size: 2vw;
+    font-family: neue-bold;
+    text-transform: uppercase;
+}
+form .header1 span{
+  color: #4b0082;
+}
+form button{
+   background-color: #4b0082;
+   padding: 0.5vw;
+   border-radius: 3px;
+   margin: 0.5vw 0vw;
+   cursor: pointer;
+   font-size: 1vw;
+   color: #fff;
+   border: none;
+   outline: none;
+   font-family: neue-bold;
+} 
+
+@media (max-width:500px) {
+    .contact_us{
+        min-height: calc(100vh - 60px);
+        width: 100%;
+        background-color: #000;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .left{
+        min-height:100%;
+        width: 100%;
+        padding: 4vw 5vw;
+        color: #fff;
+        border-right: 1px solid #ffffff6b;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid #ffffff42;
+        /* background-color: #2493cf; */
+    }
+    .left .contact_detail{
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+    }
+    .left .contact_detail  label{
+        font-size: 3vw;
+    }
+    .left .contact_detail i{
+        font-size: 5vw;
+    }
+   
+    .left .contact_detail p{
+        font-size: 3.5vw;
+    }
+    .left .contact_detail h1{
+        font-size: 4vw;
+    }
+    .right{
+        min-height: 100%;
+        width: 100%;
+        padding: 7vw 4vw;
+        /* display: flex;
+        flex-direction: column;
+        justify-content: center; */
+    }
+    .right form{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .right h1{
+        font-size: 6vw !important;
+    }
+    form label{
+        font-size: 4vw !important;
+    }
+    form input,textarea{
+        padding: 4vw;
+        margin: 2vw 0vw;
+        font-size: 3vw;
+    }
+    form .header1{
+        font-size: 4vw;
+    }
+    form input::placeholder{
+        font-size: 3.5vw;
+    }
+    form button{
+       padding: 4vw 2vw;
+       margin: 2vw 0vw;
+       font-size: 3vw;
+     
+    } 
+}
+
+

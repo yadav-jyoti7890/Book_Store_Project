@@ -1,0 +1,167 @@
+.view_page{
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.view_in{
+    min-height: 50% !important;
+    min-width: 70%;
+    background-color:#fff;
+    color: 000;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 30px;
+    border-radius: 10px;
+    padding: 2vw;
+}
+.view_in .left{
+    width: 30%;
+    height: 100%;
+}
+.view_in .right{
+    width: 70%;
+    height: 100%;
+}
+.left img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+img{
+    border-radius: 10px;
+}
+.right h5{
+    font-size: 1.5vw;
+    font-family: neue-bold;
+    color:#000;
+    text-transform: capitalize;
+    margin-top: 1vw;
+}
+.right p{
+    font-size: 1vw;
+    font-family: neue-light;
+    text-transform: capitalize;
+    margin: 0.6vw;
+}
+ 
+/* label{
+    border: 1px solid #dadada;
+} */
+
+label button{
+   padding: 0.2vw 2.1vw;
+}
+span{
+    padding: 0vw 1vw;
+}
+
+button{
+    margin-top: 1vw;
+    padding: 0.4vw 3vw;
+    border-radius: 4px; 
+    cursor: pointer;  
+}
+
+.addtocart{
+    background-color: #4b0082;
+    color: #fff;
+    font-size: 1vw;
+    font-family: neue-bold;
+    text-transform: uppercase;
+    margin-left: 1vw;
+}
+#heart{
+    font-size: 2vw;
+    margin: 0vw 1vw;
+    cursor: pointer;
+}
+
+@media (max-width:500px) {
+
+    .view_page{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .view_in{
+        height: 100%;
+        width: 100%;
+        background-color:#121212;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 10px;
+        border-radius: 10px;
+        padding: 2vw;
+    }
+    .view_in .right{
+        width: 100%;
+        height: 100%;
+        padding: 0vw 4vw;
+    }
+    .left img{
+        height: 300px;
+        object-fit: contain;
+    }
+    img{
+        border-radius: 10px;
+    }
+    .right h5{
+        font-size: 4vw;
+        font-family: neue-bold;
+        color:#24CFA6;
+        text-transform: capitalize;
+        margin-top: 1vw;
+    }
+    .right p{
+        font-size: 3.7vw;
+        font-family: neue-light;
+        text-transform: capitalize;
+        margin: 0.6vw;
+        line-height: 5vw;
+    }
+     
+    label{
+        border: 1px solid #dadada;
+        width: 100%;
+    }
+    
+    label button{
+       padding: 1vw 2.5vw;
+       object-fit: cover;
+    }
+    span{
+        padding: 0vw 1vw;
+    }
+    
+    button{
+        margin-top: 4vw;
+        padding: 3vw 6vw;
+        border-radius: 4px; 
+        cursor: pointer;  
+    }
+    .addtocart{
+        width: 70%;
+        background-color: #24CFA6;
+        color: #000;
+        font-size: 3vw;
+        font-family: neue-bold;
+        text-transform: uppercase;
+        margin-left: 1vw;
+    }
+    #heart{
+        font-size: 8vw;
+        margin: 0vw 3vw;
+        cursor: pointer;
+    }
+}
+
+
+

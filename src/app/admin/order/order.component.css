@@ -1,0 +1,108 @@
+
+.header_order_detail{
+    font-family: neue-bold;
+    margin: 1vw 0vw;
+}
+
+
+
+.read_task{
+    /* min-height: 100vh; */
+    background-color: #fff;
+    width: 100%;
+    padding: 2vw 1vw;
+    border-bottom: #dadada;
+    color: #000;
+    margin: 1vw 0vw;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+}
+table{
+    width: 100%;
+   
+}
+table th{
+    border-bottom: 1px solid #dadada3e;
+    padding: 1vw 0vw;
+    font-family: neue-bold;
+    text-transform: capitalize;
+    /* width: 100%; */
+}
+table td{
+    /* text-align: center; */
+    font-family: neue-light;   
+}
+table tr{
+    margin-top: 1vw 0vw;
+}
+i{
+    cursor: pointer;
+}
+td button{
+    background-color: #4b0084;
+    color: #fff;
+    font-size: 1vw;
+    font-family: neue;
+    text-transform: capitalize;
+    padding: 0.2vw 1vw;
+    border: none;
+    outline: none;
+    border-radius: 7px;
+    cursor: pointer;
+    margin-top: 0.4vw;
+}
+
+
+
+.dropdown-container {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #222;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  label {
+    margin-right: 10px;
+    font-size: 16px;
+  }
+  
+  select {
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+  }
+  .disabled-option {
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.5;      
+  }
+
+  .pending-status {
+    background-color: rgb(255, 102, 0) !important;
+    color: black;
+  }
+  
+  .shipping-status {
+    background-color: orange !important;
+    color: white;
+  }
+  
+  .delivered-status {
+    background-color: rgb(16, 102, 16) !important;
+    color: white;
+  }
+  
+  .canceled-status {
+    background-color: rgb(233, 58, 58) !important;
+    color: white;
+  }
+  
+  
+
+  

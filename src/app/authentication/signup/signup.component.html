@@ -1,0 +1,90 @@
+@if(isActive === 'signup'){
+<div class="form">
+    <form action #signupForm="ngForm">
+        <h1 class="signup">welcome to <span>Book Store</span></h1>
+
+        <label for>Enter username</label>
+        <input type="text" name="username" placeholder="username__" required minlength="4" [(ngModel)]="signup.username"
+            #username="ngModel">
+        <div *ngIf="username.touched && username.invalid">
+            <small *ngIf="username.errors?.['required']">username is
+                required</small>
+            <small *ngIf="username.errors?.['minlength']">Username must be at
+                least 4 characters long</small>
+        </div>
+
+
+        <label for="email">Enter email</label>
+        <input type="email" name="email" id="email" placeholder="someone@gmail.com" [(ngModel)]="signup.email"
+            #email="ngModel" required [pattern]="'[A-Za-z0-9\\._%+\\-]+@[A-Za-z0-9\\.\\-]+\\.[A-Za-z]{2,}'">
+        <div *ngIf="email.touched && email.invalid">
+            <small *ngIf="email.errors?.['required']">Email is required</small>
+            <small *ngIf="email.errors?.['pattern']">Please enter a valid email address</small>
+        </div>
+
+
+        
+        <label for="password">Enter password</label>
+        <div class="password_sec">
+            <input  [type]="isPasswordVisible ? 'text' : 'password'" name="password" id="password" placeholder="******"
+               [(ngModel)]="signup.password" #password="ngModel" required minlength="6" class="ri-eye-line">
+                <i class="ri-eye-line" (click)="togglePasswordVisibility()"
+                [ngClass]="{'ri-eye-line': !isPasswordVisible, 'ri-eye-off-line': isPasswordVisible}"></i>
+        </div>
+    
+        
+        <div *ngIf="password.touched && password.invalid">
+            <small *ngIf="password.errors?.['required']">Password is required</small>
+            <small *ngIf="password.errors?.['minlength']">Password must be at least 6 characters long</small>
+            
+        </div>
+
+       
+
+
+        <div class="flex">
+            <p>have you any account</p>
+            <a (click)="toggle('login')">signin</a>
+        </div>
+        <button type="submit" (click)="signup_submit()" [disabled]="signupForm.invalid">Signup</button>
+
+    </form>
+</div>
+}
+
+@if(isActive === 'login'){
+<div class="form">
+    <form action #loginForm="ngForm">
+        <h1 class="header1">welcome to <span>Book Store</span></h1>
+        <label for="email">Enter email</label>
+        <input type="email" name="email" id="email" placeholder="someone@gmail.com" [(ngModel)]="login.email"
+            #email="ngModel" required [pattern]="'[A-Za-z0-9\\._%+\\-]+@[A-Za-z0-9\\.\\-]+\\.[A-Za-z]{2,}'">
+        <div *ngIf="email.touched && email.invalid">
+            <small *ngIf="email.errors?.['required']">Email is required</small>
+            <small *ngIf="email.errors?.['pattern']">Please enter a valid email address</small>
+        </div>
+
+
+
+        <label for="password">Enter password</label>
+        <div class="password_sec">
+            <input  [type]="isPasswordVisible ? 'text' : 'password'" name="password" id="password" placeholder="******" [(ngModel)]="login.password"
+            #password="ngModel" required minlength="6">
+            <i class="ri-eye-line" (click)="togglePasswordVisibility()"
+            [ngClass]="{'ri-eye-line': !isPasswordVisible, 'ri-eye-off-line': isPasswordVisible}"></i>
+        </div>
+        
+        <div *ngIf="password.touched && password.invalid">
+            <small *ngIf="password.errors?.['required']">Password is required</small>
+            <small *ngIf="password.errors?.['minlength']">Password must be at least 6 characters long</small>
+        </div>
+
+        <div class="flex">
+            <p>have you any account</p>
+            <a (click)="toggle('signup')">signup</a>
+        </div>
+        <button type="submit" (click)="login_submit()" [disabled]="loginForm.invalid">SignIn</button>
+
+    </form>
+</div>
+}

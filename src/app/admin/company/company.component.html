@@ -1,0 +1,35 @@
+<div class="add_address">
+    <h1 class="address_list">Contact Detail</h1><hr>
+    <button class="add-book-btn" routerLink="/admin_dashboard/company_info">
+      <i class="ri-add-circle-fill"></i> Add More Contact
+    </button>
+  </div>
+  <hr>
+<div class="read_task">
+    <table class="table">
+        <tr>
+            <th>S.N</th>
+            <th>Email</th>
+            <th>Alter Email</th>
+            <th>Contact</th>
+            <th>Alter Contact</th>
+            <th>Address</th>
+            <th>Action</th>
+        </tr>
+
+      
+        <tr *ngFor="let com_info of address; let i = index"> 
+             <td>{{i+1}} </td>
+             <td>{{com_info.email}}</td>
+             <td>{{com_info.email2}}</td>
+             <td>{{com_info.contact}}</td>
+             <td>{{com_info.contact2}}</td>
+             <td>{{com_info.address}}</td>
+            <td (click)="deleteCom_info(com_info.id)"><i class="ri-delete-bin-fill"></i></td>
+            <td [routerLink]="['../update-company-info', com_info.id]"><i class="ri-edit-box-fill"></i></td>
+        </tr>
+    
+      
+    </table>
+</div>
+

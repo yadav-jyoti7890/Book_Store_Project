@@ -1,0 +1,124 @@
+
+.book_store{
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    color: #000;
+    padding: 2vw;
+    margin: 1vw 0vw;
+}
+.book_in{
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 1vw 0vw;
+}
+.book_box{
+    height: 15vw;
+    width: 30vw;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items:flex-start;
+    gap:1vw;
+   
+}
+img{
+    width: 30%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.card-text{
+    display: flex;
+    flex-direction: column;
+}
+
+.card-text span{
+    font-family: neue-light;
+    font-size: 1vw;
+    text-transform: capitalize;
+}
+
+.card-text h6{
+    background-color: #4b0082;
+    color: #fff;
+    font-family: neue-bold;
+    font-size: 1vw;
+    text-transform: capitalize;
+    cursor: pointer;
+    padding: 0.5vw 2vw;
+    border: none;
+    border-radius: 4px;
+    width: 60%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.card-text h5{
+    font-family: neue-bold;
+    font-size: 1.1vw;
+    text-transform: capitalize;
+    margin-top: 1vw;
+    color: #000;
+}
+.card-text p{
+    font-family: neue-bold;
+    font-size: 1vw;
+    text-transform: capitalize;
+    color: #000;
+}
+
+@media (max-width:500px) {
+    .book_store{
+        min-height: 100vh;
+        background-color: #000;
+        color: #fff;
+        padding: 2vw;
+    }
+    .book_in{
+        min-height: 100vh;
+        width: 100%;
+        padding: 1vw 2vw;
+    }
+    .book_box{
+        height: 50vw;
+        width: 100%;
+        gap: 20px;
+    }
+    .card-text {
+      padding: 1vw 0vw;
+    }
+    .card-text h6{
+        font-size: 3vw;
+        padding: 0.5vw 2vw;
+        border: none;
+        border-radius: 4px;
+        width: 60%;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .card-text span{
+        font-family: neue-light;
+        font-size: 3vw;
+        text-transform: capitalize;
+    }
+    .card-text h5{
+        font-family: neue-bold;
+        font-size: 4vw;
+        text-transform: capitalize;
+        margin-top: 1vw;
+        color: #24CFA6;
+    }
+    .card-text p{
+        font-family: neue-bold;
+        font-size: 1vw;
+        text-transform: capitalize;
+        color: #24CFA6;
+    }
+    
+}

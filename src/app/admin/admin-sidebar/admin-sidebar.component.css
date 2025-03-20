@@ -1,0 +1,44 @@
+.boxes {
+    display: flex;
+    /* justify-content: space-between; */
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .box {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 15vw;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .box i {
+    font-size: 40px;
+    color: #4b0082;
+  }
+  
+  .total_user_count {
+    margin-top: 10px;
+  }
+  
+  .total_user_count p {
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .total_user_count span {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  
+  
+  .right_content>h1{
+    font-family: neue-bold !important;
+    text-transform: uppercase !important;
+  }
+  
+  

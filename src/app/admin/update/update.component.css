@@ -1,0 +1,107 @@
+.form{
+    min-height: 100vh;
+    width: 100%;
+    background-color: #0C0C0C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    /* transform: translate(-50%, -50%); */
+}
+form{
+    min-width:400px;
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 3vw;
+    z-index: 10;
+}
+form label{
+    color: #fff;
+    font-size: 1vw;
+    text-transform: capitalize;
+    font-family: neue-light;
+    font-weight: 200;
+    letter-spacing: 0.1vw;
+    margin-bottom: 0.5vw;
+}
+form h1{
+    color: #fff;
+    text-align: center;
+    margin-bottom: 2vw;
+    font-size: 3vw;
+    text-transform: uppercase;
+    font-family: neue-bold;
+    font-weight: 200;
+}
+form input,button{
+    display: block;
+    width: 100%;
+    padding: 0.7vw;
+    margin-bottom: 1vw;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color: rgba(67, 66, 66, 0.848);
+    color: #ebe3e3;
+    padding-left: 1vw;
+}
+
+input::placeholder{
+    color: #efeae3;
+    font-family: verdana;
+    font-weight: 100;
+    font-size: 0.8vw;
+    font-family: neue-light;
+}
+.circle{
+    width: 20vw;
+    height: 20vw;
+    position: fixed;
+    top: 25%;
+    left: 40%;
+    background-color:24CFA6;
+    border-radius: 50%;
+    z-index: 9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: blur(20px);
+}
+
+.circle1{
+    height: 20vw;
+    width: 20vw;
+    background-color: #24CFA6;
+    position: absolute;
+    /* top:15%;
+    left:60%; */
+    filter: blur(20px);
+    border-radius: 50%;
+    
+}
+
+.circle2{
+    height: 20vw;
+    width: 20vw;
+    background-color: #24CFA6;
+    position: absolute;
+    filter: blur(20px);
+    border-radius: 50%;
+    animation-name: circle;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+button{
+    width: 50% !important;
+    cursor: pointer;
+    background-color: #24CFA6;
+    color: #fff;
+    font-family: neue-bold;
+    letter-spacing: 1px;
+    margin: auto auto;
+}

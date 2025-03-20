@@ -1,0 +1,32 @@
+
+<h1><strong>User Detail</strong><hr></h1>
+<div class="read_task">
+    <table class="table">
+        <tr>
+            <th>S.N</th>
+            <th>username</th>
+            <th>email</th>
+            <th>role-type</th>
+            <th>active</th>
+            <th>action</th>
+        </tr>
+
+      
+        <tr *ngFor="let user of usersData; let i = index"> 
+            <td>{{i+1}} </td>
+            <td>{{user.user_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.role}}</td>
+            <td>inactive</td>
+            <td (click)="user_delete(user.user_id)"><i class="ri-delete-bin-fill"></i></td>
+            <td><i class="ri-edit-box-fill"></i></td>
+        </tr>
+    
+      
+    </table>
+</div> 
+
+
+
+
+

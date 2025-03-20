@@ -1,0 +1,21 @@
+
+
+<div class="book_store">
+    <div class="book_in">
+        <div class="book_box" *ngFor="let book of books" >
+            <img [src]="book.image ? 'http://localhost:3000/' + book.image : ''" alt="Book image">
+            <div class="card-text">
+                <h5>title : {{book.title}}</h5>
+                <span>description: {{book.description}}</span>
+                <span>price: {{book.price}} </span>
+                <span>author : {{book.author}}</span>
+                <h6 [routerLink]="['/view_detail', book.product_id]" (click)="sure()"> view  </h6>
+
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+  

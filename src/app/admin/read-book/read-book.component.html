@@ -1,0 +1,100 @@
+
+<!-- <div class="read_task">
+    <table class="table">
+        <tr>
+            <th>S.N</th>
+            <th>title</th>
+            <th>author</th>
+            <th>description</th>
+            <th>price</th>
+            <th>image</th>
+            <th>Action</th>
+        </tr>
+
+      
+        <tr *ngFor="let books of receive_books; let i = index"> 
+            <td>{{i+1}}</td>
+            <td>{{books.title}}</td>
+            <td>{{books.author}}</td>
+            <td>{{books.description}}</td>
+            <td>{{books.price}}</td>
+            <td> <img [src]="books.image ? 'http://localhost:3000/' + books.image : ''" alt="Book image" height="100px" width="100px"></td>
+            <td (click)="delete_books(books.id)"><i class="ri-delete-bin-fill"></i></td>
+            <td [routerLink]="['/book_update', books.id]"><i class="ri-edit-box-fill"></i></td>
+        </tr>
+    
+      
+    </table>
+</div> -->
+
+<!-- MatPaginator for pagination controls  -->
+<div class="add-book-container">
+  <h1 class="order_list">Product_List</h1><hr>
+  <button class="add-book-btn" routerLink="/admin_dashboard/add_book">
+    <i class="ri-add-circle-fill"></i> Add more product
+  </button>
+</div>
+<hr>
+<table mat-table [dataSource]="dataSource" class="tablele">
+    <!-- Define Columns -->
+    <ng-container matColumnDef="SN">
+      <th mat-header-cell *matHeaderCellDef>SN</th>
+      <td mat-cell *matCellDef="let i = index">{{i+1}}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>title</th>
+      <td mat-cell *matCellDef="let element">{{element.title}}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="author">
+      <th mat-header-cell *matHeaderCellDef>author</th>
+      <td mat-cell *matCellDef="let element">{{element.author}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>description</th>
+        <td mat-cell *matCellDef="let element">{{element.description}}</td>
+      </ng-container>
+    
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>price</th>
+        <td mat-cell *matCellDef="let element">{{element.price}}</td>
+      </ng-container>
+    
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef>image</th>
+        <td mat-cell *matCellDef="let element">
+            <img [src]="element.image ? 'http://localhost:3000/' + element.image : ''" alt="Book image" height="100px" width="100px">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="warn" (click)="delete_books(element.product_id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="updatebooks(element.product_id)" [routerLink]="['../book_update', element.product_id]">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      
+     
+
+     
+  
+    <!-- Header Row -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <!-- Data Rows -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+  <!-- Pagination Controls -->
+  <mat-paginator [length]="totalRecords" [pageSize]="pageSize" (page)="onPageChange($event)">
+  </mat-paginator>
+  
+
+
+  
