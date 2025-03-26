@@ -1,0 +1,58 @@
+.read_task{
+    /* min-height: 100vh; */
+    background-color: #fff;
+    width: 100%;
+    padding: 2vw 0vw;
+    border-bottom: #dadada;
+    color: #000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 1vw 0vw;
+    padding: 1vw 1vw;
+}
+table{
+    width: 100%;
+  
+}
+table th{
+    text-align: start;
+    border-bottom: 1px solid #dadada3e;
+    padding: 1vw 0vw;
+    font-family: neue-bold;
+    text-transform: capitalize;
+}
+table td{
+    text-align: start;
+    font-family: neue-light;   
+}
+table tr{
+    margin-top: 1vw 0vw;
+}
+i{
+    cursor: pointer;
+}
+
+.add-book-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .add-book-btn {
+    background-color: #4b0084; /* Green background */
+    color: white; /* White text */
+    padding: 12px 24px;
+    font-size: 1vw;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .add-book-btn i {
+    font-size: 24px;
+  }

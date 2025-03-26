@@ -65,7 +65,7 @@ express1.put('/update-status/:random_number', (req, res) => {
       console.error(err);
       return res.status(500).json({ message: "Server error" });
     }
-    return res.status(200).json({ message: "Status updated successfully"});
+    return res.status(200).json({ message: "Status updated successfully" });
   });
 });
 
@@ -94,29 +94,29 @@ express1.post("/signup", function (req, res) {
   //     }
 
   //     let hash_password = hash;
-      // console.log('Hashed password:', hash_password);
+  // console.log('Hashed password:', hash_password);
 
-      // let token = jwt.sign({email:email}, "lolopopopo")
-      // res.cookies("token", token)
-      // console.log(token, "token")
+  // let token = jwt.sign({email:email}, "lolopopopo")
+  // res.cookies("token", token)
+  // console.log(token, "token")
 
-      // SQL query to insert user data
-      let sql = "INSERT INTO users (user_name, email, password) VALUES (?,?,?)";
-      db_connection.query(
-        sql,
-        [username, email, password],
-        function (err, result) {
-          if (err) {
-            // console.error('Error executing query:', err); // Log the error for debugging
-            return res.status(500).json({ message: "Server error" });
-          }
+  // SQL query to insert user data
+  let sql = "INSERT INTO users (user_name, email, password) VALUES (?,?,?)";
+  db_connection.query(
+    sql,
+    [username, email, password],
+    function (err, result) {
+      if (err) {
+        // console.error('Error executing query:', err); // Log the error for debugging
+        return res.status(500).json({ message: "Server error" });
+      }
 
-          // Successful user creation
-          res.status(200).json({ message: "User registered successfully" });
-        }
-      );
-    });
- 
+      // Successful user creation
+      res.status(200).json({ message: "User registered successfully" });
+    }
+  );
+});
+
 
 
 express1.post("/login", function (req, res) {
@@ -135,35 +135,35 @@ express1.post("/login", function (req, res) {
       return res.status(404).send({ status: false, message: "Email not found" });
     }
 
-    
+
     const user = result[0];
 
-    if(user.password !== password){
+    if (user.password !== password) {
       console.log("Email not found in database.");
       return res.status(401).send({ status: false, message: "invalid password" });
     }
-    
 
-      // If passwords match
-      const token = jwt.sign(
-        { id: user.user_id, username: user.user_name, role: user.role },
-        JWT_SECRET,
-        { expiresIn: "1h" }
-      );
 
-      return res.status(200).send({
-        status: true,
-        message: "User logged in successfully",
-        token,
-        user: {
-          email: user.email,
-          username: user.user_name,
-          role: user.role,
-          id: user.user_id,
-        },
-      });
+    // If passwords match
+    const token = jwt.sign(
+      { id: user.user_id, username: user.user_name, role: user.role },
+      JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    return res.status(200).send({
+      status: true,
+      message: "User logged in successfully",
+      token,
+      user: {
+        email: user.email,
+        username: user.user_name,
+        role: user.role,
+        id: user.user_id,
+      },
     });
   });
+});
 
 
 
@@ -333,7 +333,12 @@ express1.get("/api/data", (req, res) => {
   const offset = (page - 1) * pageSize; // For Page 1, offset will be 0; for Page 2, it will be 10; and so on.
 
   // Query to get the data for the current page
-  const dataQuery = `SELECT * FROM product WHERE is_deleted = FALSE LIMIT ${pageSize} OFFSET ${offset}`;
+  const dataQuery = `SELECT p.*, c.category_name 
+                     FROM product p
+                     INNER JOIN category c ON p.category_id = c.category_id
+                     WHERE p.is_deleted = FALSE 
+                     LIMIT ${pageSize} OFFSET ${offset}`;
+
 
 
   // Query to get the total number of records (this is needed for pagination)
@@ -369,19 +374,19 @@ express1.get("/api/data", (req, res) => {
 //===== admin side code here ======//
 
 express1.post("/add-books", upload.single("image"), function (req, res) {
-  const { title, author, description, price } = req.body;
+  const { title, author, description, price, category_id } = req.body;
   const imagePath = req.file ? req.file.path : null; // Check if file was uploaded
-  // console.log(title, author, description, price, imagePath)
+  console.log(title, author, description, price, imagePath, category_id)
 
   if (!imagePath) {
     return res.status(400).json({ message: "Image file is required" });
   }
 
   let sql =
-    "INSERT INTO product (title, author, description, price, image) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO product (title, author, description, price, image, category_id) VALUES (?, ?, ?, ?, ?,?)";
   db_connection.query(
     sql,
-    [title, author, description, price, imagePath],
+    [title, author, description, price, imagePath, category_id],
     function (err, result) {
       if (err) {
         // console.error('Database error: ', err);
@@ -509,11 +514,11 @@ express1.post('/contact', (req, res) => {
 
   const sql = 'INSERT INTO contact (email, contact, message) VALUES (?, ?, ?)';
   db_connection.query(sql, [email, contact, message], (err, result) => {
-      if (err) {
-          console.error('Error inserting contact data:', err);
-          return res.status(500).json({ error: 'Database error' });
-      }
-      return res.status(200).json({ message: 'Contact details submitted successfully' });
+    if (err) {
+      console.error('Error inserting contact data:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    return res.status(200).json({ message: 'Contact details submitted successfully' });
   });
 });
 
@@ -546,20 +551,20 @@ express1.get("/getallbookinadminpanel", function (req, res) {
   });
 });
 
-express1.post('/contact',function(req,res){
-  const [email,contact,message] = req.body;
+express1.post('/contact', function (req, res) {
+  const [email, contact, message] = req.body;
   console.log("contact 1")
   let sql = "insert into contact(email,contact,message) values (?,?,?)";
-  db_connection.query(sql,[email,contact,message], function(error,result){
-    if(error){
+  db_connection.query(sql, [email, contact, message], function (error, result) {
+    if (error) {
       console.log("contact 2")
-      return res.status(500).json({message : "server error"})
-      
+      return res.status(500).json({ message: "server error" })
+
 
     }
     console.log("contact success")
-     return res.status(200).json({message : "insert successfully"})
-   
+    return res.status(200).json({ message: "insert successfully" })
+
 
   })
 })
@@ -575,13 +580,13 @@ express1.delete("/deleteContact/:id", function (req, res) {
   });
 });
 
-express1.get('/getAllContact',function(req,res){
+express1.get('/getAllContact', function (req, res) {
   let sql = "select * from contact";
-  db_connection.query(sql,function(err,result){
-    if(err){
-      res.status(500).json({message: "server error"})
+  db_connection.query(sql, function (err, result) {
+    if (err) {
+      res.status(500).json({ message: "server error" })
     }
-    res.status(200).json({message : "data receive successfully", ContactData:result})
+    res.status(200).json({ message: "data receive successfully", ContactData: result })
   })
 })
 
@@ -615,7 +620,7 @@ express1.get("/getbooknyid/:id", function (req, res) {
 express1.put('/update_books/:id', upload.single('image'), (req, res) => {
   const { title, author, description, price } = req.body;
   const bookId = req.params.id;
-  console.log(title, author, description, price,bookId)
+  console.log(title, author, description, price, bookId)
 
   let image = req.file ? req.file.filename : req.body.image;  // Use new image if uploaded, else use old image
   console.log(image)
@@ -760,7 +765,7 @@ express1.get("/AllOrderItem", function (req, res) {
 express1.put("/update-status", function (req, res) {
   console.log("upadte status")
   const { order_id, status } = req.body;
-  console.log(order_id,status)
+  console.log(order_id, status)
   let sql1 = "UPDATE order_table SET status = ? WHERE order_id = ?";
   console.log(sql1);
   db_connection.query(sql1, [status, order_id], function (err, result) {
@@ -790,12 +795,12 @@ express1.get("/getCartOrderbyOrderId/:user_id", function (req, res) {
 
 //Get all users From Database//
 
-express1.get('/users', function (req,res) {
+express1.get('/users', function (req, res) {
   // console.log("user1")
   let sql = "SELECT * FROM users";
   // console.log("user2", sql)
 
-  db_connection.query(sql , function(error,result){
+  db_connection.query(sql, function (error, result) {
     if (error) {
       //  console.log("user3 user error",)
       return res.status(500).json({ message: "server error" });
@@ -840,14 +845,14 @@ express1.delete('/books_Delete/:id', function (req, res) {
 
 
 express1.post('/companyInfo', (req, res) => {
-  const {email,email2,contact,contact2,address } = req.body;
-  console.log(email,email2,contact,contact2,address )
+  const { email, email2, contact, contact2, address } = req.body;
+  console.log(email, email2, contact, contact2, address)
   let sql = "INSERT INTO company_info (email,email2,contact,contact2,address) VALUES (?,?,?,?,?)";
-  db_connection.query(sql, [email,email2,contact,contact2,address], function(error, result){
-    if(error){
-      return res.status(500).json({message : "server error"})
+  db_connection.query(sql, [email, email2, contact, contact2, address], function (error, result) {
+    if (error) {
+      return res.status(500).json({ message: "server error" })
     }
-    return res.status(200).json({message : "sccessfully add"})
+    return res.status(200).json({ message: "sccessfully add" })
   })
 });
 
@@ -877,32 +882,32 @@ express1.get("/getcompanyInfo", function (req, res) {
 
 
 express1.get('/getAllCompanyInfo', (req, res) => {
-  let  sql = "select * FROM company_info";
-  db_connection.query(sql, function(err,result){
+  let sql = "select * FROM company_info";
+  db_connection.query(sql, function (err, result) {
     if (err) {
       return res.status(500).send('Error fetching company info');
     }
-     return res.status(200).json({message : "company data", companyData:result});
+    return res.status(200).json({ message: "company data", companyData: result });
   });
 
 })
-    
+
 
 express1.put('/updateComponyInfo/:id', (req, res) => {
   const { email, email2, contact, contact2, address } = req.body;
   const id = req.params.id;
-  console.log(id,email,email2,contact,contact2,address)
-    
+  console.log(id, email, email2, contact, contact2, address)
+
   let sql = 'UPDATE company_info SET email = ?, email2 = ?, contact = ?, contact2 = ?, address = ? WHERE id = ?';
-  db_connection.query(sql, [email,email2,contact,contact2,address, id], function(error,result){
-      if (error) {
-        console.error("Error updating company details:", err);
-        res.status(500).json({ message: "Database error" });
-      }
-      else {
-        res.status(200).json({ message: "Company details updated successfully" });
+  db_connection.query(sql, [email, email2, contact, contact2, address, id], function (error, result) {
+    if (error) {
+      console.error("Error updating company details:", err);
+      res.status(500).json({ message: "Database error" });
     }
-    });
+    else {
+      res.status(200).json({ message: "Company details updated successfully" });
+    }
+  });
 });
 
 express1.delete("/deleteCompanyInfo/:id", function (req, res) {
@@ -958,137 +963,6 @@ express1.get("/getcompanyInfo", function (req, res) {
 
 
 
-
-
-
-
-
-
-// express1.delete('/orderdelete/:id', function (req, res) {
-//   let id = req.params.id;
-//   // console.log(id)
-//   const sql1 = 'DELETE FROM order_table WHERE order_id = ?';
-//   db_connection.query(sql1, [id], function (err, result) {
-//     if (err) {
-//       console.error('Error deleting order:', err); // This logs the error to the console
-//       return res.status(500).json({ error: 'Failed to delete order' });
-//     }
-//     if (result.affectedRows === 0) {
-//       return res.status(404).json({ message: 'Order not found' });
-//     }
-
-//     return res.status(200).json({ message: 'Order deleted successfully' });
-//   })
-// })
-
-// express1.get('/orderget/:id', function (req, res) {
-//   const id = req.params.id;
-//   // console.log(id);
-//   let sql = "SELECT * FROM orders WHERE order_id = ?";
-//   db_connection.query(sql, [id], function (err, result) {
-//     if (err) {
-//       return res.status(500).json({ message: "server error" })
-//     }
-//     else {
-//       return res.status(200).send({ message: "get order data", data: result })
-//       // console.log(data)
-//     }
-//   })
-// })
-
-// express1.post('/orderItem', (req, res) => {
-//   const { address_id, item } = req.body; // Extract address_id and item array from request body
-//   // console.log(address_id,item)
-
-//   // if (!address_id || !Array.isArray(item) || item.length === 0) {
-//   //   console.log(address_id,item,item.length,"2nd")
-//   //   return res.status(400).json({ message: 'Address ID and cart items are required' });
-//   // }
-
-//   // Prepare the insert query for multiple items
-//   const sql = "INSERT INTO order_item (book_id,user_id,address_id, price, quantity, total_amount) VALUES ?";
-
-//   if (Array.isArray(item)) {
-//     // Map the cart items to the values array
-//     const values = item.map(cartItem => [
-//       cartItem.book_id,
-//       cartItem.user_id,
-//       address_id,
-//       cartItem.price,
-//       cartItem.quantity,
-//       cartItem.total_amount
-//     ]);
-//   } else {
-//     console.error('Item is not an array:', item);
-//   }
-
-//   //  console.log(sql,address_id, user_id, book_id, price, quantity, total_amount,query)
-//   console.log(item)
-//   // Map the cart items to the values array
-//   const values = item.map(cartItem => [
-//     cartItem.book_id,
-//     cartItem.user_id,
-//     address_id,
-//     cartItem.price,
-//     cartItem.quantity,
-//     cartItem.total_amount
-//   ]);
-
-//   console.log(values, "values")
-
-//   // Execute the insert query
-//   db_connection.query(sql, [values], (err, result) => {
-//     console.log(result)
-//     if (err) {
-//       console.error('Error inserting order items:', err);
-//       return res.status(500).json({ message: 'Error inserting order items', error: err });
-//     }
-
-//     // Send success response
-//     res.status(201).json({ message: 'Order placed successfully', result });
-//   });
-// });
-
-// Middleware to parse JSON requests
-
-// POST route for uploading the profile image and saving it to the database
-// express1.post('/updateProfile', uploads.single('image'), (req, res) => {
-//   const { user_id } = req.body; // Get the user_id from the request body
-//   const imagePath = req.file ? req.file.path : null; // Get the image path stored by Multer
-
-//   console.log('User ID:', user_id);
-//   console.log('Image Path:', imagePath);
-
-//   // Check if the file exists and user_id is provided
-//   if (!imagePath) {
-//     return res.status(400).json({ message: 'Image file is required' });
-//   }
-
-//   if (!user_id) {
-//     return res.status(400).json({ message: 'User ID is required' });
-//   }
-
-//   // Insert into the database (user_profile table)
-//   const sql = 'UPDATE user_profile SET profile_image = ? WHERE user_id = ?';
-//   console.log(sql);
-
-//   db_connection.query(sql, [imagePath,user_id], (err, result) => {
-//     if (err) {
-//       console.error('Database error:', err);
-//       return res.status(500).json({ message: 'Error saving image to the database' });
-//     }
-//     console.log(result)
-//     // Successfully inserted into the database, return the image URL
-//    return res.status(200).send({
-//       message: 'Image added successfully',
-//       image: imagePath // Send back the relative image URL
-//     });
-//   });
-// });
-
-
-
-
 express1.get("/items/:id", function (req, res) {
   const id = req.params.id;
   let sql1 = `SELECT
@@ -1132,7 +1006,7 @@ WHERE
       res.status(500).json({ message: "server error" });
     }
 
-     res.status(200).send({ message: "items", items: result });
+    res.status(200).send({ message: "items", items: result });
   });
 });
 
@@ -1165,7 +1039,7 @@ express1.get("/getUserItems/:user_id", function (req, res) {
 
 
 
-express1.get("/getOderDetail/:order_id", function(req, res) {  // Corrected the parameter order
+express1.get("/getOderDetail/:order_id", function (req, res) {  // Corrected the parameter order
   const order_id = req.params.order_id;
   console.log(order_id, "order_id");
   let sql = `SELECT o.order_id,
@@ -1185,13 +1059,72 @@ express1.get("/getOderDetail/:order_id", function(req, res) {  // Corrected the 
     JOIN product p ON oi.product_id = p.product_id
     JOIN user_address a ON o.address_id = a.address_id
     WHERE o.random_number = ?`;
-    db_connection.query(sql, [order_id], function (err, result) {
-      if (err) {
-        return res.status(500).send({ message: "server error" });
-      }
-      return res.status(200).send({ message: "data", UserItems: result });
-    });
+  db_connection.query(sql, [order_id], function (err, result) {
+    if (err) {
+      return res.status(500).send({ message: "server error" });
+    }
+    return res.status(200).send({ message: "data", UserItems: result });
+  });
 });
+
+
+// category
+express1.post("/category", upload.single("image"), function (req, res) {
+  const { category_name, discription } = req.body;
+  const imagePath = req.file ? req.file.path : null; // Check if file was uploaded
+  // console.log(category_name, discription, imagePath)
+
+  if (!imagePath) {
+    return res.status(400).json({ message: "Image file is required" });
+  }
+
+  let sql =
+    "INSERT INTO category (category_name, discription, image) VALUES (?, ?, ?)";
+  db_connection.query(
+    sql,
+    [category_name, discription, imagePath],
+    function (err, result) {
+      if (err) {
+        console.error('Database error: ', err);
+        return res.status(500).json({ message: "Server error" });
+      }
+      return res.status(200).json({ message: "Book added successfully" });
+    }
+  );
+});
+
+
+express1.get("/getcategory/", function (req, res) {  // Corrected the parameter order
+  let sql = `SELECT category_id, category_name 
+             FROM category`;
+
+  db_connection.query(sql, function (err, result) {
+    if (err) {
+      return res.status(500).send({ message: "server error" });
+    }
+    return res.status(200).send({ message: "data", categoryData: result });
+  });
+});
+
+express1.get('/getallcategory', function (req, res) {
+  // console.log("user1")
+  let sql = "SELECT * FROM category";
+  // console.log("user2", sql)
+
+  db_connection.query(sql, function (error, result) {
+    if (error) {
+      //  console.log("user3 user error",)
+      return res.status(500).json({ message: "server error" });
+    } else {
+      // console.log("result")
+      return res.status(200).send({ message: "data", category: result });
+    }
+  })
+})
+
+
+
+
 
 express1.use(
   cors({
@@ -1282,8 +1215,8 @@ express1.listen(3000, () => {
 
 
 // express1.post("/uploadProfileImage", uploads.single("image"), (req, res) => {
-  //   const { user_id } = req.body;
-  //   const imagePath = req.file ? req.file.path : null;
+//   const { user_id } = req.body;
+//   const imagePath = req.file ? req.file.path : null;
 //   // console.log(user_id,imagePath)
 //   // Save the image path to the UserProfile table
 //   const sql = "INSERT INTO user_profile (user_id, profile_image) VALUES (?, ?)";

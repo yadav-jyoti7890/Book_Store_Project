@@ -1,0 +1,40 @@
+
+<div class="add-book-container">
+    <h1 class="order_list">category_List</h1><hr>
+    <button class="add-book-btn" routerLink="/admin_dashboard/category">
+      <i class="ri-add-circle-fill"></i> Add more category
+    </button>
+  </div>
+  <hr>
+<div class="read_task">
+    <table class="table">
+        <tr>
+            <th>S.N</th>
+            <th>category_name</th>
+            <th>description</th>
+            <th>image</th>
+            <th>active</th>
+            
+        </tr>
+
+      
+        <tr *ngFor="let categoryItem of category let i = index"> 
+            <td>{{i+1}} </td>
+            <td>{{categoryItem.category_name}}</td>
+            <td>{{categoryItem.discription}}</td>
+            <td>
+                <img [src]="categoryItem.image ? 'http://localhost:3000/' + categoryItem.image : ''" alt="Book image" height="100px" width="100px">
+            </td>
+
+            <td><i class="ri-delete-bin-fill"></i></td>
+            <td><i class="ri-edit-box-fill"></i></td>
+        </tr>
+    
+      
+    </table>
+</div> 
+
+
+
+
+

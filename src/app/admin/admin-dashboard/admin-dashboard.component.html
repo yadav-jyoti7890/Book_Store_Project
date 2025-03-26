@@ -130,6 +130,13 @@
   
       <div class="menus">
         <h3 routerLink="/admin_dashboard/admin_sidebar" routerLinkActive="admin_sidebar"><i class="ri-home-3-fill"></i> Dashboard</h3>
+        <div class="dropdown">
+          <h3 class="dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false"><i class="ri-user-smile-fill"></i> Category</h3>
+          <ul class="dropdown-menu bg-light w-100">
+            <li ><a class="dropdown-item"  [routerLink]="['category_list']" routerLinkActive="category_list"><i class="ri-file-list-fill"> </i>Category List</a></li>
+          </ul>
+        </div>
         <div class="dropdown ">
           <h3 class="dropdown-toggle" data-bs-toggle="dropdown"><i class="ri-product-hunt-fill"></i> Products</h3>
           <ul class="dropdown-menu bg-light w-100">

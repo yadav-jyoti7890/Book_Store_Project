@@ -17,6 +17,7 @@ export class AddBookService {
   private apiUrl = 'http://localhost:3000/books_Delete';
 
   submitbook(formData: FormData): Observable<any> {
+    // console.log(formData.)
     return this.http.post(this.url, formData);
   }
 
@@ -44,6 +45,10 @@ export class AddBookService {
 
   deleteBook(id:number):Observable<any>{
    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  getCategory(): Observable<any>{
+    return this.http.get(`http://localhost:3000/getcategory`);
   }
   
 

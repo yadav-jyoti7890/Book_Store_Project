@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AddBookService } from '../../admin-service/add-book.service';
@@ -15,18 +15,34 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.css'
 })
-export class AddBookComponent {
+export class AddBookComponent implements OnInit{
+  data:any;
   add_book = {
     title: '',
     author: '',
     description: '',
     price: null,
-    image: null  // Will store the image file
+    image: null,  // Will store the image file
+    category_name:''
   };
 
   selectedFile: File | null = null;  // To store the selected file
+  selectedCategoryId: any;
 
   constructor(private bookService: AddBookService,private dialog: MatDialog,private snackBar:MatSnackBar) {}
+  ngOnInit(): void {
+    this.getcategory();
+  }
+
+  getcategory(){
+    this.bookService.getCategory().subscribe((response)=>{
+      this.data = response.categoryData;
+      console.log(this.data)
+    },(error)=>{})
+  }
+ 
+
+ 
 
   
   // Handle file change event
@@ -39,6 +55,13 @@ export class AddBookComponent {
   // }
 
   // Submit the form
+
+  onCategoryChange(event: any) {
+    this.selectedCategoryId = event.target.value;
+    console.log("Selected Category ID:", this.selectedCategoryId);
+  }
+
+  
   addBook() {
     if (this.selectedFile && this.add_book.title && this.add_book.author && this.add_book.price && this.add_book.description) {
       const formData = new FormData();
@@ -47,6 +70,7 @@ export class AddBookComponent {
       formData.append('author', this.add_book.author);
       formData.append('description', this.add_book.description);
       formData.append('price', this.add_book.price);  // Ensure price is a string
+      formData.append('category_id', this.selectedCategoryId);
       console.log(formData)
 
       const dialogRef = this.dialog.open(ConfirmDialogComponent, {

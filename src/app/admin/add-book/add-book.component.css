@@ -31,20 +31,20 @@ form label{
     font-family: neue-light;
     font-weight: 200;
     letter-spacing: 0.1vw;
-    margin-bottom: 0.5vw;
+    margin-top:1vw;
 }
 
 form input,button{
     display: block;
-    width: 100%;
-    padding: 0.7vw;
-    /* margin-bottom: 1vw; */
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    background-color: #f4f4f4;
     color: #000;
     padding-left: 1vw;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
 }
 
 input::placeholder{
@@ -91,3 +91,26 @@ button{
 textarea{
     width: 100%;
 }
+textarea:focus{
+    border-color: #007bff;
+    outline: none;
+}
+input:focus{
+    border-color: #007bff;
+    outline: none;
+}
+.dropdown {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+  }
+  
+  .dropdown:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  

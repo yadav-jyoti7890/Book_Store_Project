@@ -28,6 +28,8 @@ import { UpdateCompanyInfoComponent } from './admin/update-company-info/update-c
 import { AdminComponent } from './admin/admin/admin.component';
 import { Component } from '@angular/core';
 import { AdminSidebarComponent } from './admin/admin-sidebar/admin-sidebar.component';
+import { CategoryComponent } from './admin/category/category.component';
+import { CategoryListComponent } from './admin/category-list/category-list.component';
 
 
 
@@ -52,7 +54,8 @@ export const routes: Routes = [
       { path: 'company', component: CompanyComponent, canActivate: [AuthGuard] },
       { path: 'items/:id', component: ItemsComponent, canActivate: [AuthGuard] },
       { path: 'update-company-info/:id', component: UpdateCompanyInfoComponent, canActivate: [AuthGuard] },
-    
+      { path: 'category', component: CategoryComponent, canActivate: [AuthGuard]},
+      { path: 'category_list', component:CategoryListComponent, canActivate: [AuthGuard] },
       // {path: 'book_update/:id', component:BookUpdateComponent},
 
     ],

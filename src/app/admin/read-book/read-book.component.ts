@@ -31,7 +31,7 @@ export class ReadBookComponent implements OnInit, AfterViewInit{
   currentPage = 1;  // Current page (1-based index)
   receive_books: any;
   dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['SN', 'title', 'author', 'description','price','image','action'];
+  displayedColumns: string[] = ['SN', 'title', 'author', 'description','price','image', 'category_name','action'];
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   constructor(private router:Router,private bookservice:AddBookService,private http:HttpClient,private dialog:MatDialog,private snackBar:MatSnackBar){}
@@ -79,7 +79,7 @@ export class ReadBookComponent implements OnInit, AfterViewInit{
     }).subscribe(response => {
       // Set the data for the table
       this.dataSource.data = response.data;
-      console.log(this.dataSource.data)
+      console.log(this.dataSource.data, "khjdskhdhkjh")
       
       // Dynamically set the totalRecords from the API response
       this.totalRecords = response.totalRecords;
