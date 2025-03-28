@@ -10,6 +10,7 @@ const jwt = require("jsonwebtoken");
 const moment = require("moment");
 const { server } = require("typescript");
 const exp = require("constants");
+const { filter } = require("rxjs");
 const JWT_SECRET = "email@gmail";
 const router = express.Router()
 
@@ -1160,13 +1161,13 @@ express1.get('/getallproduct', function (req, res) {
 
 express1.get('/getimage/:id', function (req, res) {
   const userId = req.params.id;
-  console.log(userId,"image")
+  // console.log(userId,"image")
   // console.log("user1")
   let sql = "SELECT profile_image FROM users where user_id = ?";
   // console.log("user2", sql)
 
   db_connection.query(sql, [userId],function (error, result) {
-    console.log(result)
+    // console.log(result)
     if (error) {
       //  console.log("user3 user error",)
       return res.status(500).json({ message: "server error" });
@@ -1177,6 +1178,20 @@ express1.get('/getimage/:id', function (req, res) {
   })
 })
 
+express1.post('/filter', function(req, res) {
+  const { role, status, search } = req.body; 
+
+  let sql = `SELECT * FROM users WHERE 
+             (role = ? OR ? IS NULL) 
+             AND (user_name LIKE CONCAT('%', ?, '%') OR ? IS NULL)`;
+
+  db_connection.query(sql, [role, role,  search, search], function(err, result) {
+    if (err) {
+      return res.status(500).json({ message: "Server error" });
+    }
+    return res.status(200).json({ message: "Filtered Data", filter: result });
+  });
+});
 
 
 

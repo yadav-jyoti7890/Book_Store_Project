@@ -17,4 +17,12 @@ export class UsersService {
   deleteUsers(id: number) {
     return this.http.delete(`${this.apiUrl1}/${id}`);
   }
+
+  applyFilter(selectedRole: string, searchQuery: string): Observable<any>{
+    console.log(selectedRole, "ts file")
+    return this.http.post('http://localhost:3000/filter',{ 
+      role: selectedRole || null,
+    search: searchQuery || null
+     })
+  }
 }  
