@@ -14,6 +14,7 @@ export class AlluserService {
   private apiUrl5 = 'http://localhost:3000/CountAllOrder';
   private apiUrl6 = 'http://localhost:3000/CountAllOrderItems';
   // private apiUrl7 = 'http://localhost:3000/getcompanyInfo';
+  private apiUrl7 = 'http://localhost:5000/update-profile'; 
 
 
   constructor(private http:HttpClient) { }
@@ -45,6 +46,24 @@ export class AlluserService {
   countAllCompanyData():Observable<any>{
     return this.http.get('http://localhost:3000/getcompanyInfo');
   }
+
+   uploadProfilePicture(userId: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append("userId", userId);
+    formData.append("profilePic", file);
+
+    console.log(userId,file)
+
+    return this.http.post('http://localhost:3000/update-profile',formData)
+  }
+
+  getImages(user_id:number): Observable<any>{
+    
+    return this.http.get(`http://localhost:3000/getimage/${user_id}`);
+  }
+
+
+
 
   
 

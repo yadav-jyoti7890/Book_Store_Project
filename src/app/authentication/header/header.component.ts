@@ -9,12 +9,14 @@ import { AuthService } from '../../services/auth.service';
 import {  Router, RouterLink } from '@angular/router';
 import { Block } from '@angular/compiler';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlluserService } from '../../admin-service/alluser.service';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
@@ -32,9 +34,13 @@ export class HeaderComponent implements OnInit , AfterViewInit{
   side_Menu : boolean = false;
   private channel = new BroadcastChannel('auth_channel');
   private count = new BroadcastChannel('count');
+  selectedFile: any;
+  profileImage: any;
+  image:any;
    
   ngOnInit() {
    this.productCount();
+   this.getImage();
   }
 
   log(){
@@ -100,7 +106,8 @@ export class HeaderComponent implements OnInit , AfterViewInit{
     private ngZone: NgZone,
     private view_service: ViewDetailService,
     private authService:AuthService,
-    private snackBar:MatSnackBar
+    private snackBar:MatSnackBar,
+    private userservice:AlluserService
   ) {
     this.checkLoginStatus();
     this.broadcastChannelSetup();
@@ -182,7 +189,44 @@ export class HeaderComponent implements OnInit , AfterViewInit{
     );
   }
 
-  
+
+  onFileSelected(event: any) {
+  this.selectedFile = event.target.files[0];
+  this.uploadProfilePicture();
+}
+
+// ✅ Upload Profile Picture
+uploadProfilePicture() {
+  if (!this.selectedFile) {
+    alert("Please select a file!");
+    return;
+  }
+
+  console.log(this.selectedFile)
+  this.user_id = localStorage.getItem('user_id')
+  this.userservice.uploadProfilePicture(this.user_id, this.selectedFile)
+    .subscribe(response => {
+      alert(response.message);
+      this.getImage();
+    }, error => {
+      alert("Error updating profile");
+    });
+}
+
+getImage() {
+  this.user_id = localStorage.getItem('user_id');
+  this.userservice.getImages(this.user_id).subscribe((response) => {
+    if (response && response.userData.length > 0 && response.userData[0].profile_image) {
+      this.image = 'http://localhost:3000' + response.userData[0].profile_image;
+    } else {
+      this.image = null; // Default case
+    }
+    console.log(this.image, "image");
+  }, (error) => {
+    console.error("Error fetching image:", error);
+    this.image = null;
+  });
+}
 
 }
 

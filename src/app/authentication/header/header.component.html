@@ -21,19 +21,58 @@
           </span>
         </h3>
       </div>
-      <div class="btn-group">
-          <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU"
-          alt="Admin Image" height="40px" width="40px" style="border-radius: 50%;" class="dropdown-toggle" data-bs-toggle="dropdown">
-        <ul class="dropdown-menu p-2" style="text-align: start;">
-          <li> <h3>hello👋{{username}}</h3></li><hr>
-          <li> <h3 (click)="logout()">logout</h3></li><hr>
-          <li><h3>change profile</h3></li>
-         
-        </ul>
-      </div>
+      <!-- <div class="btn-group">
+         <div class="img_sec">
+            <img *ngIf="image; else defaultImage"  [src]="image" alt="" height="40px" width="40px" style="border-radius: 50%;">
+            <ng-template #defaultImage>
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU"
+                alt="Admin Image" height="40px" width="40px" style="border-radius: 50%;" class="dropdown-toggle" data-bs-toggle="dropdown">
+            </ng-template>
+
+            <ul class="dropdown-menu p-2" style="text-align: start;">
+              <li> <h3>hello👋{{username}}</h3></li><hr>
+              <li> <h3 (click)="logout()">logout</h3></li><hr>
+              <li><h3 (click)="profile.click()">change profile</h3></li>
+              <input type="file" name="" #profile style="display: none;" (change)="onFileSelected($event)">
+              
+            </ul>
+         </div>
+       
+      </div> -->
     
-     
+      <div class="btn-group">
+        <div class="img_sec">
+          <img *ngIf="image; else defaultImage" 
+               [src]="image" 
+               alt="User Image" 
+               height="40px" 
+               width="40px" 
+               style="border-radius: 50%;" 
+               class="dropdown-toggle" 
+               data-bs-toggle="dropdown">
+      
+          <ul class="dropdown-menu p-2" style="text-align: start;">
+            <li><h3>hello👋{{username}}</h3></li>
+            <hr>
+            <li><h3 (click)="logout()">logout</h3></li>
+            <hr>
+            <li><h3 (click)="profile.click()">change profile</h3></li>
+            <input type="file" name="" #profile style="display: none;" (change)="onFileSelected($event)">
+          </ul>
+      
+          <ng-template #defaultImage>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU"
+                 alt="Default Profile Image"
+                 height="40px"
+                 width="40px"
+                 style="border-radius: 50%;" 
+                 class="dropdown-toggle" 
+                 data-bs-toggle="dropdown">
+          </ng-template>
+        </div>
+      </div>
+      
     </div> 
 
   </div>

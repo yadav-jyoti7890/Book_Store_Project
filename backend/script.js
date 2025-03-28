@@ -11,6 +11,7 @@ const moment = require("moment");
 const { server } = require("typescript");
 const exp = require("constants");
 const JWT_SECRET = "email@gmail";
+const router = express.Router()
 
 // express1.use(express.static(path.join(__dirname, 'dist/<angular-mini-project>')));
 
@@ -361,7 +362,7 @@ express1.get("/api/data", (req, res) => {
       // Respond with the paginated data and total records
       const totalRecords = countResults[0].totalRecords;
 
-      res.json({
+       return res.json({
         data: results, // The current page data
         totalRecords: totalRecords, // Total number of records in the database (dynamic)
         totalPages: Math.ceil(totalRecords / pageSize), // Total pages based on the total records and page size
@@ -1038,6 +1039,25 @@ express1.get("/getUserItems/:user_id", function (req, res) {
 });
 
 
+express1.post('/update-profile', upload.single('profilePic'), (req, res) => {
+  console.log("use_profile")
+  const userId = req.body.userId;  // Get userId from form-data
+  const profileImage = req.file ? `/uploads/${req.file.filename}` : null;
+
+  console.log(userId,profileImage)
+
+  if (!userId || !profileImage) {
+      return res.status(400).json({ message: "User ID and Image are required" });
+  }
+
+  const query = "UPDATE users SET profile_image = ? WHERE user_id = ?";
+  db_connection.query(query, [profileImage, userId], (err, result) => {
+     console.log(result)
+      if (err) return res.status(500).json({ error: err.message });
+       return res.json({ message: "✅ Profile Updated!", imageUrl: profileImage });
+  });
+});
+
 
 express1.get("/getOderDetail/:order_id", function (req, res) {  // Corrected the parameter order
   const order_id = req.params.order_id;
@@ -1121,6 +1141,48 @@ express1.get('/getallcategory', function (req, res) {
     }
   })
 })
+
+express1.get('/getallproduct', function (req, res) {
+  // console.log("user1")
+  let sql = "SELECT * FROM product";
+  // console.log("user2", sql)
+
+  db_connection.query(sql, function (error, result) {
+    if (error) {
+      //  console.log("user3 user error",)
+      return res.status(500).json({ message: "server error" });
+    } else {
+      // console.log("result")
+      return res.status(200).send({ message: "data", product: result });
+    }
+  })
+})
+
+express1.get('/getimage/:id', function (req, res) {
+  const userId = req.params.id;
+  console.log(userId,"image")
+  // console.log("user1")
+  let sql = "SELECT profile_image FROM users where user_id = ?";
+  // console.log("user2", sql)
+
+  db_connection.query(sql, [userId],function (error, result) {
+    console.log(result)
+    if (error) {
+      //  console.log("user3 user error",)
+      return res.status(500).json({ message: "server error" });
+    } else {
+      // console.log("result")
+      return res.status(200).send({ message: "data", userData: result });
+    }
+  })
+})
+
+
+
+
+
+
+
 
 
 

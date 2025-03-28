@@ -22,9 +22,18 @@ export class CategoryService {
       return this.http.post(`http://localhost:3000/category/`,formData);
     }
 
-  
-
     GetAllCategory(): Observable<any>{
     return this.http.get(this.apiUrl1)
   }
+
+ 
+
+  //   getAllCategory(){
+  //   return this.http.get(this.apiUrl1)
+  // }
+
+
+
+
+
 }

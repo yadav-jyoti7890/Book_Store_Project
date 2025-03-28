@@ -50,6 +50,12 @@ export class AddBookService {
   getCategory(): Observable<any>{
     return this.http.get(`http://localhost:3000/getcategory`);
   }
+
+  GetAllproduct(): Observable<any>{
+    return this.http.get('http://localhost:3000/getallproduct');
+  }
+
+
   
 
   // deletebooks(id:number){

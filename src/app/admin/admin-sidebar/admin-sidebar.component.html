@@ -1,4 +1,12 @@
- <h1><strong>Admin Dashboard</strong></h1><hr>
+<!-- <div class="header">
+    <h2>Admin Dashboard</h2>
+    <div class="search-bar">
+        <input type="text" placeholder="Search...">
+        <button>
+            <img src="https://cdn-icons-png.flaticon.com/512/482/482631.png" alt="Search">
+        </button>
+    </div>
+</div>
  
  <div class="boxes">
     <div class="box" routerLink="/admin_dashboard/users">
@@ -45,4 +53,59 @@
     </div>
 
 
+</div> -->
+
+
+<div class="main-content">
+    <!-- Header -->
+    <div class="header">
+        <h2>Admin Dashboard</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button>
+                <img src="https://cdn-icons-png.flaticon.com/512/482/482631.png" alt="Search">
+            </button>
+        </div>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="dashboard-cards">
+        <div class="card" routerLink="/admin_dashboard/users">
+            <div class="card-icon">👤</div>
+            <div class="card-title">Users</div>
+            <div class="card-number">{{totalUsers}} </div>
+        </div>
+
+        <div class="card" routerLink="/admin_dashboard/read_book">
+            <div class="card-icon">🚗</div>
+            <div class="card-title">product</div>
+            <div class="card-number">{{totalBooks}}</div>
+        </div>
+
+        <div class="card" routerLink="/admin_dashboard/contact">
+            <div class="card-icon">📞</div>
+            <div class="card-title">Help & Security</div>
+            <div class="card-number">{{totalContact}}</div>
+        </div>
+
+        <div class="card" routerLink="/admin_dashboard/order">
+            <div class="card-icon">🛍️</div>
+            <div class="card-title">Orders</div>
+            <div class="card-number">{{totalOrder}}</div>
+        </div>
+
+        <div class="card" routerLink="/admin_dashboard/category">
+            <div class="card-icon">📖</div>
+            <div class="card-title">category</div>
+            <div class="card-number">{{totalOrder}}</div>
+        </div>
+
+        <div class="card" routerLink="/admin_dashboard/company">
+            <div class="card-icon">📘</div>
+            <div class="card-title">contact us</div>
+            <div class="card-number">{{companyInfo}}</div>
+        </div>
+    </div>
+
 </div>
+

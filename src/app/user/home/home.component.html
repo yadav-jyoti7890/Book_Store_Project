@@ -1,39 +1,300 @@
-<section class="hero">
-   <h2>Discover Your Next Favorite Book</h2>
- </section>
+<section class="banner">
+  <div class="banner-content">
+    <h1>Kid's Bookshelf</h1>
+    <p class="editor-pick">EDITOR'S PICK</p>
+    <p class="description">Take your little ones on a magical journey filled with wizards and talking animals.</p>
+    <a href="#" class="btn">DISCOVER</a>
+  </div>
+  <div class="banner-image">
+    <img src="assets/image/about.png" alt="Kid with books">
+  </div>
+</section>
+
+<!-- <section class="authors-section">
+  <h1 class="section-title">Popular Authors </h1>
  
- <section class="featured-section">
-   <h3>Featured Books</h3>
-   <div class="books-grid">
-     <div class="book-card">
-       <img src="assets/image/book2.jpg" alt="Book 1">
-       <div class="book-details">
-         <h4>The Great Adventure</h4>
-         <p>by John Doe</p>
-         <p>$19.99</p>
-       </div>
+
+  <div class="authors-grid">
+      <div class="author-card" style="background-color: #CDE5E4;">
+          <img src="assets/image/about.png" alt="Top Authors">
+          <h2>Top Authors</h2>
+          <p>Read their side of the story</p>
+      </div>
+      <div class="author-card" style="background-color: #FCEEC8;">
+          <img src="assets/image/about.png" alt="Female Authors">
+          <h2>Female Authors</h2>
+          <p>Most influential women in history</p>
+      </div>
+      <div class="author-card" style="background-color: #FCD9C7;">
+          <img src="assets/image/about.png" alt="Greek Originals">
+          <h2>Greek Originals</h2>
+          <p>Learn from the masters</p>
+      </div>
+  </div>
+</section>
+
+<section class="featured-category">
+  <div class="cate_head">
+    <h3>Featured category</h3>
+    <h4>all category..</h4>
+  </div>
+   
+  <div class="swiper mySwiper swip">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide slider">
+        <img src="https://i.pinimg.com/474x/6c/3d/30/6c3d30970a362a3244fdcaa8ed1dd199.jpg" alt="">
+        <h3>science</h3>
+        <span>Lorem ipsum dolor sit amet consectetur.</span>
+      </div>
+      <div class="swiper-slide slider">
+        <img src="https://i.pinimg.com/474x/81/23/0b/81230b792a4c4f3ef202a152c56fe342.jpg" alt="">
+        <h3>science</h3>
+        <span>Lorem ipsum dolor sit amet consectetur.</span>
+      </div>
+      <div class="swiper-slide slider">
+        <img src="https://i.pinimg.com/474x/6c/3d/30/6c3d30970a362a3244fdcaa8ed1dd199.jpg" alt="">
+        <h3>science</h3>
+        <span>Lorem ipsum dolor sit amet consectetur.</span>
+      </div>
+      <div class="swiper-slide slider">
+        <img src="https://i.pinimg.com/474x/6c/3d/30/6c3d30970a362a3244fdcaa8ed1dd199.jpg" alt="">
+        <h3>science</h3>
+        <span>Lorem ipsum dolor sit amet consectetur.</span>
+      </div>
+      <div class="swiper-slide slider">
+        <img src="https://i.pinimg.com/474x/6c/3d/30/6c3d30970a362a3244fdcaa8ed1dd199.jpg" alt="">
+        <h3>science</h3>
+        <span>Lorem ipsum dolor sit amet consectetur.</span>
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+</section>
+
+
+
+<section class="deal-of-the-day">
+  <h2 style="padding: 0vw 4.2vw; font-size: 1.8vw; text-transform: capitalize; font-weight: 800;">Deal of the Day</h2>
+  
+  <div class="swiper mySwiper sec-swip">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide sec-slide">
+        <img src="assets/image/about.png" alt="">
+        <div class="card">
+         <h3>Lorem ipsum dolor sit amet.</h3>
+         <p>by kk.jain</p>
+         <p>Rs. 300</p><del><strong>Rs. 400</strong></del>
+         <button type="button">Add to cart</button>
+        </div>
+      </div>
+      <div class="swiper-slide sec-slide">
+        <img src="assets/image/about.png" alt="">
+        <div class="card">
+          <h3>Lorem ipsum dolor sit amet.</h3>
+          <p>by kk.jain</p>
+          <p>Rs. 300</p><del><strong>Rs. 400</strong></del>
+          <button type="button">Add to cart</button>
+        </div>
+      </div>
+      <div class="swiper-slide sec-slide">
+        <img src="assets/image/about.png" alt="">
+        <div class="card">
+          <h3>Lorem ipsum dolor sit amet.</h3>
+          <p>by kk.jain</p>
+          <p>Rs. 300</p><del><strong>Rs. 400</strong></del>
+          <button type="button">Add to cart</button>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section> -->
+
+<section>
+  <div class="cate_head">
+    <h2>Popular Books In Category</h2>
+    <hr>
+    <!-- <h2>View All</h2> -->
+  </div>
+  <div class="swiper mySwiper swip">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide slider" *ngFor="let categoryItem of categoryData">
+        <div class="card">
+          <img  [src]="categoryItem.image ? 'http://localhost:3000/' + categoryItem.image : ''" alt="category image">
+          <h3>{{categoryItem.category_name}}</h3>
+        </div>
+      </div>
      </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+
+    <!-- Pagination -->
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+
+<section class="popular-books">
+  <div class="categoryItem-section">
+    <h2>Bestselling Non-Fiction Books</h2>
+  </div>
+
+  <div class="swiper mySwiper allbook-swiper"  #swiperContainer2>
+    <div class="swiper-wrapper">
+    
+      <div class="swiper-slide allbook-slider" *ngFor="let product of allItem">
+        <div class="box">
+          <img [src]="product.image ? 'http://localhost:3000/' + product.image : ''" alt="Book image">
+          <div class="content">
+              <h3>{{product.title}}</h3>
+            <!-- <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p> -->
+            <p>by {{product.author}}</p>
+            <p>Rs. 110 <strong><del>Rs. {{product.price}}</del></strong></p>
+           
+          </div>
+          <div class="flex">
+            <p>add to cart</p>
+            <p>⭐⭐⭐⭐⭐</p>
+          </div>
+        </div>
+      </div>
+
+
+    <div class="swiper-pagination"></div>
+  </div>
+
+</div>
+
+
+</section>
+
+<section class="about-us">
+  <hr>
+  <h1 style="text-align: center; font-size: 2vw; font-weight: 800; margin-top: 1vw; text-transform: capitalize;">About Us</h1>
  
-     <div class="book-card">
-       <img src="assets/image/book1.jpg" alt="Book 2">
-       <div class="book-details">
-         <h4>Mystery of the Lost City</h4>
-         <p>by Jane Smith</p>
-         <p>$14.99</p>
-       </div>
-     </div>
- 
-     <div class="book-card">
-       <img src="assets/image/book2.jpg" alt="Book 3">
-       <div class="book-details">
-         <h4>The Art of Living</h4>
-         <p>by Albert Johnson</p>
-         <p>$24.99</p>
-       </div>
-     </div>
-   </div>
- </section>
- 
- <footer class="footer">
-   <p>&copy; 2025 My Bookstore. All Rights Reserved.</p>
- </footer>
+  <img src="https://bookbins.b-cdn.net/wp-content/uploads/2025/02/Home-Page-Banner-About-Us-Buy-Online-Bookbins-01.jpg" alt="">
+</section>
+
+
+  <section class="authors">
+    <h2>Meet Our Authors</h2>
+    <div class="author-container">
+      <div class="author-box">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Author 1">
+        <h3>John Doe</h3>
+        <p>Bestselling Author</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="author-box">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Author 2">
+        <h3>Jane Smith</h3>
+        <p>Fiction Writer</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="author-box">
+        <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Author 3">
+        <h3>Michael Brown</h3>
+        <p>History & Literature</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <div class="author-box">
+        <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Author 3">
+        <h3>Michael Brown</h3>
+        <p>History & Literature</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <div class="author-box">
+        <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Author 3">
+        <h3>Michael Brown</h3>
+        <p>History & Literature</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer section -->
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>About Us</h3>
+        <p>We are passionate about books and connecting readers with their favorite authors.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Books</a></li>
+          <li><a href="#">Authors</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <p class="footer-bottom">© 2025 BookStore. All Rights Reserved.</p>
+  </footer>
+  
+  
+
+
+
+
+<!-- <section>
+  <div class="card">
+    <img src="https://i.pinimg.com/474x/40/ec/af/40ecaf7734fa6e462392c6227679c5b1.jpg" alt="">
+    <h3>Science</h3>
+  </div>
+  <div class="card">
+    <img src="https://bookbins.b-cdn.net/wp-content/uploads/2024/04/Bookbins-Category-Image-Non-Fiction-1-300x300.jpg" alt="">
+    <h3>Science</h3>
+  </div>
+  <div class="card">
+    <img src="https://bookbins.b-cdn.net/wp-content/uploads/2024/04/Bookbins-Category-Image-Science-1-300x300.jpg" alt="">
+    <h3>Science</h3>
+  </div>
+  <div class="card">
+    <img src="https://i.pinimg.com/474x/81/23/0b/81230b792a4c4f3ef202a152c56fe342.jpg" alt="">
+    <h3>Science</h3>
+  </div>
+  <div class="card">
+    <img src="https://i.pinimg.com/474x/40/ec/af/40ecaf7734fa6e462392c6227679c5b1.jpg" alt="">
+    <h3>Science</h3>
+  </div>
+  <div class="card">
+    <img src="https://i.pinimg.com/474x/40/ec/af/40ecaf7734fa6e462392c6227679c5b1.jpg" alt="">
+    <h3>Science</h3>
+  </div>
+  <div class="card">
+    <img src="https://bookbins.b-cdn.net/wp-content/uploads/2024/04/Bookbins-Category-Image-Biographies-Memoirs-1-400x400.jpg" alt="">
+    <h3>Science</h3>
+  </div>
+</section> -->

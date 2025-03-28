@@ -6,6 +6,7 @@ import { gsap } from 'gsap/gsap-core';
 import { ProfileService } from '../../admin-service/profile.service';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { response } from 'express';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -17,15 +18,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AdminDashboardComponent implements OnInit{
 
   private channel = new BroadcastChannel('auth_channel');
+  selectedFile: any;
+  previewImage: any;
+  user_id:any;
+  user: any;
+  profileImage: any;
+  image:any;
   
 
-  constructor(private admin:AlluserService,private profile_service:ProfileService, private router:Router, private snackBar:MatSnackBar){}
+  constructor(private admin:AlluserService, private router:Router, private snackBar:MatSnackBar){}
 
  
 
   ngOnInit():void {
-   
+    this.getImage();
   }
+
+
 
 
 
@@ -37,6 +46,49 @@ export class AdminDashboardComponent implements OnInit{
   this.channel.postMessage({ type: 'logout'});
 }
 
+
+
+onFileSelected(event: any) {
+  this.selectedFile = event.target.files[0];
+  this.uploadProfilePicture();
+}
+
+// ✅ Upload Profile Picture
+uploadProfilePicture() {
+  if (!this.selectedFile) {
+    alert("Please select a file!");
+    return;
+  }
+
+  console.log(this.selectedFile)
+  this.user_id = localStorage.getItem('user_id')
+  this.admin.uploadProfilePicture(this.user_id, this.selectedFile)
+    .subscribe(response => {
+      alert(response.message);
+      this.getImage();
+    }, error => {
+      alert("Error updating profile");
+    });
+}
+
+getImage() {
+  this.user_id = localStorage.getItem('user_id')
+  this.admin.getImages(this.user_id).subscribe((response) => {
+    if (response && response.userData.length > 0) {
+      this.image = 'http://localhost:3000' + response.userData[0].profile_image;
+    } else {
+      this.image = null; // Default case
+    }
+    console.log(this.image, "image");
+  }, (error) => {
+    console.error("Error fetching image:", error);
+    this.image = null;
+  });
+}
+
+
+
+  
 
 }
 

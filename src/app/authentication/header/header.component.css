@@ -411,13 +411,13 @@ span{
 .header{
     width: 100%;
     height: 50px;
-    background-color: #4b0084;
-    color: white;
+    /* background-color: #4b0084; */
+    color: #000;
     display: flex;
     justify-content:space-between;
     align-items: center;
     padding: 1vw 2vw;
-    position: fixed;
+    /* position: fixed; */
     top: 0;
     z-index: 1000;
 }
@@ -441,6 +441,7 @@ span{
 }
 
 .user_header{
+    /* margin-top: 60px; */
     height: 50px;
     width: 100%;
     background-color: #4b0084;
