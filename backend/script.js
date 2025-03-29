@@ -363,7 +363,7 @@ express1.get("/api/data", (req, res) => {
       // Respond with the paginated data and total records
       const totalRecords = countResults[0].totalRecords;
 
-       return res.json({
+      return res.json({
         data: results, // The current page data
         totalRecords: totalRecords, // Total number of records in the database (dynamic)
         totalPages: Math.ceil(totalRecords / pageSize), // Total pages based on the total records and page size
@@ -1045,17 +1045,17 @@ express1.post('/update-profile', upload.single('profilePic'), (req, res) => {
   const userId = req.body.userId;  // Get userId from form-data
   const profileImage = req.file ? `/uploads/${req.file.filename}` : null;
 
-  console.log(userId,profileImage)
+  console.log(userId, profileImage)
 
   if (!userId || !profileImage) {
-      return res.status(400).json({ message: "User ID and Image are required" });
+    return res.status(400).json({ message: "User ID and Image are required" });
   }
 
   const query = "UPDATE users SET profile_image = ? WHERE user_id = ?";
   db_connection.query(query, [profileImage, userId], (err, result) => {
-     console.log(result)
-      if (err) return res.status(500).json({ error: err.message });
-       return res.json({ message: "✅ Profile Updated!", imageUrl: profileImage });
+    console.log(result)
+    if (err) return res.status(500).json({ error: err.message });
+    return res.json({ message: "✅ Profile Updated!", imageUrl: profileImage });
   });
 });
 
@@ -1166,7 +1166,7 @@ express1.get('/getimage/:id', function (req, res) {
   let sql = "SELECT profile_image FROM users where user_id = ?";
   // console.log("user2", sql)
 
-  db_connection.query(sql, [userId],function (error, result) {
+  db_connection.query(sql, [userId], function (error, result) {
     // console.log(result)
     if (error) {
       //  console.log("user3 user error",)
@@ -1178,20 +1178,40 @@ express1.get('/getimage/:id', function (req, res) {
   })
 })
 
-express1.post('/filter', function(req, res) {
-  const { role, status, search } = req.body; 
+express1.post('/filter', function (req, res) {
+  const { role, status, search } = req.body;
 
   let sql = `SELECT * FROM users WHERE 
              (role = ? OR ? IS NULL) 
              AND (user_name LIKE CONCAT('%', ?, '%') OR ? IS NULL)`;
 
-  db_connection.query(sql, [role, role,  search, search], function(err, result) {
+  db_connection.query(sql, [role, role, search, search], function (err, result) {
     if (err) {
       return res.status(500).json({ message: "Server error" });
     }
     return res.status(200).json({ message: "Filtered Data", filter: result });
   });
 });
+
+express1.post('/filterbook', function (req, res) {
+  const { title, author, category_id, Limit } = req.body;
+  console.log(title, author,category_id,Limit, "tit")
+  let sql = `SELECT p.*, category_name
+             FROM product p
+             INNER JOIN category c ON p.category_id = c.category_id
+             WHERE (p.title LIKE CONCAT('%', ?, '%') OR ? IS NULL)  
+             AND (p.author LIKE CONCAT('%', ?, '%') OR ? IS NULL)
+             AND (c.category_id LIKE CONCAT('%', ?, '%') OR ? IS NULL)
+             LIMIT ? ;`; 
+
+    db_connection.query(sql, [title, title, author, author, category_id, category_id,Limit], function (err, result) {
+    console.log(result)
+    if (err) {
+      return res.status(500).json({ message: "Server error" });
+    }
+    return res.status(200).json({ message: "Filtered Data", filter: result });
+  });
+})
 
 
 

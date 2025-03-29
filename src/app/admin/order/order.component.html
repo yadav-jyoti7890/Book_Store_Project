@@ -1,39 +1,59 @@
-<h1 class="header_order_detail">Orders List</h1>
-<hr />
-<div class="read_task">
-  <table class="table">
-    <tr>
-      <th>S.N</th>
-      <th>name</th>
-      <th>total_item</th>
-      <th>total_amount</th>
-      <th>status</th>
-      <th>Action</th>
-    </tr>
+<div class="orders-container">
+  <div class="orders-header">
+    <div>
+      <h2>Orders List</h2>
+      <select>
+        <option>Pending</option>
+        <option value="Shipping">Shipping</option>
+        <option value="Delivered">Delivered</option>
+        <option value="Canceled">Canceled</option>
+      </select>
+   
+    </div>
 
-    <tr *ngFor="let order of orderData; let i = index">
-      <td>#{{ order.random_number }}</td>
-      <td>{{ order.user_name }}</td>
-      <td>{{ order.total_item }}</td>
-      <td>{{ order.total_pay }}</td>
-      <td>
-        <select [ngClass]="colorCode(order.order_status)" [(ngModel)]="order.order_status" (change)="changeStatus(order.random_number, $event)">
-          <option value="Pending" [disabled]="order.order_status">Pending</option>
-          <option value="Shipping" [disabled]="order.order_status === 'Delivered' || order.order_status === 'Canceled'">Shipping</option>
-          <option value="Delivered" [disabled]="order.order_status === 'Canceled'">Delivered</option>
-          <option value="Canceled">Canceled</option>
+    <div class="filter-controls">
+      <label>Show
+        <select>
+          <option *ngFor="let num of [10, 25, 50, 100]" [value]="num">{{ num }}</option>
         </select>
-        
-      </td>
-      <td>
-        <button>🗑</button>
-      </td>
-      <td [routerLink]="['../items', order.order_id]"><button>view</button></td>
-    </tr>
+        entries
+      </label>
+      <input type="text" placeholder="🔍 Search orders..." class="search-box">
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>S.N</th>
+        <th>Name</th>
+        <th>Total Items</th>
+        <th>Total Amount</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orderData; let i = index">
+        <td>#{{ order.random_number }}</td>
+        <td>{{ order.user_name }}</td>
+        <td>{{ order.total_item }}</td>
+        <td>₹{{ order.total_pay }}</td>
+        <td>
+          <select [ngClass]="colorCode(order.order_status)" [(ngModel)]="order.order_status"
+            (change)="changeStatus(order.random_number, $event)">
+            <option value="Pending" [disabled]="order.order_status">Pending</option>
+            <option value="Shipping"
+              [disabled]="order.order_status === 'Delivered' || order.order_status === 'Canceled'">Shipping</option>
+            <option value="Delivered" [disabled]="order.order_status === 'Canceled'">Delivered</option>
+            <option value="Canceled">Canceled</option>
+          </select>
+        </td>
+        <td>
+          <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+          <button class="action-btn view-btn"><i class="fas fa-eye"></i> View</button>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>
-
-
- <!-- <select [(ngModel)]="order.order_status" (change)="changeStatus(order.order_id, order.order_status)">
-            <option *ngFor="let status of statuses" [value]="status">{{ status }} </option>
-          </select> -->

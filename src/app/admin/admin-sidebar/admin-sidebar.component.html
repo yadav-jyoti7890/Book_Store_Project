@@ -1,63 +1,6 @@
-<!-- <div class="header">
-    <h2>Admin Dashboard</h2>
-    <div class="search-bar">
-        <input type="text" placeholder="Search...">
-        <button>
-            <img src="https://cdn-icons-png.flaticon.com/512/482/482631.png" alt="Search">
-        </button>
-    </div>
-</div>
- 
- <div class="boxes">
-    <div class="box" routerLink="/admin_dashboard/users">
-        <i class="ri-user-fill"></i>
-        <div class="total_user_count">
-            <p>Users</p>
-            <span>{{totalUsers}}</span>
-        </div>
-    </div>
-    <div class="box" routerLink="/admin_dashboard/read_book">
-        <i class="ri-bus-2-fill"></i>
-        <div class="total_user_count">
-            <p>Product</p>
-            <span>{{totalBooks}}</span>
-        </div>
-    </div>
-    <div class="box" routerLink="/admin_dashboard/contact">
-        <i class="ri-phone-fill"></i>
-        <div class="total_user_count">
-            <p>Help & security</p>
-            <span>{{totalContact}}</span>
-        </div>
-    </div>
-    <div class="box" routerLink="/admin_dashboard/order">
-        <i class="ri-shopping-bag-4-fill"></i>
-        <div class="total_user_count">
-            <p>Orders</p>
-            <span>{{totalOrder}}</span>
-        </div>
-    </div>
-    <div class="box" routerLink="/admin_dashboard/category">
-        <i class="ri-contacts-book-fill"></i>
-        <div class="total_user_count">
-            <p>category</p>
-            <span>{{companyInfo}}</span>
-        </div>
-    </div>
-    <div class="box" routerLink="/admin_dashboard/company">
-        <i class="ri-contacts-book-fill"></i>
-        <div class="total_user_count">
-            <p>Contact Us</p>
-            <span>{{companyInfo}}</span>
-        </div>
-    </div>
-
-
-</div> -->
-
-
+<!-- 
 <div class="main-content">
-    <!-- Header -->
+   
     <div class="header">
         <h2>Admin Dashboard</h2>
         <div class="search-bar">
@@ -68,7 +11,6 @@
         </div>
     </div>
 
-    <!-- Dashboard Cards -->
     <div class="dashboard-cards">
         <div class="card" routerLink="/admin_dashboard/users">
             <div class="card-icon">👤</div>
@@ -108,4 +50,91 @@
     </div>
 
 </div>
+ -->
 
+ <div class="container">
+    <!-- Top Navigation -->
+    <div class="top-bar">
+        <input type="text" class="search-bar" placeholder="Search">
+        <div class="user-info">
+            <i class="fas fa-info-circle"></i>
+            <i class="fas fa-globe"></i>
+            <i class="fas fa-bell"></i>
+            <div class="profile">
+                <img src="profile.png" alt="User">
+                <span>John Quinn</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-container">
+        <div class="card green">
+            <i class="fas fa-dollar-sign"></i>
+            <h3>Revenue</h3>
+            <p>$18,925</p>
+        </div>
+        <div class="card red">
+            <i class="fas fa-credit-card"></i>
+            <h3>Expense</h3>
+            <p>$11,024</p>
+        </div>
+        <div class="card yellow">
+            <i class="fas fa-smile"></i>
+            <h3>Happy Clients</h3>
+            <p>8,925</p>
+        </div>
+        <div class="card blue">
+            <i class="fas fa-shopping-bag"></i>
+            <h3>New Store Open</h3>
+            <p>8,925</p>
+        </div>
+    </div>
+
+    <!-- Filters & Date Picker -->
+    <div class="filters">
+        <button class="active">Today</button>
+        <button>Week</button>
+        <button>Month</button>
+        <button>Year</button>
+        <input type="date" class="date-picker">
+    </div>
+
+    <!-- Metrics Grid -->
+    <div class="metrics-grid">
+        <div class="metric" routerLink="/admin_dashboard/users">
+            <h4>Customers</h4>
+            <p>{{totalUsers}}</p>
+        </div>
+        <div class="metric" routerLink="/admin_dashboard/read_book">
+            <h4>Product</h4>
+            <p>{{totalBooks}}</p>
+        </div>
+        <div class="metric" routerLink="/admin_dashboard/category">
+            <h4>Category</h4>
+            <p>{{totalOrder}}</p>
+        </div>
+        <div class="metric" routerLink="/admin_dashboard/order">
+            <h4>Orders</h4>
+            <p>{{totalOrder}}</p>
+        </div>
+
+        <div class="metric" routerLink="/admin_dashboard/contact">
+            <h4>Help & Security</h4>
+            <p>{{totalContact}}</p>
+        </div>
+        <div class="metric" routerLink="/admin_dashboard/company">
+            <h4>Contact</h4>
+            <p>{{companyInfo}}</p>
+        </div>
+        <div class="metric">
+            <h4>Total Sale</h4>
+            <p>$35,000</p>
+        </div>
+        <div class="metric">
+            <h4>Visitors</h4>
+            <p>11,452</p>
+        </div>
+        
+    </div>
+</div>

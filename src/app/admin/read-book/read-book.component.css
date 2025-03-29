@@ -1,65 +1,57 @@
-.read_task{
-    min-height: 100vh;
-    background-color: #0C0C0C;
-    width: 100%;
-    padding: 2vw;
-    border-bottom: #dadada;
-    color: #ffffff;
-  
-}
-table{
-    width: 100%;
-    margin: 1vw 0vw;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-}
-table th{
-    border-bottom: 1px solid #dadada3e;
-    padding: 1vw 0vw;
-    font-family: neue-bold;
-    text-transform: capitalize;
-    /* text-align: center; */
-}
-table td{
-    
-    font-family: neue-light;   
-}
-table tr{
-   
-    margin-top: 1vw 0vw;
-}
-.order_list{
-    margin: 1vw 0vw;
-    font-size: 1.5vw;
-    font-family: neue-bold;
-    text-transform: capitalize;
+.table-container {
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.add-book-container {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
-  }
-  
-  .add-book-btn {
-    background-color: #4b0084; /* Green background */
-    color: white; /* White text */
-    padding: 12px 24px;
-    font-size: 1vw;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.add-book-btn {
+    background-color: #6a0dad;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between icon and text */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
   }
   
-  .add-book-btn i {
-    font-size: 24px;
+  .filter-field {
+    width: 220px;
   }
   
- 
+  .icon {
+    vertical-align: middle;
+    margin-right: 5px;
+    color: #673ab7;
+  }
+  
+  .apply-filter-btn {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+  }
   

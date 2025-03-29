@@ -74,7 +74,7 @@ export class CategoryComponent implements OnInit{
 
 
 // }
-addBook(){
+addCategory(){
   console.log("category")
   console.log(this.add_category.category_name ,  this.add_category.discription)
   if (this.selectedFile && this.add_category.category_name  &&  this.add_category.discription) {

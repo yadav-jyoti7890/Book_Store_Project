@@ -55,6 +55,11 @@ export class AddBookService {
     return this.http.get('http://localhost:3000/getallproduct');
   }
 
+  applyFilters(searchTitle:string, author:string, category_id:any, Limit:any): Observable<any>{
+    console.log(searchTitle)
+    return this.http.post('http://localhost:3000/filterbook',{title: searchTitle || null, author:author || null, category_id : category_id || null, Limit: Limit || null});
+  }
+
 
   
 

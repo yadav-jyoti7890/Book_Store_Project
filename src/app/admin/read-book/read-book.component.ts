@@ -10,17 +10,22 @@ import { MatIconModule } from '@angular/material/icon'; // Remove
 import { MatInputModule } from '@angular/material/input';
 // import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';  // ✅ Import MatSelectModule
+import { MatOptionModule } from '@angular/material/core';   
 // Import other Angular modules
 
 
 import { HttpClient } from '@angular/common/http';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { CategoryService } from '../../admin-service/category.service';
 
 @Component({
   selector: 'app-read-book',
   standalone: true,
-  imports: [RouterLink,CommonModule,MatIconModule,MatToolbarModule,MatButtonModule,MatTableModule,MatPaginatorModule,MatInputModule],
+  imports: [RouterLink,CommonModule,MatIconModule,MatToolbarModule,MatButtonModule,
+    MatTableModule,MatPaginatorModule,MatInputModule,MatSelectModule,MatOptionModule,FormsModule],
   templateUrl: './read-book.component.html',
   styleUrl: './read-book.component.css'
 })
@@ -34,18 +39,30 @@ export class ReadBookComponent implements OnInit, AfterViewInit{
   displayedColumns: string[] = ['SN', 'title', 'author', 'description','price','image', 'category_name','action'];
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
-  constructor(private router:Router,private bookservice:AddBookService,private http:HttpClient,private dialog:MatDialog,private snackBar:MatSnackBar){}
+  searchTitle : any = '';
+  author:any;
+  filterdata: any;
+  category: any;
+  filtercategory:any;
+  category_id: any;
+  Limit: any;
+  page1:any
+
+
+  constructor(private router:Router,private bookservice:AddBookService,private categoryService:CategoryService,
+    private http:HttpClient,private dialog:MatDialog,private snackBar:MatSnackBar){}
 
   ngOnInit(): void {
     // this.get_All_Books()
     this.loadData()
+    this.getAllcategory();
   }
 
   ngAfterViewInit(): void {
-    // This is the safest place to interact with the paginator after view initialization
+ 
     if (this.paginator) {
       this.paginator.page.subscribe(() => {
-        this.loadData(); // Refetch the data whenever the page changes
+        this.loadData();
       });
     }
   }
@@ -80,6 +97,7 @@ export class ReadBookComponent implements OnInit, AfterViewInit{
       // Set the data for the table
       this.dataSource.data = response.data;
       console.log(this.dataSource.data, "khjdskhdhkjh")
+      
       
       // Dynamically set the totalRecords from the API response
       this.totalRecords = response.totalRecords;
@@ -129,6 +147,34 @@ export class ReadBookComponent implements OnInit, AfterViewInit{
       console.log(id)
   }
 
+  changeCategory(categoryId:any){
+   this.category_id = categoryId
+  }
+
+  changeLimit(Limit:any){
+   this.Limit =  Limit 
+  }
+
+  applyFilter(){
+    console.log(this.searchTitle, this.author,this.category_id, this.Limit, "applyfilter")
+    this.bookservice.applyFilters(this.searchTitle, this.author,this.category_id,  this.Limit).subscribe((response)=>{
+      if(response){
+        this.dataSource.data = response.filter;
+        console.log(this.dataSource.data) 
+      }
+    },(error)=>
+    {})
+  }
+
+  getAllcategory(){
+    
+    this.categoryService.GetAllCategory().subscribe((response)=>{
+    this.category = response.category
+    console.log("users",this.category)
+    },(error)=>{
+     console.log("users get all data problem accurse")
+    })
+   }
 }
 
 

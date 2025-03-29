@@ -4,16 +4,19 @@ import { Observable } from 'rxjs';
 import { CategoryService } from '../../admin-service/category.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule,RouterLink, FormsModule],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css'
 })
 export class CategoryListComponent implements OnInit {
   category: any;
+  selectedCategory:any;
+  searchQuery:any;
 constructor(private categoryService:CategoryService){}
   ngOnInit(): void {
     this.getAllcategory();
@@ -27,4 +30,13 @@ constructor(private categoryService:CategoryService){}
     console.log("users get all data problem accurse")
    })
   }
+
+
+ applyFilter(){
+  console.log()
+ }
+
+
+
+
 }
