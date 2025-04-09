@@ -5,11 +5,13 @@ import { Router } from 'express';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-admin-sidebar',
   standalone: true,
-  imports: [RouterLink,CommonModule,RouterOutlet,RouterLinkActive],
+  imports: [RouterLink,CommonModule,RouterOutlet,RouterLinkActive,MatIconModule],
   templateUrl: './admin-sidebar.component.html',
   styleUrl: './admin-sidebar.component.css'
 })
@@ -27,6 +29,11 @@ export class AdminSidebarComponent implements OnInit{
   companyInfo: number=0;
   role: any;
   user: any;
+
+  isActive = false;
+
+
+
   
 
   constructor(private admin:AlluserService){}
@@ -44,6 +51,9 @@ export class AdminSidebarComponent implements OnInit{
     // this.getUserProfile();
   }
 
+  toggleActive() {
+    this.isActive = !this.isActive;
+  }
 
   getalluser(){
     this.admin.getAlluserinadmin().subscribe((data)=>{

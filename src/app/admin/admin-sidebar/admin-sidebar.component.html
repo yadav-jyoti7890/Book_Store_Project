@@ -52,7 +52,7 @@
 </div>
  -->
 
- <div class="container">
+<div class="container">
     <!-- Top Navigation -->
     <div class="top-bar">
         <input type="text" class="search-bar" placeholder="Search">
@@ -102,39 +102,106 @@
 
     <!-- Metrics Grid -->
     <div class="metrics-grid">
-        <div class="metric" routerLink="/admin_dashboard/users">
-            <h4>Customers</h4>
-            <p>{{totalUsers}}</p>
+        <div class="metric" routerLink="/admin_dashboard/users" [class.active]="isActive" (click)="toggleActive()">
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Customers</h4>
+                    <p>{{totalUsers}}</p>
+                </div>
+                <div class="icon" style="color: #f4a896; padding-right: 1vw;">
+                    <mat-icon style="font-size: 2vw;">person</mat-icon>
+
+                </div>
+            </div>
         </div>
         <div class="metric" routerLink="/admin_dashboard/read_book">
-            <h4>Product</h4>
-            <p>{{totalBooks}}</p>
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Product</h4>
+                    <p>{{totalBooks}}</p>
+                </div>
+                <div class="icon" style="color: #f4a896; padding-right: 1vw;">
+                    <mat-icon style="font-size: 2vw;">shopping_bag</mat-icon>
+
+                </div>
+            </div>
         </div>
         <div class="metric" routerLink="/admin_dashboard/category">
-            <h4>Category</h4>
-            <p>{{totalOrder}}</p>
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Category</h4>
+                    <p>{{totalOrder}}</p>
+                </div>
+                <div class="icon" style="color: #f4a896; font-size: 40px; padding-right: 1vw;">
+                    <mat-icon style="font-size: 2vw;">category</mat-icon>
+
+                </div>
+            </div>
         </div>
         <div class="metric" routerLink="/admin_dashboard/order">
-            <h4>Orders</h4>
-            <p>{{totalOrder}}</p>
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Orders</h4>
+                    <p>{{totalOrder}}</p>
+                </div>
+                <div class="icon" style="color: #f4a896; font-size: 40px; padding-right: 1vw;">
+                    <i class="ri-shopping-cart-2-fill" style="font-size: 2vw;"></i>
+                </div>
+               </div>
+          
         </div>
 
         <div class="metric" routerLink="/admin_dashboard/contact">
-            <h4>Help & Security</h4>
-            <p>{{totalContact}}</p>
+
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Help & Security</h4>
+                    <p>{{totalContact}}</p>
+                </div>
+                <div class="icon"  style="color: #f4a896; font-size: 40px; padding-right: 1vw;">
+                    <mat-icon style="font-size: 2vw;">security</mat-icon>
+
+                </div>
+               </div>
+            
         </div>
         <div class="metric" routerLink="/admin_dashboard/company">
-            <h4>Contact</h4>
-            <p>{{companyInfo}}</p>
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Contact</h4>
+                    <p>{{companyInfo}}</p>
+                </div>
+                <div class="icon" style="color: #f4a896; font-size: 40px; padding-right: 1vw;">
+                    <mat-icon style="font-size: 2vw;">contacts</mat-icon>
+
+                </div>
+               </div>
+          
         </div>
         <div class="metric">
-            <h4>Total Sale</h4>
-            <p>$35,000</p>
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Total Sale</h4>
+                    <p>$35,000</p>
+                </div>
+                <div class="icon">
+                    
+                </div>
+               </div>
+           
         </div>
         <div class="metric">
-            <h4>Visitors</h4>
-            <p>11,452</p>
-        </div>
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Visitors</h4>
+                    <p>11,452</p>
+                </div>
+                <div class="icon">
+                    
+                </div>
+               </div>
         
+        </div>
+
     </div>
 </div>
