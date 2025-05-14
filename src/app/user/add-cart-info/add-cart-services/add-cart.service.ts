@@ -43,7 +43,7 @@ export class AddCartService {
     return this.http.post(`${this.apiUrl}confirm_order`, order_data);
   }
   
-  // order_item method
+
   order_item(order_id:number, order_item: any[]) {
     console.log("order_item", order_item)
     const url = `${this.apiUrl}order_item/${order_id}`;

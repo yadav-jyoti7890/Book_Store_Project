@@ -17,10 +17,10 @@ export class AuthService {
 
    private apiUrl = environment.BaseUrl;
 
-   private url = "http://localhost:3000/signup";
-   private url1 = "http://localhost:3000/login";
-   private url2 = "http://localhost:3000/protected";
-  //  private apiUrl = 'http://localhost:3000/validate-token'; 
+  //  private url = "http://localhost:3000/signup";
+  //  private url1 = "http://localhost:3000/login";
+  //  private url2 = "http://localhost:3000/protected";
+  //  private Url3 = 'http://localhost:3000/validate-token'; 
 
 
    signup(data:signup){
@@ -31,8 +31,8 @@ export class AuthService {
    loginauth(email:string,password:string): Observable<any> {
   
     const loginData = {email , password };
-   
-    return this.http.post<any>(`${this.apiUrl}`,loginData)
+    return this.http.post<any>(`${this.apiUrl}login`,loginData)
+
   }
 
   verifyToken(): Observable<boolean> {
@@ -49,7 +49,7 @@ export class AuthService {
     );
   }
 
-  
+
 
   // isLoggedIn(): boolean {
   //     console.log(!this.getToken())

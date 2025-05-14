@@ -21,25 +21,7 @@
           </span>
         </h3>
       </div>
-      <!-- <div class="btn-group">
-         <div class="img_sec">
-            <img *ngIf="image; else defaultImage"  [src]="image" alt="" height="40px" width="40px" style="border-radius: 50%;">
-            <ng-template #defaultImage>
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU"
-                alt="Admin Image" height="40px" width="40px" style="border-radius: 50%;" class="dropdown-toggle" data-bs-toggle="dropdown">
-            </ng-template>
-
-            <ul class="dropdown-menu p-2" style="text-align: start;">
-              <li> <h3>hello👋{{username}}</h3></li><hr>
-              <li> <h3 (click)="logout()">logout</h3></li><hr>
-              <li><h3 (click)="profile.click()">change profile</h3></li>
-              <input type="file" name="" #profile style="display: none;" (change)="onFileSelected($event)">
-              
-            </ul>
-         </div>
-       
-      </div> -->
+    
     
       <div class="btn-group">
         <div class="img_sec">
@@ -89,6 +71,13 @@
     <h3 routerLink="/home">home</h3>
     <h3 routerLink="/about">About</h3>
     <h3 routerLink="/signup">SignIn</h3>
+           <h3 class="s-m position-relative" routerLink="add_cart">
+          <i class="ri-shopping-cart-line" style="font-size: 1.3vw;"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge bg-light text-dark">
+            {{total_count}}
+            <span class="visually-hidden">unread messages</span>
+          </span>
+        </h3>
   </div>
 
 </div>

@@ -1,119 +1,4 @@
-<!-- 
-<div class="admin">
-<div class="main">
-    <div class="sidebar">
-        <h2>Admin-Dashboard</h2>
-        <div class="admin_menu">
-            <h3><i class="ri-home-heart-line"></i>home</h3>
-            <h3 [routerLink]="['/add_book']"><i class="ri-booklet-line"></i>add_book</h3>
-            <h3><i class="ri-corner-down-right-fill"></i>borrowBook</h3>
-            <h3><i class="ri-notification-off-line"></i>notification</h3>
-            <h3><i class="ri-logout-box-r-line"></i>Logout</h3>
-        </div>
-    </div>
 
-
-    <div class="content">
-        <div class="content_in">
-            <h2>Total Users</h2>
-            <p>{{totalUsers}}</p>
-        </div>
-        <div class="content_in" routerLink="/read_book">
-            <h2>Total Books</h2>
-            <p>{{totalBooks}}</p>
-        /div>
-        <div class="content_in">
-            <h2>Total Contact</h2>
-            <p>{{totalContact}}</p>
-        </div>
-        <div class="content_in" routerLink="/order">
-            <h2>Total Order</h2>
-            <p>{{totalOrders}}</p>
-        </div>
-      
-    </div>
-
-</div>
-</div> -->
-
-<!-- <div class="admin_panel">
-    <div class="left">
-        <div class="profile">
-            <form enctype="multipart/form-data">
-                <img
-                *ngIf="userProfileImage"
-                [src]="userProfileImage"
-                alt="Profile Image"
-                height="150"
-                width="150"
-              />
-              <img
-                *ngIf="!userProfileImage"
-                src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
-                alt="Default Profile Image"
-                height="150"
-                width="150"
-              /> -->
-            
-              <!-- Hidden file input for selecting an image -->
-              <!-- <input type="file" id="file" style="display: none;" />
-              <label for="file" class="ri-camera-ai-line" id="img"></label>
-            </form>
-            <h3 class="admin">HEY <span>{{username}}</span></h3>
-        </div>
-        <hr>
-        <div class="menu">
-            <div class="hidden"></div>
-            <h3 [routerLink]="['add_book']" routerLinkActive="add_book">add new product</h3>
-            <h3 [routerLink]="['company_info']" routerLinkActive="company_info">Add Address</h3>
-            <h3>report</h3>
-            <h3>Setting</h3>
-            <h3>logout</h3>
-            <h3>payment</h3>
-            <h3>change profile</h3>
-        </div>
-    </div>
-
- 
-    <div class="right"> 
-        <div class="right_in">
-            <div class="box" routerLink="users" routerLinkActive="users">
-                <h3>total user</h3>
-                <p>{{totalUsers}}</p>
-            </div>
-            <div class="box" routerLink="read_book" routerLinkActive="read_book">
-                <h3>total Product</h3>
-                <p>{{totalBooks}}</p>
-            </div>
-            <div class="box" routerLink="contact" routerLinkActive="contact">
-                <h3>total Contact</h3>
-                <p>{{totalContact}}</p>
-            </div>
-            <div class="box" routerLink="order" routerLinkActive="order">
-                <h3>total Order</h3>
-                <p>{{totalOrder}}</p>
-            </div>
-            <div class="box" routerLink="order_item" routerLinkActive="order_item">
-                <h3>total Order_Items</h3>
-                <p>{{totalOrderItems}}</p>
-            </div>
-            <div class="box" routerLink="company" routerLinkActive="company">
-                <h3>Company_information</h3>
-                <p> {{companyInfo}} </p>
-            </div>
-        </div>
-        <div class="main-content">
-            <router-outlet></router-outlet>
-        </div>
-   
-    </div> 
-</div> -->
-
-
-<!-- <div class="header">
-    <h1 style="color: white; text-align: center;">Admin Panel</h1>
-  </div>
-   -->
   
   <div class="admin_panel">
   
@@ -133,9 +18,7 @@
         <div class="dropdown ">
           <h3 class="dropdown-toggle" data-bs-toggle="dropdown"><i class="ri-product-hunt-fill"></i> Products</h3>
           <ul class="dropdown-menu bg-light w-100">
-            <!-- <li [routerLink]="['add_book']" routerLinkActive="add_book"><a class="dropdown-item"><i class="ri-add-circle-fill"></i> Product Add</a></li> -->
             <li  [routerLink]="['/admin_dashboard/read_book']" routerLinkActive="read_book"><a class="dropdown-item"><i class="ri-file-list-fill"></i> Product List</a></li>
-            <!-- <li><a class="dropdown-item" href="#"><i class="ri-edit-box-fill"></i> Product Edit</a></li> -->
           </ul>
         </div>
         <div class="dropdown">
