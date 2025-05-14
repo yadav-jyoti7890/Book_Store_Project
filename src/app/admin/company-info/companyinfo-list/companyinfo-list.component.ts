@@ -8,14 +8,14 @@ import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { duration } from 'moment';
-import { CompanyInfoService } from '../../../admin-service/company-info.service';
+import { CompanyInfoService } from '../company-services/company-info.service';
 
 @Component({
-  selector: 'app-companyinfo-list',
+  selector: 'app-companyInfo-list',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './companyinfo-list.component.html',
-  styleUrl: './companyinfo-list.component.css'
+  templateUrl: './companyInfo-list.component.html',
+  styleUrl: './companyInfo-list.component.css'
 })
 export class CompanyInfoListComponent implements OnInit {
   address: any;

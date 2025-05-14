@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../../../admin-service/category.service';
+import { CategoryService } from '../categories-services/category.service';
 // import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';

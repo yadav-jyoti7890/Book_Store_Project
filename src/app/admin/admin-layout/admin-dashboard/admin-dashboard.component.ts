@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AlluserService } from '../../users-info/user-services/alluser.service';
 import { gsap } from 'gsap/gsap-core';
-import { ProfileService } from '../../../admin-service/profile.service';
+import { ProfileService } from '../../users-info/user-services/profile.service';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { response } from 'express';

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../auth-services/auth.service';
 import gsap from 'gsap';
 import { response } from 'express';
 import { MatSnackBar } from '@angular/material/snack-bar';

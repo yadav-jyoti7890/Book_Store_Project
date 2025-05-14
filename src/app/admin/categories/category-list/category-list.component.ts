@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 // import { CategoryService } from '../../admin-service/category.service';
 import { Observable } from 'rxjs';
-import { CategoryService } from '../../../admin-service/category.service';
+import { CategoryService } from '../categories-services/category.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';

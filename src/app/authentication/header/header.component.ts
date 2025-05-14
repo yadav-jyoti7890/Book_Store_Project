@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, NgZone, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AddCartService } from '../../user_service/add-cart.service';
+import { AddCartService } from '../../user/add-cart-info/add-cart-services/add-cart.service';
 // import { HomeComponent } from '../../user/home/home.component';
 import gsap from 'gsap';
 import { ViewDetailService } from '../../user_service/view-detail.service';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../auth-services/auth.service';
 import {  Router, RouterLink } from '@angular/router';
 import { Block } from '@angular/compiler';
 import { MatSnackBar } from '@angular/material/snack-bar';

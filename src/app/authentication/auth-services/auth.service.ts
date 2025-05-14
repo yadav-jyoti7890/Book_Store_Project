@@ -1,6 +1,6 @@
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { login, signup } from '../authentication/signup/signup.component';
+import { login, signup } from '../signup/signup.component';
 import {catchError, map, Observable, of } from 'rxjs';
 import { Route } from '@angular/router';
 

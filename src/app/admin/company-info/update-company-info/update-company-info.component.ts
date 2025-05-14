@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 // import { CompanyInfoService } from '../../admin-service/company-info.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CompanyInfoService } from '../../../admin-service/company-info.service';
+import { CompanyInfoService } from '../company-services/company-info.service';
 
 @Component({
   selector: 'app-update-company-info',

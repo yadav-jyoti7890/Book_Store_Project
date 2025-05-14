@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { AddCartService } from '../../user_service/add-cart.service';
+import { AddCartService } from '../../add-cart-info/add-cart-services/add-cart.service';
 import { response } from 'express';
 import { DatePipe } from '@angular/common';
 

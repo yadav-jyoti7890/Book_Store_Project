@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AddCartService } from '../../user_service/add-cart.service';
+import { AddCartService } from '../../add-cart-info/add-cart-services/add-cart.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Box, Calendar, CheckCircle, Loader, LucideAngularModule, Truck } from 'lucide-angular';
 import { response } from 'express';

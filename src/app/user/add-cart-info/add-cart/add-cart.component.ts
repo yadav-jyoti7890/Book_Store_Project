@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { AddCartService } from '../../user_service/add-cart.service';
+import { AddCartService } from '../add-cart-services/add-cart.service';
 import { response } from 'express';
 import { FormsModule } from '@angular/forms';
 import { Location } from '@angular/common';

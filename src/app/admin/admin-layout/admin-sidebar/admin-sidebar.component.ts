@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlluserService } from '../../users-info/user-services/alluser.service';
-import { ProfileService } from '../../../admin-service/profile.service';
+import { ProfileService } from '../../users-info/user-services/profile.service';
 import { Router } from 'express';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';

@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { CompanyInfoService } from '../../../admin-service/company-info.service';
+import { CompanyInfoService } from '../company-services/company-info.service';
 
 @Component({
   selector: 'app-addCompany-info',
