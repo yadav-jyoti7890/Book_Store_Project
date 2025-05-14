@@ -6,7 +6,7 @@ body {
   background-color: #fdfdfd;
 }
 
-/* Banner Section */
+
 .banner {
   display: flex;
   align-items: center;
@@ -69,7 +69,7 @@ body {
   margin-bottom: 20px;
 }
 
-/* Button */
+
 .btn {
   display: inline-block;
   padding: 10px 20px;
@@ -191,7 +191,11 @@ body {
   text-transform: capitalize;
   margin-top: 1vw;
   line-height: 1vw;
- 
+}
+
+.btn{
+  width: 40%;
+  letter-spacing: 1px;
 }
 
  .swip {
@@ -291,6 +295,7 @@ body {
   align-items: center !important;
   background-color: wheat;
   padding: 0vw 1vw;
+  
 }
 
 .content {
@@ -314,7 +319,7 @@ body {
   object-fit: cover;
 }
 
-/* auhtor section */
+
 
 .authors {
   text-align: center;
@@ -452,5 +457,103 @@ body {
 
 .social-icons a:hover {
   color: #007bff;
+}
+
+
+
+.book-list {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.book-list h2 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: start;
+}
+
+.books-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.book-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  width: 300px; /* Adjust as needed */
+  text-align: center;
+}
+
+.book-card img {
+  height: 200px !important;
+  width: 200px !important;
+}
+
+.book-card h3 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1.2em;
+}
+
+.book-card .author {
+  color: #777;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.book-card .price {
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.book-card .original-price {
+  color: #999;
+  text-decoration: line-through;
+  margin-right: 5px;
+}
+
+.book-card .discounted-price {
+  color: #e44d26; /* Example discount color */
+  font-weight: bold;
+}
+
+.book-card .rating {
+  color: gold;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+
+.book-card .rating .star {
+  display: inline-block;
+  margin: 0 2px;
+}
+
+.book-card .rating .filled {
+  color: gold;
+}
+
+.book-card .rating .empty {
+  color: #ccc;
+}
+
+.book-card .add-to-cart {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.book-card .add-to-cart:hover {
+  background-color: #0056b3;
 }
 

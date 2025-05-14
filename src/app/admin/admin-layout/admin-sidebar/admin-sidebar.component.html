@@ -1,0 +1,92 @@
+
+<div class="container">
+    <!-- Top Navigation -->
+    <div class="top-bar">
+        <input type="text" class="search-bar" placeholder="Search">
+        <div class="user-info">
+            <i class="fas fa-info-circle"></i>
+            <i class="fas fa-globe"></i>
+            <i class="fas fa-bell"></i>   
+        </div>
+    </div>
+
+  
+
+    <!-- Metrics Grid -->
+    <div class="metrics-grid">
+        <div class="metric" routerLink="/admin_dashboard/users" [class.active]="isActive" (click)="toggleActive()">
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Customers</h4>
+                    <p>{{totalUsers}}</p>
+                </div>
+                <div class="icon" >
+                    <i class="ri-user-follow-fill"></i>
+                </div>
+            </div>
+        </div>
+        <div class="metric" routerLink="/admin_dashboard/book-list">
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Product</h4>
+                    <p>{{totalBooks}}</p>
+                </div>
+                <div class="icon" >
+                    <i class="ri-shopping-bag-4-fill"></i>
+                </div>
+            </div>
+        </div>
+        <div class="metric" routerLink="/admin_dashboard/category_list">
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Category</h4>
+                    <p>{{totalOrder}}</p>
+                </div>
+                <div class="icon" >
+                    <i class="ri-menu-search-fill"></i>
+                </div>
+            </div>
+        </div>
+        <div class="metric" routerLink="/admin_dashboard/orders">
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Orders</h4>
+                    <p>{{totalOrder}}</p>
+                </div>
+                <div class="icon" >
+                    <i class="ri-shopping-cart-2-fill" ></i>
+                </div>
+               </div>
+          
+        </div>
+
+        <div class="metric" routerLink="/admin_dashboard/contact">
+
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Help & Security</h4>
+                    <p>{{totalContact}}</p>
+                </div>
+                <div class="icon"  >
+                    <i class="ri-questionnaire-fill"></i>
+                </div>
+               </div>
+            
+        </div>
+        <div class="metric" routerLink="/admin_dashboard/company">
+            <div class="flex">
+                <div class="dynamic">
+                    <h4>Contact</h4>
+                    <p>{{companyInfo}}</p>
+                </div>
+                <div class="icon" >
+                    <i class="ri-contacts-book-3-fill"></i>
+                </div>
+               </div>
+          
+        </div>
+       
+       
+
+    </div>
+</div>

@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@font-face {
+/* @font-face {
     font-family: neue;
     src: url(./assets/font/NeueMachina-Regular.otf);
 }
@@ -10,15 +10,18 @@
 @font-face {
     font-family: neue-bold;
     src: url(./assets/font/NeueMachina-Ultrabold.otf);
-}
-
-
+} */
 
 *{
+    font-family : Helvetica,  !important;
+    font-weight: 300 !important;
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
 }
+
+
+
 html, body { height: 100%; width: 100%;}
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,62 +1,6 @@
-<!-- 
-
-
-
-<div class="user-panel">
-
- 
-  <div class="order-card" *ngFor="let item of order_details; let i = index">
-
-    <div *ngIf="i === 0">
-      <h3> <i class="ri-box-3-fill" style=" color: #4e73df;  "></i><strong> Order #{{item.random_number}}</strong></h3>
-      <p> <i class="ri-calendar-todo-fill" style=" color: #f6c23e;"></i> Order Date: {{item.order_date | date : 'dd/MM/yyyy'}}</p>
-      <p> <i class="ri-truck-fill" style="color: #36b9cc;  "></i> Estimated Delivery: {{item.estimate_delivery_date | date : 'dd/MM/yyyy'}}</p>
-      <p><i class="ri-loader-4-line" style="  color: #f6c23e; "></i>Status: <span class="status pending">{{item.order_status}}</span></p>
-    </div>
-
-    <div class="delivery-address" *ngIf="i === 0">
-      <h3><strong>{{item.full_name}}</strong></h3>
-      <p>{{item.house_no}},{{item.road_name}}</p>
-      <p>{{item.pincode}} {{item.city}}, {{item.state}} </p>
-      <p>{{item.contact}}</p>
-      <p>india</p>
-    </div>
-
-
-    <div class="item">
-      <img [src]="item.image ? 'http://localhost:3000/' + item.image : ''" alt="Book image" height="300px" width="100px">
-      <div class="details">
-        <h4>{{item.title}}</h4>
-        <p>{{item.description}}</p>
-        <p>Quantity: {{item.quantity}}</p>
-        <p>Price: ₹{{item.total_amount}}</p>
-        <div class="buttons">
-          <button class="view-more">View More</button>
-          <button class="cancel">Cancel</button>
-        </div>
-      </div>
-
-    </div>
-
-    <hr>
-    
-
-   
-  </div>
-
-  <div *ngFor="let item of order_details; let i = index">
-    <div *ngIf="i === 0" class="grand-total-box">
-      <h3><strong>Grand Total: ₹{{item.total_pay}}</strong></h3>
-    </div>
-  </div>
-  
- 
-
-</div>  -->
 
 <div class="container">
         
-  <!-- Left Side - Product Details -->
   <div class="product-section">
       <div class="product" *ngFor="let item of order_details; let i = index">
         <img [src]="item.image ? 'http://localhost:3000/' + item.image : ''" alt="Book image">
@@ -66,12 +10,12 @@
               <p><strong>Price:</strong> {{item.price | currency:'INR'}}</p>
               <p><strong>Quantity:</strong> {{item.quantity}}</p>
               <!-- <p><strong>Pay:</strong> {{item.total_amount | currency:'INR'}}</p> -->
-              <button class="remove-btn">Remove</button>
+              <!-- <button class="remove-btn">Remove</button> -->
           </div>
       </div>
   </div>
 
-  <!-- Right Side - User Details & Billing -->
+  
   <div class="details-section">
       
       <!-- Delivery Address -->
@@ -79,7 +23,6 @@
       <div class="address" >
         <div *ngFor="let item of order_details; let i = index">
           <div class="address-box" *ngIf="i === 0">
-           
               <p><strong>{{item.full_name}}</strong></p>
               <p>{{item.house_no}}, {{item.road_name}}</p>
               <p>{{item.city}},  {{item.state}} - {{item.pincode}}</p>

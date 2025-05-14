@@ -58,9 +58,12 @@ export class AddCartComponent implements OnInit {
         this.item = response.data;
         console.log(this.item)
         this.user_address = localStorage.getItem('user_address')
+
         this.item.forEach((value: any) => {
           this.sum = this.sum + value.total_amount;
           this.total_item += 1;
+          console.log(this.sum);
+          
         });
 
 
@@ -76,21 +79,17 @@ export class AddCartComponent implements OnInit {
   removeToCart(id: number) {
     console.log(id)
     this.add_cart.deleteCartItem(id).subscribe((data) => {
-    
       this.allcartdata();
       this.add_cart_count();
       this.snackBar.open('remove item from the cart ✅', 'close', {duration: 3000, horizontalPosition:'center', verticalPosition:'top'})
       this.router.navigate(['add-cart'])
     }, (err) => {
       this.snackBar.open('remove item error from the cart ❌', 'close', {duration: 3000, horizontalPosition:'center', verticalPosition:'top'})
-
     })
   }
 
   add_cart_count() {
     console.log('User logout up!');
-  
-    // Send a message to other components
     this.count.postMessage({ type: 'add_cart_count'});
   }
   
@@ -146,39 +145,45 @@ export class AddCartComponent implements OnInit {
   // }
 
   confirmOrder() {
+    debugger
     console.log("confirm order");
-
+    debugger
     this.address_id = this.select_Address.address_id;
     console.log(this.address_id, this.user_id, this.total_item, this.sum, this.item);
-
+    debugger
     const order_data = {
       address_id: this.address_id,
       user_id: this.user_id,
       total_item: this.total_item,
       total_amount: this.sum,
     };
-
-    // Prepare order item data
+    debugger
+    
     const order_item_data = {
       address_id: this.address_id,
       user_id: this.user_id,
     };
+    debugger
     this.order_item = this.item;
-
-    console.log(order_data, order_item_data, this.order_item);
-
+    debugger
+    console.log("order data ====>",order_data, order_item_data, this.order_item);
+    debugger
     this.add_cart.confirm_Order(order_data).subscribe(
       (response) => {
         this.order_id = response.order_id;
         console.log("Order confirmed:", response, "order_id", this.order_id);
-        this.add_cart.order_item(this.order_id, this.order_item).subscribe(
-          (response) => {
+        // alert("order confirmed successfully");
+        debugger
+        this.add_cart.order_item(this.order_id, this.order_item).subscribe((response) => {
+          debugger
             this.user_id = localStorage.getItem('user_id');
+            debugger
             this.add_cart.deleteAllCartData(this.user_id).subscribe(
               (response) => {
-                alert("order confirmed successfully")
+                // alert("order confirmed proper successfully")
+                this.snackBar.open('Order Confirmed Successfully', 'close', {duration: 3000, horizontalPosition:'center', verticalPosition:'top'})
                 this.add_cart_count();
-                this.router.navigate(['/book'])
+                this.router.navigate(['/home'])
               }, (error) => {
                   console.error("delete items from add cart")
               })
@@ -188,6 +193,7 @@ export class AddCartComponent implements OnInit {
           }
         );
       },
+
       (error) => {
         console.error("Error while confirming order:", error);
       }
@@ -221,7 +227,6 @@ export class AddCartComponent implements OnInit {
   //   throw new Error('Method not implemented.');
   // }
 
-  
 
   openAddress() {
     this.showAddressForm = true;  // Show the address form overlay

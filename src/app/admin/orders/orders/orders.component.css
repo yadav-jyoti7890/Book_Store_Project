@@ -1,0 +1,130 @@
+/* Container Styling */
+.orders-container {
+  width: 100%;
+  /* padding: 20px; */
+  background: #f8f9fa;
+}
+
+select{
+  padding:0.8vw;
+  width: 100%;
+  border: 1px solid #dadada;
+  border-radius: 7px;
+  background-color: #bc78ed76;
+  color: #000;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  font-weight: 700;
+}
+/* Header Section */
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter Controls */
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Entries Select */
+.entries-select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Search Box */
+.search-box {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.search-box::placeholder {
+  color: #999;
+}
+
+/* Table Styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.table thead {
+  background: #6a0dad;
+  color: white;
+}
+
+.table th, .table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+/* Status Dropdown */
+.table select {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Buttons */
+.action-btn {
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.view-btn {
+  background: #007bff;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+}
+
+.view-btn:hover {
+  background: #0056b3;
+}
+
+i{
+  cursor: pointer;
+  color: blueviolet;
+  font-size: 1.3vw;
+}
+
+.else_Section{
+  height: calc(100vh - 200px);
+  /* width: 100vh; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Helvetica;
+  text-transform: capitalize;
+  font-weight: 600;
+  color: #c82333;
+  transform: translate(-50% -50%);
+}

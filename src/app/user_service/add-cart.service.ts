@@ -40,14 +40,16 @@ export class AddCartService {
     return this.http.post(`http://localhost:3000/orderItem/`,data)
   }
 
-  confirm_Order(order_date: any): Observable<any>{
-    return this.http.post('http://localhost:3000/confirm_order', order_date);
+  confirm_Order(order_data: any): Observable<any>{
+    console.log(order_data);
+    return this.http.post('http://localhost:3000/confirm_order', order_data);
   }
   
   // order_item method
   order_item(order_id:number, order_item: any[]) {
     console.log("order_item", order_item)
     const url = `http://localhost:3000/order_item/${order_id}`;
+    console.log( "order items and order_id =>", order_item, order_id);
     return this.http.post(url, order_item);
   }
 
@@ -63,7 +65,8 @@ export class AddCartService {
     return this.http.delete(`http://localhost:3000/deleteAllCartData/${id}`)
   }
 
-  getOrderData(user_id:number): Observable<any>{
+  getOrderData(user_id:number){
+    console.log("remove obserable")
     return this.http.get(`http://localhost:3000/getCartOrderbyOrderId/${user_id}`)
   }
 

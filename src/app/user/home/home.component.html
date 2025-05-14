@@ -1,9 +1,9 @@
 <section class="banner">
   <div class="banner-content">
-    <h1>Kid's Bookshelf</h1>
+    <h1>Bookshelf</h1>
     <p class="editor-pick">EDITOR'S PICK</p>
     <p class="description">Take your little ones on a magical journey filled with wizards and talking animals.</p>
-    <a href="#" class="btn">DISCOVER</a>
+   
   </div>
   <div class="banner-image">
     <img src="assets/image/about.png" alt="Kid with books">
@@ -134,29 +134,32 @@
   </div>
 </section>
 
+
+
 <section class="popular-books">
   <div class="categoryItem-section">
-    <h2>Bestselling Non-Fiction Books</h2>
+    <h2 style="font-weight: 700; font-size: 1.8vw; margin-bottom: 2vw; text-transform: capitalize;">Bestselling  Books</h2>
   </div>
 
   <div class="swiper mySwiper allbook-swiper"  #swiperContainer2>
     <div class="swiper-wrapper">
     
       <div class="swiper-slide allbook-slider" *ngFor="let product of allItem">
-        <div class="box">
+        <div class="book-card">
           <img [src]="product.image ? 'http://localhost:3000/' + product.image : ''" alt="Book image">
-          <div class="content">
-              <h3>{{product.title}}</h3>
-            <!-- <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p> -->
-            <p>by {{product.author}}</p>
-            <p>Rs. 110 <strong><del>Rs. {{product.price}}</del></strong></p>
-           
+          <h3>{{product.title}}</h3>
+          <p class="author">by {{product.author}}</p>
+          <p class="price">Rs. <span class="original-price">200</span> <span class="discounted-price">Rs. {{product.price}}</span></p>
+          <div class="rating">
+              <span class="star filled">★</span>
+              <span class="star filled">★</span>
+              <span class="star filled">★</span>
+              <span class="star filled">★</span>
+              <span class="star filled">★</span>
           </div>
-          <div class="flex">
-            <p>add to cart</p>
-            <p>⭐⭐⭐⭐⭐</p>
-          </div>
-        </div>
+          <button class="add-to-cart">Add to Cart</button>
+      </div>
+       
       </div>
 
 

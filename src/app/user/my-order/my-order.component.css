@@ -19,6 +19,7 @@
 
 
 .container {
+    margin-top: 4vw;
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -118,5 +119,17 @@ img.product-image {
 .box strong {
     color: #6200ea;
 }
+
+.else_Section{
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+    transform: translate(-50% -50%);
+    color: red;
+    font-family: Helvetica;
+    font-weight: 700;
+    font-size: 1.2vw;
+    height: calc(100vh - 400px);
+  }
 
 

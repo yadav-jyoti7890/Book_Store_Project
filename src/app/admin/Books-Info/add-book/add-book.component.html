@@ -1,0 +1,90 @@
+<!-- <h1>ADD <span>More Book</span></h1>
+<hr>
+<div class="form">
+    <form (ngSubmit)="addBook()" method="POST" enctype="multipart/form-data">
+        <label for="">Enter title</label>
+        <input type="text" name="title" id="" placeholder="" [(ngModel)]="add_book.title">
+        <label for="">Enter author</label>
+        <input type="text" name="author" id="" placeholder="" [(ngModel)]="add_book.author">
+        <label for="">Enter description</label>
+        <textarea type="text" name="description" cols="20" rows="5" id="" placeholder=""
+            [(ngModel)]="add_book.description"> </textarea>
+        <label for="">Enter price</label>
+        <input type="number" name="price" id="" placeholder="" [(ngModel)]="add_book.price">
+        <label for="category">Select Category:</label>
+        <select id="category" name="category" class="dropdown" (change)="onCategoryChange($event)">
+            <option value="">Choose Category</option>
+            <option *ngFor="let category of data" [value]="category.category_id">
+                {{ category.category_name }}
+              </option>
+        </select>
+        <label for="">Enter image</label>
+        <input type="file" name="image" id="" placeholder="Select Image" (change)="onFileChange($event)">
+        <button type="submit">Add Book</button>
+    </form>
+
+</div> -->
+
+<div class="form_div">
+    <h1><i class="ri-book-open-fill"></i>  ADD <span>More Book</span></h1>
+    <div class="inner_div">
+        <form  (ngSubmit)="addBook()" method="POST" enctype="multipart/form-data"> 
+            <!-- (ngSubmit)="addBook()" -->
+  
+            <div class="form-row">
+             
+              <input  name="title" placeholder="Enter Title"  [(ngModel)]="add_book.title"/>
+              <input  name="author" placeholder="Enter Author" [(ngModel)]="add_book.author"/>
+            </div>
+          
+            
+            <textarea  name="description" placeholder="Enter Description" [(ngModel)]="add_book.description"></textarea>
+          
+            
+            <div class="form-row">
+
+              <input type="number" name="price" placeholder="Enter MRP Price"
+               [(ngModel)]="add_book.price" (ngModelChange)="calculateOfferPrice()"/>
+         
+             <select name="discount_type" [(ngModel)]="add_book.discount_type" (ngModelChange)="calculateOfferPrice()">
+               <option value="">Select Discount Type</option>
+               <option value="percent">Percentage</option>
+               <option value="amount">Fixed Amount</option>
+             </select>
+         
+             <input type="number" name="discount_value" placeholder="Discount Value" [(ngModel)]="add_book.discount_value" 
+             (ngModelChange)="calculateOfferPrice()"/>
+              
+              <input type="number" name="offer_price" [value]="add_book.offer_price || 'offer_price'" readonly placeholder="Offer Price" />
+            </div>
+          
+           
+            
+            <div class="form-row">
+                <select id="category" name="category" class="dropdown" (change)="onCategoryChange($event)">
+                    <option value="">Choose Category</option>
+                    <option *ngFor="let category of data" [value]="category.category_id">
+                        {{ category.category_name }}
+                      </option>
+                </select>
+          
+              <input type="number"name="stock"  placeholder="Enter Stock" [(ngModel)]="add_book.stock"/>
+            </div>
+          
+           
+        
+            <div class="form-row">
+                <input type="file" name="image" placeholder="select image"  
+                (change)="onFileChange($event)" class="same" [(ngModel)]="add_book.image"/>
+
+                <input type="date" name="pub_date" name="publication_date"  class="same" [(ngModel)]="add_book.pub_date"/>
+            </div>
+          
+          
+            <div class="button-container">
+                <button type="submit">Add Book</button>
+              </div>
+          </form>
+    </div>
+
+</div>

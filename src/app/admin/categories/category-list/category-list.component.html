@@ -1,0 +1,49 @@
+<div class="category-header">
+    <h1 class="order_list">Category List</h1>
+
+    <div class="filter-container">
+        <!-- Category Dropdown -->
+       
+
+        <!-- Search Bar -->
+        
+        <!-- Add More Category Button -->
+        <button class="add-book-btn" routerLink="/admin_dashboard/category">
+            <i class="ri-add-circle-fill"></i> Add More Category
+        </button>
+    </div>
+</div>
+
+
+
+<div class="read_task">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>S.N</th>
+                <th>Category Name</th>
+                <th>Description</th>
+                <th>Image</th>
+               
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let categoryItem of category; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ categoryItem.category_name }}</td>
+                <td>{{ categoryItem.discription }}</td>
+                <td>
+                    <img [src]="categoryItem.image ? 'http://localhost:3000/' + categoryItem.image : ''" 
+                         alt="Book image" 
+                         class="category-image" />
+                </td>
+              
+                <td>
+                    <button class="edit-btn"><i class="ri-edit-box-fill"></i> Edit</button>
+                    <button class="delete-btn" (click)="deleteCategory(categoryItem.category_id)"><i class="ri-delete-bin-fill"></i> Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -10,7 +10,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 import { CategoryService } from '../../admin-service/category.service';
 import { response } from 'express';
-import { AddBookService } from '../../admin-service/add-book.service';
+import { AddBookService } from '../../admin/Books-Info/product-services/add-book.service';
 // import { Navigation } from 'lucide-angular';
 
 

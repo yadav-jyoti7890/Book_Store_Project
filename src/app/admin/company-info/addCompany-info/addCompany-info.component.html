@@ -1,0 +1,17 @@
+<h1><strong>Add company address</strong></h1><hr>
+<div class="form"> 
+    <form>
+        <label for="">Enter Email</label>
+        <input type="email" name="email" id=""  [(ngModel)]="company_info.email">
+        <label for="">Enter alter email</label>
+        <input type="email" name="email2" id=""  [(ngModel)]="company_info.email2">
+        <label for="">Enter contact </label>
+        <input type="number" name="contact" id=""  [(ngModel)]="company_info.contact"> 
+        <label for="">Enter alter contact</label>
+        <input type="number" name="contact2" id=""  [(ngModel)]="company_info.contact2"> 
+        <label for="">Enter address</label>
+        <textarea name="address" id="" cols="20" rows="5" [(ngModel)]="company_info.address" placeholder="Enter Address...!"></textarea>
+       <button type="submit" (click)="companyInfo()">Add Book</button>   
+    </form>
+</div>
+

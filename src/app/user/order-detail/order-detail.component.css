@@ -69,6 +69,7 @@
   width: 50%;
   padding: 20px;
   background: #f8f8f8;
+  margin-top: 2vw;
 }
 
 .address, .billing {
@@ -132,6 +133,8 @@ h3 {
 .continue-btn:hover {
   background: #660066;
 }
+
+
 
 /* Responsive */
 @media (max-width: 768px) {

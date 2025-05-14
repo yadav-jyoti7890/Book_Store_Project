@@ -43,10 +43,7 @@ export class OrderService {
     return this.http.put(`${this.apiUrl5}/update-status/${random_number}`,body);
   }
 
-  user_items(id:number): Observable<any>{
-    debugger
-    return this.http.get(`http://localhost:3000/items/${id}`);
-  }
+
 
   
 }

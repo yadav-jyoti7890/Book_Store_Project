@@ -15,6 +15,8 @@ form{
     align-items: flex-start;
     padding: 3vw;
     z-index: 10;
+    background-color: #fff;
+    border-radius: 10px;
 }
 form label{
     color: #000;
@@ -42,9 +44,9 @@ form input,button{
     border-radius: 5px;
     border: none;
     outline: none;
-    background-color:#fff;
     color: #000;
     padding-left: 1vw;
+    background-color:#f2f2f2;
 }
 
 input,textarea::placeholder{
@@ -140,73 +142,3 @@ button:valid{
   }
   
 
-@media (max-width:500px) {
-    .form{
-        min-height: calc(100vh - 60px);
-    }
-    form{
-        min-width:100%;
-        padding: 7vw;
-    }
-    form label{
-        font-size: 4vw;
-    }
-    form h1{
-        margin-bottom: 8vw;
-        font-size: 6vw;
-    }
-    form input,button{
-        width: 100%;
-        padding: 4vw;
-        margin-bottom: 3vw;
-        border-radius: 3px;
-        padding-left: 1vw;
-    }
-    
-    input,textarea::placeholder{
-        font-family: verdana;
-        font-weight: 100;
-        font-size: 4vw;
-        font-family: neue-light;
-        letter-spacing: 0.1vw;
-    }
-    span{
-        color: #24CFA6;
-    }
-    button{
-        font-size: 4vw;
-    }
-    .flex{
-        padding-bottom: 1vw;
-        width: 100%;
-        display: flex;
-        justify-content: space-between !important;
-        align-items: center;
-    }
-     .flex p{
-        font-size: 3vw;
-    }
-     .flex a{
-        font-size: 3vw;
-    }
-    form textarea{
-        display: block;
-        width: 100%;
-        padding: 0.7vw;
-        margin-bottom: 1vw;
-        border-radius: 5px;
-        padding-left: 1vw;
-    }
-    small{
-        font-size: 1vw;
-    }
-    button:disabled{
-        background-color: #857e7e85;
-        cursor: not-allowed;
-        color: #fff;
-    }
-    button:valid{
-        background-color: #24CFA6;
-        color: #fff;
-    }
-}

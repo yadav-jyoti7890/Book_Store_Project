@@ -3,19 +3,10 @@
    
  
     <div class="left">
-        <!-- <div class="box" *ngFor="let order of uniqueOrderIds" [routerLink]="['/my_order/order_detail', order.random_number]">
-            <div>
-                <strong><i class="ri-calendar-2-fill"></i> OrderId:</strong> {{ order.random_number}} <br />
-                <strong>Order Date:</strong> {{ order.order_date | date : 'dd/MM/yyyy'}} <br />
-                <strong><i class="fa fa-truck"></i>  Estimated Delivery:</strong> {{ order.estimate_delivery_date | date : 'dd/MM/yyyy'  }}
-            </div>
-         </div> -->
-
          <div class="container">
             <h1><strong>Orders List</strong></h1><hr>
     
-            
-    
+          @if(user_items.length > 0){
             <div class="table-container">
                 <table>
                     <thead>
@@ -29,29 +20,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr  *ngFor="let order of uniqueOrderIds" [routerLink]="['/order_detail', order.random_number]">
+                        <tr *ngFor="let order of uniqueOrderIds" [routerLink]="['/order_detail', order.random_number]">
                             <td>#Order-{{ order.random_number}}</td>
                             <td>{{order.full_name}}</td>
                             <td>{{order.total_item}}</td>
-                            <td> {{ order.estimate_delivery_date | date : 'dd/MM/yyyy'}}</td>
+                            <td> {{order.estimate_delivery_date | date : 'dd/MM/yyyy'}}</td>
                             <td>{{order.total_pay}}</td>
                             <td><span class="status completed">{{order.order_status}}</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+          }
+
+          @else{
+           <div class="else_Section">
+             <h1>My orders table Empty</h1>
+           </div>
+          }
         </div>
-
-
-
-
-
-
-
-
-
-
-
 
     </div>
 

@@ -1,0 +1,52 @@
+<div class="orders-container">
+  <div class="orders-header">
+    <div>
+      <h2>Orders List</h2>
+    </div>
+  </div>
+
+   
+  @if(orderData.length > 0){
+    <table class="table">
+      <thead>
+        <tr>
+          <th>S.N</th>
+          <th>Name</th>
+          <th>Total Items</th>
+          <th>Total Amount</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orderData; let i = index">
+          <td>#{{ order.random_number }}</td>
+          <td>{{ order.user_name }}</td>
+          <td>{{ order.total_item }}</td>
+          <td>₹{{ order.total_pay }}</td>
+          <td>
+            <select [ngClass]="colorCode(order.order_status)" [(ngModel)]="order.order_status"
+              (change)="changeStatus(order.random_number, $event)">
+              <option value="Pending" [disabled]="order.order_status" selected>Pending</option>
+              <option value="Shipping"
+                [disabled]="order.order_status === 'Delivered' || order.order_status === 'Canceled'">Shipping</option>
+              <option value="Delivered" [disabled]="order.order_status === 'Canceled'">Delivered</option>
+              <option value="Canceled">Canceled</option>
+            </select>
+          </td>
+          <td>
+            <i class="ri-delete-bin-6-fill"></i>
+          </td>
+          <td [routerLink]="['../items', order.order_id]"> <i class="ri-eye-line"></i></td>
+        </tr>
+      </tbody>
+    </table> 
+  }
+
+  @else{
+    <div class="else_Section">
+      <h1>Orders table empty</h1>
+    </div>
+  }
+
+</div>

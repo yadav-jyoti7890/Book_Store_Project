@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import {  Router, RouterLink } from '@angular/router';
 import { Block } from '@angular/compiler';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AlluserService } from '../../admin-service/alluser.service';
+import { AlluserService } from '../../admin/users-info/user-services/alluser.service';
 import { FormsModule } from '@angular/forms';
 
 
