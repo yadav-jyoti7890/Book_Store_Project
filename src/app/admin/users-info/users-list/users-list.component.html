@@ -35,7 +35,7 @@
         <tr *ngFor="let user of usersData; let i = index">
             <td>{{i+1}} </td>
             <td>
-                <img *ngIf="user.profile_image; else defaultImage" [src]="'http://localhost:3000' + user.profile_image"
+                <img *ngIf="user.profile_image; else defaultImage" [src]=" imageBaseUrl + user.profile_image"
                     alt="User Image" height="60px" width="60px" style="border-radius: 50%;">
 
                 <ng-template #defaultImage>

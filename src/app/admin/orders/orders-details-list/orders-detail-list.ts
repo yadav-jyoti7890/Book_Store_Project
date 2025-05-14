@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-// import { OrderService } from '../../admin-service/order.service';
+import { environment } from '../../../../environments/environment.prod';
 import { ActivatedRoute, Router } from '@angular/router';
 import { response } from 'express';
 import { CommonModule } from '@angular/common';
-import { ItemServiceService } from '../../../admin-service/item-service.service';
-// import { ItemServiceService } from '../../admin-service/item-service.service';
+import { ItemServiceService } from '../order-services/item-service.service';
+
 
 @Component({
   selector: 'app-orders-detail-list',
@@ -13,7 +13,10 @@ import { ItemServiceService } from '../../../admin-service/item-service.service'
   templateUrl: './orders-detail-list.html',
   styleUrl: './orders-detail-list.css'
 })
+
+
 export class OrdersDetailListComponent implements OnInit{
+  imageBaseUrl = environment.BaseUrl;
   orderData: any;
   order_id: number | undefined | any;
   user_items:items[] = [];

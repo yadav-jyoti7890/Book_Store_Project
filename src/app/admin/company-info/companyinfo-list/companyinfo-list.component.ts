@@ -15,7 +15,7 @@ import { CompanyInfoService } from '../company-services/company-info.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './companyInfo-list.component.html',
-  styleUrl: './companyInfo-list.component.css'
+  styleUrl: './companyInfo-list.component.css',
 })
 export class CompanyInfoListComponent implements OnInit {
   address: any;

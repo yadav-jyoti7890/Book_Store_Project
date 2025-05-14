@@ -4,6 +4,8 @@ import { AddCartService } from '../../add-cart-info/add-cart-services/add-cart.s
 import { CommonModule, DatePipe } from '@angular/common';
 import { Box, Calendar, CheckCircle, Loader, LucideAngularModule, Truck } from 'lucide-angular';
 import { response } from 'express';
+import { environment } from '../../../../environments/environment.prod';
+import { UserOrdersDetailsService } from '../user-order-detail-services/user-orders-details.service';
 
 
 @Component({
@@ -18,9 +20,12 @@ export class OrderDetailComponent implements OnInit{
   order_id:any | string | null;
   user_items: any;
   order_details:any;
+  imageBaseUrl = environment.BaseUrl
   
   
-  constructor( private route: ActivatedRoute,private activate: ActivatedRoute, private addService:AddCartService){}
+  constructor( private route: ActivatedRoute,private activate: ActivatedRoute, private userOrderService : UserOrdersDetailsService){}
+
+
   ngOnInit(): void {
     this.activate.paramMap.subscribe((paramp) => {
       const order_id = paramp.get('id')
@@ -34,7 +39,7 @@ export class OrderDetailComponent implements OnInit{
   }
 
   getOrderDetail(){
-     this.addService.orderDetailFetch(this.order_id).subscribe((response)=>{
+     this.userOrderService.orderDetailFetch(this.order_id).subscribe((response)=>{
      this.order_details = response.UserItems;
      console.log(this.order_details,"order")
      },(error)=>{
@@ -42,9 +47,6 @@ export class OrderDetailComponent implements OnInit{
      })
   }
 
- 
-
- 
 }
 
 

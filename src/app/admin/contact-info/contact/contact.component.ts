@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ContactService } from '../../admin-service/contact.service';
+// import { ContactService } from '../contact-info/contact-services/contact.service';
 import { CommonModule } from '@angular/common';
 import { response } from 'express';
+import { ContactService } from '../contact-services/contact.service';
 
 @Component({
   selector: 'app-contact',

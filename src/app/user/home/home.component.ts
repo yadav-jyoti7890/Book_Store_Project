@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment.prod';
 
 // import Swiper from 'swiper';
 import Swiper from 'swiper';
@@ -24,7 +25,7 @@ import { AddBookService } from '../../admin/Books-Info/product-services/add-book
 })
 
 export class HomeComponent implements AfterViewInit, OnInit{
-
+  imageBaseUrl = environment.BaseUrl;
   categoryData:any
   allItem: any;
  

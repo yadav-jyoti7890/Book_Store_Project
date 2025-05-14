@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment.prod';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,7 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class AlluserService {
 
-  private apiUrl = 'http://localhost:3000/getalluser';
+  private apiUrl = environment.BaseUrl;
+
+  // private apiUrl = 'http://localhost:3000/getalluser';
   private apiUrl1 = 'http://localhost:3000/getallbook';
   private apiUrl3 = 'http://localhost:3000/countAllcontact';
   private apiUrl4 = 'http://localhost:3000/getallorders';
@@ -19,7 +22,7 @@ export class AlluserService {
   constructor(private http:HttpClient) { }
 
   getAlluserinadmin(): Observable<any> {
-    return this.http.get(this.apiUrl);
+    return this.http.get(`${this.apiUrl}getalluser`);
   }
 
   getallbooksinadmin() : Observable<any>{
@@ -29,7 +32,6 @@ export class AlluserService {
   getallcontactinadmin() : Observable<any>{
     return this.http.get(this.apiUrl3)
   }
-
 
   countOrder():Observable<any>{
     return this.http.get(this.apiUrl5)
@@ -50,12 +52,11 @@ export class AlluserService {
 
     console.log(userId,file)
 
-    return this.http.post('http://localhost:3000/update-profile',formData)
+    return this.http.post(`${this.apiUrl}update-profile`,formData)
   }
 
-  getImages(user_id:number): Observable<any>{
-    
-    return this.http.get(`http://localhost:3000/getimage/${user_id}`);
+  getImages(user_id:number): Observable<any>{   
+    return this.http.get(`${this.apiUrl}getimage/${user_id}`);
   }
 
 

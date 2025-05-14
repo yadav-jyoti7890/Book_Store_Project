@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ContactUsService } from '../../user_service/contact-us.service';
+import { ContactUsService } from '../contact-services/contact-us.service';
 
 @Component({
   selector: 'app-contact-us',

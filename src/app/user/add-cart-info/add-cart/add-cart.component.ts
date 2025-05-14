@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-add-cart',
@@ -33,6 +34,7 @@ export class AddCartComponent implements OnInit {
   order_id: any;
   cartData: any;
   showAddressForm = false;
+  imageBaseUrl = environment.BaseUrl;
 
   private count = new BroadcastChannel('count');
 
@@ -145,42 +147,34 @@ export class AddCartComponent implements OnInit {
   // }
 
   confirmOrder() {
-    debugger
     console.log("confirm order");
-    debugger
     this.address_id = this.select_Address.address_id;
     console.log(this.address_id, this.user_id, this.total_item, this.sum, this.item);
-    debugger
     const order_data = {
       address_id: this.address_id,
       user_id: this.user_id,
       total_item: this.total_item,
       total_amount: this.sum,
     };
-    debugger
     
     const order_item_data = {
       address_id: this.address_id,
       user_id: this.user_id,
     };
-    debugger
+  
     this.order_item = this.item;
-    debugger
+   
     console.log("order data ====>",order_data, order_item_data, this.order_item);
-    debugger
+    
     this.add_cart.confirm_Order(order_data).subscribe(
       (response) => {
         this.order_id = response.order_id;
         console.log("Order confirmed:", response, "order_id", this.order_id);
-        // alert("order confirmed successfully");
-        debugger
+        
         this.add_cart.order_item(this.order_id, this.order_item).subscribe((response) => {
-          debugger
             this.user_id = localStorage.getItem('user_id');
-            debugger
             this.add_cart.deleteAllCartData(this.user_id).subscribe(
               (response) => {
-                // alert("order confirmed proper successfully")
                 this.snackBar.open('Order Confirmed Successfully', 'close', {duration: 3000, horizontalPosition:'center', verticalPosition:'top'})
                 this.add_cart_count();
                 this.router.navigate(['/home'])

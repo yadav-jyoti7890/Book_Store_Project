@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 // import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ChangeDetectorRef } from '@angular/core';
-import { OrderService } from '../../../admin-service/order.service';
+import { OrderService } from '../order-services/order.service';
 import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -40,33 +40,6 @@ export class OrdersComponent implements OnInit{
     })
   }
 
-
-
-// changeStatus(random_number: any, event: Event) {
-//   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-//     data: { message: `Are you sure you want to change the status to ?` } 
-    
-//   });
-//   const newStatus = (event.target as HTMLSelectElement).value;
- 
-
-//   console.log(newStatus,random_number); 
-
-//   dialogRef.afterClosed().subscribe(result => {
-//     if (result) {
-//       this.order.updateOrderStatus(random_number, newStatus).subscribe(
-//         (response) => {
-//           console.log('Status updated successfully', response);
-         
-//           this.getallorder();
-//         },
-//         (error) => {
-//           alert("Error updating order status");
-//         }
-//       );
-//     }
-//   });
-// }
 
 changeStatus(random_number: any, event: Event) {
   

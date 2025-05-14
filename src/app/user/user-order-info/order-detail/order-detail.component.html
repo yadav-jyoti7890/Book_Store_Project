@@ -3,7 +3,7 @@
         
   <div class="product-section">
       <div class="product" *ngFor="let item of order_details; let i = index">
-        <img [src]="item.image ? 'http://localhost:3000/' + item.image : ''" alt="Book image">
+        <img [src]="item.image ? imageBaseUrl + item.image : ''" alt="Book image">
           <div class="product-info">
               <h2>Title: {{item.title}}</h2>
               <p>Description:{{item.description}}.</p>
@@ -27,7 +27,6 @@
               <p>{{item.house_no}}, {{item.road_name}}</p>
               <p>{{item.city}},  {{item.state}} - {{item.pincode}}</p>
               <p>📞 {{item.contact}}</p>
-              <!-- <button class="change-btn">Change ▼</button> -->
           </div>
         </div> 
       </div>
@@ -43,7 +42,7 @@
           <hr>
           <p class="grand-total"><strong>Grand Total:</strong>  {{item.total_pay | currency:'INR'}}</p>
          </div>
-          <!-- <button class="continue-btn">Continue</button> -->
+         
       </div>
     </div>
 

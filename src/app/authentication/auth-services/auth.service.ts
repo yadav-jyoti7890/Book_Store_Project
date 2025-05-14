@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { login, signup } from '../signup/signup.component';
 import {catchError, map, Observable, of } from 'rxjs';
 import { Route } from '@angular/router';
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -14,39 +15,41 @@ export class AuthService {
   constructor(private http:HttpClient) {
    }
 
+   private apiUrl = environment.BaseUrl;
+
    private url = "http://localhost:3000/signup";
    private url1 = "http://localhost:3000/login";
    private url2 = "http://localhost:3000/protected";
-   private apiUrl = 'http://localhost:3000/validate-token'; 
+  //  private apiUrl = 'http://localhost:3000/validate-token'; 
 
 
    signup(data:signup){
-     return this.http.post(this.url,data);
+     return this.http.post(`${this.apiUrl}signup/`,data);
    }
 
 
    loginauth(email:string,password:string): Observable<any> {
-    debugger
+  
     const loginData = {email , password };
-    debugger
-    return this.http.post<any>(this.url1, loginData)
+   
+    return this.http.post<any>(`${this.apiUrl}`,loginData)
   }
 
   verifyToken(): Observable<boolean> {
-    debugger
-    // Call your API to verify the token
+  
     const token = localStorage.getItem('token');
     debugger
     if (!token) {
-      return of(false); // No token, invalid
+      return of(false); 
     }
 
-    // If you have an endpoint to verify the token, call it
     return this.http.post<{ valid: boolean }>('http://localhost:3000/validate-token', { token }).pipe(
       map(response => response.valid),
-      catchError(() => of(false)) // Return false if verification fails
+      catchError(() => of(false)) 
     );
   }
+
+  
 
   // isLoggedIn(): boolean {
   //     console.log(!this.getToken())

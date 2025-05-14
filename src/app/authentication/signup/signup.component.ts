@@ -55,8 +55,8 @@ export class SignupComponent implements AfterViewInit {
   }
 
   isPasswordVisible: boolean = false;
-  signup1 = { password: '' };  // Ensure the object exists
-
+  signup1 = { password: '' };  
+  
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-// import { CategoryService } from '../../admin-service/category.service';
 import { Observable } from 'rxjs';
 import { CategoryService } from '../categories-services/category.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-category-list',
@@ -17,7 +17,12 @@ export class CategoryListComponent implements OnInit {
   category: any;
   selectedCategory:any;
   searchQuery:any;
-constructor(private categoryService:CategoryService){}
+  imageBaseUrl = environment.BaseUrl;
+
+  
+  constructor(private categoryService:CategoryService){}
+
+
   ngOnInit(): void {
     this.getAllcategory();
   }

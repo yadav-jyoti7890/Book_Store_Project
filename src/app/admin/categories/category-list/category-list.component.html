@@ -34,7 +34,7 @@
                 <td>{{ categoryItem.category_name }}</td>
                 <td>{{ categoryItem.discription }}</td>
                 <td>
-                    <img [src]="categoryItem.image ? 'http://localhost:3000/' + categoryItem.image : ''" 
+                    <img [src]="categoryItem.image ? imageBaseUrl + categoryItem.image : ''" 
                          alt="Book image" 
                          class="category-image" />
                 </td>

@@ -14,30 +14,28 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-   
-
-    // Get user data from localStorage
+  
     const token = localStorage.getItem('token');
 
     if (state.url === '/signup') {
    
       console.log(state.url)
-      // If user is already logged in, redirect to home page
+    
       if (token) {
         this.router.navigate(['/home']);
-        return false; // Block access to signup
+        return false; 
       }
     }
 
     else {
-      // If user is not logged in, redirect to signup page
+    
       if (!token) {
         this.router.navigate(['/signup']);
-        return false; // Block access to home
+        return false; 
       }
     }
 
-    return true; // Allow access to the route
+    return true; 
   }
 }
 

@@ -1,42 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Import } from 'lucide-angular';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment.prod';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  // apiUrl = 'http://localhost:3000/category'
-  
-  apiUrl1 = 'http://localhost:3000/getallcategory'
+ 
+  private apiUrl = environment.BaseUrl;
   constructor(private http:HttpClient) { }
 
-  // insertCategoryData(data:any){
-  //   return this.http.post(`http://localhost:3000/category/`,data)
-  // }
-
-
   insertCategoryData(formData: FormData){
-    // debugger;
-    console.log(formData)
-      return this.http.post(`http://localhost:3000/category/`,formData);
+      // return this.http.post(`http://localhost:3000/category/`,formData);
+      return this.http.post(`${this.apiUrl}category/`,formData)
     }
 
     GetAllCategory(): Observable<any>{
-    return this.http.get(this.apiUrl1)
+    return this.http.get(`${this.apiUrl}getallcategory`);
   }
 
   deleteCategoryById(id:number):Observable<any>{
-    return this.http.delete(`http://localhost:3000/deletecategory/${id}`);
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
-
- 
-
-  //   getAllCategory(){
-  //   return this.http.get(this.apiUrl1)
-  // }
-
-
 
 
 

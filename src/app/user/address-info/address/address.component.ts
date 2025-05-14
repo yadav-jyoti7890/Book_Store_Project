@@ -46,8 +46,7 @@ export class AddressComponent {
     });
   }
 
-
-
+  
 close() {
   this.router.navigate(['/add_cart']);  // Close overlay when clicking '✖'
 }

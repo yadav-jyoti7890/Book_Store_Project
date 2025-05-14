@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-// import { UsersService } from '../../admin-service/users.service';
+import { environment } from '../../../../environments/environment.prod';
 import { response } from 'express';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UsersService } from '../../../admin-service/users.service';
+import { UsersService } from '../user-services/users.service';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-users-list',
   standalone: true,
   imports: [FormsModule,CommonModule],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.css'
+  templateUrl: './users-list.component.html',
+  styleUrl: './users-list.component.css'
 })
-export class UsersComponent implements OnInit{
- 
-  
-  selectedRole: any = '';
-// selectedStatus: string = '';
+export class UsersListComponent implements OnInit{
+
+imageBaseUrl = environment.BaseUrl;
+selectedRole: any = '';
 searchQuery: any= '';
 
 

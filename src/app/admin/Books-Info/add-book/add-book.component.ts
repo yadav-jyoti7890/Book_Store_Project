@@ -89,26 +89,19 @@ calculateOfferPrice() {
     console.log("add book")
     console.log(this.add_book.title, this.add_book.author, this.add_book.description,
       this.add_book.price,this.selectedFile,this.selectedCategoryId,this.add_book.offer_price,this.add_book.discount_type,this.add_book.discount_value,this.add_book.stock,this.add_book.pub_date)
-
-
     if (this.selectedFile && this.add_book.title && this.add_book.author && this.add_book.price && this.add_book.description) {
       const formData = new FormData();
-      formData.append('image', this.selectedFile);  // Add the image file
+      formData.append('image', this.selectedFile);  
       formData.append('title', this.add_book.title);
       formData.append('author', this.add_book.author);
       formData.append('description', this.add_book.description);
-      formData.append('price', this.add_book.price);  // Ensure price is a string
+      formData.append('price', this.add_book.price); 
       formData.append('category_id', this.selectedCategoryId);
       formData.append('offer_price', this.add_book.offer_price.toString());
       formData.append('discount_value', this.add_book.discount_value.toString());
       formData.append('discount_type', this.add_book.discount_type);
       formData.append('stock', this.add_book.stock.toString());
       formData.append('pud_date', this.add_book.pub_date.toString());
-
-
-
-     
-      console.log(formData)
 
       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
         data: { message: `Are you sure you want to add new product the status ?` }
@@ -144,11 +137,9 @@ calculateOfferPrice() {
           );
         }
       });
-    }
-
-      // Call the service to send the form data to the backend
-   
+    }   
     } 
+
   }
 
   

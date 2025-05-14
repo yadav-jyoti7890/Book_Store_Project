@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AddCartService } from '../../add-cart-info/add-cart-services/add-cart.service';
 import { response } from 'express';
 import { DatePipe } from '@angular/common';
+import { UserOrdersDetailsService } from '../user-order-detail-services/user-orders-details.service';
 
 @Component({
   selector: 'app-my-order',
@@ -25,11 +26,11 @@ export class MyOrderComponent implements OnInit{
     this.getItems();
   }
 
-  constructor(private addCart:AddCartService){}
+  constructor(private userOrderService : UserOrdersDetailsService){}
 
 getItems(){
  this.user_id = localStorage.getItem('user_id');
-  this.addCart.getUserItems(this.user_id).subscribe((response)=>{
+  this.userOrderService.getUserItems(this.user_id).subscribe((response)=>{
   this.user_items = response.UserItems;
   this.extractUniqueOrderIds(); 
   console.log("useritems", this.user_items)
