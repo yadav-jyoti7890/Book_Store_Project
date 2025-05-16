@@ -58,6 +58,18 @@
     transition: background-color 0.2s;
   }
 
-  button:hover {
+  /* button:hover {
     background-color: #218838;
+  } */
+  small{
+    font-size: 0.8vw;
+    font-weight:500 !important;
+    color: rgba(239, 39, 39, 0.841);
+    margin-top: 0.8vw;
   }
+
+  :disabled{
+    cursor: not-allowed;
+    background-color: #555;
+  }
+  

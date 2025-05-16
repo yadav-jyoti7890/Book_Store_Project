@@ -3,11 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AddBookService } from '../product-services/add-book.service';
 import { response } from 'express';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 // import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { FormValidation } from '../../validation/form-validation';
 
 @Component({
   selector: 'app-book-update',
@@ -18,10 +19,11 @@ import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog
 })
 export class BookUpdateComponent implements OnInit {
   book_id1: any
-  books: books = new books()
+  // books: books = new books()
   image: any;
-  imagePreview: string | null | any;
-  selectedFile: File | null = null;
+  public imagePreview: string | null | any;
+  public selectedFile: File | null = null;
+  public updateForm! : FormGroup 
 
   constructor(private router: Router, private activate: ActivatedRoute, private bookservice: AddBookService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
@@ -34,15 +36,44 @@ export class BookUpdateComponent implements OnInit {
         this.getbookforupdate();
       }
     })
-  }
 
-  // update_books1 = {
-  //   title: '',
-  //   author: '',
-  //   description: '',
-  //   price: null,
-  //   image: null  // Will store the image file
-  // };
+     this.updateForm = new FormGroup({
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(10),
+      ]),
+
+      author: new FormControl('', Validators.required),
+
+      description: new FormControl('', Validators.required),
+
+      price: new FormControl('', [
+        Validators.required,
+        Validators.max(2)
+      ]),
+
+      discount_type: new FormControl('', [
+        Validators.required,
+      ]),
+
+      discount_value: new FormControl('',[ Validators.required, Validators.max(2)]),
+
+      offer_price: new FormControl(''),
+
+      category_id: new FormControl('', Validators.required),
+
+      stock: new FormControl('', [
+        Validators.required,
+        Validators.max(2)
+      ]),
+
+      image: new FormControl('', [Validators.required]),
+
+      date: new FormControl('', Validators.required),
+    });
+
+
+  }
 
 
 
@@ -70,9 +101,9 @@ export class BookUpdateComponent implements OnInit {
     }
   }
 
-  // Handle form submission and update book
+  
   update_book(event: Event) {
-    event.preventDefault();  // Prevent page reload
+    event.preventDefault(); 
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: { message: `Are you sure you want to add new product the status ?` }
@@ -85,11 +116,10 @@ export class BookUpdateComponent implements OnInit {
     formData.append('description', this.books.description || '');
     formData.append('price', this.books.price || '');
 
-    // If a new image is selected, append it, otherwise, keep the old one
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     } else {
-      formData.append('image', this.books.image || '');  // Keep the old image
+      formData.append('image', this.books.image || '');  
     }
 
     dialogRef.afterClosed().subscribe(result => {
@@ -113,26 +143,14 @@ export class BookUpdateComponent implements OnInit {
 
   }
 
-
-
-}
-
-
-export class books {
-  id: number;
-  title: string;
-  author: string;
-  description: string;
-  price: any;
-  image: string = ""
-  constructor() {
-    this.id = 0
-    this.title = "";
-    this.author = "";
-    this.description = "";
-    this.price
-    this.image = ""
+  getError(controlName: string) {
+    debugger;
+    console.log(controlName);
+    const control = this.updateForm.get(controlName);
+    return FormValidation.getErrorMessage(control!);
   }
+
 }
+
 
 

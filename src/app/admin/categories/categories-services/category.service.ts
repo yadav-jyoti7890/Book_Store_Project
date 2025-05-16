@@ -13,8 +13,7 @@ export class CategoryService {
   private apiUrl = environment.BaseUrl;
   constructor(private http:HttpClient) { }
 
-  insertCategoryData(formData: FormData){
-      // return this.http.post(`http://localhost:3000/category/`,formData);
+  insertCategory(formData: FormData){
       return this.http.post(`${this.apiUrl}category/`,formData)
     }
 

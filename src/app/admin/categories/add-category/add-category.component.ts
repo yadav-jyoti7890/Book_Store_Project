@@ -1,79 +1,95 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../categories-services/category.service';
-// import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import '@angular/compiler';
-import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { FormValidation } from '../../validation/form-validation';
 
 @Component({
   selector: 'app-add-category',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './add-category.component.html',
-  styleUrl: './add-category.component.css'
+  styleUrl: './add-category.component.css',
 })
-export class AddCategoryComponent implements OnInit{
-   
+export class AddCategoryComponent implements OnInit {
+
+  public categoryForm!: FormGroup;
+  private selectedFile: File | null = null;
+
   ngOnInit(): void {
-  
+    this.categoryForm = this.formBuilder.group({
+      category_name: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(20)
+        // Validators.pattern('^[0-9]*$')
+      ]),
+      category_description: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(10)
+      ]),
+      category_image: new FormControl('', [Validators.required]),
+    });
   }
 
-  constructor(private categoryService:CategoryService, private snackBar : MatSnackBar,private dialog: MatDialog){}
-
-  add_category = {
-    category_name: '',
-    discription: '',
-    image: null  
-  };
-
-  selectedFile: File | null = null;  
+  constructor(
+    private categoryService: CategoryService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder
+  ) {}
 
   onFileChange(event: any) {
     debugger;
-    this.selectedFile = event.target.files[0]; 
+    let file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
   }
 
+  insertCategory() {
+    if (this.categoryForm.valid) {
+      const formData = new FormData();
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile);
+      } else {
+        console.error('No file selected');
+        return;
+      }
+      formData.append(
+        'category_name',
+        this.categoryForm.get('category_name')?.value
+      );
+      formData.append(
+        'category_description',
+        this.categoryForm.get('category_description')?.value
+      );
 
-
-  addCategory(){
-    console.log("category")
-    console.log(this.add_category.category_name ,  this.add_category.discription)
-    if (this.selectedFile && this.add_category.category_name  &&  this.add_category.discription) {
-              const formData = new FormData();
-              formData.append('image', this.selectedFile);  // Add the image file
-              formData.append('category_name', this.add_category.category_name);
-              formData.append('discription', this.add_category.discription);
-              console.log(formData, "category")
-        
-              const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-                data: { message: `Are you sure you want to add new product the status ?` }
-              });
-        
-              dialogRef.afterClosed().subscribe(result => {
-                debugger
-                if (result) {
-                  debugger
-                  console.log(result)
-                  this.categoryService.insertCategoryData(formData).subscribe(
-                    (response) => {
-                      this.add_category = {
-                        category_name: '',
-                        discription: '',
-                        image: null
-                      };
-                      this.snackBar.open('product add successfully ✅ !', 'close' , {duration:3000, horizontalPosition: 'center', verticalPosition: 'top'})
-                    },
-                    (error) => {
-                      console.error('Error:', error);
-                      this.snackBar.open(' some error to add product ❌ !', 'close' , {duration:3000, horizontalPosition: 'center',  verticalPosition: 'top'})
-                    }
-                  );
-                }
-              });
+      this.categoryService.insertCategory(formData).subscribe(
+        (response) => {
+          this.categoryForm.reset();
+          alert('category added successfully');
+        },
+        (error) => {
+          alert('Error category book');
+        }
+      );
+    } else {
+    }
   }
+
+  getError(controlName: string){
+    const control = this.categoryForm.get(controlName);
+    return FormValidation.getErrorMessage(control!);
   }
 }

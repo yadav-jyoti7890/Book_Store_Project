@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { books } from '../book-update/book-update.component';
+
 import { environment } from '../../../../environments/environment.prod';
 
 @Injectable({
@@ -30,14 +30,14 @@ export class AddBookService {
   }
 
   getbookbyid(id:number): Observable<any>{
-     const url = `${this.apiUrl}getbookbyid/${id}`;
-    return this.http.get(url)
+    return this.http.get(`${this.apiUrl}getbookbyid/${id}`)
   }
 
   updateBook(bookId: string, bookData: FormData) :Observable<any>{
-    const url = `${this.apiUrl}update_books/${bookId}`;
-    return this.http.put(url, bookData)
-    // return this.http.put(`http://localhost:3000/update_books/${bookId}`, bookData);
+    // const url = `${this.apiUrl}update_books${bookId}`;
+    // return this.http.put(url, bookData)
+    console.log("update book service")
+    return this.http.put(`http://localhost:3000/update_books/${bookId}`, bookData);
   }
 
   deleteBook(id:number):Observable<any>{

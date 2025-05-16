@@ -1,25 +1,140 @@
+<!-- <div class="form">
+  <form [formGroup]="updateForm" enctype="multipart/form-data">
+    <h1>Update Books</h1>
+
+    <label for="">Enter title</label>
+    <input
+      type="text"
+      name="title"
+      placeholder="Word Power Made Easy"
+      required
+       formControlName="title"
+    />
+
+    <label for="">Enter author</label>
+    <input
+      type="text"
+      name="author"
+      placeholder="D.B. Rabada"
+      [(ngModel)]="books.author"
+      required
+       formControlName="author"
+    />
+
+    <label for="">Enter description</label>
+    <input
+      type="text"
+      name="description"
+      placeholder="Enter description"
+      [(ngModel)]="books.description"
+       formControlName="description"
+    />
+
+    <label for="">Enter price</label>
+    <input
+      type="number"
+      name="price"
+      placeholder="Enter Price"
+      [(ngModel)]="books.price"
+      required
+       formControlName="price"
+    />
+
+    <label for="">Enter image</label>
+    <input
+      type="file"
+      name="image"
+      id="image"
+      (change)="onFileChange($event)"
+       formControlName="image"
+    />
+
+    
+    <img
+      *ngIf="imagePreview"
+      [src]="imagePreview"
+      alt="Book Image"
+      height="100px"
+      width="100px"
+      formControlName="title"
+    />
+    <img
+      [src]="'http://localhost:3000/' + books.image"
+      alt="Book Image"
+      height="100px"
+      width="100px"
+    />
+    <button type="submit" (click)="update_book($event)">Update Book</button>
+  </form>
+</div> -->
+
 <div class="form">
-    <form method="POST" enctype="multipart/form-data">
-        <h1>Update Books</h1>
+  <form [formGroup]="updateForm" enctype="multipart/form-data">
+    <h1>Update Books</h1>
 
-        <label for="">Enter title</label>
-        <input type="text" name="title" placeholder="Word Power Made Easy" [(ngModel)]="books.title" required>
+    <label for="">Enter title</label>
+    <input
+      type="text"
+      name="title"
+      placeholder="Word Power Made Easy"
+      required
+       formControlName="title"
+    />
 
-        <label for="">Enter author</label>
-        <input type="text" name="author" placeholder="D.B. Rabada" [(ngModel)]="books.author" required>
+    <label for="">Enter author</label>
+    <input
+      type="text"
+      name="author"
+      placeholder="D.B. Rabada"
+      [(ngModel)]="books.author"
+      required
+       formControlName="author"
+    />
 
-        <label for="">Enter description</label>
-        <input type="text" name="description" placeholder="Enter description" [(ngModel)]="books.description">
+    <label for="">Enter description</label>
+    <input
+      type="text"
+      name="description"
+      placeholder="Enter description"
+      [(ngModel)]="books.description"
+       formControlName="description"
+    />
 
-        <label for="">Enter price</label>
-        <input type="number" name="price" placeholder="Enter Price" [(ngModel)]="books.price" required>
+    <label for="">Enter price</label>
+    <input
+      type="number"
+      name="price"
+      placeholder="Enter Price"
+      [(ngModel)]="books.price"
+      required
+       formControlName="price"
+    />
 
-        <label for="">Enter image</label>
-        <input type="file" name="image" id="image" (change)="onFileChange($event)">
+    <label for="">Enter image</label>
+    <input
+      type="file"
+      name="image"
+      id="image"
+      (change)="onFileChange($event)"
+       formControlName="image"
+    />
 
-        <!-- Display the current image -->
-        <img *ngIf="imagePreview" [src]="imagePreview" alt="Book Image" height="100px" width="100px">
-        <img  [src]="'http://localhost:3000/' + books.image" alt="Book Image" height="100px" width="100px">
-        <button type="submit" (click)="update_book($event)">Update Book</button>
-    </form>
+    
+    <img
+      *ngIf="imagePreview"
+      [src]="imagePreview"
+      alt="Book Image"
+      height="100px"
+      width="100px"
+      formControlName="title"
+    />
+    <img
+      [src]="'http://localhost:3000/' + books.image"
+      alt="Book Image"
+      height="100px"
+      width="100px"
+    />
+    <button type="submit" (click)="update_book($event)">Update Book</button>
+  </form>
 </div>
+

@@ -1,36 +1,8 @@
-<!-- <h1>ADD <span>More Book</span></h1>
-<hr>
-<div class="form">
-    <form (ngSubmit)="addBook()" method="POST" enctype="multipart/form-data">
-        <label for="">Enter title</label>
-        <input type="text" name="title" id="" placeholder="" [(ngModel)]="add_book.title">
-        <label for="">Enter author</label>
-        <input type="text" name="author" id="" placeholder="" [(ngModel)]="add_book.author">
-        <label for="">Enter description</label>
-        <textarea type="text" name="description" cols="20" rows="5" id="" placeholder=""
-            [(ngModel)]="add_book.description"> </textarea>
-        <label for="">Enter price</label>
-        <input type="number" name="price" id="" placeholder="" [(ngModel)]="add_book.price">
-        <label for="category">Select Category:</label>
-        <select id="category" name="category" class="dropdown" (change)="onCategoryChange($event)">
-            <option value="">Choose Category</option>
-            <option *ngFor="let category of data" [value]="category.category_id">
-                {{ category.category_name }}
-              </option>
-        </select>
-        <label for="">Enter image</label>
-        <input type="file" name="image" id="" placeholder="Select Image" (change)="onFileChange($event)">
-        <button type="submit">Add Book</button>
-    </form>
-
-</div> -->
-
-<div class="form_div">
+<!-- <div class="form_div">
     <h1><i class="ri-book-open-fill"></i>  ADD <span>More Book</span></h1>
     <div class="inner_div">
         <form  (ngSubmit)="addBook()" method="POST" enctype="multipart/form-data"> 
-            <!-- (ngSubmit)="addBook()" -->
-  
+           
             <div class="form-row">
              
               <input  name="title" placeholder="Enter Title"  [(ngModel)]="add_book.title"/>
@@ -61,7 +33,7 @@
            
             
             <div class="form-row">
-                <select id="category" name="category" class="dropdown" (change)="onCategoryChange($event)">
+                <select id="category" name="category" class="dropdown"  ">
                     <option value="">Choose Category</option>
                     <option *ngFor="let category of data" [value]="category.category_id">
                         {{ category.category_name }}
@@ -87,4 +59,127 @@
           </form>
     </div>
 
+</div> -->
+
+<div class="form_div">
+  <h1><i class="ri-book-open-fill"></i> ADD <span>More Book</span></h1>
+  <div class="inner_div">
+    <form [formGroup]="addProductForm" enctype="multipart/form-data">
+      <div class="form-row">
+        <div class="form-group">
+          <input
+            name="title"
+            placeholder="Enter Title"
+            formControlName="title"
+          />
+          <small class="text-danger">{{ getError("title") }}</small>
+        </div>
+
+        <div class="form-group">
+          <input
+            name="author"
+            placeholder="Enter Author"
+            formControlName="author"
+          />
+          <small class="text-danger">{{ getError("author") }}</small>
+        </div>
+      </div>
+
+      <div>
+        <textarea
+          name="description"
+          placeholder="Enter Description"
+          formControlName="description"
+        ></textarea>
+        <small class="text-danger">{{ getError('description') }}</small>
+      </div>
+
+      <div class="form-row">
+         <div class="form-group">
+          <input
+          type="number"
+          name="price"
+          placeholder="Enter MRP Price"
+          formControlName="price"
+          (ngModelChange)="calculateOfferPrice()"
+        />
+        <small class="text-danger">{{ getError('price') }}</small>
+        <select
+          name="discount_type"
+          formControlName="discount_type"
+          (ngModelChange)="calculateOfferPrice()"
+        >
+          <option value="">Select Discount Type</option>
+          <option value="percent">Percentage</option>
+          <option value="amount">Fixed Amount</option>
+        </select>
+        <small class="text-danger">{{ getError('discount_type') }}</small>
+
+        <input
+          type="number"
+          name="discount_value"
+          placeholder="Discount Value"
+          formControlName="discount_value"
+          (ngModelChange)="calculateOfferPrice()"
+        />
+        <small class="text-danger">{{ getError("discount_value") }}</small>
+
+        <input
+          type="number"
+          name="offer_price"
+          formControlName="offer_price"
+          placeholder="Offer Price"
+          readonly
+        />
+         </div>
+      </div>
+
+      <div class="form-row">
+        <select
+          id="category"
+          name="category"
+          class="dropdown"
+          formControlName="category_id"
+        >
+          <option value="">Choose Category</option>
+          <option *ngFor="let category of data" [value]="category.category_id">
+            {{ category.category_name }}
+          </option>
+        </select>
+        <small class="text-danger">{{ getError('category_id') }}</small>
+
+        <input
+          type="number"
+          name="stock"
+          placeholder="Enter Stock"
+          formControlName="stock"
+        />
+        <small class="text-danger">{{ getError('stock') }}</small>
+      </div>
+
+      <div class="form-row">
+        <input
+          type="file"
+          name="image"
+          placeholder="select image"
+          class="same"
+          (change)="onFileChange($event)"
+        />
+        <small class="text-danger">{{ getError("image") }}</small>
+
+        <input
+          type="date"
+          name="pub_date"
+          name="publication_date"
+          class="same"
+          formControlName="date"
+        />
+        <small class="text-danger">{{ getError("date") }}</small>
+      </div>
+
+      <div class="button-container">
+        <button (click)="submitProductForm()">Add Book</button>
+      </div>
+    </form>
+  </div>
 </div>

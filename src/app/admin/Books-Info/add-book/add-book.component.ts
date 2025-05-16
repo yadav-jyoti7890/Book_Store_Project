@@ -1,145 +1,169 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AddBookService } from '../product-services/add-book.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Title } from '@angular/platform-browser';
-import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
-
+import { ProductService } from '../product-services/product.service';
+import { FormValidation } from '../../validation/form-validation';
 
 @Component({
   selector: 'app-add-book',
   standalone: true,
-  imports: [RouterLink,FormsModule,CommonModule],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule],
   templateUrl: './add-book.component.html',
-  styleUrl: './add-book.component.css'
+  styleUrl: './add-book.component.css',
 })
-export class AddBookComponent implements OnInit{
-  data:any;
+export class AddBookComponent implements OnInit {
+  data: any;
 
-  add_book = {
-    title: '',
-    author: '',
-    description: '',
-    image: null,  
-    category_name:'',
-    price: null,
-    offer_price:0,
-    discount_type: '',
-    discount_value:0,
-    stock:0,
-    pub_date : Date
-  };
+  selectedFile: File | null = null;
+  addProductForm!: FormGroup;
 
-  selectedFile: File | null = null;  // To store the selected file
-  selectedCategoryId: any;
-
-  constructor(private bookService: AddBookService,private dialog: MatDialog,private snackBar:MatSnackBar) {}
   ngOnInit(): void {
     this.getcategory();
+
+    this.addProductForm = new FormGroup({
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(10),
+      ]),
+
+      author: new FormControl('', Validators.required),
+
+      description: new FormControl('', Validators.required),
+
+      price: new FormControl('', [
+        Validators.required,
+        Validators.max(2)
+      ]),
+
+      discount_type: new FormControl('', [
+        Validators.required,
+      ]),
+
+      discount_value: new FormControl('',[ Validators.required, Validators.max(2)]),
+
+      offer_price: new FormControl(''),
+
+      category_id: new FormControl('', Validators.required),
+
+      stock: new FormControl('', [
+        Validators.required,
+        Validators.max(2)
+      ]),
+
+      image: new FormControl('', [Validators.required]),
+
+      date: new FormControl('', Validators.required),
+    });
   }
 
-  getcategory(){
-    console.log("category aa gai")
-    this.bookService.getCategory().subscribe((response)=>{
-      this.data = response.categoryData;
-      console.log(this.data)
-    },(error)=>{})
+  constructor(
+    private bookService: AddBookService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
+    private productService: ProductService
+  ) {}
+
+  getcategory() {
+    console.log('category aa gai');
+    this.bookService.getCategory().subscribe(
+      (response) => {
+        this.data = response.categoryData;
+        console.log(this.data);
+      },
+      (error) => {}
+    );
   }
- 
 
- 
-
-  
-  // Handle file change event
   onFileChange(event: any) {
-    this.selectedFile = event.target.files[0];  // Get the first file
+    debugger;
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
   }
 
- 
+  calculateOfferPrice() {
+    let { price, discount_type, discount_value } = this.addProductForm.value;
 
-  onCategoryChange(event: any) {
-    this.selectedCategoryId = event.target.value;
-    console.log("Selected Category ID:", this.selectedCategoryId);
+    console.log(price, discount_type, discount_value);
+    let offer_price;
+
+    if (discount_type === 'amount') {
+      offer_price = price - discount_value;
+      this.addProductForm.get('offer_price')?.setValue(offer_price);
+    } else if (discount_type === 'percent') {
+      this.addProductForm
+        .get('offer_price')
+        ?.setValue(price - (price * discount_value) / 100);
+    } else {
+      this.addProductForm.get('offer_price')?.setValue(price);
+    }
   }
 
-calculateOfferPrice() {
-  const { price, discount_type, discount_value } = this.add_book;
+  submitProductForm() {
+    if (this.addProductForm.valid) {
+      const formData = new FormData();
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile);
+      } else {
+        console.error('No file selected');
+        return;
+      }
+      formData.append('title', this.addProductForm.get('title')?.value);
+      formData.append('author', this.addProductForm.get('author')?.value);
+      formData.append(
+        'description',
+        this.addProductForm.get('description')?.value
+      );
+      formData.append('price', this.addProductForm.get('price')?.value);
+      formData.append(
+        'discount_type',
+        this.addProductForm.get('discount_type')?.value
+      );
+      formData.append(
+        'discount_value',
+        this.addProductForm.get('discount_value')?.value
+      );
+      formData.append(
+        'offer_price',
+        this.addProductForm.get('offer_price')?.value
+      );
+      formData.append(
+        'category_id',
+        this.addProductForm.get('category_id')?.value
+      );
+      formData.append('stock', this.addProductForm.get('stock')?.value);
+      formData.append('date', this.addProductForm.get('date')?.value);
 
-  if (!price || !discount_type || !discount_value) {
-    this.add_book.offer_price = 0;
-    return;
+      this.productService.insertBook(formData).subscribe(
+        (response) => {
+          this.addProductForm.reset();
+          alert('Book added successfully');
+        },
+        (error) => {
+          alert('Error adding book');
+        }
+      );
+    } else {
+    }
   }
 
-  if (discount_type === 'amount') {
-    this.add_book.offer_price = price - discount_value;
-  } else if (discount_type === 'percent') {
-    this.add_book.offer_price = price - (price * discount_value) / 100;
-  } else {
-    this.add_book.offer_price = price; // default
+  getError(controlName: string) {
+    debugger;
+    console.log(controlName);
+    const control = this.addProductForm.get(controlName);
+    return FormValidation.getErrorMessage(control!);
   }
 }
-
-
-  
-  addBook() {
-    console.log("add book")
-    console.log(this.add_book.title, this.add_book.author, this.add_book.description,
-      this.add_book.price,this.selectedFile,this.selectedCategoryId,this.add_book.offer_price,this.add_book.discount_type,this.add_book.discount_value,this.add_book.stock,this.add_book.pub_date)
-    if (this.selectedFile && this.add_book.title && this.add_book.author && this.add_book.price && this.add_book.description) {
-      const formData = new FormData();
-      formData.append('image', this.selectedFile);  
-      formData.append('title', this.add_book.title);
-      formData.append('author', this.add_book.author);
-      formData.append('description', this.add_book.description);
-      formData.append('price', this.add_book.price); 
-      formData.append('category_id', this.selectedCategoryId);
-      formData.append('offer_price', this.add_book.offer_price.toString());
-      formData.append('discount_value', this.add_book.discount_value.toString());
-      formData.append('discount_type', this.add_book.discount_type);
-      formData.append('stock', this.add_book.stock.toString());
-      formData.append('pud_date', this.add_book.pub_date.toString());
-
-      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        data: { message: `Are you sure you want to add new product the status ?` }
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        debugger
-        if (result) {
-          debugger
-          console.log(result)
-          this.bookService.submitbook(formData).subscribe(
-            (response: any) => {
-              this.add_book = {
-                title: '',
-                author: '',
-                description: '',
-                image: null,  
-                category_name:'',
-                price: null,
-                offer_price:0,
-                discount_type: '',
-                discount_value:0,
-                stock:0,
-                pub_date : Date
-              };
-              this.snackBar.open('product add successfully ✅ !', 'close' , {duration:3000, horizontalPosition: 'center', verticalPosition: 'top'})
-            },
-            (error) => {
-              console.error('Error:', error);
-              this.snackBar.open(' some error to add product ❌ !', 'close' , {duration:3000, horizontalPosition: 'center',  verticalPosition: 'top'})
-
-            }
-          );
-        }
-      });
-    }   
-    } 
-
-  }
-
-  
