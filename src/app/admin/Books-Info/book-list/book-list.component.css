@@ -5,29 +5,32 @@
     padding: 2vw;
     border-bottom: #dadada;
     color: #ffffff;
-  
 }
 table{
     width: 100%;
+    padding: 2vw !important;
     margin: 1vw 0vw;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
 }
 table th{
+  padding: 2vw !important;
     border-bottom: 1px solid #dadada3e;
     padding: 1vw 0vw;
     font-family: neue-bold;
     text-transform: capitalize;
-    /* text-align: center; */
 }
 table td{
-    
     font-family: neue-light;   
 }
-table tr{
-   
+
+tr:hover{
+  background-color: rgba(119, 136, 153, 0.068);
+}
+
+table tr{ 
     margin-top: 1vw 0vw;
 }
+
 .order_list{
     margin: 1vw 0vw;
     font-size: 1.5vw;

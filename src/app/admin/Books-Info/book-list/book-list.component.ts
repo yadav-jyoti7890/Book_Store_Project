@@ -33,7 +33,7 @@ export class BookListComponent implements OnInit, AfterViewInit{
   currentPage = 1;  
   receive_books: any;
   dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['SN', 'title', 'author', 'description','price','category','image','action'];
+  displayedColumns: string[] = ['SN', 'title', 'author', 'description','price','discount-type','discount-value','offer-price','category', 'image','action'];
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   constructor(private router:Router,private bookservice:AddBookService,private http:HttpClient,private dialog:MatDialog,private snackBar:MatSnackBar){}

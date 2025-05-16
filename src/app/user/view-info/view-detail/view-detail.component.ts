@@ -4,7 +4,6 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 import { ViewDetailService } from '../view-services/view-detail.service';
 import { response } from 'express';
-import { books } from '../../../admin/Books-Info/book-update/book-update.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

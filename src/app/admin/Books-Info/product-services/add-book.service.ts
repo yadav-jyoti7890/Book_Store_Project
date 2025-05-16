@@ -29,16 +29,9 @@ export class AddBookService {
     return this.http.get(url);
   }
 
-  getbookbyid(id:number): Observable<any>{
-    return this.http.get(`${this.apiUrl}getbookbyid/${id}`)
-  }
 
-  updateBook(bookId: string, bookData: FormData) :Observable<any>{
-    // const url = `${this.apiUrl}update_books${bookId}`;
-    // return this.http.put(url, bookData)
-    console.log("update book service")
-    return this.http.put(`http://localhost:3000/update_books/${bookId}`, bookData);
-  }
+
+
 
   deleteBook(id:number):Observable<any>{
    return this.http.delete(`${this.apiUrl}/${id}`);

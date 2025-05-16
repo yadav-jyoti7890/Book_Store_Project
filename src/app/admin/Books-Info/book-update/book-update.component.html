@@ -68,73 +68,127 @@
   </form>
 </div> -->
 
-<div class="form">
-  <form [formGroup]="updateForm" enctype="multipart/form-data">
-    <h1>Update Books</h1>
+<div class="form_div">
+  <h1><i class="ri-book-open-fill"></i> Update <span>More Book</span></h1>
+  <div class="inner_div">
+    <form [formGroup]="updateForm" enctype="multipart/form-data">
+      <div class="form-row">
+        <div class="form-group">
+          <input
+            name="title"
+            placeholder=""
+            formControlName="title"
 
-    <label for="">Enter title</label>
-    <input
-      type="text"
-      name="title"
-      placeholder="Word Power Made Easy"
-      required
-       formControlName="title"
-    />
+          />
+          <small class="text-danger">{{ getError("title") }}</small>
+        </div>
 
-    <label for="">Enter author</label>
-    <input
-      type="text"
-      name="author"
-      placeholder="D.B. Rabada"
-      [(ngModel)]="books.author"
-      required
-       formControlName="author"
-    />
+        <div class="form-group">
+          <input
+            name="author"
+            placeholder="Enter Author"
+            formControlName="author"
+          />
+          <small class="text-danger">{{ getError("author") }}</small>
+        </div>
+      </div>
 
-    <label for="">Enter description</label>
-    <input
-      type="text"
-      name="description"
-      placeholder="Enter description"
-      [(ngModel)]="books.description"
-       formControlName="description"
-    />
+      <div>
+        <textarea
+          name="description"
+          placeholder="Enter Description"
+          formControlName="description"
+        ></textarea>
+        <small class="text-danger">{{ getError('description') }}</small>
+      </div>
 
-    <label for="">Enter price</label>
-    <input
-      type="number"
-      name="price"
-      placeholder="Enter Price"
-      [(ngModel)]="books.price"
-      required
-       formControlName="price"
-    />
+      <div class="form-row">
+         <div class="form-group">
+          <input
+          type="number"
+          name="price"
+          placeholder="Enter MRP Price"
+          formControlName="price"
+        
+        />
+        <small class="text-danger">{{ getError('price') }}</small>
+        <select
+          name="discount_type"
+          formControlName="discount_type"
+        
+        >
+          <option value="">Select Discount Type</option>
+          <option value="percent">Percentage</option>
+          <option value="amount">Fixed Amount</option>
+        </select>
+        <small class="text-danger">{{ getError('discount_type') }}</small>
 
-    <label for="">Enter image</label>
-    <input
-      type="file"
-      name="image"
-      id="image"
-      (change)="onFileChange($event)"
-       formControlName="image"
-    />
+        <input
+          type="number"
+          name="discount_value"
+          placeholder="Discount Value"
+          formControlName="discount_value"
+        
+        />
+        <small class="text-danger">{{ getError("discount_value") }}</small>
 
-    
-    <img
-      *ngIf="imagePreview"
-      [src]="imagePreview"
-      alt="Book Image"
-      height="100px"
-      width="100px"
-      formControlName="title"
-    />
-    <img
-      [src]="'http://localhost:3000/' + books.image"
-      alt="Book Image"
-      height="100px"
-      width="100px"
-    />
-    <button type="submit" (click)="update_book($event)">Update Book</button>
-  </form>
+        <input
+          type="number"
+          name="offer_price"
+          formControlName="offer_price"
+          placeholder="Offer Price"
+          readonly
+           formControlName="offer_price"
+        />
+         </div>
+      </div>
+
+      <div class="form-row">
+        <select
+          id="category"
+          name="category"
+          class="dropdown"
+          formControlName="category_id"
+        >
+          <option value="">Choose Category</option>
+          <option *ngFor="let category of data" [value]="category.category_id">
+            {{ category.category_name }}
+          </option>
+        </select>
+        <small class="text-danger">{{ getError('category_id') }}</small>
+
+        <input
+          type="number"
+          name="stock"
+          placeholder="Enter Stock"
+          formControlName="stock"
+        />
+        <small class="text-danger">{{ getError('stock') }}</small>
+      </div>
+
+      <div class="form-row">
+        <input
+          type="file"
+          name="image"
+          placeholder="select image"
+          class="same"
+          (change)="onFileChange($event)"
+        />
+        <small class="text-danger">{{ getError("image") }}</small>
+
+        <input
+          type="date"
+          name="pub_date"
+          name="publication_date"
+          class="same"
+          formControlName="date"
+        />
+        <small class="text-danger">{{ getError("date") }}</small>
+      </div>
+
+      <div class="button-container">
+        <button (click)="updateProduct()">Add Book</button>
+      </div>
+    </form>
+  </div>
 </div>
-

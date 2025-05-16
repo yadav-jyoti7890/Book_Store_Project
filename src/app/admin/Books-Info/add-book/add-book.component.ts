@@ -77,7 +77,7 @@ export class AddBookComponent implements OnInit {
 
   getcategory() {
     console.log('category aa gai');
-    this.bookService.getCategory().subscribe(
+    this.productService.getCategory().subscribe(
       (response) => {
         this.data = response.categoryData;
         console.log(this.data);
