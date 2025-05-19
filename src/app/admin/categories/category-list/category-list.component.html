@@ -34,13 +34,12 @@
                 <td>{{ categoryItem.category_name }}</td>
                 <td>{{ categoryItem.discription }}</td>
                 <td>
-                    <img [src]="categoryItem.image ? imageBaseUrl + categoryItem.image : ''" 
-                         alt="Book image" 
-                         class="category-image" />
-                </td>
+                   
+                </td> <img [src]="categoryItem.image ? imageBaseUrl + categoryItem.image : ''" 
+                         alt="Book image" class="category-image" />
               
                 <td>
-                    <button class="edit-btn"><i class="ri-edit-box-fill"></i> Edit</button>
+                    <button class="edit-btn" [routerLink]="['../update-category',categoryItem.category_id]"><i class="ri-edit-box-fill"></i> Edit</button>
                     <button class="delete-btn" (click)="deleteCategory(categoryItem.category_id)"><i class="ri-delete-bin-fill"></i> Delete</button>
                 </td>
             </tr>

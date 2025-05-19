@@ -26,6 +26,7 @@ import { CompanyInfoListComponent } from './admin/company-info/companyinfo-list/
 import { OrdersDetailListComponent } from './admin/orders/orders-details-list/orders-detail-list';
 import { UsersListComponent } from './admin/users-info/users-list/users-list.component';
 import { ContactComponent } from './admin/contact-info/contact/contact.component';
+import { UpdateCategoryComponent } from './admin/categories/update-category/update-category.component';
 
 export const routes: Routes = [
  { path: 'home', component: HomeComponent},
@@ -47,8 +48,8 @@ export const routes: Routes = [
       { path: 'category', component: AddCategoryComponent, canActivate: [AuthGuard]},
       { path: 'category_list', component:CategoryListComponent, canActivate: [AuthGuard] },
       {path: 'addCompany-info', component: AddCompanyInfoComponent, canActivate: [AuthGuard]},
-      {path: 'companyinfo-list', component: CompanyInfoListComponent, canActivate: [AuthGuard]}
-
+      {path: 'companyinfo-list', component: CompanyInfoListComponent, canActivate: [AuthGuard]},
+      {path: 'update-category/:id', component: UpdateCategoryComponent, canActivate: [AuthGuard]}
     ],
   },
 

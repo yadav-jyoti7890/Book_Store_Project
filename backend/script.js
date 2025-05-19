@@ -6,7 +6,7 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
-const { log } = require("console");
+// const { log } = require("console");
 const router = express.Router();
 
 const JWT_SECRET = "email@gmail";
@@ -356,7 +356,7 @@ express1.get("/api/data", (req, res) => {
 //===== admin side code here ======//
 
 express1.post("/add-books", upload.single("image"), function (req, res) {
-  console.log("add_book route access")
+  console.log("add_book route access");
   const {
     title,
     author,
@@ -368,34 +368,43 @@ express1.post("/add-books", upload.single("image"), function (req, res) {
     discount_value,
     stock,
     date,
-   
   } = req.body;
 
- 
-
-  const imagePath = req.file ? req.file.path : null; 
+  const imagePath = req.file ? req.file.path : null;
 
   console.log(
-    "title",title,
-     "author", author,
-    "description", description,
-    "price", price,
-    "imagePath", imagePath,
-    "category_id", category_id,
-    " offer_price", offer_price,
-    "discount_type", discount_type,
-    "discount_value", discount_value,
-    "stock", stock,
-    "date", date
+    "title",
+    title,
+    "author",
+    author,
+    "description",
+    description,
+    "price",
+    price,
+    "imagePath",
+    imagePath,
+    "category_id",
+    category_id,
+    " offer_price",
+    offer_price,
+    "discount_type",
+    discount_type,
+    "discount_value",
+    discount_value,
+    "stock",
+    stock,
+    "date",
+    date
   );
 
   if (!imagePath) {
     return res.status(400).json({ message: "Image file is required" });
   }
 
-  let sql = "INSERT INTO product (title, author, description, price, image, category_id, offer_price, discount_type, discount_value, stock_quantity, publication_date	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
-  
-   db_connection.query(
+  let sql =
+    "INSERT INTO product (title, author, description, price, image, category_id, offer_price, discount_type, discount_value, stock_quantity, publication_date	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+
+  db_connection.query(
     sql,
     [
       title,
@@ -410,7 +419,7 @@ express1.post("/add-books", upload.single("image"), function (req, res) {
       stock,
       date,
     ],
-   
+
     function (err, result) {
       if (err) {
         return res.status(500).json({ message: "Server error" });
@@ -553,7 +562,7 @@ express1.get("/countAllcontact", function (req, res) {
 });
 
 express1.get("/getallbookinadminpanel", function (req, res) {
-  let sql = "SELECT * FROM add_books";
+  let sql = "SELECT * FROM product";
   db_connection.query(sql, function (err, result) {
     if (err) {
       res.status(500).send({ message: "server error" });
@@ -625,30 +634,77 @@ express1.get("/getbookbyid/:id", function (req, res) {
   });
 });
 
+express1.get("/getCategoryById/:id", function (req, res) {
+  let id = req.params.id;
+  let sql = "SELECT * FROM category WHERE category_id = ?";
+  db_connection.query(sql, [id], function (err, result) {
+    if (err) {
+      return res.status(500).send({ message: "server error" });
+    } else {
+      return res.status(200).send({ status: 200, categoryData: result[0] });
+    }
+  });
+});
+
 //update book by id
 express1.put("/update_books/:id", upload.single("image"), (req, res) => {
-  console.log("update books")
-  const { title, author, description, price } = req.body;
+  console.log("update books");
+  const {
+    title,
+    author,
+    description,
+    price,
+    category_id,
+    offer_price,
+    discount_type,
+    discount_value,
+    stock,
+    date,
+  } = req.body;
   const bookId = req.params.id;
-  console.log(title, author, description, price, bookId);
-
-  let image = req.file ? req.file.filename : req.body.image; // Use new image if uploaded, else use old image
-  console.log(image);
-  const sql = `UPDATE product SET title=?, author=?, description=?, price=?, image=? WHERE product_id=?`;
-  console.log(sql);
-  db_connection.query(
-    sql,
-    [title, author, description, price, image, bookId],
-    (err, result) => {
-      console.log(sql);
-      if (err) {
-        console.error("Error updating book:", err);
-        return res.status(500).json({ error: "Database error" });
-      }
-      console.log(result);
-      res.json({ message: "Book updated successfully", data: result });
-    }
+  console.log(
+    "title=>", title,
+     "author=>", author,
+    "description=>", description,
+     "price=>", price,
+    "bookid=>", bookId,
+     "categoryid=>", category_id,
+     "offer_price=>", offer_price,
+     "discount_type=>", discount_type,
+      "discount_value=>",discount_value,
+     "stock_quantity=>",stock,
+     "publication date=>",date
   );
+
+  let image = req.file ? req.file.path : null;
+  console.log(image);
+  const sql = `UPDATE product SET title=?, author=?, description=?, price=?, image=?,  category_id =?, offer_price=?, discount_type=?, discount_value=?, stock_quantity=?,  publication_date=?  WHERE product_id=?`;
+  // console.log(sql);
+ db_connection.query(
+  sql,
+  [
+    title,
+    author,
+    description,
+    price,
+    image,
+    category_id,
+    offer_price,
+    discount_type,
+    discount_value,
+    stock,
+    date,
+    bookId  // ✅ bookId moved to the last position
+  ],
+  (err, result) => {
+    if (err) {
+      console.error("Error updating book:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json({ message: "Book updated successfully", data: result });
+  }
+);
+
 });
 
 express1.post("/confirm_order", (req, res) => {
@@ -830,15 +886,13 @@ express1.delete("/users_Delete/:id", function (req, res) {
   });
 });
 
-express1.delete("/books_Delete/:id", function (req, res) {
-  const { id } = req.params; // Correctly extracting 'id' from URL parameters
-  // console.log(id, "books id");
+express1.delete("/deleteBooks/:id", function (req, res) {
+  const { id } = req.params;
 
-  let sql = `update product set is_deleted = TRUE where product_id = ?`; // Correct SQL query
+  let sql = `update product set is_deleted = TRUE where product_id = ?`;
 
   db_connection.query(sql, [id], function (err, result) {
     if (err) {
-      // console.error(err);
       return res.status(500).json({ message: "Error deleting user" });
     }
 
@@ -1094,21 +1148,19 @@ express1.get("/getOderDetail/:order_id", function (req, res) {
   });
 });
 
-// category
 express1.post("/category", upload.single("image"), function (req, res) {
-  const { category_name, discription } = req.body;
-  const imagePath = req.file ? req.file.path : null; // Check if file was uploaded
-  // console.log(category_name, discription, imagePath)
+  const { category_name, description } = req.body;
+  const imagePath = req.file ? req.file.path : null;
 
   if (!imagePath) {
     return res.status(400).json({ message: "Image file is required" });
   }
 
   let sql =
-    "INSERT INTO category (category_name, discription, image) VALUES (?, ?, ?)";
+    "INSERT INTO category (category_name, description, image) VALUES (?, ?, ?)";
   db_connection.query(
     sql,
-    [category_name, discription, imagePath],
+    [category_name, description, imagePath],
     function (err, result) {
       if (err) {
         console.error("Database error: ", err);
@@ -1148,20 +1200,51 @@ express1.get("/getallcategory", function (req, res) {
   });
 });
 
-express1.delete("/deletecategory/:id", function (req, res) {
+express1.delete("/deleteCategory/:id", function (req, res) {
   let id = req.params.id;
-  console.log("category_id", id);
+  console.log(id);
   let sql = "DELETE FROM category WHERE category_id = ?";
   db_connection.query(sql, [id], function (err, result) {
+    console.log(err);
     if (err) return res.status(500).send({ message: "server error" });
+    console.log(result);
     return res.status(200).send({ message: "delete", data: result });
   });
 });
 
+express1.put("/updateCategory/:id", upload.single("image"), (req, res) => {
+  console.log("update category");
+  const {
+   category_name, category_description} = req.body;
+  const category_id = req.params.id;
+  console.log(
+    "category_name => ", category_name,
+    "category_description =>", category_description,
+  );
+
+  let image = req.file ? req.file.path : null;
+
+  console.log(image);
+  const sql = `UPDATE category SET category_name=?, description=?, image=?  WHERE category_id=?`;
+  // console.log(sql);
+ db_connection.query(
+  sql,
+  [
+      category_name, category_description, image, category_id
+  ],
+  (err, result) => {
+    if (err) {
+      console.error("Error updating book:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json({ message: "Book updated successfully", data: result });
+  }
+);
+
+});
+
 express1.get("/getallproduct", function (req, res) {
-  // console.log("user1")
   let sql = "SELECT * FROM product";
-  // console.log("user2", sql)
 
   db_connection.query(sql, function (error, result) {
     if (error) {

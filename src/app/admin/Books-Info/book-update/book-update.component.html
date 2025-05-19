@@ -80,7 +80,7 @@
             formControlName="title"
 
           />
-          <small class="text-danger">{{ getError("title") }}</small>
+          <!-- <small class="text-danger">{{ getError("title") }}</small> -->
         </div>
 
         <div class="form-group">
@@ -89,7 +89,7 @@
             placeholder="Enter Author"
             formControlName="author"
           />
-          <small class="text-danger">{{ getError("author") }}</small>
+          <!-- <small class="text-danger">{{ getError("author") }}</small> -->
         </div>
       </div>
 
@@ -99,7 +99,7 @@
           placeholder="Enter Description"
           formControlName="description"
         ></textarea>
-        <small class="text-danger">{{ getError('description') }}</small>
+        <!-- <small class="text-danger">{{ getError('description') }}</small> -->
       </div>
 
       <div class="form-row">
@@ -109,19 +109,19 @@
           name="price"
           placeholder="Enter MRP Price"
           formControlName="price"
-        
         />
-        <small class="text-danger">{{ getError('price') }}</small>
+
+        <!-- <small class="text-danger">{{ getError('price') }}</small> -->
         <select
           name="discount_type"
-          formControlName="discount_type"
-        
+          formControlName="discount_type" 
         >
           <option value="">Select Discount Type</option>
           <option value="percent">Percentage</option>
           <option value="amount">Fixed Amount</option>
         </select>
-        <small class="text-danger">{{ getError('discount_type') }}</small>
+
+        <!-- <small class="text-danger">{{ getError('discount_type') }}</small> -->
 
         <input
           type="number"
@@ -130,7 +130,7 @@
           formControlName="discount_value"
         
         />
-        <small class="text-danger">{{ getError("discount_value") }}</small>
+        <!-- <small class="text-danger">{{ getError("discount_value") }}</small> -->
 
         <input
           type="number"
@@ -155,7 +155,7 @@
             {{ category.category_name }}
           </option>
         </select>
-        <small class="text-danger">{{ getError('category_id') }}</small>
+        <!-- <small class="text-danger">{{ getError('category_id') }}</small> -->
 
         <input
           type="number"
@@ -163,7 +163,7 @@
           placeholder="Enter Stock"
           formControlName="stock"
         />
-        <small class="text-danger">{{ getError('stock') }}</small>
+        <!-- <small class="text-danger">{{ getError('stock') }}</small> -->
       </div>
 
       <div class="form-row">
@@ -173,18 +173,28 @@
           placeholder="select image"
           class="same"
           (change)="onFileChange($event)"
+           formControlName="image"
         />
-        <small class="text-danger">{{ getError("image") }}</small>
+        <!-- <small class="text-danger">{{ getError("image") }}</small> -->
 
         <input
           type="date"
           name="pub_date"
-          name="publication_date"
+          placeholder="publication_date"
           class="same"
           formControlName="date"
         />
-        <small class="text-danger">{{ getError("date") }}</small>
+        <!-- <small class="text-danger">{{ getError("date") }}</small> -->
       </div>
+
+      <img
+      [src]="product?.image ? imageBaseUrl + product.image : ''"
+      alt="category-image"
+      class="category-image"
+      height="100px"
+      width="100px"
+      style="border-radius: 10px; object-fit: contain;"
+    />
 
       <div class="button-container">
         <button (click)="updateProduct()">Add Book</button>

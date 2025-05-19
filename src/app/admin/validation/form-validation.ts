@@ -26,7 +26,7 @@ export class FormValidation {
     }
 
 
-    if (errors['max']) {
+    if (errors['min']) {
       return `Maximum allowed value is ${errors['max'].max}`;
      }
     return 'Invalid field.';

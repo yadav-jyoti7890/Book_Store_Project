@@ -164,6 +164,7 @@
           placeholder="select image"
           class="same"
           (change)="onFileChange($event)"
+          formControlName="image"
         />
         <small class="text-danger">{{ getError("image") }}</small>
 
@@ -178,7 +179,7 @@
       </div>
 
       <div class="button-container">
-        <button (click)="submitProductForm()">Add Book</button>
+        <button (click)="submitProductForm()" [disabled]="addProductForm.invalid">Add Book</button>
       </div>
     </form>
   </div>

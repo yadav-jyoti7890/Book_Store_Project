@@ -20,19 +20,29 @@ export class ProductService {
     }
 
 
-    updateBook(bookId: string, bookData: FormData) :Observable<any>{
-    // const url = `${this.apiUrl}update_books${bookId}`;
-    // return this.http.put(url, bookData)
+  updateBook(formdata: FormData) :Observable<any>{
+    let bookId = Number(formdata.get('productId'))
     console.log("update book service")
-    return this.http.put(`http://localhost:3000/update_books/${bookId}`, bookData);
+    return this.http.put(`http://localhost:3000/update_books/${bookId}`, formdata);
+    // return this.http.put(`${this.apiUrl}update_books/`,formdata)
   }
 
    getCategory(): Observable<any>{
     return this.http.get(`${this.apiUrl}getcategory`);
   }
 
-    getbookbyid(id:number): Observable<any>{
+    getProductById(id:number): Observable<any>{
     return this.http.get(`${this.apiUrl}getbookbyid/${id}`)
+  }
+
+    deleteBook(id:number):Observable<any>{
+   return this.http.delete(`${this.apiUrl}deleteBooks/${id}`);
+
+  }
+
+    getAllproduct(): Observable<any>{
+    const url = this.apiUrl + 'getallbookinadminpanel';
+    return this.http.get(url);
   }
 }
 

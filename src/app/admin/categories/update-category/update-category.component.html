@@ -1,0 +1,45 @@
+<header>
+  <h1>Category Management</h1>
+</header>
+
+<section class="category-form">
+  <h2>Update Category</h2>
+
+  <form [formGroup]="updateCategoryForm" enctype="multipart/form-data">
+    <div class="form-group">
+      <label>Category Name <span class="required">*</span></label>
+      <input
+        type="text"
+        placeholder="Enter category name"
+        name="category_name"
+        required
+        formControlName="category_name"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea
+        placeholder="Enter category description"
+        name="Category_dis"
+        formControlName="category_description"
+      ></textarea>
+    </div>
+
+    <img
+      [src]="categoryData?.image ? imageBaseUrl + categoryData.image : ''"
+      alt="category-image"
+      class="category-image"
+      height="100px"
+      width="100px"
+      style="border-radius: 10px; object-fit: contain;"
+    />
+
+    <div class="form-group">
+      <label>Upload Image</label>
+      <input type="file" name="file" formControlName="category_image" (change)="onFileChange($event)" />
+    </div>
+
+    <button type="submit" (click)="updateCategory()"  class="save-btn">Save Category</button>
+  </form>
+</section>

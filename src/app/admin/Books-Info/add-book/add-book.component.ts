@@ -23,10 +23,9 @@ import { FormValidation } from '../../validation/form-validation';
   styleUrl: './add-book.component.css',
 })
 export class AddBookComponent implements OnInit {
-  data: any;
-
-  selectedFile: File | null = null;
-  addProductForm!: FormGroup;
+  public data: any;
+  public selectedFile!: File 
+  public addProductForm!: FormGroup;
 
   ngOnInit(): void {
     this.getcategory();
@@ -34,7 +33,7 @@ export class AddBookComponent implements OnInit {
     this.addProductForm = new FormGroup({
       title: new FormControl('', [
         Validators.required,
-        Validators.maxLength(10),
+        Validators.maxLength(20),
       ]),
 
       author: new FormControl('', Validators.required),
@@ -43,14 +42,14 @@ export class AddBookComponent implements OnInit {
 
       price: new FormControl('', [
         Validators.required,
-        Validators.max(2)
+        Validators.min(5)
       ]),
 
       discount_type: new FormControl('', [
         Validators.required,
       ]),
 
-      discount_value: new FormControl('',[ Validators.required, Validators.max(2)]),
+      discount_value: new FormControl('',[ Validators.required, Validators.min(5)]),
 
       offer_price: new FormControl(''),
 
@@ -58,7 +57,7 @@ export class AddBookComponent implements OnInit {
 
       stock: new FormControl('', [
         Validators.required,
-        Validators.max(2)
+        Validators.min(5)
       ]),
 
       image: new FormControl('', [Validators.required]),
@@ -87,11 +86,11 @@ export class AddBookComponent implements OnInit {
   }
 
   onFileChange(event: any) {
-    debugger;
-    const file = event.target.files[0];
+    let file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
     }
+    console.log(this.selectedFile)
   }
 
   calculateOfferPrice() {
@@ -113,6 +112,7 @@ export class AddBookComponent implements OnInit {
   }
 
   submitProductForm() {
+    console.log(this.addProductForm.value)
     if (this.addProductForm.valid) {
       const formData = new FormData();
       if (this.selectedFile) {
@@ -161,7 +161,6 @@ export class AddBookComponent implements OnInit {
   }
 
   getError(controlName: string) {
-    debugger;
     console.log(controlName);
     const control = this.addProductForm.get(controlName);
     return FormValidation.getErrorMessage(control!);

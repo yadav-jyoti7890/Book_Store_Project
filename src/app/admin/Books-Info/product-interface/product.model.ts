@@ -7,8 +7,9 @@ export interface product{
     discount_value : number,
     offer_price : number,
     category_id :number,
-    stock : number,
+    stock_quantity : number,
+    sold_quantity : number,
     image : string,
-    date : Date
+    publication_date : Date
 }
 

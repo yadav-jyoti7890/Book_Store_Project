@@ -24,19 +24,13 @@ export class AddBookService {
     return this.http.post(url,formData);
   }
 
-  getallbooks(): Observable<any>{
-    const url = this.apiUrl + 'getallbookinadminpanel';
-    return this.http.get(url);
-  }
 
 
 
 
 
-  deleteBook(id:number):Observable<any>{
-   return this.http.delete(`${this.apiUrl}/${id}`);
 
-  }
+
 
   getCategory(): Observable<any>{
     return this.http.get(`${this.apiUrl}getcategory`);

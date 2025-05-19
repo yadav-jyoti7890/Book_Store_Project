@@ -18,6 +18,7 @@ import { FormValidation } from '../../validation/form-validation';
 import { ProductService } from '../product-services/product.service';
 import { product } from '../product-interface/product.model';
 import { Title } from '@angular/platform-browser';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-book-update',
@@ -27,29 +28,26 @@ import { Title } from '@angular/platform-browser';
   styleUrl: './book-update.component.css',
 })
 export class BookUpdateComponent implements OnInit {
-  book_id1: any;
-  // books: books = new books()
-  image: any;
+  public productId! : number
   public imagePreview: string | null | any;
   public selectedFile: File | null = null;
   public updateForm!: FormGroup;
   public data: any;
   public product!: product;
+  public imageBaseUrl = environment.BaseUrl;
 
   constructor(
     private activate: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getcategory();
-    this.activate.paramMap.subscribe((paramp) => {
-      const book_id = paramp.get('id');
-      console.log(book_id, 'book_id');
-      if (book_id) {
-        this.book_id1 = parseInt(book_id);
-        this.getbookforupdate();
-      }
+    this.getCategory();
+  
+     this.activate.paramMap.subscribe((paramp) => {
+     this.productId = Number(paramp.get('id'));
+       this.getProductBy();
     });
 
     this.updateForm = new FormGroup({
@@ -83,9 +81,9 @@ export class BookUpdateComponent implements OnInit {
     });
   }
 
-  getcategory() {
+  getCategory() {
     this.productService.getCategory().subscribe(
-      (response: { categoryData: any }) => {
+      (response) => {
         this.data = response.categoryData;
         console.log(this.data);
       },
@@ -93,11 +91,13 @@ export class BookUpdateComponent implements OnInit {
     );
   }
 
-  getbookforupdate() {
-    this.productService.getbookbyid(this.book_id1).subscribe(
+  getProductBy() {
+    console.log("click edit button", this.productId)
+    this.productService.getProductById(this.productId).subscribe(
       (response) => {
         if (response) {
           this.product = response.data;
+          console.log(this.product)
           this.updateForm.patchValue({
             title: this.product.title,
             author: this.product.author,
@@ -107,13 +107,20 @@ export class BookUpdateComponent implements OnInit {
             discount_value: this.product.discount_value,
             offer_price: this.product.offer_price,
             category_id: this.product.category_id,
-            stock: this.product.stock,
-            date: this.product.date,
+            stock: this.product.stock_quantity,
+            date: this.product.publication_date.toString().split('T')[0],
+            // image:this.product.image,
           });
         }
       },
       () => {}
     );
+  }
+
+  getAllProduct(){
+    this.productService.getAllproduct().subscribe((response)=>{
+      alert("fatch all data")
+    },(error)=>{})
   }
 
   onFileChange(event: any) {
@@ -129,7 +136,6 @@ export class BookUpdateComponent implements OnInit {
   }
 
   updateProduct() {
-    console.log('update book');
     const formData = new FormData();
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
@@ -153,22 +159,26 @@ export class BookUpdateComponent implements OnInit {
     formData.append('category_id', this.updateForm.get('category_id')?.value);
     formData.append('stock', this.updateForm.get('stock')?.value);
     formData.append('date', this.updateForm.get('date')?.value);
+    formData.append('productId', String(this.productId));
 
-    this.productService.insertBook(formData).subscribe(
-      () => {
-        this.updateForm.reset();
-        alert('Book added successfully');
+    this.productService.updateBook(formData).subscribe(
+      (response) => {
+       this.getAllProduct()
+       this.router.navigate(['./book-list']);
+        alert('product update successfully');
       },
-      () => {
-        alert('Error adding book');
+      (error) => {
+        alert('Error update product');
       }
     );
   }
 
   getError(controlName: string) {
-    debugger;
+    // debugger;
     console.log(controlName);
     const control = this.updateForm.get(controlName);
     return FormValidation.getErrorMessage(control!);
   }
+
+  
 }

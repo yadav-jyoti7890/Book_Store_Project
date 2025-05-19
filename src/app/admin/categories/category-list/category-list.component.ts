@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../../../environments/environment.prod';
+import { category } from '../category-interface/category.model';
 
 @Component({
   selector: 'app-category-list',
@@ -14,45 +15,39 @@ import { environment } from '../../../../environments/environment.prod';
   styleUrl: './category-list.component.css'
 })
 export class CategoryListComponent implements OnInit {
-  category: any;
-  selectedCategory:any;
-  searchQuery:any;
-  imageBaseUrl = environment.BaseUrl;
+  public category!: category;
+  public imageBaseUrl = environment.BaseUrl;
 
   
-  constructor(private categoryService:CategoryService){}
+constructor(private categoryService:CategoryService){}
 
 
-  ngOnInit(): void {
+ngOnInit(): void {
     this.getAllcategory();
-  }
+}
 
-  getAllcategory(){
+getAllcategory(){
    this.categoryService.GetAllCategory().subscribe((response)=>{
    this.category = response.category
-   console.log("users",this.category)
    },(error)=>{
     console.log("users get all data problem accurse")
    })
-  }
+}
 
-
- applyFilter(){
+applyFilter(){
   console.log()
- }
+}
 
- deleteCategory(id:number){
-  console.log("category_id select", id);
+deleteCategory(id:number){
   this.categoryService.deleteCategoryById(id).subscribe((response)=>{
     if(response){
       alert("category is deleted")
+      this.getAllcategory();
+
     }
   },(error)=>{
      alert("category is not deleted")
   })
- }
-
-
-
+}
 
 }
