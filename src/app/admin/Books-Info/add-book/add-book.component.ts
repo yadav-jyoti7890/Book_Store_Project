@@ -32,7 +32,7 @@ export class AddBookComponent implements OnInit {
     this.addProductForm = new FormGroup({
       title: new FormControl('', [
         Validators.required,
-        Validators.maxLength(20),
+        Validators.maxLength(100),
       ]),
 
       author: new FormControl('', Validators.required),

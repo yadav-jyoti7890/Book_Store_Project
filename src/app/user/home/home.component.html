@@ -121,7 +121,7 @@
     <div class="swiper-wrapper">
       <div class="swiper-slide slider" *ngFor="let categoryItem of categoryData">
         <div class="card">
-          <img  [src]="categoryItem.image ? imageBaseUrl + categoryItem.image : ''" alt="category image">
+          <img  [src]="categoryItem.image ? imageBaseUrl + 'uploads/' + categoryItem.image : ''" alt="category image">
           <h3 style="font-weight: 400 !important; font-size: 1.1vw;">{{categoryItem.category_name}}</h3>
         </div>
       </div>
@@ -146,7 +146,7 @@
     
       <div class="swiper-slide allbook-slider" *ngFor="let product of allItem">
         <div class="book-card">
-          <img [src]="product.image ? imageBaseUrl + product.image : ''" class="book-image">
+          <img [src]="product.image ? imageBaseUrl + 'uploads/' + product.image : ''" class="book-image">
 
           <div class="product-data">
                <span style="font-weight:600 !important; text-transform: capitalize; display: flex !important; flex-wrap: nowrap ; ">{{product.title}}...</span>

@@ -31,12 +31,12 @@ export class AddCategoryComponent implements OnInit {
     this.categoryForm = this.formBuilder.group({
       category_name: new FormControl('', [
         Validators.required,
-        Validators.maxLength(20)
+        Validators.maxLength(100)
         // Validators.pattern('^[0-9]*$')
       ]),
       category_description: new FormControl('', [
         Validators.required,
-        Validators.maxLength(10)
+        Validators.maxLength(100)
       ]),
       category_image: new FormControl('', [Validators.required]),
     });

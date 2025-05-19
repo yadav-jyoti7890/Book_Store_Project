@@ -28,10 +28,13 @@ export class HomeComponent implements  OnInit{
   imageBaseUrl = environment.BaseUrl;
   categoryData:any
   allItem: any;
+  
  
   ngOnInit(): void {
     this.getallcategory()
     this.getallproduct()
+
+  
   }
 
   constructor(private categoryservice: CategoryService, private productService:ProductService){}
@@ -50,8 +53,9 @@ export class HomeComponent implements  OnInit{
 
   getallproduct(){
     this.productService.getAllproduct().subscribe((response)=>{
-      this.allItem = response.product; 
-      console.log(this.allItem)
+      // console.log(response, "response")
+      this.allItem = response.data; 
+      console.log(this.allItem,"getAllProduct")
     },(error)=>{
 
     })

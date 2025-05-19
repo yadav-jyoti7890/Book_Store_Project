@@ -587,6 +587,7 @@ express1.get("/countAllcontact", function (req, res) {
 });
 
 express1.get("/getallbookinadminpanel", function (req, res) {
+  console.log("getAllProduct")
   let sql = "SELECT * FROM product";
   db_connection.query(sql, function (err, result) {
     if (err) {
@@ -636,7 +637,6 @@ express1.get("/getAllContact", function (req, res) {
 
 express1.delete("/deletebookinadminpanel/:id", function (req, res) {
   let id = req.params.id;
-  // console.log(id)
   let sql = "DELETE FROM add_books WHERE id = ?";
   db_connection.query(sql, [id], function (err, result) {
     if (err) {
@@ -1165,10 +1165,13 @@ express1.get("/getOderDetail/:order_id", function (req, res) {
 });
 
 express1.post("/category", upload.single("image"), function (req, res) {
-  const { category_name, description } = req.body;
-  const imagePath = req.file ? req.file.path : null;
+  const { category_name, category_description } = req.body;
+  console.log(category_description)
 
-  if (!imagePath) {
+   const imagePath = req.file ? 'uploads/' + req.file.originalname : null;
+   const image = imagePath.split('/').pop();
+
+  if (!image) {
     return res.status(400).json({ message: "Image file is required" });
   }
 
@@ -1176,7 +1179,7 @@ express1.post("/category", upload.single("image"), function (req, res) {
     "INSERT INTO category (category_name, description, image) VALUES (?, ?, ?)";
   db_connection.query(
     sql,
-    [category_name, description, imagePath],
+    [category_name, category_description, image],
     function (err, result) {
       if (err) {
         console.error("Database error: ", err);
