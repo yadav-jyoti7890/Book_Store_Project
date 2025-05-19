@@ -6,7 +6,6 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
-// const { log } = require("console");
 const router = express.Router();
 
 const JWT_SECRET = "email@gmail";
@@ -17,10 +16,10 @@ express1.use(bodyParser.urlencoded({ extended: true }));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Directory to save files
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Unique file name
+    cb(null, Date.now() + path.extname(file.originalname)); 
   },
 });
 const upload = multer({ storage });
