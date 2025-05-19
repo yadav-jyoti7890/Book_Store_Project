@@ -19,8 +19,9 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); 
-  },
+  cb(null, file.originalname);
+}
+
 });
 const upload = multer({ storage });
 
@@ -181,7 +182,7 @@ express1.get("/getbooksbyid/:id", function (req, res) {
   });
 });
 
-//==== addtocart functionlity === //
+
 express1.post("/addtocart", function (req, res) {
   const { title, user_id, book_id, quantity1, price, image, description } =
     req.body;
@@ -212,7 +213,7 @@ express1.post("/addtocart", function (req, res) {
   );
 });
 
-//get cart product in user cart
+
 
 express1.get("/getallproduct/:id", function (req, res) {
   const id = req.params.id;
@@ -236,7 +237,7 @@ express1.get("/getallproduct/:id", function (req, res) {
   }
 });
 
-//count item of cart
+
 express1.get("/getproductbyid/:id", function (req, res) {
   const id = req.params.id;
   let sql =
@@ -369,7 +370,9 @@ express1.post("/add-books", upload.single("image"), function (req, res) {
     date,
   } = req.body;
 
-  const imagePath = req.file ? req.file.path : null;
+  // const imagePath = req.file ? req.file.path : null;
+   const imagePath = req.file ? 'uploads/' + req.file.originalname : null;
+
 
   console.log(
     "title",

@@ -91,6 +91,7 @@ export class BookListComponent implements OnInit, AfterViewInit {
       })
       .subscribe(
         (response) => {
+          console.log(response, `${this.imageBaseUrl}${response.data[5].image}`)
           this.dataSource.data = response.data;
 
           this.totalRecords = response.totalRecords;
