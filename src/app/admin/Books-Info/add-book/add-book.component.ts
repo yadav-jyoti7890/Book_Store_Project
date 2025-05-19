@@ -9,7 +9,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AddBookService } from '../product-services/add-book.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductService } from '../product-services/product.service';
@@ -67,7 +66,6 @@ export class AddBookComponent implements OnInit {
   }
 
   constructor(
-    private bookService: AddBookService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder,

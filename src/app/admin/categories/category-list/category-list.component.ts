@@ -15,7 +15,7 @@ import { category } from '../category-interface/category.model';
   styleUrl: './category-list.component.css'
 })
 export class CategoryListComponent implements OnInit {
-  public category!: category;
+  public category : any;
   public imageBaseUrl = environment.BaseUrl;
 
   

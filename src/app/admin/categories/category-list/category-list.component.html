@@ -1,48 +1,51 @@
+<!-- Category Header -->
 <div class="category-header">
-    <h1 class="order_list">Category List</h1>
+  <h1 class="order_list">Category List</h1>
 
-    <div class="filter-container">
-        <!-- Category Dropdown -->
-       
-
-        <!-- Search Bar -->
-        
-        <!-- Add More Category Button -->
-        <button class="add-book-btn" routerLink="/admin_dashboard/category">
-            <i class="ri-add-circle-fill"></i> Add More Category
-        </button>
-    </div>
+  <div class="filter-container">
+    <button class="add-book-btn" routerLink="/admin_dashboard/category">
+      <i class="ri-add-circle-fill"></i> Add More Category
+    </button>
+  </div>
 </div>
 
-
-
+<!-- Category Table -->
 <div class="read_task">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>S.N</th>
-                <th>Category Name</th>
-                <th>Description</th>
-                <th>Image</th>
-               
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let categoryItem of category; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ categoryItem.category_name }}</td>
-                <td>{{ categoryItem.discription }}</td>
-                <td>
-                   
-                </td> <img [src]="categoryItem.image ? imageBaseUrl + categoryItem.image : ''" 
-                         alt="Book image" class="category-image" />
-              
-                <td>
-                    <button class="edit-btn" [routerLink]="['../update-category',categoryItem.category_id]"><i class="ri-edit-box-fill"></i> Edit</button>
-                    <button class="delete-btn" (click)="deleteCategory(categoryItem.category_id)"><i class="ri-delete-bin-fill"></i> Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>S.N</th>
+        <th>Category Name</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of category; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ category.category_name }}</td>
+        <td>{{ category.description }}</td>
+        <td>
+          <img
+            *ngIf="category.image"
+            [src]="imageBaseUrl + category.image"
+            alt="Category image"
+            class="category-image"
+          />
+        </td>
+        <td>
+          <button
+            class="edit-btn"
+            [routerLink]="['../update-category', category.category_id]"
+          >
+            <i class="ri-edit-box-fill"></i> Edit
+          </button>
+          <button class="delete-btn" (click)="deleteCategory(category.category_id)">
+            <i class="ri-delete-bin-fill"></i> Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

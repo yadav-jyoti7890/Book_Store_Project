@@ -31,14 +31,15 @@ table{
    
 }
 table th{
-  padding: 2vw !important;
+    padding: 2vw !important;
     border-bottom: 1px solid #dadada3e;
     padding: 1vw 0vw;
     font-family: neue-bold;
     text-transform: capitalize;
 }
 table td{
-    font-family: neue-light;   
+    font-family: neue-light; 
+    text-align: center;  
 }
 
 tr:hover{
@@ -47,6 +48,7 @@ tr:hover{
 
 table tr{ 
     margin-top: 1vw 0vw;
+   
 }
 
 .order_list{
@@ -64,8 +66,8 @@ table tr{
   }
   
   .add-book-btn {
-    background-color: #4b0084; /* Green background */
-    color: white; /* White text */
+    background-color: #4b0084; 
+    color: white;
     padding: 12px 24px;
     font-size: 1vw;
     border: none;
@@ -73,8 +75,8 @@ table tr{
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between icon and text */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    gap: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
   

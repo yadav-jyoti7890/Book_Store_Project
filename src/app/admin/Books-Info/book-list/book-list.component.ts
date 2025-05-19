@@ -11,7 +11,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { AddBookService } from '../product-services/add-book.service';
 import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { ProductService } from '../product-services/product.service';
 
@@ -34,18 +33,33 @@ import { ProductService } from '../product-services/product.service';
 export class BookListComponent implements OnInit, AfterViewInit {
   public imageBaseUrl = environment.BaseUrl;
   public category: string = '';
-  public totalRecords! : number
+  public totalRecords!: number;
   public pageSize = 10;
   public currentPage = 1;
   public receive_books: any;
   public dataSource = new MatTableDataSource<any>();
+  public displayedColumns: string[] = [
+    'SN',
+    'title',
+    'author',
+    'description',
+    'price',
+    'discount-type',
+    'discount-value',
+    'offer-price',
+    'stock',
+    'sold',
+    'publication_date',
+    'image',
+    'category',
+    'action',
+  ];
 
-  
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   constructor(
     private router: Router,
-    private productService : ProductService,
+    private productService: ProductService,
     private http: HttpClient,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
@@ -97,8 +111,6 @@ export class BookListComponent implements OnInit, AfterViewInit {
     this.loadData(); // Fetch new data based on the updated page and page size
   }
 
- 
-
   delete_books(id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: { message: `Are you sure you want to delete product ?` },
@@ -106,7 +118,8 @@ export class BookListComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log(result);
-        this.productService.deleteBook(id).subscribe((response) => {
+        this.productService.deleteBook(id).subscribe(
+          (response) => {
             this.snackBar.open('Product Delete Successfully ✅', 'close', {
               duration: 3000,
               horizontalPosition: 'end',
@@ -139,6 +152,4 @@ export class BookListComponent implements OnInit, AfterViewInit {
       (error) => {}
     );
   }
-
-
 }

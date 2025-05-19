@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AlluserService } from '../../users-info/user-services/alluser.service';
-import { ProfileService } from '../../users-info/user-services/profile.service';
-import { Router } from 'express';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { AdminService } from '../admin-services/admin.service';
+
 
 
 @Component({
@@ -16,39 +14,25 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './admin-sidebar.component.css'
 })
 export class AdminSidebarComponent implements OnInit{
- totalUsers:number=0;
-  totalBooks: any;
-  totalContact: any;
-  selectedFile: File | null = null;
-  imageUrl: string | null = null;
-  user_id: any;
-  totalOrder:number=0;
-  userProfileImage: any;
-  username = localStorage.getItem('userName');
-  totalOrderItems:number=0;
-  companyInfo: number=0;
-  role: any;
-  user: any;
-
+  public totalUsers! : number
+  public totalProducts! : number
+  public totalContact! : number
+  public totalOrder! :number
+  public totalCategory!:number;
+  public totalOrderItems! :number
+  public totalCompanyInfo! : number
   isActive = false;
 
-
-
-  
-
-  constructor(private admin:AlluserService){}
-
-  
-
+  constructor(private adminServices:AdminService){ }
 
   ngOnInit():void {
+    
     this.getalluser();
     this.getallbooks();
     this.getallconact();
     this.getAllOrderCount();
-    this.getAllOrderCountItems();
     this.getAllCompanyData();
-    // this.getUserProfile();
+    this.getAllCategory();
   }
 
   toggleActive() {
@@ -56,23 +40,23 @@ export class AdminSidebarComponent implements OnInit{
   }
 
   getalluser(){
-    this.admin.getAlluserinadmin().subscribe((data)=>{
-     this.totalUsers = data.totalUsers;
-     console.log(this.totalUsers);
+    this.adminServices.getAlluserinadmin().subscribe((response)=>{
+     this.totalUsers = response.totalUsers;
+    //  console.log(this.totalUsers);
     })   
   }
 
   getallbooks(){
-    this.admin.getallbooksinadmin().subscribe((data)=>{
-      this.totalBooks = data.totalBooks;
+    this.adminServices.getallbooksinadmin().subscribe((response)=>{
+      this.totalProducts = response.totalBooks;
       // console.log(this.totalBooks)
     })
   }
 
   getallconact(){
-    this.admin.getallcontactinadmin().subscribe((data)=>{
-      if(data.status == 200){
-        this.totalContact = data.totalContact
+    this.adminServices.getallcontactinadmin().subscribe((response)=>{
+      if(response.status == 200){
+        this.totalContact = response.totalContact
         // console.log(this.totalContact)
       }
     });
@@ -80,37 +64,30 @@ export class AdminSidebarComponent implements OnInit{
 
 
   getAllOrderCount(){
-    this.admin.countOrder().subscribe((data)=>{
-        this.totalOrder = data.totalOrder
+    this.adminServices.countOrder().subscribe((response)=>{
+        this.totalOrder = response.totalOrder
         // console.log(this.totalOrder)
       
     })
   }
 
-  getAllOrderCountItems(){
-    this.admin.countOrderItem().subscribe((data)=>{
-        this.totalOrderItems = data.totalOrderItems
-        // console.log(this.totalOrderItems)
-    })
-  }
 
  getAllCompanyData(){
    console.log("company")
-  this.admin.countAllCompanyData().subscribe((response)=>{
-    this.companyInfo = response.companyInfo;
-    console.log(this.companyInfo)
+  this.adminServices.countAllCompanyData().subscribe((response)=>{
+    this.totalCompanyInfo = response.companyInfo;
+    // console.log(this.companyInfo)
   },(error)=>{})
  }
  
+   getAllCategory(){
+    this.adminServices.getAllCategory().subscribe((response)=>{
+    this.totalCategory = response.totalCategory
+    
+    },(error)=>{})
 
 
 
+   }
 }
 
-// ngAfterViewInit(): void {
-  //  gsap.from('.admin',{
-  //   y:20,
-  //   duration:1,
-  //   opacity:0
-  //  })
-  // }

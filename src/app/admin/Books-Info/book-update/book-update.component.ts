@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { AddBookService } from '../product-services/add-book.service';
+
 import { response } from 'express';
 import {
   FormControl,
@@ -11,13 +11,11 @@ import {
   Validators,
 } from '@angular/forms';
 // import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { FormValidation } from '../../validation/form-validation';
 import { ProductService } from '../product-services/product.service';
 import { product } from '../product-interface/product.model';
-import { Title } from '@angular/platform-browser';
+
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -137,6 +135,7 @@ export class BookUpdateComponent implements OnInit {
 
   updateProduct() {
     const formData = new FormData();
+    console.log(this.updateForm.value)
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     } else {
@@ -171,6 +170,24 @@ export class BookUpdateComponent implements OnInit {
         alert('Error update product');
       }
     );
+  }
+
+  calculateOfferPrice() {
+    let { price, discount_type, discount_value } = this.updateForm.value;
+
+    console.log(price, discount_type, discount_value);
+    let offer_price;
+
+    if (discount_type === 'amount') {
+      offer_price = price - discount_value;
+      this.updateForm.get('offer_price')?.setValue(offer_price);
+    } else if (discount_type === 'percent') {
+      this.updateForm
+        .get('offer_price')
+        ?.setValue(price - (price * discount_value) / 100);
+    } else {
+      this.updateForm.get('offer_price')?.setValue(price);
+    }
   }
 
   getError(controlName: string) {

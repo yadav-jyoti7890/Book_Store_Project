@@ -516,6 +516,30 @@ express1.get("/CountAllOrderItems", function (req, res) {
   });
 });
 
+express1.get("/getCategoryCount", function (req, res) {
+  console.log("category count")
+  let sql = "SELECT COUNT(*) AS totalCategory FROM category";
+  db_connection.query(sql, function (err, result) {
+    if (err) {
+      return res.status(500).json({ error: "Database error", details: err });
+    }
+
+    if (result.length > 0) {
+      return res.status(200).send({
+        status: true,
+        message: "User count",
+        totalCategory: result[0].totalCategory,
+      });
+    } else {
+      return res.status(200).send({
+        status: true,
+        message: "User count",
+        totalCategory: 0,
+      });
+    }
+  });
+});
+
 express1.use("/uploads", express.static(path.join(__dirname, "uploads")));
 express1.get("/getbooks", function (req, res) {
   let sql = "SELECT * FROM product";

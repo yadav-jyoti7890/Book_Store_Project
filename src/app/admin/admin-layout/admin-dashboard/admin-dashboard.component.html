@@ -1,58 +1,120 @@
-
-  
-  <div class="admin_panel">
-  
-    <div class="left_sidebar">
-      <div class="admin_profile">
+<div class="admin_panel">
+  <div class="left_sidebar">
+    <div class="admin_profile">
+      <div class="img-sec">
+        <!-- Only show image if available -->
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU"
-          alt="Admin Image">
-        <div class="profile_info">
-          <span>Jyoti Yadav</span><br>
-          <span>Admin Panel</span>
-        </div>
+          [src]="
+            image ||
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU'
+          "
+          alt="Admin Image"
+          style="
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            cursor: pointer;
+          "
+          (click)="profile.click()"
+        />
+
+        <input
+          type="file"
+          accept="image/*"
+          #profile
+          style="display: none"
+          (change)="onFileSelected($event)"
+        />
       </div>
-  
-      <div class="menus">
-        <h3 routerLink="/admin_dashboard/admin_sidebar" routerLinkActive="admin_sidebar"><i class="ri-home-3-fill"></i> Dashboard</h3>
-        <div class="dropdown ">
-          <h3 class="dropdown-toggle" data-bs-toggle="dropdown"><i class="ri-product-hunt-fill"></i> Products</h3>
-          <ul class="dropdown-menu bg-light w-100">
-            <li  [routerLink]="['/admin_dashboard/read_book']" routerLinkActive="read_book"><a class="dropdown-item"><i class="ri-file-list-fill"></i> Product List</a></li>
-          </ul>
-        </div>
-        <div class="dropdown">
-          <h3 class="dropdown-toggle" data-bs-toggle="dropdown"
-            aria-expanded="false"><i class="ri-file-list-3-fill"></i> Orders</h3>
-          <ul class="dropdown-menu bg-light w-100">
-            <li  [routerLink]="['order']" routerLinkActive="order"><a class="dropdown-item">Order List</a></li>
-          </ul>
-        </div>
-        <div class="dropdown">
-          <h3 class="dropdown-toggle" data-bs-toggle="dropdown"
-            aria-expanded="false"><i class="ri-user-smile-fill"></i> Customer</h3>
-          <ul class="dropdown-menu bg-light w-100">
-            <li ><a class="dropdown-item"  [routerLink]="['users']" routerLinkActive="users"><i class="ri-file-list-fill"> </i>Customers List</a></li>
-          </ul>
-        </div>
-        <div class="dropdown">
-            <h3 class="dropdown-toggle" data-bs-toggle="dropdown"
-              aria-expanded="false"><i class="ri-contacts-book-fill"></i> Contact_Us</h3>
-            <ul class="dropdown-menu bg-light w-100">
-              <!-- <li [routerLink]="['company_info']" routerLinkActive="company_info"><a class="dropdown-item"><i class="ri-add-circle-fill"></i> Contact Add</a></li> -->
-              <li  [routerLink]="['company']" routerLinkActive="company"><a class="dropdown-item"><i class="ri-file-list-3-fill"></i> contact List</a></li>
-            </ul>
-        </div>
-        <div class="dropdown">
-          <h3 (click)="logout()"><i class="ri-logout-box-r-fill"></i> Logout</h3>
-        </div>
+
+      <div class="profile_info">
+        <span>{{ username }}</span
+        ><br />
+        <span>Admin Panel</span>
       </div>
     </div>
-  
-    <!-- Right Content Panel -->
-    <div class="right_content">
-      <!-- <h1>Welcome to admin dashboard</h1><hr> -->
-      <!-- <div class="boxes">
+
+    <div class="menus">
+      <h3
+        routerLink="/admin_dashboard/admin_sidebar"
+        routerLinkActive="admin_sidebar"
+      >
+        <i class="ri-home-3-fill"></i> Dashboard
+      </h3>
+      <div class="dropdown">
+        <h3 class="dropdown-toggle" data-bs-toggle="dropdown">
+          <i class="ri-product-hunt-fill"></i> Products
+        </h3>
+        <ul class="dropdown-menu bg-light w-100">
+          <li
+            [routerLink]="['/admin_dashboard/read_book']"
+            routerLinkActive="read_book"
+          >
+            <a class="dropdown-item"
+              ><i class="ri-file-list-fill"></i> Product List</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <h3
+          class="dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="ri-file-list-3-fill"></i> Orders
+        </h3>
+        <ul class="dropdown-menu bg-light w-100">
+          <li [routerLink]="['order']" routerLinkActive="order">
+            <a class="dropdown-item">Order List</a>
+          </li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <h3
+          class="dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="ri-user-smile-fill"></i> Customer
+        </h3>
+        <ul class="dropdown-menu bg-light w-100">
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['users']"
+              routerLinkActive="users"
+              ><i class="ri-file-list-fill"> </i>Customers List</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <h3
+          class="dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="ri-contacts-book-fill"></i> Contact_Us
+        </h3>
+        <ul class="dropdown-menu bg-light w-100">
+          <li [routerLink]="['company']" routerLinkActive="company">
+            <a class="dropdown-item"
+              ><i class="ri-file-list-3-fill"></i> contact List</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <h3 (click)="logout()"><i class="ri-logout-box-r-fill"></i> Logout</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Content Panel -->
+  <div class="right_content">
+    <!-- <h1>Welcome to admin dashboard</h1><hr> -->
+    <!-- <div class="boxes">
         <div class="box"  routerLink="users" routerLinkActive="users">
           <i class="ri-user-fill"></i>
           <div class="total_user_count">
@@ -93,9 +155,8 @@
   
       </div> -->
 
-      <div class="main-content">
-        <router-outlet></router-outlet>
-      </div>
+    <div class="main-content">
+      <router-outlet></router-outlet>
     </div>
-    
   </div>
+</div>
