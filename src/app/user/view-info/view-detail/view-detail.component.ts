@@ -6,6 +6,7 @@ import { ViewDetailService } from '../view-services/view-detail.service';
 import { response } from 'express';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -16,9 +17,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './view-detail.component.css'
 })
 export class ViewDetailComponent implements OnInit{
-
-  private count = new BroadcastChannel('count');
-
+   private count = new BroadcastChannel('count')
+   public imageBaseUrl = environment.BaseUrl
+   
  id:number|undefined;
  view_book:any;
  quantity:number= 1;

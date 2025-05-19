@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GetbooksService } from '../product-services/getbooks.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../../environments/environment';
+import { product } from '../product-interface/product-interface';
 
 @Component({
   selector: 'app-book',
@@ -11,7 +13,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './book.component.css'
 })
 export class BookComponent implements OnInit{
-  books:Book[] = [];
+
+  public imageBaseUrl = environment.BaseUrl
+  public product: product[] = [];
+
+  
   
 
   ngOnInit(): void {
@@ -23,8 +29,8 @@ export class BookComponent implements OnInit{
   getallbooks(){
     this.bookService.receivebooks().subscribe(
       (response) => {
-        this.books = response.data; 
-        console.log(this.books) // Use the 'data' from the response
+        this.product = response.data; 
+        console.log(this.product) 
       },
       (error) => {
         console.error("Error fetching books", error);
@@ -33,19 +39,8 @@ export class BookComponent implements OnInit{
   
 }
 
-sure(){
-  console.log("sure")
-}
 
 }
 
 
-export interface Book {
-  product_id:number;
-  title: string;
-  author: string;
-  image: string;  // Or whatever type the image URL is
-  description: string;
-  price: number;
-}
 

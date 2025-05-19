@@ -22,6 +22,7 @@ export class AdminSidebarComponent implements OnInit{
   public totalOrderItems! :number
   public totalCompanyInfo! : number
   isActive = false;
+  public currentTime! : string
 
   constructor(private adminServices:AdminService){ }
 
@@ -33,6 +34,11 @@ export class AdminSidebarComponent implements OnInit{
     this.getAllOrderCount();
     this.getAllCompanyData();
     this.getAllCategory();
+
+    setInterval(() => {
+      const now = new Date();
+      this.currentTime = now.toLocaleTimeString()
+    }, 1000);
   }
 
   toggleActive() {

@@ -1,0 +1,14 @@
+export interface product{
+    product_id : number,
+    title : string,
+    author : string,
+    description : string,
+    image : File | string,
+    price : number,
+    discount_value : number,
+    discount_type : number,
+    offer_price : number,
+    stock_quantity : number,
+    sold_quantity : number,
+    publication_date : number
+}

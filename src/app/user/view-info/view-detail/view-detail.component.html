@@ -2,7 +2,7 @@
 <div class="view_page">
     <div class="view_in" *ngFor="let book_detail of view_book">
         <div class="left">
-            <img [src]="book_detail.image ? 'http://localhost:3000/' + book_detail.image : ''" alt="Book image">
+            <img [src]="book_detail.image ? imageBaseUrl + 'uploads/'  + book_detail.image : ''" alt="Book image">
         </div>
         <div class="right">
             <h5>title : {{book_detail.title}}</h5>
