@@ -26,19 +26,21 @@
       ></textarea>
     </div>
 
-    <img
-      [src]="categoryData?.image ? imageBaseUrl + categoryData.image : ''"
-      alt="category-image"
-      class="category-image"
-      height="100px"
-      width="100px"
-      style="border-radius: 10px; object-fit: contain;"
-    />
+ 
 
     <div class="form-group">
       <label>Upload Image</label>
       <input type="file" name="file" formControlName="category_image" (change)="onFileChange($event)" />
     </div>
+
+      <img
+      [src]="categoryData?.image ? imageBaseUrl + 'uploads/' + categoryData.image : ''"
+      alt="category-image"
+      class="category-image"
+      height="100px"
+      width="100px"
+      style="border-radius: 10px; object-fit: contain;"
+      />
 
     <button type="submit" (click)="updateCategory()"  class="save-btn">Save Category</button>
   </form>

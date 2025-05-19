@@ -28,6 +28,7 @@ ngOnInit(): void {
 
 getAllcategory(){
    this.categoryService.GetAllCategory().subscribe((response)=>{
+    console.log(response)
    this.category = response.category
    },(error)=>{
     console.log("users get all data problem accurse")

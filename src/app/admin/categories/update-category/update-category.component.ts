@@ -38,7 +38,7 @@ export class UpdateCategoryComponent implements OnInit{
         Validators.required,
         Validators.maxLength(10)
       ]),
-      category_image: new FormControl('', [Validators.required]),
+      category_image: new FormControl(''),
     });
 
 
@@ -69,10 +69,7 @@ export class UpdateCategoryComponent implements OnInit{
       const formData = new FormData();
       if (this.selectedFile) {
         formData.append('image', this.selectedFile);
-      } else {
-        console.error('No file selected');
-        return;
-      }
+      } 
       formData.append(
         'category_name',
         this.updateCategoryForm.get('category_name')?.value

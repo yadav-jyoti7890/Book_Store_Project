@@ -73,7 +73,7 @@ export class BookUpdateComponent implements OnInit {
 
       stock: new FormControl('', [Validators.required, Validators.max(2)]),
 
-      image: new FormControl('', [Validators.required]),
+      image: new FormControl('',),
 
       date: new FormControl('', Validators.required),
     });
@@ -106,6 +106,7 @@ export class BookUpdateComponent implements OnInit {
             offer_price: this.product.offer_price,
             category_id: this.product.category_id,
             stock: this.product.stock_quantity,
+            image: this.product.image,
             date: this.product.publication_date.toString().split('T')[0],
             // image:this.product.image,
           });
@@ -121,26 +122,25 @@ export class BookUpdateComponent implements OnInit {
     },(error)=>{})
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imagePreview = e.target.result; // Preview the image
-      };
-      reader.readAsDataURL(file);
-    }
+ onFileChange(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
   }
+}
+
 
   updateProduct() {
     const formData = new FormData();
     console.log(this.updateForm.value)
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
-    } else {
-      console.error('No file selected');
-      return;
     }
     formData.append('title', this.updateForm.get('title')?.value);
     formData.append('author', this.updateForm.get('author')?.value);

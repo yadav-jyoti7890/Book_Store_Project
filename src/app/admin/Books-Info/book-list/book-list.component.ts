@@ -91,11 +91,9 @@ export class BookListComponent implements OnInit, AfterViewInit {
       })
       .subscribe(
         (response) => {
-          console.log(response, `${this.imageBaseUrl}${response.data[5].image}`)
           this.dataSource.data = response.data;
-
+          console.log(response)
           this.totalRecords = response.totalRecords;
-
           if (this.paginator) {
             this.paginator.length = this.totalRecords;
           }

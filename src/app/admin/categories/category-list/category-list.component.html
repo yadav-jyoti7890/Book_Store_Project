@@ -28,10 +28,16 @@
         <td>{{ category.description }}</td>
         <td>
           <img
-            *ngIf="category.image"
-            [src]="imageBaseUrl + category.image"
-            alt="Category image"
+            [src]="
+              category?.image
+                ? imageBaseUrl + 'uploads/' + category.image
+                : ''
+            "
+            alt="category-image"
             class="category-image"
+            height="100px"
+            width="100px"
+            style="border-radius: 5px; object-fit: contain"
           />
         </td>
         <td>
@@ -41,7 +47,10 @@
           >
             <i class="ri-edit-box-fill"></i> Edit
           </button>
-          <button class="delete-btn" (click)="deleteCategory(category.category_id)">
+          <button
+            class="delete-btn"
+            (click)="deleteCategory(category.category_id)"
+          >
             <i class="ri-delete-bin-fill"></i> Delete
           </button>
         </td>

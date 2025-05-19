@@ -7,7 +7,6 @@ const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-
 const JWT_SECRET = "email@gmail";
 
 express1.use(cors());
@@ -372,7 +371,7 @@ express1.post("/add-books", upload.single("image"), function (req, res) {
 
   // const imagePath = req.file ? req.file.path : null;
    const imagePath = req.file ? 'uploads/' + req.file.originalname : null;
-
+   const image = imagePath.split('/').pop();
 
   console.log(
     "title",
@@ -413,7 +412,7 @@ express1.post("/add-books", upload.single("image"), function (req, res) {
       author,
       description,
       price,
-      imagePath,
+      image,
       category_id,
       offer_price,
       discount_type,
@@ -674,64 +673,55 @@ express1.get("/getCategoryById/:id", function (req, res) {
 
 //update book by id
 express1.put("/update_books/:id", upload.single("image"), (req, res) => {
-  console.log("update books");
-  const {
-    title,
-    author,
-    description,
-    price,
-    category_id,
-    offer_price,
-    discount_type,
-    discount_value,
-    stock,
-    date,
-  } = req.body;
   const bookId = req.params.id;
-  console.log(
-    "title=>", title,
-     "author=>", author,
-    "description=>", description,
-     "price=>", price,
-    "bookid=>", bookId,
-     "categoryid=>", category_id,
-     "offer_price=>", offer_price,
-     "discount_type=>", discount_type,
-      "discount_value=>",discount_value,
-     "stock_quantity=>",stock,
-     "publication date=>",date
-  );
 
-  let image = req.file ? req.file.path : null;
-  console.log(image);
-  const sql = `UPDATE product SET title=?, author=?, description=?, price=?, image=?,  category_id =?, offer_price=?, discount_type=?, discount_value=?, stock_quantity=?,  publication_date=?  WHERE product_id=?`;
-  // console.log(sql);
- db_connection.query(
-  sql,
-  [
-    title,
-    author,
-    description,
-    price,
-    image,
-    category_id,
-    offer_price,
-    discount_type,
-    discount_value,
-    stock,
-    date,
-    bookId  // ✅ bookId moved to the last position
-  ],
-  (err, result) => {
-    if (err) {
-      console.error("Error updating book:", err);
-      return res.status(500).json({ error: "Database error" });
+  db_connection.query('SELECT image FROM product WHERE product_id = ?', [bookId], (err, results) => {
+    if (err) return res.status(500).json({ error: 'Database error' });
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Book not found' });
     }
-    res.json({ message: "Book updated successfully", data: result });
-  }
-);
 
+    const oldBook = results[0];
+    const imagePath = req.file ? req.file.filename : oldBook.image;
+
+    const {
+      title,
+      author,
+      description,
+      price,
+      category_id,
+      offer_price,
+      discount_type,
+      discount_value,
+      stock,
+      date,
+    } = req.body;
+
+    const sqlUpdate = `UPDATE product SET title=?, author=?, description=?, price=?, image=?, category_id=?, offer_price=?, discount_type=?, discount_value=?, stock_quantity=?, publication_date=? WHERE product_id=?`;
+
+    db_connection.query(sqlUpdate, [
+      title,
+      author,
+      description,
+      price,
+      imagePath,
+      category_id,
+      offer_price,
+      discount_type,
+      discount_value,
+      stock,
+      date,
+      bookId
+    ], (err2, result2) => {
+      if (err2) return res.status(500).json({ error: 'Update failed' });
+
+      res.json({ message: "Book updated successfully" });
+    });
+  });
 });
+
+
 
 express1.post("/confirm_order", (req, res) => {
   const { address_id, user_id, total_item, total_amount } = req.body;
@@ -1248,15 +1238,28 @@ express1.put("/updateCategory/:id", upload.single("image"), (req, res) => {
     "category_description =>", category_description,
   );
 
-  let image = req.file ? req.file.path : null;
+  // let image = req.file ? req.file.path : null;
 
-  console.log(image);
+   db_connection.query('SELECT image FROM category WHERE category_id = ?', [category_id], (err, results) => {
+    if (err) return res.status(500).json({ error: 'Database error' });
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+  
+
+    const oldBook = results[0];
+    const imagePath = req.file ? req.file.filename : oldBook.image;
+  
+
+
+  // console.log(image);
   const sql = `UPDATE category SET category_name=?, description=?, image=?  WHERE category_id=?`;
   // console.log(sql);
  db_connection.query(
   sql,
   [
-      category_name, category_description, image, category_id
+      category_name, category_description, imagePath, category_id
   ],
   (err, result) => {
     if (err) {
@@ -1266,7 +1269,7 @@ express1.put("/updateCategory/:id", upload.single("image"), (req, res) => {
     res.json({ message: "Book updated successfully", data: result });
   }
 );
-
+   });  
 });
 
 express1.get("/getallproduct", function (req, res) {
