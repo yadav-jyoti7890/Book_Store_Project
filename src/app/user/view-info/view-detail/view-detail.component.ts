@@ -7,6 +7,7 @@ import { response } from 'express';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment';
+import { product } from '../../product-info/product-interface/product-interface';
 
 
 @Component({
@@ -19,17 +20,13 @@ import { environment } from '../../../../environments/environment';
 export class ViewDetailComponent implements OnInit{
    private count = new BroadcastChannel('count')
    public imageBaseUrl = environment.BaseUrl
-   
- id:number|undefined;
- view_book:any;
- quantity:number= 1;
- getuserid:any;
- increase:any;
-//  addtocart:number=0;
-
- 
-  user_id: any;
-  total_count: any;
+ public id! : number;
+ public view_book:product [] = [];
+ public quantity:number= 1;
+ public getuserid:any;
+ public increase:any;
+ public user_id: any;
+ public total_count: any;
 
   constructor(private route:ActivatedRoute, private router:Router, private view_detail:ViewDetailService, private ngzone:NgZone,private dialog: MatDialog,private snackBar:MatSnackBar){}
 
@@ -48,7 +45,8 @@ export class ViewDetailComponent implements OnInit{
   viewdetail() {
      this.view_detail.getbookdetail(this.id).subscribe((response) => {
       this.view_book = response.data; 
-      console.log(this.view_book ,"view")
+
+      console.log(this.view_book[0].image ,"view")
     },
     (error) => {
       console.error("Error fetching books", error);
@@ -86,7 +84,7 @@ add_cart(data:any){
   quantity1 : this.quantity,
   image:data.image
  }
- this.view_detail.addtocart(addtobook).subscribe((data)=>{
+ this.view_detail.addToCart(addtobook).subscribe((data)=>{
  this.add_cart_count()
  this.snackBar.open('add to cart successfully', 'close', {duration:2000,horizontalPosition:'center',verticalPosition:'top'})
   this.router.navigate(['./book']);
@@ -100,8 +98,6 @@ add_cart(data:any){
 
 add_cart_count() {
   console.log('User logout up!');
-
-  // Send a message to other components
   this.count.postMessage({ type: 'add_cart_count'});
 }
 

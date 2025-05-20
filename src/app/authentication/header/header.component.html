@@ -1,11 +1,7 @@
-
-
 <div *ngIf="isLoggedIn">
-
   <div class="user_header" *ngIf="role === 'user'">
-
     <div class="menu">
-      <h1 class="header1" routerLink="/home"> welcome our Book Store </h1>
+      <h1 class="header1" routerLink="/home">welcome our Book Store</h1>
     </div>
 
     <div class="nav_items">
@@ -14,70 +10,83 @@
         <h3 routerLink="/contact_us">contact</h3>
         <h3 routerLink="/my_order">My Orders</h3>
         <h3 class="s-m position-relative" routerLink="add_cart">
-          <i class="ri-shopping-cart-line" style="font-size: 1.3vw;"></i>
-          <span class="position-absolute top-0 start-100 translate-middle badge bg-light text-dark">
-            {{total_count}}
+          <i class="ri-shopping-cart-line" style="font-size: 1.3vw"></i>
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge bg-light text-dark"
+          >
+            {{ total_count }}
             <span class="visually-hidden">unread messages</span>
           </span>
         </h3>
       </div>
-    
-    
+
       <div class="btn-group">
         <div class="img_sec">
-          <img *ngIf="image; else defaultImage" 
-               [src]="image" 
-               alt="User Image" 
-               height="40px" 
-               width="40px" 
-               style="border-radius: 50%;" 
-               class="dropdown-toggle" 
-               data-bs-toggle="dropdown">
-      
-          <ul class="dropdown-menu p-2" style="text-align: start;">
-            <li><h3>hello👋{{username}}</h3></li>
-            <hr>
+          <img
+            [src]="
+              image ||
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU'
+            "
+            alt="User Image"
+            height="40px"
+            width="40px"
+            style="border-radius: 50%"
+            class="dropdown-toggle"
+            data-bs-toggle="dropdown"
+          />
+
+          <ul class="dropdown-menu p-2" style="text-align: start">
+            <li>
+              <h3>hello👋{{ username }}</h3>
+            </li>
+            <hr />
             <li><h3 (click)="logout()">logout</h3></li>
-            <hr>
+            <hr />
             <li><h3 (click)="profile.click()">change profile</h3></li>
-            <input type="file" name="" #profile style="display: none;" (change)="onFileSelected($event)">
+            <input
+              type="file"
+              name=""
+              #profile
+              style="display: none"
+              (change)="onFileSelected($event)"
+            />
           </ul>
-      
+
           <ng-template #defaultImage>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU"
-                 alt="Default Profile Image"
-                 height="40px"
-                 width="40px"
-                 style="border-radius: 50%;" 
-                 class="dropdown-toggle" 
-                 data-bs-toggle="dropdown">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU"
+              height="40px"
+              width="40px"
+              style="border-radius: 50%"
+              class="dropdown-toggle"
+              data-bs-toggle="dropdown"
+            />
           </ng-template>
         </div>
       </div>
-      
-    </div> 
-
+    </div>
   </div>
-
 </div>
 
 <div class="header" *ngIf="!isLoggedIn" id="anauthorized">
-
   <div class="home_logo">
-    <h1 id="home_header" routerLink="/home"> welcome our <span> Book Store </span></h1>
+    <h1 id="home_header" routerLink="/home">
+      welcome our <span> Book Store </span>
+    </h1>
   </div>
 
   <div class="home_nav">
     <h3 routerLink="/home">home</h3>
     <h3 routerLink="/about">About</h3>
     <h3 routerLink="/signup">SignIn</h3>
-           <h3 class="s-m position-relative" routerLink="add_cart">
-          <i class="ri-shopping-cart-line" style="font-size: 1.3vw;"></i>
-          <span class="position-absolute top-0 start-100 translate-middle badge bg-light text-dark">
-            {{total_count}}
-            <span class="visually-hidden">unread messages</span>
-          </span>
-        </h3>
+    <h3 class="s-m position-relative" routerLink="add_cart">
+      <i class="ri-shopping-cart-line" style="font-size: 1.3vw"></i>
+      <span
+        class="position-absolute top-0 start-100 translate-middle badge bg-light text-dark"
+      >
+        1
+        <span class="visually-hidden">unread messages</span>
+      </span>
+    </h3>
   </div>
-
 </div>

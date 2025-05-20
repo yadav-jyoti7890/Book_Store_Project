@@ -22,7 +22,7 @@ export class ViewDetailService {
     return this.http.post(this.apiUrl2,data);
   }
   
-  addtocart(data:any){
+  addToCart(data:any){
     return this.http.post('http://localhost:3000/addtocart',data)
   }
 

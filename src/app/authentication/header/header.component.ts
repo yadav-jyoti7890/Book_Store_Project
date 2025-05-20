@@ -1,8 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, NgZone, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { AddCartService } from '../../user/add-cart-info/add-cart-services/add-cart.service';
-// import { HomeComponent } from '../../user/home/home.component';
 import gsap from 'gsap';
 import { ViewDetailService } from '../../user/view-info/view-services/view-detail.service';
 import { AuthService } from '../auth-services/auth.service';
@@ -11,6 +8,7 @@ import { Block } from '@angular/compiler';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlluserService } from '../../admin/users-info/user-services/alluser.service';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -37,6 +35,7 @@ export class HeaderComponent implements OnInit , AfterViewInit{
   selectedFile: any;
   profileImage: any;
   image:any;
+  
    
   ngOnInit() {
    this.productCount();

@@ -3,7 +3,7 @@
         
   <div class="product-section">
       <div class="product" *ngFor="let item of order_details; let i = index">
-        <img [src]="item.image ? imageBaseUrl + item.image : ''" alt="Book image">
+        <img [src]="item.image ? imageBaseUrl + 'uploads/' + item.image : ''" alt="Book image">
           <div class="product-info">
               <h2>Title: {{item.title}}</h2>
               <p>Description:{{item.description}}.</p>

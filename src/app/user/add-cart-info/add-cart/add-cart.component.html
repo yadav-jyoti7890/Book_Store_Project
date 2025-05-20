@@ -6,7 +6,7 @@
             <div class="flex">
 
                 <img
-                [src]="cart_data.image ? imageBaseUrl + cart_data.image : ''"  height="200px" width="150px"
+                [src]="cart_data.image ? imageBaseUrl +'uploads/' + cart_data.image : ''"  height="200px" width="150px"
                     id="image" class="img1"> 
                 <div class="detail">
                     <label>title : {{ cart_data.title }}</label>

@@ -4,7 +4,7 @@ import { AdminDashboardComponent } from './admin/admin-layout/admin-dashboard/ad
 // import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
 import { BookComponent } from './user/product-info/book/book.component';
 import { AddBookComponent } from './admin/Books-Info/add-book/add-book.component';
-import { HomeComponent } from './user/home/home.component';
+import { HomeComponent } from './user/home-page/home/home.component';
 import { ViewDetailComponent } from './user/view-info/view-detail/view-detail.component';
 import { BookUpdateComponent } from './admin/Books-Info/book-update/book-update.component';
 import { AddCartComponent } from './user/add-cart-info/add-cart/add-cart.component';
