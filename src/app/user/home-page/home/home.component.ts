@@ -20,6 +20,7 @@ import { response } from 'express';
 import { ProductService } from '../../../admin/Books-Info/product-services/product.service';
 import { category } from '../home-interface/home-interface';
 import { product } from '../../product-common-interface/product-interface';
+import { ViewDetailService } from '../../view-info/view-services/view-detail.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
   public imageBaseUrl = environment.BaseUrl;
   public categoryData: category[] = [];
   public allItems: product[] = [];
+  quantity: number = 0;
 
   ngOnInit(): void {
     this.getallcategory();
@@ -41,7 +43,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private categoryservice: CategoryService,
-    private productService: ProductService
+    private productService: ProductService,
+    private viewService: ViewDetailService
   ) {}
 
   @ViewChild('swiperContainer2', { static: false })
@@ -67,4 +70,22 @@ export class HomeComponent implements OnInit {
       (error) => {}
     );
   }
+
+    increase(){
+  
+  }
+
+  decrease(){
+   
+  }
+
+
+addToCart(product:product){
+ this.viewService.addToCart(product).subscribe((response)=>{
+  alert("add to cart ")
+ },(error)=>{
+  alert("not add to cart")
+ })
+}
+
 }

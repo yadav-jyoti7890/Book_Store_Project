@@ -11,7 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 // import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { FormValidation } from '../../validation/form-validation';
 import { ProductService } from '../product-services/product.service';
 import { product } from '../product-interface/product.model';

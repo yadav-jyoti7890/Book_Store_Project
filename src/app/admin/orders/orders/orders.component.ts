@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 // import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ChangeDetectorRef } from '@angular/core';
 import { OrderService } from '../order-services/order.service';
-import { ConfirmDialogComponent } from '../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-orders',
