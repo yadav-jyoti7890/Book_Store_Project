@@ -1,13 +1,24 @@
 <!-- Category Header -->
+<!-- Category Header -->
 <div class="category-header">
   <h1 class="order_list">Category List</h1>
 
   <div class="filter-container">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search category..."
+      class="search"
+       [(ngModel)]="searchText"
+      (ngModelChange)="applyFilter()"
+    />
+
     <button class="add-book-btn" routerLink="/admin_dashboard/category">
       <i class="ri-add-circle-fill"></i> Add More Category
     </button>
   </div>
 </div>
+
 
 <!-- Category Table -->
 <div class="read_task">

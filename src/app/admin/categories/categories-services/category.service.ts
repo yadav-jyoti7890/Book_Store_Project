@@ -36,6 +36,13 @@ export class CategoryService {
       return this.http.put(`${this.apiUrl}updateCategory/${category_id}`, formData);
   }
 
+filterCategoryByKeyword(keyword:string): Observable<any> {
+  return this.http.get(`${this.apiUrl}SearchCategory?keyword=${keyword}`);
+}
+
+
+
+
 
 
 }

@@ -42,8 +42,8 @@ db_connection.connect(function (err) {
 
 express1.put("/update-status/:random_number", (req, res) => {
   console.log("order_status");
-  const random_number = req.params.random_number; // Extract order_id from URL
-  const newStatus = req.body.newStatus; // Extract status from request body
+  const random_number = req.params.random_number; 
+  const newStatus = req.body.newStatus; 
 
   console.log(random_number, newStatus);
 
@@ -353,6 +353,20 @@ express1.get("/api/data", (req, res) => {
 });
 
 //===== admin side code here ======//
+
+express1.get("/SearchCategory", (req, res) => {
+  console.log("search category")
+  const keyword = req.query.keyword;
+  const sqlQuery = "SELECT * FROM category WHERE category_name LIKE ?";
+  const values = [`%${keyword}%`];
+
+  db_connection.query(sqlQuery, values, (error, results) => {
+    if (error) {
+      return res.status(500).json({ message: "Search failed" });
+    }
+    res.json({ category: results });
+  });
+});
 
 express1.post("/add-books", upload.single("image"), function (req, res) {
   console.log("add_book route access");
@@ -1190,6 +1204,10 @@ express1.post("/category", upload.single("image"), function (req, res) {
   );
 });
 
+// inside category.routes.js
+
+
+
 express1.get("/getcategory/", function (req, res) {
   // Corrected the parameter order
   let sql = `SELECT category_id, category_name 
@@ -1274,6 +1292,10 @@ express1.put("/updateCategory/:id", upload.single("image"), (req, res) => {
 );
    });  
 });
+
+
+
+
 
 express1.get("/getallproduct", function (req, res) {
   let sql = "SELECT * FROM product";

@@ -17,7 +17,7 @@ import { category } from '../category-interface/category.model';
 export class CategoryListComponent implements OnInit {
   public category : any;
   public imageBaseUrl = environment.BaseUrl;
-
+  public searchText: string = '';
   
 constructor(private categoryService:CategoryService){}
 
@@ -35,9 +35,19 @@ getAllcategory(){
    })
 }
 
-applyFilter(){
-  console.log()
+  applyFilter() {
+    console.log(this.searchText)
+      this.categoryService.filterCategoryByKeyword(this.searchText)
+        .subscribe(
+          (response) => {
+            this.category = response.category;
+          },
+          (error) => {
+            console.log("Error while searching category");
+          }
+        );
 }
+  
 
 deleteCategory(id:number){
   this.categoryService.deleteCategoryById(id).subscribe((response)=>{
