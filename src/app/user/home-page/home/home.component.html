@@ -123,19 +123,13 @@
   </div>
   <div class="swiper mySwiper swip">
     <div class="swiper-wrapper">
-      <div
-        class="swiper-slide slider"
-        *ngFor="let categoryItem of categoryData"
-      >
+      <div class="swiper-slide slider" *ngFor="let categoryItem of categoryData">
         <div class="card">
-          <img
-            [src]="
+          <img [src]="
               categoryItem.image
                 ? imageBaseUrl + 'uploads/' + categoryItem.image
                 : ''
-            "
-            alt="category image"
-          />
+            " alt="category image" />
           <h3 style="font-weight: 400 !important; font-size: 1.1vw">
             {{ categoryItem.category_name }}
           </h3>
@@ -161,27 +155,22 @@
     <div class="swiper-wrapper">
       <div class="swiper-slide allbook-slider" *ngFor="let product of allItems">
         <div class="book-card">
-          <img
-            [src]="
+          <img [src]="
               product.image ? imageBaseUrl + 'uploads/' + product.image : ''
-            "
-            class="book-image"
-          />
+            " class="book-image" />
 
           <div class="product-data">
-            <span
-              style="
+            <span style="
                 font-weight: 600 !important;
                 text-transform: capitalize;
                 display: flex;
                 flex-wrap: nowrap;
-              "
-              >{{ product.title }}...</span
-            >
+              ">{{ product.title }}...</span>
             <span>by {{ product.author }}</span>
             <span>
               <label>Rs.{{ product.offer_price }}</label>
-              <del style="font-weight: 700 !important">  Rs.{{ product.price }}</del>
+              <del style="font-weight: 700 !important">
+                Rs.{{ product.price }}</del>
             </span>
           </div>
 
@@ -194,14 +183,16 @@
           </div>
 
           <!-- Quantity Controls -->
-          <div style="display: flex; justify-content: space-between;">
-           <div class="quantity-controls" style="border: 1px solid rgba(0, 0, 0, 0.314); border-radius: 2px;">
-            <button (click)="decrease()">−</button>
-            <span>{{quantity}}</span>
-            <button (click)="increase()">+</button>
-          </div>
+          <div style="display: flex; justify-content: space-between">
+            <div class="quantity-controls" style="border: 1px solid rgba(0, 0, 0, 0.314); border-radius: 2px">
+              <button (click)="decrease()">−</button>
+              <span>{{ quantity }}</span>
+              <button (click)="increase()">+</button>
+            </div>
 
-          <button class="add-to-cart" (click)="addToCart(product)">Add to Cart</button>
+            <button class="add-to-cart" (click)="addToCart(product)">
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>
@@ -213,32 +204,25 @@
 
 <section class="about-us">
   <hr />
-  <h1
-    style="
+  <h1 style="
       text-align: center;
       font-size: 2vw;
       font-weight: 800;
       margin-top: 1vw;
       text-transform: capitalize;
-    "
-  >
+    ">
     About Us
   </h1>
 
-  <img
-    src="https://bookbins.b-cdn.net/wp-content/uploads/2025/02/Home-Page-Banner-About-Us-Buy-Online-Bookbins-01.jpg"
-    alt=""
-  />
+  <img src="https://bookbins.b-cdn.net/wp-content/uploads/2025/02/Home-Page-Banner-About-Us-Buy-Online-Bookbins-01.jpg"
+    alt />
 </section>
 
 <section class="authors">
   <h2>Meet Our Authors</h2>
   <div class="author-container">
     <div class="author-box">
-      <img
-        src="https://randomuser.me/api/portraits/men/32.jpg"
-        alt="Author 1"
-      />
+      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Author 1" />
       <h3>John Doe</h3>
       <p>Bestselling Author</p>
       <div class="social-icons">
@@ -248,10 +232,7 @@
       </div>
     </div>
     <div class="author-box">
-      <img
-        src="https://randomuser.me/api/portraits/women/44.jpg"
-        alt="Author 2"
-      />
+      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Author 2" />
       <h3>Jane Smith</h3>
       <p>Fiction Writer</p>
       <div class="social-icons">
@@ -261,10 +242,7 @@
       </div>
     </div>
     <div class="author-box">
-      <img
-        src="https://randomuser.me/api/portraits/men/55.jpg"
-        alt="Author 3"
-      />
+      <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Author 3" />
       <h3>Michael Brown</h3>
       <p>History & Literature</p>
       <div class="social-icons">
@@ -275,10 +253,7 @@
     </div>
 
     <div class="author-box">
-      <img
-        src="https://randomuser.me/api/portraits/men/55.jpg"
-        alt="Author 3"
-      />
+      <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Author 3" />
       <h3>Michael Brown</h3>
       <p>History & Literature</p>
       <div class="social-icons">
@@ -289,10 +264,7 @@
     </div>
 
     <div class="author-box">
-      <img
-        src="https://randomuser.me/api/portraits/men/55.jpg"
-        alt="Author 3"
-      />
+      <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Author 3" />
       <h3>Michael Brown</h3>
       <p>History & Literature</p>
       <div class="social-icons">

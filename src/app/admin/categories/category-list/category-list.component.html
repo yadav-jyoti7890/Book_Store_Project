@@ -26,18 +26,16 @@
     <thead>
       <tr>
         <th>S.N</th>
+         <th>Image</th>
         <th>Category Name</th>
         <th>Description</th>
-        <th>Image</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let category of category; let i = index">
         <td>{{ i + 1 }}</td>
-        <td>{{ category.category_name }}</td>
-        <td>{{ category.description }}</td>
-        <td>
+         <td>
           <img
             [src]= "category.image ? imageBaseUrl + 'uploads/' + category.image : '' "
             alt="category-image"
@@ -47,6 +45,9 @@
             style="border-radius: 5px; object-fit: contain"
           />
         </td>
+        <td>{{ category.category_name }}</td>
+        <td>{{ category.description }}</td>
+       
         <td>
           <button
             class="edit-btn"

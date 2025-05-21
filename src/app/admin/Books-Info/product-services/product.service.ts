@@ -36,7 +36,7 @@ export class ProductService {
   }
 
     deleteBook(id:number):Observable<any>{
-   return this.http.delete(`${this.apiUrl}deleteBooks/${id}`);
+   return this.http.delete(`${this.apiUrl}deleteProducts/${id}`);
 
   }
 
@@ -44,5 +44,10 @@ export class ProductService {
     const url = this.apiUrl + 'getallbookinadminpanel';
     return this.http.get(url);
   }
+
+  
+filterProductByKeyword(keyword:string): Observable<any> {
+  return this.http.get(`${this.apiUrl}SearchProduct?keyword=${keyword}`);
+}
 }
 

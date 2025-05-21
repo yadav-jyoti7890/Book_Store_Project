@@ -90,6 +90,121 @@ table tr{
     color: rgba(239, 39, 39, 0.841);
     margin-top: 0.8vw;
   }
+
+  .category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.order_list {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.add-book-btn {
+  background-color: #6a1b9a;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #6a1b9a;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.table td {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+.category-image {
+  height: 60px;
+  width: auto;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  /* padding: 1vw !important;  */
+}
+
+
+.edit-btn {
+  background-color: #4caf50; 
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #388e3c;
+  transform: scale(1.05);
+}
+
+
+.delete-btn {
+  background-color: #f44336; 
+  color: white;
+  margin-left: 8px;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+
+.filter-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 250px;
+  outline-color: #6a1b9a;
+}
+
+
+
   
  
   

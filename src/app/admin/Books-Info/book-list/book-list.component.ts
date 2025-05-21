@@ -11,8 +11,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+
 import { ProductService } from '../product-services/product.service';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-book-list',
@@ -26,6 +30,7 @@ import { ProductService } from '../product-services/product.service';
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
+    FormsModule
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
@@ -40,22 +45,22 @@ export class BookListComponent implements OnInit, AfterViewInit {
   public dataSource = new MatTableDataSource<any>();
   public displayedColumns: string[] = [
     'SN',
+    'category',
+    'image',
     'title',
     'author',
-    'description',
     'price',
     'discount-type',
     'discount-value',
     'offer-price',
-    'stock',
-    'sold',
-    'publication_date',
-    'image',
-    'category',
     'action',
   ];
+  public product: any;
+  public searchText: string = '';
+  searchTextChanged: Subject<string> = new Subject<string>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  
 
   constructor(
     private router: Router,
@@ -66,10 +71,24 @@ export class BookListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadData();
+   
     this.getCategory();
-    // this.getAllProduct();
-    console.log(this.imageBaseUrl, 'imagebaseurl');
+    this.loadData();
+
+     this.searchTextChanged
+    .pipe(debounceTime(200))
+    .subscribe((searchText) => {
+       console.log(this.searchTextChanged)  
+      this.productService.filterProductByKeyword(searchText)
+        .subscribe(
+          (response) => {
+            this.product = response.product;  
+          },
+          (error) => {
+            console.log("Error while searching category");
+          }
+        );
+    });
   }
 
   ngAfterViewInit(): void {
@@ -92,7 +111,7 @@ export class BookListComponent implements OnInit, AfterViewInit {
       .subscribe(
         (response) => {
           this.dataSource.data = response.data;
-          console.log(response)
+          console.log(response, this.dataSource)
           this.totalRecords = response.totalRecords;
           if (this.paginator) {
             this.paginator.length = this.totalRecords;
@@ -111,36 +130,54 @@ export class BookListComponent implements OnInit, AfterViewInit {
   }
 
   delete_books(id: number) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: { message: `Are you sure you want to delete product ?` },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log(result);
-        this.productService.deleteBook(id).subscribe(
-          (response) => {
-            this.snackBar.open('Product Delete Successfully ✅', 'close', {
-              duration: 3000,
-              horizontalPosition: 'end',
-              verticalPosition: 'top',
-            });
-            this.loadData();
-          },
-          (error) => {
-            this.snackBar.open('Some Error to Delete Product ❌', 'close', {
-              duration: 3000,
-              horizontalPosition: 'end',
-              verticalPosition: 'top',
-            });
-          }
-        );
-      }
-    });
-  }
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    data: { message: `Are you sure you want to delete product ?` }, // custom message
+  });
+
+ 
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+    
+      console.log(result); 
+
+      this.productService.deleteBook(id).subscribe(
+        (response) => {
+          
+          this.snackBar.open('Product Delete Successfully ✅', 'close', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+          });
+          this.loadData(); 
+        },
+        (error) => {
+        
+          this.snackBar.open('Some Error to Delete Product ❌', 'close', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+          });
+        }
+      );
+    }
+    else{
+        this.snackBar.open('Product not deleted ❌', 'close', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+          });
+    }
+  });
+}
+
 
   updateBooks(id: number) {
     console.log(id);
   }
+
+  applyFilter() {
+  this.searchTextChanged.next(this.searchText);  
+}
 
   getCategory() {
     this.productService.getCategory().subscribe(
@@ -151,4 +188,6 @@ export class BookListComponent implements OnInit, AfterViewInit {
       (error) => {}
     );
   }
+
+
 }

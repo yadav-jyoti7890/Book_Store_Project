@@ -444,6 +444,20 @@ express1.post("/add-books", upload.single("image"), function (req, res) {
   );
 });
 
+express1.get("/SearchProduct", (req, res) => {
+  console.log("search product")
+  const title = req.query.keyword;
+  const sqlQuery = "SELECT * FROM product WHERE title LIKE ?";
+  const values = [`%${title}%`];
+
+  db_connection.query(sqlQuery, values, (error, results) => {
+    if (error) {
+      return res.status(500).json({ message: "Search failed" });
+    }
+    return res.json({ product: results });
+  });
+});
+
 express1.get("/getalluser", function (req, res) {
   let sql = "SELECT COUNT(*) AS totalUsers FROM users";
   db_connection.query(sql, function (err, result) {
@@ -470,7 +484,7 @@ express1.get("/getalluser", function (req, res) {
 
 express1.get("/getallbook", function (req, res) {
   console.log("hii");
-  let sql = "SELECT COUNT(*) AS totalBooks FROM product";
+  let sql = "SELECT COUNT(*) AS totalBooks FROM product where is_deleted = 0";
   db_connection.query(sql, function (err, result) {
     if (err) {
       res.status(500).json({ message: "server error" });
@@ -533,7 +547,7 @@ express1.get("/CountAllOrderItems", function (req, res) {
 
 express1.get("/getCategoryCount", function (req, res) {
   console.log("category count")
-  let sql = "SELECT COUNT(*) AS totalCategory FROM category";
+  let sql = "SELECT COUNT(*) AS totalCategory FROM category where is_deleted = 0";
   db_connection.query(sql, function (err, result) {
     if (err) {
       return res.status(500).json({ error: "Database error", details: err });
@@ -602,7 +616,7 @@ express1.get("/countAllcontact", function (req, res) {
 
 express1.get("/getallbookinadminpanel", function (req, res) {
   console.log("getAllProduct")
-  let sql = "SELECT * FROM product";
+  let sql = "select * from product where is_deleted = 0";
   db_connection.query(sql, function (err, result) {
     if (err) {
       res.status(500).send({ message: "server error" });
@@ -916,7 +930,7 @@ express1.delete("/users_Delete/:id", function (req, res) {
   });
 });
 
-express1.delete("/deleteBooks/:id", function (req, res) {
+express1.delete("/deleteProducts/:id", function (req, res) {
   const { id } = req.params;
 
   let sql = `update product set is_deleted = TRUE where product_id = ?`;
@@ -1211,7 +1225,7 @@ express1.post("/category", upload.single("image"), function (req, res) {
 express1.get("/getcategory/", function (req, res) {
   // Corrected the parameter order
   let sql = `SELECT category_id, category_name 
-             FROM category`;
+             FROM category where is_deleted = 0`;
 
   db_connection.query(sql, function (err, result) {
     if (err) {
@@ -1222,32 +1236,72 @@ express1.get("/getcategory/", function (req, res) {
 });
 
 express1.get("/getallcategory", function (req, res) {
-  // console.log("user1")
-  let sql = "SELECT * FROM category";
-  // console.log("user2", sql)
+  let sql = "select * from category where is_deleted = 0";
 
   db_connection.query(sql, function (error, result) {
     if (error) {
-      //  console.log("user3 user error",)
+     
       return res.status(500).json({ message: "server error" });
     } else {
-      // console.log("result")
+      
       return res.status(200).send({ message: "data", category: result });
     }
   });
 });
 
-express1.delete("/deleteCategory/:id", function (req, res) {
-  let id = req.params.id;
-  console.log(id);
-  let sql = "DELETE FROM category WHERE category_id = ?";
-  db_connection.query(sql, [id], function (err, result) {
-    console.log(err);
-    if (err) return res.status(500).send({ message: "server error" });
-    console.log(result);
-    return res.status(200).send({ message: "delete", data: result });
+
+express1.delete("/deleteCategory/:id", (req, res) => {
+  const categoryId = req.params.id;
+  console.log(categoryId, "categoryId")
+
+  const checkPurchaseSql = `
+    SELECT COUNT(*) AS purchase_count
+    FROM order_items
+    WHERE product_id IN (
+      SELECT product_id FROM Product WHERE category_id = ?
+    )
+  `;
+
+  db_connection.query(checkPurchaseSql, [categoryId], (err, result) => {
+    if (err) {
+      console.error("Error checking purchase history:", err);
+      return res.status(500).send({ message: "Server error" });
+    }
+
+    const purchaseCount = result[0].purchase_count;
+
+    if (purchaseCount > 0) {
+    
+      const softDeleteCategory = `UPDATE Category SET is_deleted = 1 WHERE category_id = ?`;
+      const softDeleteProduct = `UPDATE Product SET is_deleted = 1 WHERE category_id = ?`;
+
+      db_connection.query(softDeleteCategory, [categoryId], (err1) => {
+        if (err1) return res.status(500).send({ message: "Error soft deleting category" });
+
+        db_connection.query(softDeleteProduct, [categoryId], (err2) => {
+          if (err2) return res.status(500).send({ message: "Error soft deleting product" });
+
+          return res.status(200).send({ message: "Soft deleted (category & products)" });
+        });
+      });
+    } else {
+     
+      const deleteProductSql = `DELETE FROM Product WHERE category_id = ?`;
+      const deleteCategorySql = `DELETE FROM Category WHERE category_id = ?`;
+
+      db_connection.query(deleteProductSql, [categoryId], (err1) => {
+        if (err1) return res.status(500).send({ message: "Error deleting product" });
+
+        db_connection.query(deleteCategorySql, [categoryId], (err2, result) => {
+          if (err2) return res.status(500).send({ message: "Error deleting category" });
+
+          return res.status(200).send({ message: "Category and products deleted" });
+        });
+      });
+    }
   });
 });
+
 
 express1.put("/updateCategory/:id", upload.single("image"), (req, res) => {
   console.log("update category");
