@@ -2,21 +2,29 @@
   <h1 class="order_list">Product List</h1>
 
   <div class="filter-container">
+    <!-- Search Input -->
     <input
       type="text"
       class="search-input"
       placeholder="Search category..."
-      class="search"
-        [(ngModel)]="searchText"
+      [(ngModel)]="searchText"
       (ngModelChange)="applyFilter()"
     />
 
+    <!-- Category Filter Dropdown -->
+    <select class="category-filter" [(ngModel)]="selectedCategory" (change)="applyCategoryFilter()">
+      <option value="">All Categories</option>
+      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+    </select>
+
+    <!-- Add Product Button -->
     <button class="add-book-btn" routerLink="/admin_dashboard/add_book">
       <i class="ri-add-circle-fill"></i> Add More Product
     </button>
   </div>
 </div>
-<hr>
+<hr />
+
 
 <div class="scroll">
   <table mat-table [dataSource]="dataSource" class="tablele">
