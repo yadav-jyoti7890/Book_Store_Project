@@ -1,7 +1,6 @@
-.form_div{
+/* .form_div{
     min-height: 100vh;
     width: 100%;
-  
     padding: 1vw;
 }
 
@@ -17,6 +16,7 @@
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+    margin-bottom: 1vw;
   }
    
   input, textarea, select {
@@ -28,6 +28,7 @@
     outline: none;
     border: none;
     border: 1px solid gray;
+    
   }
 
   ::placeholder{
@@ -39,8 +40,7 @@
   }
 
   .same{
-    width: 50%;
-    
+    width: 50%; 
   }
 
   .button-container{
@@ -48,7 +48,6 @@
   }
 
   button{
-   /* margin: auto !important; */
     background-color: blueviolet;
     color: white;
     font-family: Helvetica;
@@ -95,9 +94,198 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+} */
+/* 
+  .form-wrapper {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: auto;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-  
+.form-wrapper h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 2rem;
+}
+
+.form-wrapper h2 span {
+  color: #007bff;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.readonly-input {
+  background: #f8f9fa;
+  cursor: not-allowed;
+}
+
+small.text-danger {
+  color: red;
+  display: block;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
+.button-wrapper {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.button-wrapper button {
+  background: #444;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.button-wrapper button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+} */
+
+/* Base Layout */
+.form-wrapper {
+  background-color: #fff;
+  padding: 30px;
+  max-width: 900px;
+  margin: 30px auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.form-wrapper h2 {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 25px;
+  gap: 10px;
+}
+
+.form-wrapper h2 i {
+  font-size: 28px;
+  color: #7e22ce;
+}
+
+/* Grid for Two Column Layout */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+/* Inputs and Select Styling */
+input[type="text"],
+input[type="number"],
+input[type="file"],
+input[type="date"],
+select,
+button,
+app-validation {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fafafa;
+  transition: border 0.3s ease;
+}
+
+input:focus,
+select:focus,
+app-validation:focus-within {
+  border-color: #7e22ce;
+  outline: none;
+}
+
+select {
+  background-color: white;
+}
+
+/* Offer Price Styling */
+.readonly-input {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #666;
+}
+
+/* Error Text */
+.text-danger {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+/* File Input Layout */
+input[type="file"] {
+  background-color: #eef2f7;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+/* Date Picker */
+input[type="date"] {
+  background-color: #fafafa;
+}
+
+/* Button Styling */
+.button-wrapper {
+  text-align: center;
+  margin-top: 25px;
+}
+
+button {
+  background-color: #424242;
+  color: white;
+  font-size: 16px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:disabled {
+  background-color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+
  
   
    

@@ -12,12 +12,13 @@ import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductService } from '../product-services/product.service';
-import { FormValidation } from '../../validation/form-validation';
+import { FormValidation } from '../../../validation/form-validation';
+import { ValidationComponent } from '../../../validation/validation/validation.component';
 
 @Component({
   selector: 'app-add-book',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule,ValidationComponent],
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.css',
 })
@@ -33,6 +34,7 @@ export class AddBookComponent implements OnInit {
       title: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
+       
       ]),
 
       author: new FormControl('', Validators.required),
@@ -41,7 +43,8 @@ export class AddBookComponent implements OnInit {
 
       price: new FormControl('', [
         Validators.required,
-        Validators.min(5)
+        Validators.maxLength(5),
+        Validators.pattern('^[0-9]*$')
       ]),
 
       discount_type: new FormControl('', [
@@ -157,6 +160,10 @@ export class AddBookComponent implements OnInit {
     } else {
     }
   }
+
+ getControl(controlName: string): FormControl {
+  return this.addProductForm.get(controlName) as FormControl;
+}
 
   getError(controlName: string) {
     console.log(controlName);

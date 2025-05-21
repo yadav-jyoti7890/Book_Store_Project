@@ -5,17 +5,17 @@
            
             <div class="form-row">
              
-              <input  name="title" placeholder="Enter Title"  [(ngModel)]="add_book.title"/>
-              <input  name="author" placeholder="Enter Author" [(ngModel)]="add_book.author"/>
+              <input  name="title" [placeholder]="Enter Title"  [(ngModel)]="add_book.title"/>
+              <input  name="author" [placeholder]="Enter Author" [(ngModel)]="add_book.author"/>
             </div>
           
             
-            <textarea  name="description" placeholder="Enter Description" [(ngModel)]="add_book.description"></textarea>
+            <textarea  name="description" [placeholder]="Enter Description" [(ngModel)]="add_book.description"></textarea>
           
             
             <div class="form-row">
 
-              <input type="number" name="price" placeholder="Enter MRP Price"
+              <input type="number" name="price" [placeholder]="Enter MRP Price"
                [(ngModel)]="add_book.price" (ngModelChange)="calculateOfferPrice()"/>
          
              <select name="discount_type" [(ngModel)]="add_book.discount_type" (ngModelChange)="calculateOfferPrice()">
@@ -24,10 +24,10 @@
                <option value="amount">Fixed Amount</option>
              </select>
          
-             <input type="number" name="discount_value" placeholder="Discount Value" [(ngModel)]="add_book.discount_value" 
+             <input type="number" name="discount_value" [placeholder]="Discount Value" [(ngModel)]="add_book.discount_value" 
              (ngModelChange)="calculateOfferPrice()"/>
               
-              <input type="number" name="offer_price" [value]="add_book.offer_price || 'offer_price'" readonly placeholder="Offer Price" />
+              <input type="number" name="offer_price" [value]="add_book.offer_price || 'offer_price'" readonly [placeholder]="Offer Price" />
             </div>
           
            
@@ -40,13 +40,13 @@
                       </option>
                 </select>
           
-              <input type="number"name="stock"  placeholder="Enter Stock" [(ngModel)]="add_book.stock"/>
+              <input type="number"name="stock"  [placeholder]="Enter Stock" [(ngModel)]="add_book.stock"/>
             </div>
           
            
         
             <div class="form-row">
-                <input type="file" name="image" placeholder="select image"  
+                <input type="file" name="image" [placeholder]="select image"  
                 (change)="onFileChange($event)" class="same" [(ngModel)]="add_book.image"/>
 
                 <input type="date" name="pub_date" name="publication_date"  class="same" [(ngModel)]="add_book.pub_date"/>
@@ -61,7 +61,87 @@
 
 </div> -->
 
-<div class="form_div">
+<div class="form-wrapper">
+  <h2><i class="ri-book-open-fill"></i> ADD <span>More Book</span></h2>
+
+  <form [formGroup]="addProductForm" enctype="multipart/form-data">
+    <div class="grid-2">
+      <app-validation
+        [type]="'text'" name="title" [placeholder]="'Enter Title'"
+        [control]="getControl('title')">
+      </app-validation>
+
+      <app-validation
+        [type]="'text'" name="author" [placeholder]="'Enter Author'"
+        [control]="getControl('author')">
+      </app-validation>
+    </div>
+
+    <app-validation
+      [type]="'text'" name="description" [placeholder]="'Enter Description'"
+      [control]="getControl('description')">
+    </app-validation>
+
+    <div class="grid-2">
+      <app-validation
+        [type]="'text'" name="price" [placeholder]="'Enter MRP Price'"
+        [control]="getControl('price')" (change)="calculateOfferPrice()">
+      </app-validation>
+
+      <select formControlName="discount_type" (change)="calculateOfferPrice()">
+        <option value="">Select Discount Type</option>
+        <option value="percent">Percentage</option>
+        <option value="amount">Fixed Amount</option>
+      </select>
+    </div>
+    <small class="text-danger">{{ getError('discount_type') }}</small>
+
+    <div class="grid-2">
+      <app-validation
+        [type]="'number'" name="discount_value" [placeholder]="'Discount Value'"
+        [control]="getControl('discount_value')" (change)="calculateOfferPrice()">
+      </app-validation>
+
+      <input type="number" readonly placeholder="Offer Price"(change)="calculateOfferPrice()"  value="offer_price" formControlName="offer_price" class="readonly-input">
+    </div>
+
+    <div class="grid-2">
+      <select formControlName="category_id">
+        <option value="">Choose Category</option>
+        <option *ngFor="let category of data" [value]="category.category_id">
+          {{ category.category_name }}
+        </option>
+      </select>
+      <small class="text-danger">{{ getError('category_id') }}</small>
+
+      <app-validation
+        [type]="'number'" name="stock" [placeholder]="'Enter Stock'"
+        [control]="getControl('stock')">
+      </app-validation>
+    </div>
+
+    <div class="grid-2">
+      <app-validation
+        [type]="'file'" name="image" [placeholder]="'Select Image'"
+        (change)="onFileChange($event)" [control]="getControl('image')">
+      </app-validation>
+
+      <app-validation
+        [type]="'date'" name="pub_date" [placeholder]="'Publication Date'"
+        [control]="getControl('date')">
+      </app-validation>
+    </div>
+
+    <div class="button-wrapper">
+      <button type="button" (click)="submitProductForm()" [disabled]="addProductForm.invalid">
+        Add Book
+      </button>
+    </div>
+  </form>
+</div>
+
+
+<!-- <div class="form_div">
   <h1><i class="ri-book-open-fill"></i> ADD <span>More Book</span></h1>
   <div class="inner_div">
     <form [formGroup]="addProductForm" enctype="multipart/form-data">
@@ -69,17 +149,18 @@
         <div class="form-group">
           <input
             name="title"
-            placeholder="Enter Title"
-            formControlName="title"
+            [placeholder]="Enter Title"
+            control="title"
           />
+          
           <small class="text-danger">{{ getError("title") }}</small>
         </div>
 
         <div class="form-group">
           <input
             name="author"
-            placeholder="Enter Author"
-            formControlName="author"
+            [placeholder]="Enter Author"
+            control="author"
           />
           <small class="text-danger">{{ getError("author") }}</small>
         </div>
@@ -88,8 +169,8 @@
       <div>
         <textarea
           name="description"
-          placeholder="Enter Description"
-          formControlName="description"
+          [placeholder]="Enter Description"
+          control="description"
         ></textarea>
         <small class="text-danger">{{ getError('description') }}</small>
       </div>
@@ -99,14 +180,14 @@
           <input
           type="number"
           name="price"
-          placeholder="Enter MRP Price"
-          formControlName="price"
+          [placeholder]="Enter MRP Price"
+          control="price"
           (ngModelChange)="calculateOfferPrice()"
         />
         <small class="text-danger">{{ getError('price') }}</small>
         <select
           name="discount_type"
-          formControlName="discount_type"
+          control="discount_type"
           (ngModelChange)="calculateOfferPrice()"
         >
           <option value="">Select Discount Type</option>
@@ -118,8 +199,8 @@
         <input
           type="number"
           name="discount_value"
-          placeholder="Discount Value"
-          formControlName="discount_value"
+          [placeholder]="Discount Value"
+          control="discount_value"
           (ngModelChange)="calculateOfferPrice()"
         />
         <small class="text-danger">{{ getError("discount_value") }}</small>
@@ -127,8 +208,8 @@
         <input
           type="number"
           name="offer_price"
-          formControlName="offer_price"
-          placeholder="Offer Price"
+          control="offer_price"
+          [placeholder]="Offer Price"
           readonly
         />
          </div>
@@ -139,7 +220,7 @@
           id="category"
           name="category"
           class="dropdown"
-          formControlName="category_id"
+          control="category_id"
         >
           <option value="">Choose Category</option>
           <option *ngFor="let category of data" [value]="category.category_id">
@@ -151,8 +232,8 @@
         <input
           type="number"
           name="stock"
-          placeholder="Enter Stock"
-          formControlName="stock"
+          [placeholder]="Enter Stock"
+          control="stock"
         />
         <small class="text-danger">{{ getError('stock') }}</small>
       </div>
@@ -161,10 +242,10 @@
         <input
           type="file"
           name="image"
-          placeholder="select image"
+          [placeholder]="select image"
           class="same"
           (change)="onFileChange($event)"
-          formControlName="image"
+          control="image"
         />
         <small class="text-danger">{{ getError("image") }}</small>
 
@@ -173,7 +254,7 @@
           name="pub_date"
           name="publication_date"
           class="same"
-          formControlName="date"
+          control="date"
         />
         <small class="text-danger">{{ getError("date") }}</small>
       </div>
@@ -183,4 +264,4 @@
       </div>
     </form>
   </div>
-</div>
+</div> -->

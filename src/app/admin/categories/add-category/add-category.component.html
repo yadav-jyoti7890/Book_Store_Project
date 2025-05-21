@@ -7,36 +7,38 @@
 
   <form [formGroup]="categoryForm" enctype="multipart/form-data">
     <div class="form-group">
-      <label>Category Name <span class="required">*</span></label>
-      <input
-        type="text"
-        placeholder="Enter category name"
+     
+      <app-validation
+       [type]="'text'"
+       [placeholder]="'Enter category name'"
         name="category_name"
         required
-        formControlName="category_name"
-      />
-       <small class="text-danger">{{ getError('category_name') }}</small>
+        [control]="getControl('category_name')"
+      >
+      </app-validation>   
     </div>
 
     <div class="form-group">
-      <label>Description</label>
-      <textarea
-        placeholder="Enter category description"
+    
+      <app-validation
+       [type]="'text'"
+       [placeholder]="'Enter category description'"
         name="Category_dis"
-        formControlName="category_description"
-      ></textarea>
-      <small class="text-danger">{{ getError('category_description') }}</small>
+        required
+        [control]="getControl('category_description')"
+      >
+      </app-validation>  
     </div>
 
     <div class="form-group">
-      <label>Upload Image</label>
-      <input
-        type="file"
+    
+      <app-validation
+        [type]="'file'"
         name="file"
         (change)="onFileChange($event)"
-        formControlName="category_image"
-      />
-      <small class="text-danger">{{ getError('category_image') }}</small>
+        [control]="getControl('category_image')"
+      ></app-validation>
+     
     </div>
 
     <button type="submit" (click)="insertCategory()" [disabled]="categoryForm.invalid" class="save-btn">

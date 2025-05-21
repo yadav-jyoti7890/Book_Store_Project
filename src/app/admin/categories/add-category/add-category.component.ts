@@ -13,12 +13,12 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import '@angular/compiler';
-import { FormValidation } from '../../validation/form-validation';
+import { ValidationComponent } from '../../../validation/validation/validation.component';
 
 @Component({
   selector: 'app-add-category',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, ValidationComponent],
   templateUrl: './add-category.component.html',
   styleUrl: './add-category.component.css',
 })
@@ -28,10 +28,10 @@ export class AddCategoryComponent implements OnInit {
   private selectedFile: File | null = null;
 
   ngOnInit(): void {
-    this.categoryForm = this.formBuilder.group({
+    this.categoryForm = new FormGroup({
       category_name: new FormControl('', [
         Validators.required,
-        Validators.maxLength(100)
+        Validators.maxLength(100),
         // Validators.pattern('^[0-9]*$')
       ]),
       category_description: new FormControl('', [
@@ -88,8 +88,7 @@ export class AddCategoryComponent implements OnInit {
     }
   }
 
-  getError(controlName: string){
-    const control = this.categoryForm.get(controlName);
-    return FormValidation.getErrorMessage(control!);
-  }
+ getControl(controlName: string): FormControl {
+  return this.categoryForm.get(controlName) as FormControl;
+}
 }
