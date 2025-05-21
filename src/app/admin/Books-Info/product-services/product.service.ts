@@ -46,8 +46,12 @@ export class ProductService {
   }
 
   
-filterProductByKeyword(keyword:string): Observable<any> {
+ filterProductByKeyword(keyword:string): Observable<any> {
   return this.http.get(`${this.apiUrl}SearchProduct?keyword=${keyword}`);
-}
+ }
+
+  applyfilterByCategory(categoryId:number): Observable<any>{
+    return this.http.get(`${this.apiUrl}applyCategory/${categoryId}`);
+  }
 }
 

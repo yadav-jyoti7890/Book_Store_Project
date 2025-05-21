@@ -2,27 +2,30 @@
   <h1 class="order_list">Product List</h1>
 
   <div class="filter-container">
-    <!-- Search Input -->
-    <input
+    <!-- Search -->
+    <!-- <input
       type="text"
       class="search-input"
       placeholder="Search category..."
       [(ngModel)]="searchText"
-      (ngModelChange)="applyFilter()"
-    />
+      (ngModelChange)="applyCategoryFilter()"
+    /> -->
 
-    <!-- Category Filter Dropdown -->
-    <select class="category-filter" [(ngModel)]="selectedCategory" (change)="applyCategoryFilter()">
+    <!-- Category Dropdown -->
+    <select class="category-filter" [formControl]="categoryControl">
       <option value="">All Categories</option>
-      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      <option *ngFor="let categoryItem of category" [value]="categoryItem.category_id">
+        {{ categoryItem.category_name }}
+      </option>
     </select>
 
-    <!-- Add Product Button -->
+    <!-- Add Button -->
     <button class="add-book-btn" routerLink="/admin_dashboard/add_book">
       <i class="ri-add-circle-fill"></i> Add More Product
     </button>
   </div>
 </div>
+
 <hr />
 
 
@@ -86,20 +89,20 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
-         <button
-              class="edit-btn"
+       
+        <button
+            class="edit-btn"
           (click)="updateBooks(element.product_id)"
           [routerLink]="['../book_update', element.product_id]"
         >
           <i class="ri-edit-box-fill"></i> Edit
         </button>
-        <button
+         <button
           (click)="delete_books(element.product_id)"
-         class="delete-btn"
+          class="delete-btn"
         >
           <i class="ri-delete-bin-fill"></i> Delete
         </button>
-       
       </td>
     </ng-container>
 

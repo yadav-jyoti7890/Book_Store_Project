@@ -15,8 +15,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProductService } from '../product-services/product.service';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { category } from '../../categories/category-interface/category.model';
 
 @Component({
   selector: 'app-book-list',
@@ -30,14 +31,15 @@ import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dia
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
 })
 export class BookListComponent implements OnInit, AfterViewInit {
   public imageBaseUrl = environment.BaseUrl;
-  public category: string = '';
+  public category : any
   public totalRecords!: number;
   public pageSize = 10;
   public currentPage = 1;
@@ -57,7 +59,9 @@ export class BookListComponent implements OnInit, AfterViewInit {
   ];
   public product: any;
   public searchText: string = '';
-  searchTextChanged: Subject<string> = new Subject<string>();
+  public searchTextChanged: Subject<string> = new Subject<string>();
+  public categoryControl = new FormControl('');
+  public filteredData! : any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   
@@ -75,19 +79,8 @@ export class BookListComponent implements OnInit, AfterViewInit {
     this.getCategory();
     this.loadData();
 
-     this.searchTextChanged
-    .pipe(debounceTime(200))
-    .subscribe((searchText) => {
-       console.log(this.searchTextChanged)  
-      this.productService.filterProductByKeyword(searchText)
-        .subscribe(
-          (response) => {
-            this.product = response.product;  
-          },
-          (error) => {
-            console.log("Error while searching category");
-          }
-        );
+      this.categoryControl.valueChanges.subscribe((selectedId) => {
+       this.applyCategoryFilter(Number(selectedId))
     });
   }
 
@@ -175,14 +168,22 @@ export class BookListComponent implements OnInit, AfterViewInit {
     console.log(id);
   }
 
-  applyFilter() {
-  this.searchTextChanged.next(this.searchText);  
-}
+ applyCategoryFilter(categoryId: number) {
+    if (!categoryId) {
+      this.loadData()
+    } else {
+      this.productService.applyfilterByCategory(categoryId).subscribe((response)=>{
+      this.dataSource.data = response.filterCategory;
+      },(error)=>{
+
+      })
+    }
+  }
 
   getCategory() {
     this.productService.getCategory().subscribe(
       (response) => {
-        this.category = response;
+        this.category = response.categoryData;
         console.log(this.category, 'category');
       },
       (error) => {}

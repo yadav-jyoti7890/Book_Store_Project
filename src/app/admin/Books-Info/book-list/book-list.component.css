@@ -160,7 +160,7 @@ table tr{
   align-items: center;
   gap: 6px;
   transition: all 0.3s ease;
-  /* padding: 1vw !important;  */
+ 
 }
 
 
@@ -203,43 +203,12 @@ table tr{
   outline-color: #6a1b9a;
 }
 
-.category-header {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-}
-
-.filter-container {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  align-items: center;
-  margin-top: 10px;
-}
-
 .search-input,
 .category-filter {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
-}
-
-.add-book-btn {
-  background-color: #6a1b9a;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.add-book-btn i {
-  font-size: 18px;
 }
 
 
