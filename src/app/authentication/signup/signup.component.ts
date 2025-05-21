@@ -3,8 +3,6 @@ import { AfterViewInit, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth-services/auth.service';
-import gsap from 'gsap';
-import { response } from 'express';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
@@ -15,7 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
-export class SignupComponent implements AfterViewInit {
+export class SignupComponent{
   isActive: 'signup' | 'login' = 'login';
   signup: signup = new signup();
   login: login = new login();
@@ -23,16 +21,7 @@ export class SignupComponent implements AfterViewInit {
   private broadcastChannel = new BroadcastChannel('authentication')
 
 
-  constructor(private auth: AuthService, private router: Router, private snackBar: MatSnackBar){}
-  ngAfterViewInit(): void {
-    gsap.from('.signup', {
-      y: 50,
-      duration: 1,
-      opacity: 0,
-      stagger: 1,
-    })
-
-  }
+  constructor(private auth: AuthService, private router: Router, private snackBar: MatSnackBar) { }
 
   toggle(form: 'signup' | 'login') {
     this.isActive = form
@@ -44,7 +33,7 @@ export class SignupComponent implements AfterViewInit {
     this.auth.signup(this.signup).subscribe(
 
       (response) => {
-       this.snackBar.open('user register successfully ✅!')
+        this.snackBar.open('user register successfully ✅!')
         window.location.reload();
         this.isActive = 'login';
         debugger
@@ -54,30 +43,30 @@ export class SignupComponent implements AfterViewInit {
   }
 
   isPasswordVisible: boolean = false;
-  signup1 = { password: '' };  
-  
+  signup1 = { password: '' };
+
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   login_submit() {
     console.log("Attempting login...");
-  
+
     this.auth.loginauth(this.login.email, this.login.password).subscribe(
       (response) => {
         console.log('Login response:', response);
-  
+
         if (response.token) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userName', response.user.username);
           localStorage.setItem('user_id', response.user.id);
           localStorage.setItem('role', response.user.role);
-  
+
           this.broadcastChannel.postMessage({
             username: response.user.username,
             role: response.user.role
           });
-          this.snackBar.open('Login successfully ✅!', 'Close', { duration: 3000, horizontalPosition: 'center', verticalPosition:'top'},)
+          this.snackBar.open('Login successfully ✅!', 'Close', { duration: 3000, horizontalPosition: 'center', verticalPosition: 'top' },)
           this.router.navigate([
             response.user.role === 'admin' ? './admin_dashboard' : './home'
           ]);
@@ -86,19 +75,19 @@ export class SignupComponent implements AfterViewInit {
       (error) => {
         console.log("Error during login:", error);
         if (error.status === 404) {
-          this.snackBar.open('this email not exist in account ❌!', 'Close', { duration: 3000,  horizontalPosition: 'end', verticalPosition:'top'})
+          this.snackBar.open('this email not exist in account ❌!', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top' })
         } else if (error.status === 401) {
-          this.snackBar.open('Invalid password Address ❌ !', 'Close', { duration: 3000,  horizontalPosition: 'end', verticalPosition:'top'})
+          this.snackBar.open('Invalid password Address ❌ !', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top' })
         } else {
-          this.snackBar.open('Email or password wrong ❌ !', 'Close', { duration: 3000,  horizontalPosition: 'end', verticalPosition:'top'})
+          this.snackBar.open('Email or password wrong ❌ !', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top' })
 
         }
       }
     );
   }
- 
 
-  
+
+
 
   // login_submit() {
   //   debugger

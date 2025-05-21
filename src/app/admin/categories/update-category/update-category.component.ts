@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormValidation } from '../../../validation/form-validation';
+// import { FormValidation } from '../../../validation/form-validation';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CategoryService } from '../categories-services/category.service';

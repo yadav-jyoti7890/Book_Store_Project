@@ -80,7 +80,7 @@
             formControlName="title"
 
           />
-          <small class="text-danger">{{ getError("title") }}</small>
+          <!-- <small class="text-danger">{{ getError("title") }}</small> -->
         </div>
 
         <div class="form-group">
@@ -89,7 +89,7 @@
             placeholder="Enter Author"
             formControlName="author"
           />
-          <small class="text-danger">{{ getError("author") }}</small>
+          <!-- <small class="text-danger">{{ getError("author") }}</small> -->
         </div>
       </div>
 
@@ -99,7 +99,7 @@
           placeholder="Enter Description"
           formControlName="description"
         ></textarea>
-        <small class="text-danger">{{ getError('description') }}</small>
+        <!-- <small class="text-danger">{{ getError('description') }}</small> -->
       </div>
 
       <div class="form-row">
@@ -112,7 +112,7 @@
            (ngModelChange)="calculateOfferPrice()"
         />
 
-        <small class="text-danger">{{ getError('price') }}</small>
+        <!-- <small class="text-danger">{{ getError('price') }}</small> -->
         <select
           name="discount_type"
           formControlName="discount_type" 
@@ -123,7 +123,7 @@
           <option value="amount">Fixed Amount</option>
         </select>
 
-        <small class="text-danger">{{ getError('discount_type') }}</small>
+        <!-- <small class="text-danger">{{ getError('discount_type') }}</small> -->
 
         <input
           type="number"
@@ -132,7 +132,7 @@
           formControlName="discount_value"
            (ngModelChange)="calculateOfferPrice()"
         />
-        <small class="text-danger">{{ getError("discount_value") }}</small>
+        <!-- <small class="text-danger">{{ getError("discount_value") }}</small> -->
 
         <input
           type="number"
@@ -158,7 +158,7 @@
             {{ category.category_name }}
           </option>
         </select>
-        <small class="text-danger">{{ getError('category_id') }}</small>
+        <!-- <small class="text-danger">{{ getError('category_id') }}</small> -->
 
         <input
           type="number"
@@ -166,7 +166,7 @@
           placeholder="Enter Stock"
           formControlName="stock"
         />
-        <small class="text-danger">{{ getError('stock') }}</small>
+        <!-- <small class="text-danger">{{ getError('stock') }}</small> -->
       </div>
 
       <div class="form-row">
@@ -178,7 +178,7 @@
           (change)="onFileChange($event)"
           formControlName="image"
         />
-        <small class="text-danger">{{ getError("image") }}</small>
+        <!-- <small class="text-danger">{{ getError("image") }}</small> -->
 
         <input
           type="date"
@@ -187,7 +187,7 @@
           class="same"
           formControlName="date"
         />
-        <small class="text-danger">{{ getError("date") }}</small>
+        <!-- <small class="text-danger">{{ getError("date") }}</small> -->
       </div>
 
       <img

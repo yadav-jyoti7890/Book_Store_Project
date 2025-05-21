@@ -13,7 +13,7 @@
        [placeholder]="'Enter category name'"
         name="category_name"
         required
-        [control]="getControl('category_name')"
+        [control]="categoryForm.controls.category_name!"
       >
       </app-validation>   
     </div>
@@ -25,7 +25,7 @@
        [placeholder]="'Enter category description'"
         name="Category_dis"
         required
-        [control]="getControl('category_description')"
+        [control]="categoryForm.controls.description!"
       >
       </app-validation>  
     </div>
@@ -36,7 +36,7 @@
         [type]="'file'"
         name="file"
         (change)="onFileChange($event)"
-        [control]="getControl('category_image')"
+        [control]="categoryForm.controls.image!"
       ></app-validation>
      
     </div>

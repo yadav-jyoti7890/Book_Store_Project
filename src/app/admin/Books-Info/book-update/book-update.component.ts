@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 // import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
-import { FormValidation } from '../../../validation/form-validation';
+// import { FormValidation } from '../../../validation/form-validation';
 import { ProductService } from '../product-services/product.service';
 import { product } from '../product-interface/product.model';
 
@@ -26,7 +26,7 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './book-update.component.css',
 })
 export class BookUpdateComponent implements OnInit {
-  public productId! : number
+  public productId!: number;
   public imagePreview: string | null | any;
   public selectedFile: File | null = null;
   public updateForm!: FormGroup;
@@ -42,10 +42,10 @@ export class BookUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategory();
-  
-     this.activate.paramMap.subscribe((paramp) => {
-     this.productId = Number(paramp.get('id'));
-       this.getProductBy();
+
+    this.activate.paramMap.subscribe((paramp) => {
+      this.productId = Number(paramp.get('id'));
+      this.getProductBy();
     });
 
     this.updateForm = new FormGroup({
@@ -73,7 +73,7 @@ export class BookUpdateComponent implements OnInit {
 
       stock: new FormControl('', [Validators.required, Validators.max(2)]),
 
-      image: new FormControl('',),
+      image: new FormControl(''),
 
       date: new FormControl('', Validators.required),
     });
@@ -90,12 +90,12 @@ export class BookUpdateComponent implements OnInit {
   }
 
   getProductBy() {
-    console.log("click edit button", this.productId)
+    console.log('click edit button', this.productId);
     this.productService.getProductById(this.productId).subscribe(
       (response) => {
         if (response) {
           this.product = response.data;
-          console.log(this.product)
+          console.log(this.product);
           this.updateForm.patchValue({
             title: this.product.title,
             author: this.product.author,
@@ -116,29 +116,31 @@ export class BookUpdateComponent implements OnInit {
     );
   }
 
-  getAllProduct(){
-    this.productService.getAllproduct().subscribe((response)=>{
-      alert("fatch all data")
-    },(error)=>{})
+  getAllProduct() {
+    this.productService.getAllproduct().subscribe(
+      (response) => {
+        alert('fatch all data');
+      },
+      (error) => {}
+    );
   }
 
- onFileChange(event: any) {
-  const file = event.target.files[0];
-  if (file) {
-    this.selectedFile = file;
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
-}
-
 
   updateProduct() {
     const formData = new FormData();
-    console.log(this.updateForm.value)
+    console.log(this.updateForm.value);
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
@@ -162,8 +164,8 @@ export class BookUpdateComponent implements OnInit {
 
     this.productService.updateBook(formData).subscribe(
       (response) => {
-       this.getAllProduct()
-       this.router.navigate(['./book-list']);
+        this.getAllProduct();
+        this.router.navigate(['./book-list']);
         alert('product update successfully');
       },
       (error) => {
@@ -190,12 +192,10 @@ export class BookUpdateComponent implements OnInit {
     }
   }
 
-  getError(controlName: string) {
-    // debugger;
-    console.log(controlName);
-    const control = this.updateForm.get(controlName);
-    return FormValidation.getErrorMessage(control!);
-  }
-
-  
+  // getError(controlName: string) {
+  //   // debugger;
+  //   console.log(controlName);
+  //   const control = this.updateForm.get(controlName);
+  //   return FormValidation.getErrorMessage(control!);
+  // }
 }

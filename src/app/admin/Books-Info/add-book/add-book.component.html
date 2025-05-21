@@ -67,25 +67,38 @@
   <form [formGroup]="addProductForm" enctype="multipart/form-data">
     <div class="grid-2">
       <app-validation
-        [type]="'text'" name="title" [placeholder]="'Enter Title'"
-        [control]="getControl('title')">
+        [type]="'text'"
+        name="title"
+        [placeholder]="'Enter Title'"
+        [control]="addProductForm.controls.title!"
+      >
       </app-validation>
 
       <app-validation
-        [type]="'text'" name="author" [placeholder]="'Enter Author'"
-        [control]="getControl('author')">
+        [type]="'text'"
+        name="author"
+        [placeholder]="'Enter Author'"
+        [control]="addProductForm.controls.author!"
+      >
       </app-validation>
     </div>
 
     <app-validation
-      [type]="'text'" name="description" [placeholder]="'Enter Description'"
-      [control]="getControl('description')">
+      [type]="'text'"
+      name="description"
+      [placeholder]="'Enter Description'"
+      [control]="addProductForm.controls.description!"
+    >
     </app-validation>
 
     <div class="grid-2">
       <app-validation
-        [type]="'text'" name="price" [placeholder]="'Enter MRP Price'"
-        [control]="getControl('price')" (change)="calculateOfferPrice()">
+        [type]="'text'"
+        name="price"
+        [placeholder]="'Enter MRP Price'"
+        [control]="addProductForm.controls.price!"
+        (change)="calculateOfferPrice()"
+      >
       </app-validation>
 
       <select formControlName="discount_type" (change)="calculateOfferPrice()">
@@ -93,16 +106,34 @@
         <option value="percent">Percentage</option>
         <option value="amount">Fixed Amount</option>
       </select>
+
+      <app-validation
+        [control]="addProductForm.controls.discount_type!"
+        [type]="'select'"
+       
+      >
+      </app-validation>
     </div>
-    <small class="text-danger">{{ getError('discount_type') }}</small>
 
     <div class="grid-2">
       <app-validation
-        [type]="'number'" name="discount_value" [placeholder]="'Discount Value'"
-        [control]="getControl('discount_value')" (change)="calculateOfferPrice()">
+        [type]="'number'"
+        name="discount_value"
+        [placeholder]="'Discount Value'"
+        [control]="addProductForm.controls.discount_value!"
+        (change)="calculateOfferPrice()"
+      >
       </app-validation>
 
-      <input type="number" readonly placeholder="Offer Price"(change)="calculateOfferPrice()"  value="offer_price" formControlName="offer_price" class="readonly-input">
+      <input
+        type="number"
+        readonly
+        placeholder="Offer Price"
+        (change)="calculateOfferPrice()"
+        value="offer_price"
+        formControlName="offer_price"
+        class="readonly-input"
+      />
     </div>
 
     <div class="grid-2">
@@ -112,34 +143,46 @@
           {{ category.category_name }}
         </option>
       </select>
-      <small class="text-danger">{{ getError('category_id') }}</small>
 
       <app-validation
-        [type]="'number'" name="stock" [placeholder]="'Enter Stock'"
-        [control]="getControl('stock')">
+        [type]="'number'"
+        name="stock"
+        [placeholder]="'Enter Stock'"
+        [control]="addProductForm.controls.stock!"
+      >
       </app-validation>
     </div>
 
     <div class="grid-2">
       <app-validation
-        [type]="'file'" name="image" [placeholder]="'Select Image'"
-        (change)="onFileChange($event)" [control]="getControl('image')">
+        [type]="'file'"
+        name="image"
+        [placeholder]="'Select Image'"
+        (change)="onFileChange($event)"
+        [control]="addProductForm.controls.image!"
+      >
       </app-validation>
 
       <app-validation
-        [type]="'date'" name="pub_date" [placeholder]="'Publication Date'"
-        [control]="getControl('date')">
+        [type]="'date'"
+        name="pub_date"
+        [placeholder]="'Publication Date'"
+        [control]="addProductForm.controls.date!"
+      >
       </app-validation>
     </div>
 
     <div class="button-wrapper">
-      <button type="button" (click)="submitProductForm()" [disabled]="addProductForm.invalid">
+      <button
+        type="button"
+        (click)="submitProductForm()"
+        [disabled]="addProductForm.invalid"
+      >
         Add Book
       </button>
     </div>
   </form>
 </div>
-
 
 <!-- <div class="form_div">
   <h1><i class="ri-book-open-fill"></i> ADD <span>More Book</span></h1>

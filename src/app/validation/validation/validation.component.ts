@@ -14,6 +14,7 @@ export class ValidationComponent {
   @Input() control!: FormControl;
   @Input() type: string = 'text';
   @Input() placeholder : string = '';
+  
 
   get errorMessage(): string {
       if (!this.control || !this.control.errors || !(this.control.touched || this.control.dirty)) return '';
@@ -32,7 +33,7 @@ export class ValidationComponent {
 
 
     if(this.control.errors['pattern']){
-       return 'only number allowd'
+       return 'only number allowed'
     }
 
 

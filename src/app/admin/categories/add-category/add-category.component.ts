@@ -14,6 +14,7 @@ import {
 import { RouterLink } from '@angular/router';
 import '@angular/compiler';
 import { ValidationComponent } from '../../../validation/validation/validation.component';
+import { categoryForm } from '../category-interface/category.model';
 
 @Component({
   selector: 'app-add-category',
@@ -24,21 +25,20 @@ import { ValidationComponent } from '../../../validation/validation/validation.c
 })
 export class AddCategoryComponent implements OnInit {
 
-  public categoryForm!: FormGroup;
+  public categoryForm!: FormGroup<categoryForm>;
   private selectedFile: File | null = null;
 
   ngOnInit(): void {
-    this.categoryForm = new FormGroup({
-      category_name: new FormControl('', [
+    this.categoryForm = new FormGroup<categoryForm>({
+      category_name: new FormControl(null, [
         Validators.required,
         Validators.maxLength(100),
-        // Validators.pattern('^[0-9]*$')
       ]),
-      category_description: new FormControl('', [
+      description: new FormControl(null, [
         Validators.required,
         Validators.maxLength(100)
       ]),
-      category_image: new FormControl('', [Validators.required]),
+      image: new FormControl(null, [Validators.required]),
     });
   }
 
@@ -58,37 +58,37 @@ export class AddCategoryComponent implements OnInit {
   }
 
   insertCategory() {
-    if (this.categoryForm.valid) {
-      const formData = new FormData();
-      if (this.selectedFile) {
-        formData.append('image', this.selectedFile);
-      } else {
-        console.error('No file selected');
-        return;
-      }
-      formData.append(
-        'category_name',
-        this.categoryForm.get('category_name')?.value
-      );
-      formData.append(
-        'category_description',
-        this.categoryForm.get('category_description')?.value
-      );
+    // if (this.categoryForm.valid) {
+    //   const formData = new FormData();
+    //   if (this.selectedFile) {
+    //     formData.append('image', this.selectedFile);
+    //   } else {
+    //     console.error('No file selected');
+    //     return;
+    //   }
+    //   formData.append(
+    //     'category_name',
+    //     this.categoryForm.get('category_name')?.value
+    //   );
+    //   formData.append(
+    //     'category_description',
+    //     this.categoryForm.get('description')?.value
+    //   );
 
-      this.categoryService.insertCategory(formData).subscribe(
-        (response) => {
-          this.categoryForm.reset();
-          alert('category added successfully');
-        },
-        (error) => {
-          alert('Error category book');
-        }
-      );
-    } else {
-    }
+    //   this.categoryService.insertCategory(formData).subscribe(
+    //     (response) => {
+    //       this.categoryForm.reset();
+    //       alert('category added successfully');
+    //     },
+    //     (error) => {
+    //       alert('Error category book');
+    //     }
+    //   );
+    // } else {
+    // }
   }
 
- getControl(controlName: string): FormControl {
-  return this.categoryForm.get(controlName) as FormControl;
-}
+//  getControl(controlName: string): FormControl {
+//   return this.categoryForm.get(controlName) as FormControl;
+// }
 }
