@@ -74,19 +74,19 @@ export class BookUpdateComponent implements OnInit {
   }
 
   private getCategory() {
-    this.productService.getCategory().subscribe(
-      (response) => {
+    this.productService.getCategory().subscribe({
+      next: (response) => {
         this.data = response.categoryData;
         console.log(this.data);
       },
-      (error) => { }
-    );
+      error: (error) => { },
+    });
   }
 
   private getProductById() {
     // console.log('click edit button', this.productId);
-    this.productService.getProductById(this.productId).subscribe(
-      (response) => {
+    this.productService.getProductById(this.productId).subscribe({
+      next: (response) => {
         if (response) {
           this.product = response.data;
           console.log(this.product);
@@ -106,17 +106,15 @@ export class BookUpdateComponent implements OnInit {
           });
         }
       },
-      (error) => { }
-    );
+      error: (error) => { },
+    });
   }
 
   private getAllProduct() {
-    this.productService.getAllproduct().subscribe(
-      (response) => {
-        // alert('fatch all data');
-      },
-      (error) => { }
-    );
+    this.productService.getAllproduct().subscribe({
+      next: (response) => { },
+      error: (error) => { },
+    });
   }
 
   public onFileChange(event: any) {
@@ -156,16 +154,16 @@ export class BookUpdateComponent implements OnInit {
     formData.append('date', this.updateForm.get('date')?.value);
     formData.append('productId', String(this.productId));
 
-    this.productService.updateBook(formData).subscribe(
-      (response) => {
+    this.productService.updateBook(formData).subscribe({
+      next: (response) => {
         this.getAllProduct();
         this.router.navigate(['./book-list']);
         alert('product update successfully');
       },
-      (error) => {
+      error: (error) => {
         alert('Error update product');
-      }
-    );
+      },
+    });
   }
 
   public calculateOfferPrice() {
@@ -185,6 +183,4 @@ export class BookUpdateComponent implements OnInit {
       this.updateForm.get('offer_price')?.setValue(price);
     }
   }
-
-
 }

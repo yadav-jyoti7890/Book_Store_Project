@@ -15,7 +15,7 @@ export class OrdersDetailListComponent implements OnInit {
   public imageBaseUrl = environment.BaseUrl;
   public orderData: any;
   public order_id!: number;
-  user_items: items[] = [];
+  public user_items: items[] = [];
 
   constructor(
     private itemService: ItemServiceService,
@@ -32,18 +32,18 @@ export class OrdersDetailListComponent implements OnInit {
         console.log(this.order_id);
       }
     });
-    this.items();
+    this.getUsersProduct();
   }
 
-  items() {
+  getUsersProduct() {
     debugger;
-    this.itemService.user_items(this.order_id).subscribe(
-      (response) => {
+    this.itemService.userItems(this.order_id).subscribe({
+    next:  (response) => {
         this.user_items = response.items;
         console.log(this.user_items, 'user items');
       },
-      (error) => { }
-    );
+    error:  (error) => { }
+    });
   }
 }
 

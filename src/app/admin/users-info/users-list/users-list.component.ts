@@ -25,28 +25,28 @@ export class UsersListComponent implements OnInit {
   constructor(private users: UsersService) { }
 
   private getAllUsersFromDataBase() {
-    this.users.GetAllUsers().subscribe(
-      (response) => {
+    this.users.GetAllUsers().subscribe({
+    next:  (response) => {
         this.usersData = response.users;
-        console.log('users', this.usersData);
-        console.log(this.imageBaseUrl + 'uploads/' + this.usersData[1].profile_image);
+        // console.log('users', this.usersData);
+        // console.log(this.imageBaseUrl + 'uploads/' + this.usersData[1].profile_image);
       },
-      (error) => {
+    error:  (error) => {
         console.log('users get all data problem accurse');
       }
-    );
+    });
   }
 
   public deleteUser(id: number) {
     console.log(id);
-    this.users.deleteUsers(id).subscribe(
-      (response) => {
+    this.users.deleteUsers(id).subscribe({
+    next:  (response) => {
         alert('user delete successfully');
       },
-      (error) => {
+    error:  (error) => {
         alert('user not delete successfully');
       }
-    );
+    });
   }
 
   public applyFilters() {
@@ -58,15 +58,15 @@ export class UsersListComponent implements OnInit {
       this.getAllUsersFromDataBase();
     }
     else {
-      this.users.applyFilter(this.selectedRole, this.searchQuery).subscribe(
-        (response) => {
+      this.users.applyFilter(this.selectedRole, this.searchQuery).subscribe({
+       next: (response) => {
           this.usersData = response.filter;
           console.log('Filtered Data:', response);
         },
-        (error) => {
+       error: (error) => {
           console.error('Error fetching filtered users:', error);
         }
-      );
+    });
     }
 
   }

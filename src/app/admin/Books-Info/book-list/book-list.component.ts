@@ -121,8 +121,8 @@ export class BookListComponent implements OnInit {
       if (result) {
         console.log(result);
 
-        this.productService.deleteBook(id).subscribe(
-          (response) => {
+        this.productService.deleteBook(id).subscribe({
+          next: (response) => {
             this.snackBar.open('Product Delete Successfully ✅', 'close', {
               duration: 3000,
               horizontalPosition: 'end',
@@ -130,14 +130,15 @@ export class BookListComponent implements OnInit {
             });
             this.loadData();
           },
-          (error) => {
+          error:  (error) => {
             this.snackBar.open('Some Error to Delete Product ❌', 'close', {
               duration: 3000,
               horizontalPosition: 'end',
               verticalPosition: 'top',
             });
           }
-        );
+        });
+         
       } else {
         this.snackBar.open('Product not deleted ❌', 'close', {
           duration: 3000,
@@ -156,22 +157,24 @@ export class BookListComponent implements OnInit {
     if (!categoryId) {
       this.loadData();
     } else {
-      this.productService.applyfilterByCategory(categoryId).subscribe(
-        (response) => {
+      this.productService.applyfilterByCategory(categoryId).subscribe({
+        next: (response) => {
           this.dataSource.data = response.filterCategory;
         },
-        (error) => { }
-      );
+        error: (error) => {
+          console.log("Error filtering")
+         }
+      });
     }
   }
 
   private getCategory() {
-    this.productService.getCategory().subscribe(
-      (response) => {
+    this.productService.getCategory().subscribe({
+      next: (response) => {
         this.category = response.categoryData;
         console.log(this.category, 'category');
       },
-      (error) => { }
-    );
+      error: (error) => { }
+    });
   }
 }

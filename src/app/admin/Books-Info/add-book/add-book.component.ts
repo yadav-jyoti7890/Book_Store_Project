@@ -15,6 +15,7 @@ import { ProductService } from '../product-services/product.service';
 // import { FormValidation } from '../../../validation/form-validation';
 import { ValidationComponent } from '../../../validation/validation/validation.component';
 import { product, productForm } from '../product-interface/product.model';
+import { response } from 'express';
 
 @Component({
   selector: 'app-add-book',
@@ -55,15 +56,14 @@ constructor(
 ) {}
 
 private getCategory() {
-     this.productService.getCategory().subscribe(
-      (response) => {
-        this.data = response.categoryData;
-        // console.log(this.data);
+     this.productService.getCategory().subscribe({
+      next: (response) => {
+          this.data = response.categoryData;
       },
-      (error) => {
-
-      }
-    );
+      error: (error) => {
+          console.error("Error while getting category:", error);
+      },
+     })
 }
 
 public onFileChange(event: any) {

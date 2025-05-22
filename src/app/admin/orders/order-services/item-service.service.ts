@@ -11,7 +11,7 @@ export class ItemServiceService {
   private apiUrl = environment.BaseUrl
   constructor(private http:HttpClient) { }
 
-  user_items(id:number): Observable<any>{
+  userItems(id:number): Observable<any>{
     debugger
     return this.http.get(`${this.apiUrl}items/${id}`);
   }

@@ -31,17 +31,17 @@ export class OrdersComponent implements OnInit {
   ) { }
 
   private getAllOrder() {
-    this.order.getAllOrderShow().subscribe(
-      (response) => {
+    this.order.getAllOrderShow().subscribe({
+     next:  (response) => {
         if (response) {
           this.orderData = response.orderData;
           console.log('orderdata');
         }
       },
-      (error) => {
+     error: (error) => {
         alert('some problem');
       }
-    );
+   });
   }
 
   public changeStatus(random_number: any, event: Event) {
@@ -56,15 +56,15 @@ export class OrdersComponent implements OnInit {
 
         console.log(newStatus, random_number);
 
-        this.order.updateOrderStatus(random_number, newStatus).subscribe(
-          (response) => {
+        this.order.updateOrderStatus(random_number, newStatus).subscribe({
+        next:  (response) => {
             console.log('Status updated successfully', response);
             this.getAllOrder();
           },
-          (error) => {
+        error:  (error) => {
             alert('Error updating order status');
           }
-        );
+        });
       } else {
         event.preventDefault();
       }
