@@ -9,33 +9,37 @@ import { ContactService } from '../contact-services/contact.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './contact.component.html',
-  styleUrl: './contact.component.css'
+  styleUrl: './contact.component.css',
 })
-export class ContactComponent implements OnInit{
-  contacts:any;
+export class ContactComponent implements OnInit {
+  public contacts: any;
+
   ngOnInit(): void {
-    this.getAllConatctData()
+    this.getAllContactData();
   }
 
-  constructor(private contactService:ContactService){}
+  constructor(private contactService: ContactService) {}
 
-  getAllConatctData(){
-   this.contactService.getAllContactDataOnAdmin().subscribe((response)=>{
-    this.contacts = response.ContactData;
-   },(error)=>{
-     console.log("user contact null")
-   })
-  } 
-
-  deleteContact(id:number){
-    this.contactService.deleteContactById(id).subscribe((response)=>{
-      alert("delete successfully")
-      this.getAllConatctData()
-    },(error)=>{
-      alert("not deleted successfully")
-    })
+  private getAllContactData() {
+    this.contactService.getAllContactDataOnAdmin().subscribe(
+      (response) => {
+        this.contacts = response.ContactData;
+      },
+      (error) => {
+        console.log('user contact null');
+      }
+    );
   }
 
-
-
+  public deleteContact(id: number) {
+    this.contactService.deleteContactById(id).subscribe(
+      (response) => {
+        alert('delete successfully');
+        this.getAllContactData();
+      },
+      (error) => {
+        alert('not deleted successfully');
+      }
+    );
+  }
 }

@@ -18,53 +18,60 @@ import { CompanyInfoService } from '../company-services/company-info.service';
   styleUrl: './companyInfo-list.component.css',
 })
 export class CompanyInfoListComponent implements OnInit {
-  address: any;
+  public address: any;
   ngOnInit(): void {
-    this.getAllCompanyData()
+    this.getAllCompanyData();
   }
 
-  constructor(private company: CompanyInfoService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
+  constructor(
+    private company: CompanyInfoService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
-  getAllCompanyData() {
-    console.log("get com")
-    this.company.getAllCompanyDataOnAdmin().subscribe((response) => {
-      this.address = response.companyData;
-      console.log(this.address)
-    }, (error) => {
-      console.log("user contact null")
-    })
+  private getAllCompanyData() {
+    console.log('get com');
+    this.company.getAllCompanyDataOnAdmin().subscribe(
+      (response) => {
+        this.address = response.companyData;
+        console.log(this.address);
+      },
+      (error) => {
+        console.log('user contact null');
+      }
+    );
   }
 
-  deleteCom_info(id: number) {
+ public deleteComponyInfo(id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: { message: `Are you sure you want to delete contact from user panel ?` }
+      data: {
+        message: `Are you sure you want to delete contact from user panel ?`,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      debugger
+    dialogRef.afterClosed().subscribe((result) => {
+      debugger;
       if (result) {
-        debugger
-        console.log(result)
-        this.company.deleteCompanyInfo(id).subscribe((response) => {
-          this.snackBar.open('Contact Delete Successfully ✅ !', 'close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top' })
-          this.getAllCompanyData();
-        }, (error) => {
-          this.snackBar.open('Some error to delete contact ❌ !', 'close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top' })
-        })
+        debugger;
+        console.log(result);
+        this.company.deleteCompanyInfo(id).subscribe(
+          (response) => {
+            this.snackBar.open('Contact Delete Successfully ✅ !', 'close', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+            });
+            this.getAllCompanyData();
+          },
+          (error) => {
+            this.snackBar.open('Some error to delete contact ❌ !', 'close', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+            });
+          }
+        );
       }
     });
-
-
-
   }
-
-
-
-
-
-
-
-
-
-
 }

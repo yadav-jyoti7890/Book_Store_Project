@@ -1166,17 +1166,20 @@ express1.get("/getUserItems/:user_id", function (req, res) {
 
 express1.post("/update-profile", upload.single("profilePic"), (req, res) => {
   console.log("use_profile");
+
+
   const userId = req.body.userId; // Get userId from form-data
-  const profileImage = req.file ? `/uploads/${req.file.filename}` : null;
+   const profileImage = req.file ? "uploads/" + req.file.originalname : null;
+  const image = profileImage.split("/").pop();
 
-  console.log(userId, profileImage);
+  // console.log(userId, image);
 
-  if (!userId || !profileImage) {
+  if (!userId || !image) {
     return res.status(400).json({ message: "User ID and Image are required" });
   }
 
   const query = "UPDATE users SET profile_image = ? WHERE user_id = ?";
-  db_connection.query(query, [profileImage, userId], (err, result) => {
+  db_connection.query(query, [image, userId], (err, result) => {
     console.log(result);
     if (err) return res.status(500).json({ error: err.message });
     return res.json({ message: "✅ Profile Updated!", imageUrl: profileImage });

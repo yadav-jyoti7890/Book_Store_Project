@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { FormValidation } from '../../../validation/form-validation';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CategoryService } from '../categories-services/category.service';
@@ -44,10 +43,11 @@ export class UpdateCategoryComponent implements OnInit{
 
   }
 
-  getCategoryById(){
+  private getCategoryById(){
     this.categoryService.getCategoryById(this.category_id).subscribe((response)=>{
       this.categoryData = response.categoryData
-      console.log(response.categoryData,this.categoryData);
+      // console.log(response.categoryData,this.categoryData);
+      
       this.updateCategoryForm.patchValue({
         category_name : this.categoryData.category_name,
         category_description : this.categoryData.description,
@@ -57,14 +57,14 @@ export class UpdateCategoryComponent implements OnInit{
     },()=>{})
   }
 
-    onFileChange(event: any) {
+  public  onFileChange(event: any) {
     let file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
     }
   }
 
-  updateCategory(){ 
+  public updateCategory(){ 
     console.log(this.updateCategoryForm.value)
       const formData = new FormData();
       if (this.selectedFile) {

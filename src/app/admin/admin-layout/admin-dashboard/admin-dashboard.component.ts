@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {  Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Router,
   RouterLink,
@@ -19,7 +19,6 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './admin-dashboard.component.css',
 })
 export class AdminDashboardComponent implements OnInit {
-
   private channel = new BroadcastChannel('auth_channel');
   private selectedFile!: File;
   public previewImage: any;
@@ -28,33 +27,30 @@ export class AdminDashboardComponent implements OnInit {
   public profileImage: any;
   public image: any;
   public username!: string | null;
-  private baseUrl = environment.BaseUrl
-
-
+  public imageBaseUrl = environment.BaseUrl;
 
   constructor(
     private admin: AlluserService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-   
     this.username = localStorage.getItem('userName');
-     this.getImage();
+    this.getImage();
   }
 
-  logout() {
+  public logout() {
     console.log('User logout up!');
     this.channel.postMessage({ type: 'logout' });
   }
 
-  onFileSelected(event: any) {
+  public onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
     this.uploadProfilePicture();
   }
 
-  uploadProfilePicture() {
+  public uploadProfilePicture() {
     if (!this.selectedFile) {
       alert('Please select a file!');
       return;
@@ -64,7 +60,6 @@ export class AdminDashboardComponent implements OnInit {
     this.user_id = localStorage.getItem('user_id');
     this.admin.uploadProfilePicture(this.user_id, this.selectedFile).subscribe(
       (response) => {
-
         alert(response.message);
         this.getImage();
       },
@@ -74,14 +69,14 @@ export class AdminDashboardComponent implements OnInit {
     );
   }
 
-  getImage() {
+  private getImage() {
     this.user_id = localStorage.getItem('user_id');
     this.admin.getImages(this.user_id).subscribe(
       (response) => {
         if (response && response.userData.length > 0) {
-          this.image = 'http://localhost:3000' + response.userData[0].profile_image;
+          this.image = response.userData[0].profile_image;
         } else {
-          this.image = null; 
+          this.image = null;
         }
         console.log(this.image, 'image');
       },

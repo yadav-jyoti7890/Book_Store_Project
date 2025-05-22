@@ -30,7 +30,7 @@ export class AddBookComponent implements OnInit {
 
    
 ngOnInit() {
-   this.getcategory();
+  this.getCategory();
   this.addProductForm = new FormGroup<productForm>({
     title: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
     author: new FormControl(null, Validators.required),
@@ -47,33 +47,34 @@ ngOnInit() {
 }
 
 
-  constructor(
+constructor(
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     private productService: ProductService
-  ) {}
+) {}
 
-  getcategory() {
-    console.log('category aa gai');
-    this.productService.getCategory().subscribe(
+private getCategory() {
+     this.productService.getCategory().subscribe(
       (response) => {
         this.data = response.categoryData;
-        console.log(this.data);
+        // console.log(this.data);
       },
-      (error) => {}
-    );
-  }
+      (error) => {
 
-  onFileChange(event: any) {
+      }
+    );
+}
+
+public onFileChange(event: any) {
     let file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
     }
     console.log(this.selectedFile)
-  }
+}
 
-  calculateOfferPrice() {
+public calculateOfferPrice() {
    let price = this.addProductForm.get('price') 
    let discount_value = this.addProductForm.get('discount_value')
    let discount_type = this.addProductForm.get('discount_type')
@@ -91,10 +92,10 @@ ngOnInit() {
     // } else {
     //   this.addProductForm.get('offer_price')?.setValue(price);
     // }
-  }
+}
 
-  submitProductForm() {
-    // console.log(this.addProductForm.value)
+public submitProductForm() {
+    console.log(this.addProductForm.value)
     // if (this.addProductForm.valid) {
     //   const formData = new FormData();
     //   if (this.selectedFile) {
@@ -140,13 +141,6 @@ ngOnInit() {
     //   );
     // } else {
     // }
-  }
+}
 
-
-
-  // getError(controlName: string) {
-  //   console.log(controlName);
-  //   const control = this.addProductForm.get(controlName);
-  //   return FormValidation.getErrorMessage(control!);
-  // }
 }

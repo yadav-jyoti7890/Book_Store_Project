@@ -32,14 +32,14 @@ import { category } from '../../categories/category-interface/category.model';
     MatPaginatorModule,
     MatInputModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
 })
-export class BookListComponent implements OnInit, AfterViewInit {
+export class BookListComponent implements OnInit {
   public imageBaseUrl = environment.BaseUrl;
-  public category : any
+  public category: any;
   public totalRecords!: number;
   public pageSize = 10;
   public currentPage = 1;
@@ -61,10 +61,9 @@ export class BookListComponent implements OnInit, AfterViewInit {
   public searchText: string = '';
   public searchTextChanged: Subject<string> = new Subject<string>();
   public categoryControl = new FormControl('');
-  public filteredData! : any;
+  public filteredData!: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  
 
   constructor(
     private router: Router,
@@ -72,24 +71,15 @@ export class BookListComponent implements OnInit, AfterViewInit {
     private http: HttpClient,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-   
     this.getCategory();
     this.loadData();
 
-      this.categoryControl.valueChanges.subscribe((selectedId) => {
-       this.applyCategoryFilter(Number(selectedId))
+    this.categoryControl.valueChanges.subscribe((selectedId) => {
+      this.applyCategoryFilter(Number(selectedId));
     });
-  }
-
-  ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.paginator.page.subscribe(() => {
-        this.loadData();
-      });
-    }
   }
 
   loadData(): void {
@@ -104,7 +94,7 @@ export class BookListComponent implements OnInit, AfterViewInit {
       .subscribe(
         (response) => {
           this.dataSource.data = response.data;
-          console.log(response, this.dataSource)
+          console.log(response, this.dataSource);
           this.totalRecords = response.totalRecords;
           if (this.paginator) {
             this.paginator.length = this.totalRecords;
@@ -116,79 +106,72 @@ export class BookListComponent implements OnInit, AfterViewInit {
       );
   }
 
-  onPageChange(event: any): void {
+  public onPageChange(event: any): void {
     this.currentPage = event.pageIndex + 1; // Angular paginator uses 0-based index
     this.pageSize = event.pageSize; // Update the page size
     this.loadData(); // Fetch new data based on the updated page and page size
   }
 
-  delete_books(id: number) {
-  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    data: { message: `Are you sure you want to delete product ?` }, // custom message
-  });
+  public deleteBooks(id: number) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { message: `Are you sure you want to delete product ?` }, // custom message
+    });
 
- 
-  dialogRef.afterClosed().subscribe((result) => {
-    if (result) {
-    
-      console.log(result); 
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result);
 
-      this.productService.deleteBook(id).subscribe(
-        (response) => {
-          
-          this.snackBar.open('Product Delete Successfully ✅', 'close', {
-            duration: 3000,
-            horizontalPosition: 'end',
-            verticalPosition: 'top',
-          });
-          this.loadData(); 
-        },
-        (error) => {
-        
-          this.snackBar.open('Some Error to Delete Product ❌', 'close', {
-            duration: 3000,
-            horizontalPosition: 'end',
-            verticalPosition: 'top',
-          });
-        }
-      );
-    }
-    else{
+        this.productService.deleteBook(id).subscribe(
+          (response) => {
+            this.snackBar.open('Product Delete Successfully ✅', 'close', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+            });
+            this.loadData();
+          },
+          (error) => {
+            this.snackBar.open('Some Error to Delete Product ❌', 'close', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+            });
+          }
+        );
+      } else {
         this.snackBar.open('Product not deleted ❌', 'close', {
-            duration: 3000,
-            horizontalPosition: 'end',
-            verticalPosition: 'top',
-          });
-    }
-  });
-}
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+        });
+      }
+    });
+  }
 
-
-  updateBooks(id: number) {
+  public updateBooks(id: number) {
     console.log(id);
   }
 
- applyCategoryFilter(categoryId: number) {
+  private applyCategoryFilter(categoryId: number) {
     if (!categoryId) {
-      this.loadData()
+      this.loadData();
     } else {
-      this.productService.applyfilterByCategory(categoryId).subscribe((response)=>{
-      this.dataSource.data = response.filterCategory;
-      },(error)=>{
-
-      })
+      this.productService.applyfilterByCategory(categoryId).subscribe(
+        (response) => {
+          this.dataSource.data = response.filterCategory;
+        },
+        (error) => { }
+      );
     }
   }
 
-  getCategory() {
+  private getCategory() {
     this.productService.getCategory().subscribe(
       (response) => {
         this.category = response.categoryData;
         console.log(this.category, 'category');
       },
-      (error) => {}
+      (error) => { }
     );
   }
-
-
 }

@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-
-import { response } from 'express';
 import {
   FormControl,
   FormGroup,
@@ -10,12 +8,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-// import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
-// import { FormValidation } from '../../../validation/form-validation';
 import { ProductService } from '../product-services/product.service';
 import { product } from '../product-interface/product.model';
-
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -38,14 +32,14 @@ export class BookUpdateComponent implements OnInit {
     private activate: ActivatedRoute,
     private productService: ProductService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getCategory();
 
     this.activate.paramMap.subscribe((paramp) => {
       this.productId = Number(paramp.get('id'));
-      this.getProductBy();
+      this.getProductById();
     });
 
     this.updateForm = new FormGroup({
@@ -79,18 +73,18 @@ export class BookUpdateComponent implements OnInit {
     });
   }
 
-  getCategory() {
+  private getCategory() {
     this.productService.getCategory().subscribe(
       (response) => {
         this.data = response.categoryData;
         console.log(this.data);
       },
-      () => {}
+      (error) => { }
     );
   }
 
-  getProductBy() {
-    console.log('click edit button', this.productId);
+  private getProductById() {
+    // console.log('click edit button', this.productId);
     this.productService.getProductById(this.productId).subscribe(
       (response) => {
         if (response) {
@@ -112,20 +106,20 @@ export class BookUpdateComponent implements OnInit {
           });
         }
       },
-      () => {}
+      (error) => { }
     );
   }
 
-  getAllProduct() {
+  private getAllProduct() {
     this.productService.getAllproduct().subscribe(
       (response) => {
-        alert('fatch all data');
+        // alert('fatch all data');
       },
-      (error) => {}
+      (error) => { }
     );
   }
 
-  onFileChange(event: any) {
+  public onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
@@ -138,7 +132,7 @@ export class BookUpdateComponent implements OnInit {
     }
   }
 
-  updateProduct() {
+  public updateProduct() {
     const formData = new FormData();
     console.log(this.updateForm.value);
     if (this.selectedFile) {
@@ -174,7 +168,7 @@ export class BookUpdateComponent implements OnInit {
     );
   }
 
-  calculateOfferPrice() {
+  public calculateOfferPrice() {
     let { price, discount_type, discount_value } = this.updateForm.value;
 
     console.log(price, discount_type, discount_value);
@@ -192,10 +186,5 @@ export class BookUpdateComponent implements OnInit {
     }
   }
 
-  // getError(controlName: string) {
-  //   // debugger;
-  //   console.log(controlName);
-  //   const control = this.updateForm.get(controlName);
-  //   return FormValidation.getErrorMessage(control!);
-  // }
+
 }

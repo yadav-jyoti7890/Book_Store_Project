@@ -5,16 +5,12 @@
         <!-- Only show image if available -->
         <img
           [src]="
-            image ||
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU'
+               image
+              ? imageBaseUrl + 'uploads/' + image
+              : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU'
           "
           alt="Admin Image"
-          style="
-            width: 40px;
-            height: 40px;
-            object-fit: cover;
-            cursor: pointer;
-          "
+          style="width: 40px; height: 40px; object-fit: cover; cursor: pointer"
           (click)="profile.click()"
         />
 

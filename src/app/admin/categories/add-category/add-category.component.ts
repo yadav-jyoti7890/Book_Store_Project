@@ -19,12 +19,17 @@ import { categoryForm } from '../category-interface/category.model';
 @Component({
   selector: 'app-add-category',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, ValidationComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    ValidationComponent,
+  ],
   templateUrl: './add-category.component.html',
   styleUrl: './add-category.component.css',
 })
 export class AddCategoryComponent implements OnInit {
-
   public categoryForm!: FormGroup<categoryForm>;
   private selectedFile: File | null = null;
 
@@ -36,7 +41,7 @@ export class AddCategoryComponent implements OnInit {
       ]),
       description: new FormControl(null, [
         Validators.required,
-        Validators.maxLength(100)
+        Validators.maxLength(100),
       ]),
       image: new FormControl(null, [Validators.required]),
     });
@@ -49,7 +54,7 @@ export class AddCategoryComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {}
 
-  onFileChange(event: any) {
+  public onFileChange(event: any) {
     debugger;
     let file = event.target.files[0];
     if (file) {
@@ -57,7 +62,7 @@ export class AddCategoryComponent implements OnInit {
     }
   }
 
-  insertCategory() {
+  public insertCategory() {
     // if (this.categoryForm.valid) {
     //   const formData = new FormData();
     //   if (this.selectedFile) {
@@ -74,7 +79,6 @@ export class AddCategoryComponent implements OnInit {
     //     'category_description',
     //     this.categoryForm.get('description')?.value
     //   );
-
     //   this.categoryService.insertCategory(formData).subscribe(
     //     (response) => {
     //       this.categoryForm.reset();
@@ -87,8 +91,4 @@ export class AddCategoryComponent implements OnInit {
     // } else {
     // }
   }
-
-//  getControl(controlName: string): FormControl {
-//   return this.categoryForm.get(controlName) as FormControl;
-// }
 }
