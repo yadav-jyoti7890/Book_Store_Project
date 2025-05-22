@@ -50,57 +50,78 @@ export class AdminSidebarComponent implements OnInit {
 
   // get getAllUsersCount count
   private getAllUsersCount() {
-    this.adminServices.getAlluserinadmin().subscribe((response) => {
-      this.totalUsers = response.totalUsers;
-      //  console.log(this.totalUsers);
+    this.adminServices.getAlluserinadmin().subscribe({
+      next: (response) => {
+        this.totalUsers = response.totalUsers;
+        //  console.log(this.totalUsers);
+      },
+      error: (error) => {
+
+      }
     });
   }
 
   // get getAllProductsCount count
   private getAllProductsCount() {
-    this.adminServices.getallbooksinadmin().subscribe((response) => {
-      this.totalProducts = response.totalBooks;
-      // console.log(this.totalBooks)
+    this.adminServices.getallbooksinadmin().subscribe({
+      next: (response) => {
+        this.totalProducts = response.totalBooks;
+        // console.log(this.totalBooks)
+      },
+      error: (error) => {
+
+      }
     });
   }
 
   // get getAllContactCount count
   private getAllContactCount() {
-    this.adminServices.getallcontactinadmin().subscribe((response) => {
-      if (response.status == 200) {
-        this.totalContact = response.totalContact;
-        // console.log(this.totalContact)
+    this.adminServices.getallcontactinadmin().subscribe({
+      next:
+        (response) => {
+          if (response.status == 200) {
+            this.totalContact = response.totalContact;
+            // console.log(this.totalContact)
+          }
+        },
+      error: (error) => {
+
       }
     });
   }
 
   // get getAllContactCount count
   private getAllOrderCount() {
-    this.adminServices.countOrder().subscribe((response) => {
+    this.adminServices.countOrder().subscribe({ next :(response) => {
       this.totalOrder = response.totalOrder;
       // console.log(this.totalOrder)
-    });
+    },
+    error: (error)=>{
+
+    }
+  });
   }
 
   // get getAllCompanyDataCount count
   private getAllCompanyDataCount() {
     console.log('company');
-    this.adminServices.countAllCompanyData().subscribe(
-      (response) => {
+    this.adminServices.countAllCompanyData().subscribe({
+      next: (response) => {
         this.totalCompanyInfo = response.companyInfo;
         // console.log(this.companyInfo)
       },
-      (error) => { }
-    );
-  }
+     error: (error) => { }
+  });
+    }
+      
 
   // get getAllCategoryCount count
   private getAllCategoryCount() {
-    this.adminServices.getAllCategory().subscribe(
-      (response) => {
+    this.adminServices.getAllCategory().subscribe({
+      next: (response) => {
         this.totalCategory = response.totalCategory;
       },
-      (error) => { }
-    );
+     error: (error) => { }
+    });
   }
 }
