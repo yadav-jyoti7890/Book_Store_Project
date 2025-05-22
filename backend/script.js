@@ -150,22 +150,6 @@ express1.post("/login", function (req, res) {
   });
 });
 
-express1.post("/validate-token", (req, res) => {
-  console.log("verify");
-  const token = req.headers["authorization"]?.split(" ")[1]; // Get the token from header
-
-  if (!token) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    console.log("verify user/admin");
-    if (err) {
-      return res.status(401).json({ message: "Invalid token" });
-    }
-    res.status(200).json({ message: "Token is valid", user: decoded });
-  });
-});
 
 express1.get("/getbooksbyid/:id", function (req, res) {
   let id = req.params.id;

@@ -29,25 +29,23 @@ export class AuthService {
 
 
    loginauth(email:string,password:string): Observable<any> {
-  
     const loginData = {email , password };
     return this.http.post<any>(`${this.apiUrl}login`,loginData)
-
   }
 
-  verifyToken(): Observable<boolean> {
+  // verifyToken(): Observable<boolean> {
   
-    const token = localStorage.getItem('token');
-    debugger
-    if (!token) {
-      return of(false); 
-    }
+  //   const token = localStorage.getItem('token');
+  //   debugger
+  //   if (!token) {
+  //     return of(false); 
+  //   }
 
-    return this.http.post<{ valid: boolean }>('http://localhost:3000/validate-token', { token }).pipe(
-      map(response => response.valid),
-      catchError(() => of(false)) 
-    );
-  }
+  //   return this.http.post<{ valid: boolean }>('http://localhost:3000/validate-token', { token }).pipe(
+  //     map(response => response.valid),
+  //     catchError(() => of(false)) 
+  //   );
+  // }
 
 
 

@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
       console.log(state.url)
     
       if (token) {
-        this.router.navigate(['/home']);
+        this.router.navigate(['./home']);
         return false; 
       }
     }
@@ -30,7 +30,7 @@ export class AuthGuard implements CanActivate {
     else {
     
       if (!token) {
-        this.router.navigate(['/signup']);
+        this.router.navigate(['./signup']);
         return false; 
       }
     }
