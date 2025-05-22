@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -14,10 +14,11 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { ProductService } from '../product-services/product.service';
 import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { category } from '../../categories/category-interface/category.model';
+import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 
 @Component({
   selector: 'app-book-list',
@@ -37,7 +38,7 @@ import { category } from '../../categories/category-interface/category.model';
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
 })
-export class BookListComponent implements OnInit {
+export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDestroy {
   public imageBaseUrl = environment.BaseUrl;
   public category: any;
   public totalRecords!: number;
@@ -71,7 +72,10 @@ export class BookListComponent implements OnInit {
     private http: HttpClient,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
-  ) { }
+  ) { super() }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {
     this.getCategory();
@@ -91,8 +95,9 @@ export class BookListComponent implements OnInit {
           page_size: this.pageSize.toString(),
         },
       })
-      .subscribe(
-        (response) => {
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
           this.dataSource.data = response.data;
           console.log(response, this.dataSource);
           this.totalRecords = response.totalRecords;
@@ -100,11 +105,12 @@ export class BookListComponent implements OnInit {
             this.paginator.length = this.totalRecords;
           }
         },
-        (error) => {
+        error: (error) => {
           console.error('Error fetching data:', error);
         }
-      );
-  }
+      });
+   }
+      
 
   public onPageChange(event: any): void {
     this.currentPage = event.pageIndex + 1; // Angular paginator uses 0-based index
@@ -117,7 +123,9 @@ export class BookListComponent implements OnInit {
       data: { message: `Are you sure you want to delete product ?` }, // custom message
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed()
+     .pipe(takeUntil(this.destroy$))
+    .subscribe((result) => {
       if (result) {
         console.log(result);
 
@@ -157,7 +165,9 @@ export class BookListComponent implements OnInit {
     if (!categoryId) {
       this.loadData();
     } else {
-      this.productService.applyfilterByCategory(categoryId).subscribe({
+      this.productService.applyfilterByCategory(categoryId)
+       .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: (response) => {
           this.dataSource.data = response.filterCategory;
         },

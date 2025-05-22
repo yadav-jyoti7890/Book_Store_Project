@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
 import { OrderService } from '../order-services/order.service';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-orders',
@@ -14,7 +16,7 @@ import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dia
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css',
 })
-export class OrdersComponent implements OnInit {
+export class OrdersComponent extends BaseUnsubscribe implements OnInit {
   public orderData: any;
   public statuses: string[] = ['Pending', 'Shipping', 'Delivered', 'Canceled'];
   public disabledOrders: { [key: number]: boolean } = {};
@@ -28,10 +30,12 @@ export class OrdersComponent implements OnInit {
     private order: OrderService,
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) { super() }
 
   private getAllOrder() {
-    this.order.getAllOrderShow().subscribe({
+    this.order.getAllOrderShow()
+     .pipe(takeUntil(this.destroy$))
+    .subscribe({
      next:  (response) => {
         if (response) {
           this.orderData = response.orderData;
@@ -56,7 +60,9 @@ export class OrdersComponent implements OnInit {
 
         console.log(newStatus, random_number);
 
-        this.order.updateOrderStatus(random_number, newStatus).subscribe({
+        this.order.updateOrderStatus(random_number, newStatus)
+         .pipe(takeUntil(this.destroy$))
+        .subscribe({
         next:  (response) => {
             console.log('Status updated successfully', response);
             this.getAllOrder();

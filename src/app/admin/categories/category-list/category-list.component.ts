@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CategoryService } from '../categories-services/category.service';
 import { CommonModule } from '@angular/common';
@@ -7,9 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { environment } from '../../../../environments/environment.prod';
 import { category } from '../category-interface/category.model';
 import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 
 @Component({
   selector: 'app-category-list',
@@ -18,7 +19,10 @@ import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dia
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
 })
-export class CategoryListComponent implements OnInit {
+export class CategoryListComponent
+  extends BaseUnsubscribe
+  implements OnInit, OnDestroy
+{
   public category: any;
   public imageBaseUrl = environment.BaseUrl;
   public searchText: string = '';
@@ -27,32 +31,40 @@ export class CategoryListComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private dialog: MatDialog
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.getAllCategory();
     this.searchTextChanged.pipe(debounceTime(700)).subscribe((searchText) => {
-      this.categoryService.filterCategoryByKeyword(searchText).subscribe(
-        (response) => {
-          this.category = response.category;
-        },
-        (error) => {
-          console.log('Error while searching category');
-        }
-      );
+      this.categoryService
+        .filterCategoryByKeyword(searchText)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            this.category = response.category;
+          },
+          error: (error) => {
+            console.log('Error while searching category');
+          },
+        });
     });
   }
 
   private getAllCategory() {
-    this.categoryService.GetAllCategory().subscribe({
-      next: (response) => {
-        console.log(response);
-        this.category = response.category;
-      },
-      error: (error) => {
-        console.log('users get all data problem accurse');
-      },
-    });
+    this.categoryService
+      .GetAllCategory()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.category = response.category;
+        },
+        error: (error) => {
+          console.log('users get all data problem accurse');
+        },
+      });
   }
 
   public applyFilter() {
@@ -70,21 +82,27 @@ export class CategoryListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.categoryService.deleteCategoryById(id).subscribe({
-          next: (response) => {
-            if (response) {
-              alert('Category is deleted');
-              this.getAllCategory();
-            }
-          },
-          error: (error) => {
-            alert('Category is not deleted');
-          }
-        });
-      }
-      else {
+        this.categoryService
+          .deleteCategoryById(id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (response) => {
+              if (response) {
+                alert('Category is deleted');
+                this.getAllCategory();
+              }
+            },
+            error: (error) => {
+              alert('Category is not deleted');
+            },
+          });
+      } else {
         console.log('User cancelled deletion');
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.OnDestroy();
   }
 }

@@ -9,6 +9,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CategoryService } from '../categories-services/category.service';
 import { category } from '../category-interface/category.model';
 import { environment } from '../../../../environments/environment';
+import { takeUntil } from 'rxjs';
+import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 
 @Component({
   selector: 'app-update-category',
@@ -17,7 +19,7 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './update-category.component.html',
   styleUrl: './update-category.component.css',
 })
-export class UpdateCategoryComponent implements OnInit {
+export class UpdateCategoryComponent extends BaseUnsubscribe implements OnInit {
   public updateCategoryForm!: FormGroup;
   public category_id!: number;
   public categoryData!: category;
@@ -27,7 +29,7 @@ export class UpdateCategoryComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private activate: ActivatedRoute
-  ) { }
+  ) {super() }
 
   ngOnInit(): void {
     this.activate.paramMap.subscribe((paramp) => {
@@ -49,7 +51,9 @@ export class UpdateCategoryComponent implements OnInit {
   }
 
   private getCategoryById() {
-    this.categoryService.getCategoryById(this.category_id).subscribe({
+    this.categoryService.getCategoryById(this.category_id)
+     .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (response) => {
         this.categoryData = response.categoryData;
         // console.log(response.categoryData,this.categoryData);
@@ -88,7 +92,9 @@ export class UpdateCategoryComponent implements OnInit {
     );
     formData.append('category_id', String(this.category_id));
 
-    this.categoryService.updateCategory(formData).subscribe({
+    this.categoryService.updateCategory(formData)
+     .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (response) => {
         this.updateCategoryForm.reset();
         alert('category update successfully');

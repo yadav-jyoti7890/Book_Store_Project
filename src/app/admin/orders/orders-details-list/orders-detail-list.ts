@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment.prod';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ItemServiceService } from '../order-services/item-service.service';
+import { takeUntil } from 'rxjs';
+import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 
 @Component({
   selector: 'app-orders-detail-list',
@@ -11,7 +13,7 @@ import { ItemServiceService } from '../order-services/item-service.service';
   templateUrl: './orders-detail-list.html',
   styleUrl: './orders-detail-list.css',
 })
-export class OrdersDetailListComponent implements OnInit {
+export class OrdersDetailListComponent extends BaseUnsubscribe implements OnInit, OnDestroy {
   public imageBaseUrl = environment.BaseUrl;
   public orderData: any;
   public order_id!: number;
@@ -21,7 +23,7 @@ export class OrdersDetailListComponent implements OnInit {
     private itemService: ItemServiceService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) { super() }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -35,9 +37,10 @@ export class OrdersDetailListComponent implements OnInit {
     this.getUsersProduct();
   }
 
-  getUsersProduct() {
-    debugger;
-    this.itemService.userItems(this.order_id).subscribe({
+  private getUsersProduct() {
+    this.itemService.userItems(this.order_id)
+     .pipe(takeUntil(this.destroy$))
+    .subscribe({
     next:  (response) => {
         this.user_items = response.items;
         console.log(this.user_items, 'user items');
@@ -45,7 +48,12 @@ export class OrdersDetailListComponent implements OnInit {
     error:  (error) => { }
     });
   }
+
+  ngOnDestroy() {
+   this.OnDestroy
+  }
 }
+
 
 export interface items {
   image: string;

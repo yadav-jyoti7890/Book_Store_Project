@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -16,6 +16,8 @@ import { ProductService } from '../product-services/product.service';
 import { ValidationComponent } from '../../../validation/validation/validation.component';
 import { product, productForm } from '../product-interface/product.model';
 import { response } from 'express';
+import { takeUntil } from 'rxjs';
+import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 
 @Component({
   selector: 'app-add-book',
@@ -24,7 +26,7 @@ import { response } from 'express';
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.css',
 })
-export class AddBookComponent implements OnInit {
+export class AddBookComponent extends BaseUnsubscribe implements OnInit, OnDestroy {
   public data: any;
   public selectedFile!: File 
   public addProductForm!: FormGroup<productForm>;
@@ -53,10 +55,12 @@ constructor(
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     private productService: ProductService
-) {}
-
+) {super()}
+ 
 private getCategory() {
-     this.productService.getCategory().subscribe({
+     this.productService.getCategory()
+     .pipe(takeUntil(this.destroy$))
+     .subscribe({
       next: (response) => {
           this.data = response.categoryData;
       },
@@ -142,5 +146,10 @@ public submitProductForm() {
     // } else {
     // }
 }
+
+ ngOnDestroy() {
+    this.OnDestroy()
+  }
+
 
 }

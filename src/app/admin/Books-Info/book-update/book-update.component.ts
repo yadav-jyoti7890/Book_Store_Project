@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   FormControl,
@@ -11,6 +11,8 @@ import {
 import { ProductService } from '../product-services/product.service';
 import { product } from '../product-interface/product.model';
 import { environment } from '../../../../environments/environment';
+import { takeUntil } from 'rxjs';
+import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 
 @Component({
   selector: 'app-book-update',
@@ -19,7 +21,7 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './book-update.component.html',
   styleUrl: './book-update.component.css',
 })
-export class BookUpdateComponent implements OnInit {
+export class BookUpdateComponent extends BaseUnsubscribe implements OnInit, OnDestroy {
   public productId!: number;
   public imagePreview: string | null | any;
   public selectedFile: File | null = null;
@@ -32,7 +34,8 @@ export class BookUpdateComponent implements OnInit {
     private activate: ActivatedRoute,
     private productService: ProductService,
     private router: Router
-  ) { }
+  ) {super() }
+
 
   ngOnInit(): void {
     this.getCategory();
@@ -74,7 +77,9 @@ export class BookUpdateComponent implements OnInit {
   }
 
   private getCategory() {
-    this.productService.getCategory().subscribe({
+    this.productService.getCategory()
+     .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (response) => {
         this.data = response.categoryData;
         console.log(this.data);
@@ -85,7 +90,9 @@ export class BookUpdateComponent implements OnInit {
 
   private getProductById() {
     // console.log('click edit button', this.productId);
-    this.productService.getProductById(this.productId).subscribe({
+    this.productService.getProductById(this.productId)
+     .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (response) => {
         if (response) {
           this.product = response.data;
@@ -111,7 +118,9 @@ export class BookUpdateComponent implements OnInit {
   }
 
   private getAllProduct() {
-    this.productService.getAllproduct().subscribe({
+    this.productService.getAllproduct()
+     .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (response) => { },
       error: (error) => { },
     });
@@ -154,7 +163,9 @@ export class BookUpdateComponent implements OnInit {
     formData.append('date', this.updateForm.get('date')?.value);
     formData.append('productId', String(this.productId));
 
-    this.productService.updateBook(formData).subscribe({
+    this.productService.updateBook(formData)
+     .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (response) => {
         this.getAllProduct();
         this.router.navigate(['./book-list']);
@@ -182,5 +193,9 @@ export class BookUpdateComponent implements OnInit {
     } else {
       this.updateForm.get('offer_price')?.setValue(price);
     }
+  }
+
+   ngOnDestroy(){
+     this.OnDestroy()
   }
 }

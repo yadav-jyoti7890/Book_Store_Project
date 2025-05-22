@@ -15,6 +15,7 @@ import { RouterLink } from '@angular/router';
 import '@angular/compiler';
 import { ValidationComponent } from '../../../validation/validation/validation.component';
 import { categoryForm } from '../category-interface/category.model';
+import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 
 @Component({
   selector: 'app-add-category',
@@ -29,7 +30,7 @@ import { categoryForm } from '../category-interface/category.model';
   templateUrl: './add-category.component.html',
   styleUrl: './add-category.component.css',
 })
-export class AddCategoryComponent implements OnInit {
+export class AddCategoryComponent extends BaseUnsubscribe implements OnInit {
   public categoryForm!: FormGroup<categoryForm>;
   private selectedFile: File | null = null;
 
@@ -52,7 +53,7 @@ export class AddCategoryComponent implements OnInit {
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private formBuilder: FormBuilder
-  ) {}
+  ) { super()}
 
   public onFileChange(event: any) {
     debugger;

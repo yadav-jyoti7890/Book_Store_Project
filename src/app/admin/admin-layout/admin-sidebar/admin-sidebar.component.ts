@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminService } from '../admin-services/admin.service';
+import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -17,7 +19,7 @@ import { AdminService } from '../admin-services/admin.service';
   templateUrl: './admin-sidebar.component.html',
   styleUrl: './admin-sidebar.component.css',
 })
-export class AdminSidebarComponent implements OnInit {
+export class AdminSidebarComponent extends BaseUnsubscribe  implements OnInit, OnDestroy {
   public totalUsers!: number;
   public totalProducts!: number;
   public totalContact!: number;
@@ -28,7 +30,10 @@ export class AdminSidebarComponent implements OnInit {
   public isActive = false;
   public currentTime!: string;
 
-  constructor(private adminServices: AdminService) { }
+  constructor(private adminServices: AdminService) {
+    super()
+   }
+
 
   ngOnInit(): void {
     this.getAllUsersCount();
@@ -50,8 +55,12 @@ export class AdminSidebarComponent implements OnInit {
 
   // get getAllUsersCount count
   private getAllUsersCount() {
-    this.adminServices.getAlluserinadmin().subscribe({
+    this.adminServices.getAlluserinadmin()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+   
       next: (response) => {
+           console.log("subscribe")
         this.totalUsers = response.totalUsers;
         //  console.log(this.totalUsers);
       },
@@ -63,7 +72,9 @@ export class AdminSidebarComponent implements OnInit {
 
   // get getAllProductsCount count
   private getAllProductsCount() {
-    this.adminServices.getallbooksinadmin().subscribe({
+    this.adminServices.getallbooksinadmin()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (response) => {
         this.totalProducts = response.totalBooks;
         // console.log(this.totalBooks)
@@ -76,7 +87,9 @@ export class AdminSidebarComponent implements OnInit {
 
   // get getAllContactCount count
   private getAllContactCount() {
-    this.adminServices.getallcontactinadmin().subscribe({
+    this.adminServices.getallcontactinadmin()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next:
         (response) => {
           if (response.status == 200) {
@@ -92,7 +105,9 @@ export class AdminSidebarComponent implements OnInit {
 
   // get getAllContactCount count
   private getAllOrderCount() {
-    this.adminServices.countOrder().subscribe({ next :(response) => {
+    this.adminServices.countOrder()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({ next :(response) => {
       this.totalOrder = response.totalOrder;
       // console.log(this.totalOrder)
     },
@@ -105,7 +120,9 @@ export class AdminSidebarComponent implements OnInit {
   // get getAllCompanyDataCount count
   private getAllCompanyDataCount() {
     console.log('company');
-    this.adminServices.countAllCompanyData().subscribe({
+    this.adminServices.countAllCompanyData()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (response) => {
         this.totalCompanyInfo = response.companyInfo;
         // console.log(this.companyInfo)
@@ -117,11 +134,17 @@ export class AdminSidebarComponent implements OnInit {
 
   // get getAllCategoryCount count
   private getAllCategoryCount() {
-    this.adminServices.getAllCategory().subscribe({
+    this.adminServices.getAllCategory()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (response) => {
         this.totalCategory = response.totalCategory;
       },
      error: (error) => { }
     });
+  }
+
+    ngOnDestroy(){
+     this.OnDestroy();
   }
 }

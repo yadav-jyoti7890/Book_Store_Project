@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   Router,
   RouterLink,
@@ -10,6 +10,8 @@ import { AlluserService } from '../../users-info/user-services/alluser.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { response } from 'express';
 import { environment } from '../../../../environments/environment';
+import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -18,7 +20,10 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css',
 })
-export class AdminDashboardComponent implements OnInit {
+export class AdminDashboardComponent
+  extends BaseUnsubscribe
+  implements OnInit, OnDestroy
+{
   private channel = new BroadcastChannel('auth_channel');
   private selectedFile!: File;
   public previewImage: any;
@@ -33,7 +38,9 @@ export class AdminDashboardComponent implements OnInit {
     private admin: AlluserService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.username = localStorage.getItem('userName');
@@ -58,32 +65,42 @@ export class AdminDashboardComponent implements OnInit {
 
     console.log(this.selectedFile);
     this.user_id = localStorage.getItem('user_id');
-    this.admin.uploadProfilePicture(this.user_id, this.selectedFile).subscribe(
-      (response) => {
-        alert(response.message);
-        this.getImage();
-      },
-      (error) => {
-        alert('Error updating profile');
-      }
-    );
+    this.admin
+      .uploadProfilePicture(this.user_id, this.selectedFile)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          alert(response.message);
+          this.getImage();
+        },
+        error: (error) => {
+          alert('Error updating profile');
+        },
+      });
   }
 
   private getImage() {
     this.user_id = localStorage.getItem('user_id');
-    this.admin.getImages(this.user_id).subscribe(
-      (response) => {
-        if (response && response.userData.length > 0) {
-          this.image = response.userData[0].profile_image;
-        } else {
+    this.admin
+      .getImages(this.user_id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response && response.userData.length > 0) {
+            this.image = response.userData[0].profile_image;
+          } else {
+            this.image = null;
+          }
+          console.log(this.image, 'image');
+        },
+        error: (error) => {
+          console.error('Error fetching image:', error);
           this.image = null;
-        }
-        console.log(this.image, 'image');
-      },
-      (error) => {
-        console.error('Error fetching image:', error);
-        this.image = null;
-      }
-    );
+        },
+      });
+  }
+
+  ngOnDestroy() {
+    this.OnDestroy();
   }
 }
