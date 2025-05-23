@@ -33,10 +33,11 @@ export class HeaderComponent implements OnInit {
   private selectedFile: any;
   public profileImage: any;
   public image!: string | null;
+  public imageBaseUrl = environment.BaseUrl
 
   ngOnInit() {
     this.productCount();
-    this.getImage();
+    this.getProfile();
   }
 
   log() {
@@ -159,18 +160,18 @@ export class HeaderComponent implements OnInit {
     this.user_id = localStorage.getItem('user_id');
     this.userservice
       .uploadProfilePicture(this.user_id, this.selectedFile)
-      .subscribe(
-        (response) => {
+      .subscribe({
+      next: (response) => {
           alert(response.message);
-          this.getImage();
+          this.getProfile();
         },
-        (error) => {
+      error: (error) => {
           alert('Error updating profile');
         }
-      );
+  });
   }
 
-  getImage() {
+  getProfile() {
     this.user_id = localStorage.getItem('user_id');
     this.userservice.getImages(this.user_id).subscribe(
       (response) => {
@@ -179,8 +180,8 @@ export class HeaderComponent implements OnInit {
           response.userData.length > 0 &&
           response.userData[0].profile_image
         ) {
-          this.image =
-            'http://localhost:3000' + response.userData[0].profile_image;
+          this.image = response.userData[0].profile_image;
+          console.log(this.image)
         } else {
           this.image = null; // Default case
         }

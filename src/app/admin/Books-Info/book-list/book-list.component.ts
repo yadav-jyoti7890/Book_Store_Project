@@ -79,7 +79,7 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
     this.getCategory();
     this.loadData();
 
-    this.categoryControl.valueChanges.subscribe((selectedId) => {
+      this.categoryControl.valueChanges.subscribe((selectedId) => {
       this.applyCategoryFilter(Number(selectedId));
     });
   }

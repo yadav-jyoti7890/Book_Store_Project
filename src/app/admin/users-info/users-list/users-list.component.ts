@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment.prod';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../user-services/users.service';
 import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 import { takeUntil } from 'rxjs';
@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs';
 @Component({
   selector: 'app-users-list',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.css',
 })
@@ -22,9 +22,13 @@ export class UsersListComponent
   public searchQuery: any = '';
   public usersData: any;
   public filterValue: any;
+  public filterUsers = new FormControl('')
 
   ngOnInit(): void {
     this.getAllUsersFromDataBase();
+    this.filterUsers.valueChanges.subscribe((selectedValue)=>{
+      this.applyFilters(String(selectedValue))
+    })
   }
 
   constructor(private users: UsersService) {
@@ -62,13 +66,13 @@ export class UsersListComponent
       });
   }
 
-  public applyFilters() {
-    console.log(this.selectedRole, this.searchQuery);
-    if (!this.selectedRole) {
+  public applyFilters(value: string) {
+    console.log(value);
+    if (!value) {
       this.getAllUsersFromDataBase();
     } else {
       this.users
-        .applyFilter(this.selectedRole, this.searchQuery)
+        .applyFilter(value)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {

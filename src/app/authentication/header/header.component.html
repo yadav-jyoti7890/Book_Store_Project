@@ -22,7 +22,7 @@
 
       <div class="btn-group">
         <div class="img_sec">
-          <img
+          <!-- <img
             [src]="
               image ||
               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU'
@@ -33,7 +33,7 @@
             style="border-radius: 50%"
             class="dropdown-toggle"
             data-bs-toggle="dropdown"
-          />
+          /> -->
 
           <ul class="dropdown-menu p-2" style="text-align: start">
             <li>
@@ -52,16 +52,14 @@
             />
           </ul>
 
-          <ng-template #defaultImage>
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU"
+            <img [src] = "image ? imageBaseUrl + 'uploads/'+  image : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo2Rx5rFKLf6Rt59A_3o5HI9dmdUSLnUj4DWq24jZuDQSvC0Gz4-HmWXpPljwsz3jroYg&usqp=CAU'"
               height="40px"
               width="40px"
               style="border-radius: 50%"
               class="dropdown-toggle"
               data-bs-toggle="dropdown"
             />
-          </ng-template>
+
         </div>
       </div>
     </div>
