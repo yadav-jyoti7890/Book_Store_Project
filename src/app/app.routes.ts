@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { SignupComponent } from './authentication/signup/signup.component';
 import { AdminDashboardComponent } from './admin/admin-layout/admin-dashboard/admin-dashboard.component';
-// import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
 import { BookComponent } from './user/product-info/book/book.component';
 import { AddBookComponent } from './admin/Books-Info/add-book/add-book.component';
 import { HomeComponent } from './user/home-page/home/home.component';
@@ -29,101 +28,9 @@ import { ContactComponent } from './admin/contact-info/contact/contact.component
 import { UpdateCategoryComponent } from './admin/categories/update-category/update-category.component';
 
 export const routes: Routes = [
- { path: 'home', component: HomeComponent},
-  { path: 'signup', component: SignupComponent, canActivate: [AuthGuard] },
-  {
-    path: 'admin_dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard],
-    children: [
-      { path: '', redirectTo: 'admin_sidebar', pathMatch: 'full' },
-      { path: 'admin_sidebar', component: AdminSidebarComponent, canActivate: [AuthGuard] },
-      { path: 'add_book', component: AddBookComponent, canActivate: [AuthGuard] },
-      {path:  'book-list', component: BookListComponent, canActivate: [AuthGuard]},
-      { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
-      { path: 'orders-detail-list', component: OrdersDetailListComponent, canActivate: [AuthGuard] },
-      { path: 'book_update/:id', component: BookUpdateComponent, canActivate: [AuthGuard] },
-      { path: 'users-list', component: UsersListComponent, canActivate: [AuthGuard] },
-      { path: 'items/:id', component: OrdersDetailListComponent, canActivate: [AuthGuard] },
-      { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
-      { path: 'update-company-info/:id', component: UpdateCompanyInfoComponent, canActivate: [AuthGuard] },
-      { path: 'category', component: AddCategoryComponent, canActivate: [AuthGuard]},
-      { path: 'category_list', component:CategoryListComponent, canActivate: [AuthGuard] },
-      {path: 'addCompany-info', component: AddCompanyInfoComponent, canActivate: [AuthGuard]},
-      {path: 'companyinfo-list', component: CompanyInfoListComponent, canActivate: [AuthGuard]},
-      {path: 'update-category/:id', component: UpdateCategoryComponent, canActivate: [AuthGuard]}
-    ],
-  },
-
-  { path: 'about', component: AboutComponent },
-  { path: 'book', component: BookComponent, canActivate: [AuthGuard] },
-  { path: 'contact_us', component: ContactUsComponent, canActivate: [AuthGuard] },
-  { path: 'view_detail/:id', component: ViewDetailComponent, canActivate: [AuthGuard] },
-  { path: 'update/:id', component: BookUpdateComponent, canActivate: [AuthGuard] },
-  {
-    path: 'add_cart',
-    component: AddCartComponent,
-    canActivate: [AuthGuard],
-    children: [
-      { path: 'address', component: AddressComponent, canActivate: [AuthGuard] }
-    ]
-  },
-  { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
-  { path: 'my_order', component: MyOrderComponent, canActivate: [AuthGuard]},
-  { path: 'order_detail/:id', component: OrderDetailComponent, canActivate: [AuthGuard]},
-
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
-
-];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
  {
-    path: 'home',
-    loadComponent: () =>
-      import('./user/home/home.component').then((m) => m.HomeComponent),
-    canActivate: [AuthGuard],
+  path: 'home',
+  loadComponent: () => import('./user/home-page/home/home.component').then((m)=>m.HomeComponent)
   },
   
   {
@@ -311,7 +218,7 @@ export const routes: Routes = [
       },
     ],
   },
-  // { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
+ 
   
   { path: 'my_order',   loadComponent: ()=> import('./user/user-order-info/my-order/my-order.component').then((m) => m.MyOrderComponent), canActivate: [AuthGuard] },
   {
@@ -321,4 +228,84 @@ export const routes: Routes = [
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  { path: 'home', component: HomeComponent},
+//   { path: 'signup', component: SignupComponent, canActivate: [AuthGuard] },
+//   {
+//     path: 'admin_dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard],
+//     children: [
+//       { path: '', redirectTo: 'admin_sidebar', pathMatch: 'full' },
+//       { path: 'admin_sidebar', component: AdminSidebarComponent, canActivate: [AuthGuard] },
+//       { path: 'add_book', component: AddBookComponent, canActivate: [AuthGuard] },
+//       {path:  'book-list', component: BookListComponent, canActivate: [AuthGuard]},
+//       { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
+//       { path: 'orders-detail-list', component: OrdersDetailListComponent, canActivate: [AuthGuard] },
+//       { path: 'book_update/:id', component: BookUpdateComponent, canActivate: [AuthGuard] },
+//       { path: 'users-list', component: UsersListComponent, canActivate: [AuthGuard] },
+//       { path: 'items/:id', component: OrdersDetailListComponent, canActivate: [AuthGuard] },
+//       { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
+//       { path: 'update-company-info/:id', component: UpdateCompanyInfoComponent, canActivate: [AuthGuard] },
+//       { path: 'category', component: AddCategoryComponent, canActivate: [AuthGuard]},
+//       { path: 'category_list', component:CategoryListComponent, canActivate: [AuthGuard] },
+//       {path: 'addCompany-info', component: AddCompanyInfoComponent, canActivate: [AuthGuard]},
+//       {path: 'companyinfo-list', component: CompanyInfoListComponent, canActivate: [AuthGuard]},
+//       {path: 'update-category/:id', component: UpdateCategoryComponent, canActivate: [AuthGuard]}
+//     ],
+//   },
+
+//   { path: 'about', component: AboutComponent },
+//   { path: 'book', component: BookComponent, canActivate: [AuthGuard] },
+//   { path: 'contact_us', component: ContactUsComponent, canActivate: [AuthGuard] },
+//   { path: 'view_detail/:id', component: ViewDetailComponent, canActivate: [AuthGuard] },
+//   { path: 'update/:id', component: BookUpdateComponent, canActivate: [AuthGuard] },
+//   {
+//     path: 'add_cart',
+//     component: AddCartComponent,
+//     canActivate: [AuthGuard],
+//     children: [
+//       { path: 'address', component: AddressComponent, canActivate: [AuthGuard] }
+//     ]
+//   },
+//   { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
+//   { path: 'my_order', component: MyOrderComponent, canActivate: [AuthGuard]},
+//   { path: 'order_detail/:id', component: OrderDetailComponent, canActivate: [AuthGuard]},
+
+//   { path: '', redirectTo: 'home', pathMatch: 'full' }
+
+// ];
+
