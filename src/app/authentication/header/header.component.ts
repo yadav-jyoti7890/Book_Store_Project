@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit {
           this.role = event.data.role;
           this.isLoggedIn = true;
           this.router.navigate([
-            this.role === 'admin' ? './admin_dashboard' : './user_dashboard',
+            this.role === 'admin' ? './admin_dashboard' : './home',
           ]);
         }
       });

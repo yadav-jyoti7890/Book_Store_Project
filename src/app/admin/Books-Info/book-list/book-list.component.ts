@@ -73,9 +73,7 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) { super() }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
+  
 
   ngOnInit(): void {
     this.getCategory();
@@ -186,5 +184,9 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
       },
       error: (error) => { }
     });
+  }
+
+  ngOnDestroy(){
+    this.OnDestroy();
   }
 }
