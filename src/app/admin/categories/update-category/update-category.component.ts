@@ -11,6 +11,10 @@ import { category } from '../category-interface/category.model';
 import { environment } from '../../../../environments/environment';
 import { takeUntil } from 'rxjs';
 import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivate.model';
+import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-update-category',
@@ -19,7 +23,7 @@ import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
   templateUrl: './update-category.component.html',
   styleUrl: './update-category.component.css',
 })
-export class UpdateCategoryComponent extends BaseUnsubscribe implements OnInit {
+export class UpdateCategoryComponent extends BaseUnsubscribe implements OnInit, CanDeactivateInterface {
   public updateCategoryForm!: FormGroup;
   public category_id!: number;
   public categoryData!: category;
@@ -28,8 +32,11 @@ export class UpdateCategoryComponent extends BaseUnsubscribe implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private activate: ActivatedRoute
+    private activate: ActivatedRoute,
+    private dialog: MatDialog
   ) {super() }
+
+  
 
   ngOnInit(): void {
     this.activate.paramMap.subscribe((paramp) => {
@@ -104,4 +111,22 @@ export class UpdateCategoryComponent extends BaseUnsubscribe implements OnInit {
       },
     });
   }
+
+canDeactivate(): Promise<boolean> {
+  if (this.updateCategoryForm.dirty) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        message: 'You have unsaved changes. Do you really want to leave?',
+      },
+    });
+
+    return dialogRef.afterClosed().toPromise().then((result) => {
+      return result === true;
+    });
+  }
+
+  return Promise.resolve(true); 
+}
+
 }

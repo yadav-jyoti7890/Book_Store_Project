@@ -26,13 +26,17 @@ import { OrdersDetailListComponent } from './admin/orders/orders-details-list/or
 import { UsersListComponent } from './admin/users-info/users-list/users-list.component';
 import { ContactComponent } from './admin/contact-info/contact/contact.component';
 import { UpdateCategoryComponent } from './admin/categories/update-category/update-category.component';
+import { unsavedChangesGuard } from './candeactive-guards/unsaved-changes';
 
 export const routes: Routes = [
- {
-  path: 'home',
-  loadComponent: () => import('./user/home-page/home/home.component').then((m)=>m.HomeComponent)
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./user/home-page/home/home.component').then(
+        (m) => m.HomeComponent
+      ),
   },
-  
+
   {
     path: 'signup',
     loadComponent: () =>
@@ -66,6 +70,7 @@ export const routes: Routes = [
             (m) => m.AddBookComponent
           ),
         canActivate: [AuthGuard],
+        canDeactivate: [unsavedChangesGuard],
       },
       {
         path: 'book-list',
@@ -99,8 +104,18 @@ export const routes: Routes = [
             (m) => m.BookUpdateComponent
           ),
         canActivate: [AuthGuard],
+        canDeactivate: [unsavedChangesGuard],
       },
 
+      {
+        path: 'update-category/:id',
+        loadComponent: () =>
+          import(
+            './admin/categories/update-category/update-category.component'
+          ).then((m) => m.UpdateCategoryComponent),
+        canActivate: [AuthGuard],
+        canDeactivate: [unsavedChangesGuard],
+      },
       {
         path: 'users-list',
         loadComponent: () =>
@@ -132,6 +147,7 @@ export const routes: Routes = [
             './admin/company-info/update-company-info/update-company-info.component'
           ).then((m) => m.UpdateCompanyInfoComponent),
         canActivate: [AuthGuard],
+        canDeactivate: [unsavedChangesGuard],
       },
       {
         path: 'category',
@@ -140,6 +156,7 @@ export const routes: Routes = [
             (m) => m.AddCategoryComponent
           ),
         canActivate: [AuthGuard],
+        canDeactivate: [unsavedChangesGuard],
       },
       {
         path: 'category_list',
@@ -194,75 +211,61 @@ export const routes: Routes = [
 
   {
     path: 'view_detail/:id',
-    loadComponent: () => import('./user/view-info/view-detail/view-detail.component').then((m) => m.ViewDetailComponent),
+    loadComponent: () =>
+      import('./user/view-info/view-detail/view-detail.component').then(
+        (m) => m.ViewDetailComponent
+      ),
     canActivate: [AuthGuard],
   },
 
   {
     path: 'update/:id',
-    loadComponent: ()=> import('./admin/Books-Info/book-update/book-update.component').then((m) => m.BookUpdateComponent),
+    loadComponent: () =>
+      import('./admin/Books-Info/book-update/book-update.component').then(
+        (m) => m.BookUpdateComponent
+      ),
     canActivate: [AuthGuard],
+    canDeactivate: [unsavedChangesGuard],
   },
-
 
   {
     path: 'add_cart',
-    loadComponent: ()=> import('./user/add-cart-info/add-cart/add-cart.component').then((m) => m.AddCartComponent),
+    loadComponent: () =>
+      import('./user/add-cart-info/add-cart/add-cart.component').then(
+        (m) => m.AddCartComponent
+      ),
     canActivate: [AuthGuard],
     children: [
       {
         path: 'address',
-        loadComponent: ()=> import('./user/address-info/address/address.component').then((m) => m.AddressComponent),
+        loadComponent: () =>
+          import('./user/address-info/address/address.component').then(
+            (m) => m.AddressComponent
+          ),
 
         canActivate: [AuthGuard],
       },
     ],
   },
- 
-  
-  { path: 'my_order',   loadComponent: ()=> import('./user/user-order-info/my-order/my-order.component').then((m) => m.MyOrderComponent), canActivate: [AuthGuard] },
+
+  {
+    path: 'my_order',
+    loadComponent: () =>
+      import('./user/user-order-info/my-order/my-order.component').then(
+        (m) => m.MyOrderComponent
+      ),
+    canActivate: [AuthGuard],
+  },
   {
     path: 'order_detail/:id',
-     loadComponent: ()=> import('./user/user-order-info/order-detail/order-detail.component').then((m) => m.OrderDetailComponent),
+    loadComponent: () =>
+      import('./user/user-order-info/order-detail/order-detail.component').then(
+        (m) => m.OrderDetailComponent
+      ),
     canActivate: [AuthGuard],
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //  { path: 'home', component: HomeComponent},
 //   { path: 'signup', component: SignupComponent, canActivate: [AuthGuard] },
@@ -308,4 +311,3 @@ export const routes: Routes = [
 //   { path: '', redirectTo: 'home', pathMatch: 'full' }
 
 // ];
-

@@ -13,6 +13,10 @@ import { product } from '../product-interface/product.model';
 import { environment } from '../../../../environments/environment';
 import { takeUntil } from 'rxjs';
 import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivate.model';
+import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-book-update',
@@ -21,7 +25,7 @@ import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
   templateUrl: './book-update.component.html',
   styleUrl: './book-update.component.css',
 })
-export class BookUpdateComponent extends BaseUnsubscribe implements OnInit, OnDestroy {
+export class BookUpdateComponent extends BaseUnsubscribe implements OnInit, OnDestroy, CanDeactivateInterface {
   public productId!: number;
   public imagePreview: string | null | any;
   public selectedFile: File | null = null;
@@ -33,7 +37,8 @@ export class BookUpdateComponent extends BaseUnsubscribe implements OnInit, OnDe
   constructor(
     private activate: ActivatedRoute,
     private productService: ProductService,
-    private router: Router
+    private router: Router,
+   private dialog: MatDialog,
   ) {super() }
 
 
@@ -195,7 +200,26 @@ export class BookUpdateComponent extends BaseUnsubscribe implements OnInit, OnDe
     }
   }
 
+  canDeactivate(): Promise<boolean> {
+  if (this.updateForm.dirty) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        message: 'You have unsaved changes. Do you really want to leave?',
+      },
+    });
+
+    return dialogRef.afterClosed().toPromise().then((result) => {
+      return result === true;
+    });
+  }
+
+  return Promise.resolve(true); 
+}
+
    ngOnDestroy(){
      this.OnDestroy()
   }
+
+
 }

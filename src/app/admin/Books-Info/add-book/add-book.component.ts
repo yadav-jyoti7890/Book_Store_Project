@@ -18,6 +18,8 @@ import { product, productForm } from '../product-interface/product.model';
 import { response } from 'express';
 import { takeUntil } from 'rxjs';
 import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivate.model';
+import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-add-book',
@@ -26,7 +28,7 @@ import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.css',
 })
-export class AddBookComponent extends BaseUnsubscribe implements OnInit, OnDestroy {
+export class AddBookComponent extends BaseUnsubscribe implements OnInit, OnDestroy, CanDeactivateInterface {
   public data: any;
   public selectedFile!: File 
   public addProductForm!: FormGroup<productForm>;
@@ -56,6 +58,7 @@ constructor(
     private formBuilder: FormBuilder,
     private productService: ProductService
 ) {super()}
+
  
 private getCategory() {
      this.productService.getCategory()
@@ -150,6 +153,23 @@ public submitProductForm() {
  ngOnDestroy() {
     this.OnDestroy()
   }
+
+  canDeactivate(): Promise<boolean> {
+  if (this.addProductForm.dirty) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        message: 'You have unsaved changes. Do you really want to leave?',
+      },
+    });
+
+    return dialogRef.afterClosed().toPromise().then((result) => {
+      return result === true;
+    });
+  }
+
+  return Promise.resolve(true); 
+}
 
 
 }

@@ -16,6 +16,8 @@ import '@angular/compiler';
 import { ValidationComponent } from '../../../validation/validation/validation.component';
 import { categoryForm } from '../category-interface/category.model';
 import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivate.model';
 
 @Component({
   selector: 'app-add-category',
@@ -30,7 +32,7 @@ import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
   templateUrl: './add-category.component.html',
   styleUrl: './add-category.component.css',
 })
-export class AddCategoryComponent extends BaseUnsubscribe implements OnInit {
+export class AddCategoryComponent extends BaseUnsubscribe implements OnInit, CanDeactivateInterface {
   public categoryForm!: FormGroup<categoryForm>;
   private selectedFile: File | null = null;
 
@@ -91,5 +93,22 @@ export class AddCategoryComponent extends BaseUnsubscribe implements OnInit {
     //   );
     // } else {
     // }
+  }
+
+  canDeactivate(): Promise<boolean> {
+    if (this.categoryForm.dirty) {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        data: {
+          message: 'You have unsaved changes. Do you really want to leave?',
+        },
+      });
+  
+      return dialogRef.afterClosed().toPromise().then((result) => {
+        return result === true;
+      });
+    }
+  
+    return Promise.resolve(true); 
   }
 }
