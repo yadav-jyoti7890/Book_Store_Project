@@ -208,39 +208,38 @@ export class AddCartComponent implements OnInit {
       this.order_item
     );
 
-    this.add_cart.confirm_Order(order_data).subscribe(
-      (response) => {
-        this.order_id = response.order_id;
-        console.log('Order confirmed:', response, 'order_id', this.order_id);
+   this.add_cart.confirm_Order(order_data).subscribe({
+  next: (response) => {
+    this.order_id = response.order_id;
+    console.log('Order confirmed:', response);
 
-        this.add_cart.order_item(this.order_id, this.order_item).subscribe(
-          (response) => {
-            // this.user_id = localStorage.getItem('user_id');
-            this.add_cart.deleteAllCartData(this.user_id).subscribe(
-              (response) => {
-                this.snackBar.open('Order Confirmed Successfully', 'close', {
-                  duration: 3000,
-                  horizontalPosition: 'center',
-                  verticalPosition: 'top',
-                });
-                this.add_cart_count();
-                this.router.navigate(['/home']);
-              },
-              (error) => {
-                console.error('delete items from add cart');
-              }
-            );
-          },
-          (error) => {
-            console.error('Error while adding order items:', error);
-          }
-        );
+    // Now call both APIs together with forkJoin
+    forkJoin([
+      this.add_cart.order_item(this.order_id, this.order_item),
+      this.add_cart.deleteAllCartData(this.user_id)
+    ]).subscribe({
+      next: ([orderItemResponse, deleteCartResponse]) => {
+        console.log('Order items added:', orderItemResponse);
+        console.log('Cart cleared:', deleteCartResponse);
+
+        this.snackBar.open('Order Confirmed Successfully', 'close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+        this.add_cart_count();
+        this.router.navigate(['/home']);
       },
-
-      (error) => {
-        console.error('Error while confirming order:', error);
+      error: (error) => {
+        console.error('Error in order_item or deleteAllCartData:', error);
       }
-    );
+    });
+  },
+  error: (error) => {
+    console.error('Error while confirming order:', error);
+  }
+});
+
   }
 
   // confirmOrder(){

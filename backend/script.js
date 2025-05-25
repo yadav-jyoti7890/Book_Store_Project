@@ -257,8 +257,8 @@ express1.post("/add_address/:id", function (req, res) {
   const id = req.params.id;
   const { fullname, contact, pincode, city, state, house_no, road_name } =
     req.body;
-  // console.log(fullname,contact,pincode,city,state,house_no,road_name)
-  // console.log(fullname,contact,pincode,city,state,house_no,road_name,id)
+
+  console.log(fullname,contact,pincode,city,state,house_no,road_name,id)
   let sql =
     "INSERT INTO user_address (user_id , full_name , contact , pincode, city , state , house_no , road_name) VALUES (?,?,?,?,?,?,?,?)";
   db_connection.query(
@@ -289,43 +289,43 @@ express1.get("/getaddress/:id", function (req, res) {
 });
 
 express1.get("/api/data", (req, res) => {
-  const page = parseInt(req.query.page) || 1; // Current page, default to 1
-  const pageSize = parseInt(req.query.page_size) || 10; // Number of records per page, default to 10
+  const page = parseInt(req.query.page) || 1; 
+  const pageSize = parseInt(req.query.page_size) || 5; 
+  const offset = (page - 1) * pageSize; 
+  // 1-1*5 = 5 // 2-1 = 1*5=5// 3-1 = 2*5=10/
 
-  const offset = (page - 1) * pageSize; // For Page 1, offset will be 0; for Page 2, it will be 10; and so on.
-
-  // Query to get the data for the current page
+  
   const dataQuery = `SELECT p.*, c.category_name 
                      FROM product p
                      INNER JOIN category c ON p.category_id = c.category_id
-                     WHERE p.is_deleted = FALSE 
+                     WHERE p.is_deleted = 0 
                      LIMIT ${pageSize} OFFSET ${offset}`;
 
-  // Query to get the total number of records (this is needed for pagination)
-  const countQuery = `SELECT COUNT(*) AS totalRecords FROM product`;
+  
+  const countQuery = `SELECT COUNT(*) AS totalRecords FROM product where is_deleted = 0`;
 
-  // Execute the data query
+
   db_connection.query(dataQuery, (err, results) => {
     if (err) {
       res.status(500).send("Error fetching data");
       return;
     }
 
-    // Execute the count query to get total number of records
+   
     db_connection.query(countQuery, (err, countResults) => {
       if (err) {
         res.status(500).send("Error fetching total records count");
         return;
-      }
+    }
 
-      // Respond with the paginated data and total records
+    
       const totalRecords = countResults[0].totalRecords;
 
       return res.json({
-        data: results, // The current page data
-        totalRecords: totalRecords, // Total number of records in the database (dynamic)
-        totalPages: Math.ceil(totalRecords / pageSize), // Total pages based on the total records and page size
-        currentPage: page, // Current page number
+        data: results, 
+        totalRecords: totalRecords, 
+        totalPages: Math.ceil(totalRecords / pageSize), 
+        currentPage: page,
       });
     });
   });
@@ -360,8 +360,8 @@ express1.post("/add-books", upload.single("image"), function (req, res) {
     discount_value,
     stock,
     date,
-  } = req.body;
-
+  } = req.body
+  console.log(req.body)
   // const imagePath = req.file ? req.file.path : null;
   const imagePath = req.file ? "uploads/" + req.file.originalname : null;
   const image = imagePath.split("/").pop();
@@ -1201,7 +1201,7 @@ express1.get("/getOderDetail/:order_id", function (req, res) {
 
 express1.post("/category", upload.single("image"), function (req, res) {
   const { category_name, category_description } = req.body;
-  console.log(category_description);
+  console.log(category_description,  "category");
 
   const imagePath = req.file ? "uploads/" + req.file.originalname : null;
   const image = imagePath.split("/").pop();
@@ -1240,17 +1240,39 @@ express1.get("/getcategory/", function (req, res) {
   });
 });
 
-express1.get("/getallcategory", function (req, res) {
-  let sql = "select * from category where is_deleted = 0";
+express1.get("/getAllCategory", function (req, res) {
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.pageSize) || 5;
+  const offset = (page - 1) * limit;
 
-  db_connection.query(sql, function (error, result) {
+  console.log("Page:", page, "Limit:", limit, "Offset:", offset);
+
+  const sql = `SELECT * FROM category WHERE is_deleted = 0 LIMIT ${limit} OFFSET ${offset}`;
+  const sqlCount = `SELECT COUNT(*) AS totalCategory FROM category WHERE is_deleted = 0`;
+
+  db_connection.query(sql, function (error, results) {
     if (error) {
-      return res.status(500).json({ message: "server error" });
-    } else {
-      return res.status(200).send({ message: "data", category: result });
+      return res.status(500).json({ message: "Server error while fetching data" });
     }
+
+    db_connection.query(sqlCount, function (countError, countResult) {
+      if (countError) {
+        return res.status(500).json({ message: "Server error while counting data" });
+      }
+
+      const totalRecords = countResult[0].totalCategory;
+      const totalPages = Math.ceil(totalRecords / limit);
+
+      return res.json({
+        category: results,
+        totalRecords: totalRecords,
+        totalPages: totalPages,
+        currentPage: page,
+      });
+    });
   });
 });
+
 
 express1.delete("/deleteCategory/:id", (req, res) => {
   const categoryId = req.params.id;

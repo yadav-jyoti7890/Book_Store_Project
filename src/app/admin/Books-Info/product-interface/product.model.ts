@@ -1,22 +1,22 @@
 import { FormControl } from '@angular/forms'
 
 export interface product {
-  title: string ;
-  author: string;
-  description: string;
-  price:number | null;
-  discount_type: number | null;
+  title: string | null;
+  author: string | null;
+  description: string | null;
+  price: number | null;
+  discount_type: string | null;
   discount_value: number | null;
   offer_price: number | null;
   category_id: number | null;
-  stock_quantity: number | null;
-  sold_quantity: number | null
-  image: string
-  publication_date: Date
+  stock: number | null;
+  image: string | null;
+  date: Date | null;
 }
 
+
 export interface productForm {
-  title?: FormControl<string | null>
+  title: FormControl<string | null>
   author: FormControl<string | null>
   description: FormControl<string | null>
   price: FormControl<number | null>

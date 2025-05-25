@@ -111,9 +111,9 @@ export class BookUpdateComponent extends BaseUnsubscribe implements OnInit, OnDe
             discount_value: this.product.discount_value,
             offer_price: this.product.offer_price,
             category_id: this.product.category_id,
-            stock: this.product.stock_quantity,
+            stock: this.product.stock,
             image: this.product.image,
-            date: this.product.publication_date.toString().split('T')[0],
+            date: this.product.date
             // image:this.product.image,
           });
         }

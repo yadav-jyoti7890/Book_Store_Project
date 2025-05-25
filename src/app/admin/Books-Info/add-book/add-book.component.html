@@ -107,23 +107,37 @@
         <option value="amount">Fixed Amount</option>
       </select>
 
+      
       <app-validation
-        [control]="addProductForm.controls.discount_type!"
-        [type]="'select'"
-       
+        [type]="'text'"
+        name="discount_value"
+        [placeholder]="'Enter discount-value'"
+        [control]="addProductForm.controls.discount_value!"
+        (change)="calculateOfferPrice()"
       >
       </app-validation>
+
+      
+      <!-- <app-validation
+        [type]="'text'"
+        name="offer_price"
+        [placeholder]="'Enter offer_price'"
+        [control]="addProductForm.controls.offer_price!"
+        (change)="calculateOfferPrice()"
+      >
+      </app-validation> -->
+      
     </div>
 
     <div class="grid-2">
-      <app-validation
+      <!-- <app-validation
         [type]="'number'"
         name="discount_value"
         [placeholder]="'Discount Value'"
         [control]="addProductForm.controls.discount_value!"
         (change)="calculateOfferPrice()"
       >
-      </app-validation>
+      </app-validation> -->
 
       <input
         type="number"

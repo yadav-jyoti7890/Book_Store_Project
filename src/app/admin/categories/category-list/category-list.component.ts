@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CategoryService } from '../categories-services/category.service';
 import { CommonModule } from '@angular/common';
@@ -11,11 +11,19 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    FormsModule,
+    MatPaginatorModule,
+    MatInputModule,
+  ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
 })
@@ -26,8 +34,11 @@ export class CategoryListComponent
   public category: any;
   public imageBaseUrl = environment.BaseUrl;
   public searchText: string = '';
+  public totalRecords!: number;
+  public pageSize = 5;
+  public currentPage = 1;
   searchTextChanged: Subject<string> = new Subject<string>();
-
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   constructor(
     private categoryService: CategoryService,
     private dialog: MatDialog
@@ -37,35 +48,36 @@ export class CategoryListComponent
 
   ngOnInit(): void {
     this.getAllCategory();
-    this.searchTextChanged.pipe(debounceTime(700)).subscribe((searchText) => {
-      this.categoryService
-        .filterCategoryByKeyword(searchText)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (response) => {
-            this.category = response.category;
-          },
-          error: (error) => {
-            console.log('Error while searching category');
-          },
-        });
-    });
   }
 
-  private getAllCategory() {
-    this.categoryService
-      .GetAllCategory()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-          this.category = response.category;
-        },
-        error: (error) => {
-          console.log('users get all data problem accurse');
-        },
-      });
+ getAllCategory() {
+  const categoryData = {
+    page: this.currentPage,
+    pageSize: this.pageSize,
+  };
+
+  this.categoryService.GetAllCategory(categoryData)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (response) => {
+        this.category = response.category;
+        this.totalRecords = response.totalRecords; 
+          if (this.paginator) {
+            this.paginator.length = this.totalRecords;
+          }
+      },
+    
+    });
+}
+
+
+  public onPageChange(event: any) {
+    this.currentPage = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.getAllCategory();
   }
+
+
 
   public applyFilter() {
     this.searchTextChanged.next(this.searchText);

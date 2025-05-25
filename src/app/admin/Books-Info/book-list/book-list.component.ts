@@ -42,7 +42,7 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
   public imageBaseUrl = environment.BaseUrl;
   public category: any;
   public totalRecords!: number;
-  public pageSize = 10;
+  public pageSize = 5;
   public currentPage = 1;
   public receive_books: any;
   public dataSource = new MatTableDataSource<any>();
@@ -86,19 +86,15 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
 
   loadData(): void {
     const url = 'http://localhost:3000/api/data';
-    this.http
-      .get<any>(url, {
-        params: {
-          page: this.currentPage.toString(),
-          page_size: this.pageSize.toString(),
-        },
-      })
+    this.http.get<any>(url, { params: { page: this.currentPage.toString(),page_size: this.pageSize.toString(), }, })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
+          // console.log(response, "response")
           this.dataSource.data = response.data;
-          console.log(response, this.dataSource);
+          // console.log(response, this.dataSource);
           this.totalRecords = response.totalRecords;
+             console.log("total records",this.totalRecords,)
           if (this.paginator) {
             this.paginator.length = this.totalRecords;
           }
@@ -111,9 +107,11 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
       
 
   public onPageChange(event: any): void {
-    this.currentPage = event.pageIndex + 1; // Angular paginator uses 0-based index
-    this.pageSize = event.pageSize; // Update the page size
-    this.loadData(); // Fetch new data based on the updated page and page size
+    this.currentPage = event.pageIndex + 1;
+    console.log(this.currentPage);
+    this.pageSize = event.pageSize;
+    console.log(this.pageSize) 
+    this.loadData(); 
   }
 
   public deleteBooks(id: number) {
@@ -169,9 +167,6 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
         next: (response) => {
           this.dataSource.data = response.filterCategory;
         },
-        error: (error) => {
-          console.log("Error filtering")
-         }
       });
     }
   }
@@ -182,7 +177,6 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
         this.category = response.categoryData;
         console.log(this.category, 'category');
       },
-      error: (error) => { }
     });
   }
 

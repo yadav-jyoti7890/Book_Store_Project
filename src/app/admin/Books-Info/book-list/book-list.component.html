@@ -107,14 +107,14 @@
     </ng-container>
 
    
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr style="font-weight: 900 !important; color: black; font-family: Helvetica;" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
    
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 </div>
 
 
-<mat-paginator
+<mat-paginator class="page"
   [length]="totalRecords"
   [pageSize]="pageSize"
   (page)="onPageChange($event)"

@@ -32,7 +32,10 @@ import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivat
   templateUrl: './add-category.component.html',
   styleUrl: './add-category.component.css',
 })
-export class AddCategoryComponent extends BaseUnsubscribe implements OnInit, CanDeactivateInterface {
+export class AddCategoryComponent
+  extends BaseUnsubscribe
+  implements OnInit, CanDeactivateInterface
+{
   public categoryForm!: FormGroup<categoryForm>;
   private selectedFile: File | null = null;
 
@@ -55,7 +58,9 @@ export class AddCategoryComponent extends BaseUnsubscribe implements OnInit, Can
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private formBuilder: FormBuilder
-  ) { super()}
+  ) {
+    super();
+  }
 
   public onFileChange(event: any) {
     debugger;
@@ -66,33 +71,29 @@ export class AddCategoryComponent extends BaseUnsubscribe implements OnInit, Can
   }
 
   public insertCategory() {
-    // if (this.categoryForm.valid) {
-    //   const formData = new FormData();
-    //   if (this.selectedFile) {
-    //     formData.append('image', this.selectedFile);
-    //   } else {
-    //     console.error('No file selected');
-    //     return;
-    //   }
-    //   formData.append(
-    //     'category_name',
-    //     this.categoryForm.get('category_name')?.value
-    //   );
-    //   formData.append(
-    //     'category_description',
-    //     this.categoryForm.get('description')?.value
-    //   );
-    //   this.categoryService.insertCategory(formData).subscribe(
-    //     (response) => {
-    //       this.categoryForm.reset();
-    //       alert('category added successfully');
-    //     },
-    //     (error) => {
-    //       alert('Error category book');
-    //     }
-    //   );
-    // } else {
-    // }
+    if (this.categoryForm.valid) {
+      const formData = new FormData();
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile);
+      } else {
+        console.error('No file selected');
+        return;
+      }
+
+      const productData: any = this.categoryForm.getRawValue();
+      for (const key in productData) {
+        if (productData.hasOwnProperty(key) && productData[key] != null) {
+          formData.append(key, productData[key]);
+        }
+      }
+      this.categoryService.insertCategory(formData).subscribe({
+        next: (response) => {
+          this.categoryForm.reset();
+          alert('category added successfully');
+        },
+      });
+    } else {
+    }
   }
 
   canDeactivate(): Promise<boolean> {
@@ -103,12 +104,15 @@ export class AddCategoryComponent extends BaseUnsubscribe implements OnInit, Can
           message: 'You have unsaved changes. Do you really want to leave?',
         },
       });
-  
-      return dialogRef.afterClosed().toPromise().then((result) => {
-        return result === true;
-      });
+
+      return dialogRef
+        .afterClosed()
+        .toPromise()
+        .then((result) => {
+          return result === true;
+        });
     }
-  
-    return Promise.resolve(true); 
+
+    return Promise.resolve(true);
   }
 }

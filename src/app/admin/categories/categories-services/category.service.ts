@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Import } from 'lucide-angular';
 import { Observable } from 'rxjs';
@@ -13,13 +13,23 @@ export class CategoryService {
   private apiUrl = environment.BaseUrl;
   constructor(private http:HttpClient) { }
 
-  insertCategory(formData: FormData){
-      return this.http.post(`${this.apiUrl}category/`,formData)
+  insertCategory(formData : FormData){
+    console.log(formData)
+      return this.http.post(`${this.apiUrl}category`,formData)
     }
 
-  GetAllCategory(): Observable<any>{
-    return this.http.get(`${this.apiUrl}getAllCategory`);
-  }
+    //  insertBook(formData : FormData): Observable<any> {  
+    //  return this.http.post(`${this.apiUrl}add-books`, formData);
+    //  }
+
+  GetAllCategory(categoryData: any): Observable<any> {
+  const params = new HttpParams()
+    .set('page', categoryData.page)
+    .set('pageSize', categoryData.pageSize);
+
+  return this.http.get(`${this.apiUrl}getAllCategory`, { params });
+}
+
 
   getCategoryById(category_id:number): Observable<any>{
     return this.http.get(`${this.apiUrl}getCategoryById/${category_id}`);

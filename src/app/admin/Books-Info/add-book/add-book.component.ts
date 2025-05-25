@@ -12,19 +12,22 @@ import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductService } from '../product-services/product.service';
-// import { FormValidation } from '../../../validation/form-validation';
 import { ValidationComponent } from '../../../validation/validation/validation.component';
 import { product, productForm } from '../product-interface/product.model';
-import { response } from 'express';
 import { takeUntil } from 'rxjs';
 import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivate.model';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
+import { NotificationsService } from '../../notification-service/notifications.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { response } from 'express';
+
+
 
 @Component({
   selector: 'app-add-book',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, CommonModule,ValidationComponent],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule,ValidationComponent, MatSnackBarModule],
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.css',
 })
@@ -56,7 +59,8 @@ constructor(
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
-    private productService: ProductService
+    private productService: ProductService,
+    private notify: NotificationsService
 ) {super()}
 
  
@@ -66,9 +70,6 @@ private getCategory() {
      .subscribe({
       next: (response) => {
           this.data = response.categoryData;
-      },
-      error: (error) => {
-          console.error("Error while getting category:", error);
       },
      })
 }
@@ -81,83 +82,85 @@ public onFileChange(event: any) {
     console.log(this.selectedFile)
 }
 
+// public calculateOfferPrice() {
+//    let price = this.addProductForm.get('price') 
+//    let discount_value = this.addProductForm.get('discount_value')
+//    let discount_type = this.addProductForm.get('discount_type')
+
+//     console.log(price, discount_type, discount_value);
+//     let offer_price;
+
+//     if (discount_type === 'amount') {
+//       offer_price = price - discount_value;
+//       this.addProductForm.get('offer_price')?.setValue(offer_price);
+//     } else if (discount_type === 'percent') {
+//       this.addProductForm
+//         .get('offer_price')
+//         ?.setValue(price - (price * discount_value) / 100);
+//     } else {
+//      this.addProductForm.get('offer_price')?.setValue('offer_value');
+//     }
+// }
+
 public calculateOfferPrice() {
-   let price = this.addProductForm.get('price') 
-   let discount_value = this.addProductForm.get('discount_value')
-   let discount_type = this.addProductForm.get('discount_type')
+  const price = this.addProductForm.get('price')?.value;
+  const discountValue = this.addProductForm.get('discount_value')?.value;
+  const discountType = this.addProductForm.get('discount_type')?.value;
 
-    console.log(price, discount_type, discount_value);
-    let offer_price;
+  console.log(price, discountType, discountValue);
 
-    // if (discount_type === 'amount') {
-    //   offer_price = price - discount_value;
-    //   this.addProductForm.get('offer_price')?.setValue(offer_price);
-    // } else if (discount_type === 'percent') {
-    //   this.addProductForm
-    //     .get('offer_price')
-    //     ?.setValue(price - (price * discount_value) / 100);
-    // } else {
-    //   this.addProductForm.get('offer_price')?.setValue(price);
-    // }
-}
+  let offerPrice: number | null = null;
 
-public submitProductForm() {
-    console.log(this.addProductForm.value)
-    // if (this.addProductForm.valid) {
-    //   const formData = new FormData();
-    //   if (this.selectedFile) {
-    //     formData.append('image', this.selectedFile);
-    //   } else {
-    //     console.error('No file selected');
-    //     return;
-    //   }
-    //   formData.append('title', this.addProductForm.get('title').value);
-    //   formData.append('author', this.addProductForm.get('author')?.value);
-    //   formData.append(
-    //     'description',
-    //     this.addProductForm.get('description')?.value
-    //   );
-    //   formData.append('price', this.addProductForm.get('price')?.value);
-    //   formData.append(
-    //     'discount_type',
-    //     this.addProductForm.get('discount_type')?.value
-    //   );
-    //   formData.append(
-    //     'discount_value',
-    //     this.addProductForm.get('discount_value')?.value
-    //   );
-    //   formData.append(
-    //     'offer_price',
-    //     this.addProductForm.get('offer_price')?.value
-    //   );
-    //   formData.append(
-    //     'category_id',
-    //     this.addProductForm.get('category_id')?.value
-    //   );
-    //   formData.append('stock', this.addProductForm.get('stock')?.value);
-    //   formData.append('date', this.addProductForm.get('date')?.value);
-
-    //   this.productService.insertBook(formData).subscribe(
-    //     (response) => {
-    //       this.addProductForm.reset();
-    //       alert('Book added successfully');
-    //     },
-    //     (error) => {
-    //       alert('Error adding book');
-    //     }
-    //   );
-    // } else {
-    // }
-}
-
- ngOnDestroy() {
-    this.OnDestroy()
+  if (price != null && discountValue != null && discountType) {
+    if (discountType === 'amount') {
+      offerPrice = price - discountValue;
+    } else if (discountType === 'percent') {
+      offerPrice = price - (price * discountValue) / 100;
+    }
   }
 
-  canDeactivate(): Promise<boolean> {
+  this.addProductForm.get('offer_price')?.setValue(offerPrice);
+}
+
+
+public submitProductForm() {
+  console.log(this.addProductForm.value);
+  if (this.addProductForm.valid) {
+    const formData = new FormData();
+
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile);
+    } else {
+      console.error('No file selected');
+      return;
+    }
+    const productData:any = this.addProductForm.getRawValue();
+    console.log(productData)
+
+    for (const key in productData) {
+    if (productData.hasOwnProperty(key) && productData[key] != null) {
+      formData.append(key, productData[key]);
+    }
+  }
+
+    this.productService.insertBook(formData).subscribe({
+      next: (response) => {
+         this.snackBar.open("product add successfully", 'close')
+         this.addProductForm.reset()
+      },
+    });
+  }
+}
+
+
+ngOnDestroy() {
+    this.OnDestroy()
+}
+
+canDeactivate(): Promise<boolean> {
   if (this.addProductForm.dirty) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
+      width: '500px',
       data: {
         message: 'You have unsaved changes. Do you really want to leave?',
       },

@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
   quantity: number = 0;
 
   ngOnInit(): void {
-    this.getallcategory();
+    // this.getallcategory();
     this.getallproduct();
   }
 
@@ -51,15 +51,15 @@ export class HomeComponent implements OnInit {
   swiperContainer2!: ElementRef;
   swiper2!: Swiper;
 
-  getallcategory() {
-    this.categoryservice.GetAllCategory().subscribe(
-      (response) => {
-        this.categoryData = response.category;
-        console.log(this.categoryData);
-      },
-      () => {}
-    );
-  }
+  // getallcategory() {
+  //   this.categoryservice.GetAllCategory().subscribe(
+  //     (response) => {
+  //       this.categoryData = response.category;
+  //       console.log(this.categoryData);
+  //     },
+  //     () => {}
+  //   );
+  // }
 
   getallproduct() {
     this.productService.getAllproduct().subscribe(

@@ -9,7 +9,7 @@
       class="search-input"
       placeholder="Search category..."
       class="search"
-       [(ngModel)]="searchText"
+      [(ngModel)]="searchText"
       (ngModelChange)="applyFilter()"
     />
 
@@ -19,14 +19,13 @@
   </div>
 </div>
 
-
 <!-- Category Table -->
 <div class="read_task">
   <table class="table">
     <thead>
       <tr>
         <th>S.N</th>
-         <th>Image</th>
+        <th>Image</th>
         <th>Category Name</th>
         <th>Description</th>
         <th>Actions</th>
@@ -35,9 +34,11 @@
     <tbody>
       <tr *ngFor="let category of category; let i = index">
         <td>{{ i + 1 }}</td>
-         <td>
+        <td>
           <img
-            [src]= "category.image ? imageBaseUrl + 'uploads/' + category.image : '' "
+            [src]="
+              category.image ? imageBaseUrl + 'uploads/' + category.image : ''
+            "
             alt="category-image"
             class="category-image"
             height="100px"
@@ -47,7 +48,7 @@
         </td>
         <td>{{ category.category_name }}</td>
         <td>{{ category.description }}</td>
-       
+
         <td>
           <button
             class="edit-btn"
@@ -63,6 +64,13 @@
           </button>
         </td>
       </tr>
+    
+    
     </tbody>
   </table>
+<mat-paginator
+  [length]="totalRecords"
+  [pageSize]="pageSize"
+  (page)="onPageChange($event)">
+</mat-paginator>
 </div>

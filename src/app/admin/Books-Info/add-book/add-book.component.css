@@ -285,6 +285,11 @@ button:hover:not(:disabled) {
   }
 }
 
+.error-snackbar {
+  background-color: #f44336;
+  color: white;
+  font-weight: bold;
+}
 
  
   
