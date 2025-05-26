@@ -1,4 +1,4 @@
-.add-book-container{
+/* .add-book-container{
   font-family:Helvetica;
   padding: 0vw 1.8vw;
 }
@@ -28,20 +28,27 @@ table{
     width: 100%;
     padding: 2vw !important;
     margin: 1vw 0vw;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-   
 }
+   
+
 table th{
     padding: 2vw !important;
     border-bottom: 1px solid #dadada3e;
     padding: 1vw 0vw;
     font-family: neue-bold;
     text-transform: capitalize;
+    background-color: white !important;
+     color: black;
 }
+
 table td{
     font-family: neue-light; 
-    text-align: center;  
+    text-align: center; 
+    background-color: white !important; 
+    color: black;
 }
+
+
 
 tr:hover{
   background-color: rgba(119, 136, 153, 0.068);
@@ -125,7 +132,7 @@ table tr{
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
-  background-color: white;
+  background-color: white !important;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -172,7 +179,128 @@ table tr{
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+} */
+
+.normal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.normal-table th,
+.normal-table td {
+  padding: 12px 15px;
+  /* text-align: center; */
+  border-bottom: 1px solid #ddd;
+}
+
+.normal-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.normal-table img {
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+/* .edit-btn,
+.delete-btn {
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+}
+
+.edit-btn {
+  background-color: #2196f3;
+}
+
+.delete-btn {
+  background-color: #f44336;
+} */
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.category-filter {
+  padding: 7px 10px;
+  border-radius: 5px;
+}
+
+.add-book-btn {
+  background-color: #6a1b9a;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination span {
+  font-weight: bold;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.order_list {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.add-book-btn {
+  background-color: #6a1b9a;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sortable-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 4px;
+}
+
+
+
 
 
   

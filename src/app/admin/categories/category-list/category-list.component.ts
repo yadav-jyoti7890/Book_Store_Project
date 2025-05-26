@@ -50,8 +50,7 @@ export class CategoryListComponent
     this.getAllCategory();
 
     this.searchTextChanged.pipe(
-      debounceTime(2000),  
-      distinctUntilChanged(),
+      debounceTime(700),  
       switchMap((keyword: string) => this.categoryService.filterCategoryByKeyword(keyword))
     ).subscribe(
       (result) => {

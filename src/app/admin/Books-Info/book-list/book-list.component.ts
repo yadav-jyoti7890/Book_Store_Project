@@ -62,7 +62,7 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
   public searchText: string = '';
   public searchTextChanged: Subject<string> = new Subject<string>();
   public categoryControl = new FormControl('');
-  public filteredData!: any;
+  public data:any
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
@@ -90,8 +90,7 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          // console.log(response, "response")
-          this.dataSource.data = response.data;
+          this.data = response.data;
           // console.log(response, this.dataSource);
           this.totalRecords = response.totalRecords;
              console.log("total records",this.totalRecords,)
@@ -178,6 +177,15 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
         console.log(this.category, 'category');
       },
     });
+  }
+
+  public ascending(name:string){
+    console.log(name)
+    this.productService.ascending(name).subscribe({
+      next : (response) => {
+      //  this.data = response.sortData
+      }
+    })
   }
 
   ngOnDestroy(){

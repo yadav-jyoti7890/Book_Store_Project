@@ -437,6 +437,22 @@ express1.get("/SearchProduct", (req, res) => {
   });
 });
 
+express1.get("/addSorting", function(req, res){
+  console.log("run sorting")
+  const name = req.query.name
+  console.log(name, "name")
+  let sql = `SELECT p.*, c.category_name 
+              FROM product p
+               INNER JOIN category c ON p.category_id = c.category_id
+               ORDER BY ${name} ASC`
+  db_connection.query(sql, function(error, result){
+    if(error){
+       return res.status(500).json({ error: "Database error", details: err });
+    }
+    return res.status(200).send({sortData: result})
+  })
+})
+
 express1.get("/getalluser", function (req, res) {
   let sql = "SELECT COUNT(*) AS totalUsers FROM users";
   db_connection.query(sql, function (err, result) {
