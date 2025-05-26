@@ -30,6 +30,9 @@ export class CategoryService {
   return this.http.get(`${this.apiUrl}getAllCategory`, { params });
 }
 
+getcategory(): Observable<any>{
+   return this.http.get(`${this.apiUrl}getCategory1`);
+}
 
   getCategoryById(category_id:number): Observable<any>{
     return this.http.get(`${this.apiUrl}getCategoryById/${category_id}`);

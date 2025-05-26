@@ -113,7 +113,7 @@
   </div>
 </section> -->
 
-<section>
+<section style="width: 100%; background-color: red;">
   <div class="cate_head">
     <h2 style="font-weight: 600 !important; font-size: 1.5vw">
       Popular Books In Category
@@ -121,85 +121,68 @@
     <hr />
     <!-- <h2>View All</h2> -->
   </div>
-  <div class="swiper mySwiper swip">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide slider" *ngFor="let categoryItem of categoryData">
-        <div class="card">
-          <img [src]="
-              categoryItem.image
-                ? imageBaseUrl + 'uploads/' + categoryItem.image
-                : ''
-            " alt="category image" />
-          <h3 style="font-weight: 400 !important; font-size: 1.1vw">
-            {{ categoryItem.category_name }}
-          </h3>
+ <!-- category-slider.component.html -->
+<div class="swiper category-swiper">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" *ngFor="let item of categoryData">
+      <div class="category-card">
+        <img [src]="item.image ? imageBaseUrl + 'uploads/' + item.image : '' " 
+          
+          class="category-image"
+        />
+        <div class="category-title">
+          {{ item.category_name }}
         </div>
       </div>
     </div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-
-    <!-- Pagination -->
-    <div class="swiper-pagination"></div>
   </div>
+
+  <!-- Optional navigation -->
+
+  <!-- Optional pagination -->
+  <div class="swiper-pagination"></div>
+</div>
+
+
+
 </section>
 
 <section class="popular-books">
-  <div class="categoryItem-section">
-    <h2 style="font-weight: 600 !important; font-size: 1.5vw">
-      Bestselling Books
-    </h2>
-  </div>
+<div class="bestseller-section">
+  <h2 style="font-weight: 700 !important; font-size: 1.5vw;">Bestselling Books</h2>
 
-  <div class="swiper mySwiper allbook-swiper" #swiperContainer2>
-    <div class="swiper-wrapper">
-      <div class="swiper-slide allbook-slider" *ngFor="let product of allItems">
-        <div class="book-card">
-          <img [src]="
-              product.image ? imageBaseUrl + 'uploads/' + product.image : ''
-            " class="book-image" />
+  <div class="book-grid">
+    <div class="book-card" *ngFor="let book of allItems">
+      <img
+        [src]="book.image ? imageBaseUrl + 'uploads/' + book.image : ''"
+        class="book-img"
+      />
 
-          <div class="product-data">
-            <span style="
-                font-weight: 600 !important;
-                text-transform: capitalize;
-                display: flex;
-                flex-wrap: nowrap;
-              ">{{ product.title }}...</span>
-            <span>by {{ product.author }}</span>
-            <span>
-              <label>Rs.{{ product.offer_price }}</label>
-              <del style="font-weight: 700 !important">
-                Rs.{{ product.price }}</del>
-            </span>
-          </div>
+      <div class="book-info">
+        <h3 class="book-title" style="font-weight: 800 !important;">{{ book.title }}</h3>
+        <p class="book-author">by {{ book.author }}</p>
 
-          <div class="rating">
-            <span class="star filled">★</span>
-            <span class="star filled">★</span>
-            <span class="star filled">★</span>
-            <span class="star filled">★</span>
-            <span class="star filled">★</span>
-          </div>
-
-          <!-- Quantity Controls -->
-          <div style="display: flex; justify-content: space-between">
-            <div class="quantity-controls" style="border: 1px solid rgba(0, 0, 0, 0.314); border-radius: 2px">
-              <button (click)="decrease()">−</button>
-              <span>{{ quantity }}</span>
-              <button (click)="increase()">+</button>
-            </div>
-
-            <button class="add-to-cart" (click)="addToCart(product)">
-              Add to Cart
-            </button>
-          </div>
+        <div class="book-price">
+          <span class="new-price">₹{{ book.offer_price }}</span>
+          <span class="old-price" style="font-weight: 800 !important; color: black !important;">₹{{ book.price}}</span>
         </div>
-      </div>
 
-      <div class="swiper-pagination"></div>
+        <div class="book-rating">
+          <i>⭐⭐⭐⭐⭐</i>
+        </div>
+
+        <!-- <div class="quantity-controls">
+          <button (click)="minus()">–</button>
+          <span>{{quantity}}</span>
+          <button (click)="add()">+</button>
+        </div> -->
+
+        <button class="add-btn" (click)="add_cart(book)">Add to Cart</button>
+      </div>
     </div>
   </div>
+</div>
+
 </section>
 
 <section class="about-us">
@@ -280,33 +263,60 @@
 
 <footer class="footer">
   <div class="footer-container">
-    <div class="footer-column">
-      <h3>About Us</h3>
+    
+    <!-- About Us -->
+    <div class="footer-box">
+      <h3>About BookNest</h3>
       <p>
-        We are passionate about books and connecting readers with their favorite
-        authors.
+        BookNest is your go-to destination for discovering, buying, and enjoying
+        books across all genres. We connect readers with stories that inspire,
+        educate, and entertain.
       </p>
     </div>
-    <div class="footer-column">
-      <h3>Quick Links</h3>
+
+    <!-- Explore Links -->
+    <div class="footer-box">
+      <h3>Explore</h3>
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Books</a></li>
-        <li><a href="#">Authors</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/books">Books</a></li>
+        <li><a href="/authors">Authors</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/myorders">My Orders</a></li>
       </ul>
     </div>
-    <div class="footer-column">
-      <h3>Follow Us</h3>
+
+    <!-- Help Links -->
+    <div class="footer-box">
+      <h3>Help & Info</h3>
+      <ul>
+        <li><a href="/faq">FAQs</a></li>
+        <li><a href="/support">Customer Support</a></li>
+        <li><a href="/terms">Terms & Conditions</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact & Social -->
+    <div class="footer-box">
+      <h3>Contact Us</h3>
+      <p>Email: supportbooknest.com</p>
+      <p>Phone: +91-9876543210</p>
       <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fa fa-facebook-f"></i></a>
+        <a href="#"><i class="fa fa-instagram"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-youtube-play"></i></a>
       </div>
     </div>
+
   </div>
-  <p class="footer-bottom">© 2025 BookStore. All Rights Reserved.</p>
+
+  <div class="footer-bottom">
+    <p>© 2025 BookNest. All rights reserved.</p>
+  </div>
 </footer>
+
 
 <!-- <section>
   <div class="card">

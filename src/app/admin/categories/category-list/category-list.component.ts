@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { environment } from '../../../../environments/environment.prod';
 import { category } from '../category-interface/category.model';
 import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
@@ -29,8 +29,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class CategoryListComponent
   extends BaseUnsubscribe
-  implements OnInit, OnDestroy
-{
+  implements OnInit, OnDestroy {
   public category: any;
   public imageBaseUrl = environment.BaseUrl;
   public searchText: string = '';
@@ -38,6 +37,7 @@ export class CategoryListComponent
   public pageSize = 5;
   public currentPage = 1;
   searchTextChanged: Subject<string> = new Subject<string>();
+
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   constructor(
     private categoryService: CategoryService,
@@ -48,27 +48,38 @@ export class CategoryListComponent
 
   ngOnInit(): void {
     this.getAllCategory();
+
+    this.searchTextChanged.pipe(
+      debounceTime(2000),  
+      distinctUntilChanged(),
+      switchMap((keyword: string) => this.categoryService.filterCategoryByKeyword(keyword))
+    ).subscribe(
+      (result) => {
+        this.category = result.category || [];
+      },
+
+    );
   }
 
- getAllCategory() {
-  const categoryData = {
-    page: this.currentPage,
-    pageSize: this.pageSize,
-  };
+  getAllCategory() {
+    const categoryData = {
+      page: this.currentPage,
+      pageSize: this.pageSize,
+    };
 
-  this.categoryService.GetAllCategory(categoryData)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (response) => {
-        this.category = response.category;
-        this.totalRecords = response.totalRecords; 
+    this.categoryService.GetAllCategory(categoryData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.category = response.category;
+          this.totalRecords = response.totalRecords;
           if (this.paginator) {
             this.paginator.length = this.totalRecords;
           }
-      },
-    
-    });
-}
+        },
+
+      });
+  }
 
 
   public onPageChange(event: any) {
@@ -80,6 +91,7 @@ export class CategoryListComponent
 
 
   public applyFilter() {
+    console.log("apply filter")
     this.searchTextChanged.next(this.searchText);
   }
 

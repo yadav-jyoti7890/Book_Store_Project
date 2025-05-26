@@ -1227,7 +1227,7 @@ express1.post("/category", upload.single("image"), function (req, res) {
 
 // inside category.routes.js
 
-express1.get("/getcategory/", function (req, res) {
+express1.get("/getCategory", function (req, res) {
   // Corrected the parameter order
   let sql = `SELECT category_id, category_name 
              FROM category where is_deleted = 0`;
@@ -1272,6 +1272,20 @@ express1.get("/getAllCategory", function (req, res) {
     });
   });
 });
+
+express1.get("/getCategory1", function (req, res) {
+
+  let sql = `select * from category where is_deleted = 0`;
+
+  db_connection.query(sql, function (error, results) {
+    if (error) {
+      return res.status(500).json({ message: "Server error while fetching data" });
+    }
+
+    return res.status(200).json({ message: "", category: results });
+
+    });
+  });
 
 
 express1.delete("/deleteCategory/:id", (req, res) => {

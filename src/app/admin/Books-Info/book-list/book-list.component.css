@@ -8,14 +8,15 @@
   font-weight: 700;
 }
 
-.read_task{
+.read_task {
     min-height: 100vh;
-    background-color: #0C0C0C;
+    background-color: #fff; 
     width: 100%;
     padding: 2vw;
     border-bottom: #dadada;
     color: #ffffff;
 }
+
 
 .scroll{
   min-width: 100%;
@@ -84,14 +85,14 @@ table tr{
     font-size: 24px;
   }
 
-    small{
+  small{
     font-size: 1vw;
     font-weight: 600;
     color: rgba(239, 39, 39, 0.841);
     margin-top: 0.8vw;
   }
 
-  .category-header {
+.category-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -173,9 +174,6 @@ table tr{
   font-size: 14px;
 }
 
-.page{
-  font-weight: 800;
-}
 
   
  
