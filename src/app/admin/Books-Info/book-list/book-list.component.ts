@@ -63,10 +63,9 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
   public searchTextChanged: Subject<string> = new Subject<string>();
   public categoryControl = new FormControl('');
   public data:any
-  sortBy: string | null = null;
-sortOrder: 'asc' | 'desc' | null = null;
-sortDirection: 'asc' | 'desc' | null = null;
-sortColumn: string | null = null;
+  sortBy! : string
+  sortOrder! : string
+ 
   
 
 
@@ -106,8 +105,7 @@ sortColumn: string | null = null;
       .subscribe({
         next: (response) => {
           this.data = response.data;
-          console.log(response)
-          console.log(this.data)
+           this.dataSource = new MatTableDataSource(this.data);
           this.totalRecords = response.totalRecords;
              console.log("total records",this.totalRecords,)
           if (this.paginator) {
@@ -206,6 +204,8 @@ sortColumn: string | null = null;
   this.sortOrder = 'desc';
   this.loadData();
 }
+
+
 
 
 

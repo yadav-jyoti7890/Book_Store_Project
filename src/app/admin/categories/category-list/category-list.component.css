@@ -72,4 +72,20 @@
   outline-color: #6a1b9a;
 }
 
+.active-icon {
+  color: #e82c2c;
+}
+
+.inactive-icon {
+  color: rgb(7, 7, 7);
+}
+
+.category i {
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 18px;
+  display: flex;
+  
+}
+
 

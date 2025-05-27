@@ -36,8 +36,8 @@ export class CategoryListComponent
   public totalRecords!: number;
   public pageSize = 5;
   public currentPage = 1;
-  public sortBy : string = 'category_name'
-  public sortOrder : 'asc' | 'desc' = 'asc'
+  sortBy! : string
+  sortOrder! : string
   searchTextChanged: Subject<string> = new Subject<string>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
@@ -130,6 +130,12 @@ export class CategoryListComponent
   public ascending(name:string){
     this.sortBy = name;
     this.sortOrder = 'asc'
+    this.getAllCategory();
+  } 
+
+    public descending(name:string){
+    this.sortBy = name;
+    this.sortOrder = 'desc'
     this.getAllCategory();
   } 
 

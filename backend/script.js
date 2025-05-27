@@ -1398,10 +1398,10 @@ express1.get("/getAllCategory", function (req, res) {
   const sortBy = req.query.sortBy;
   const sortOrder = req.query.sortOrder
 
-const allowedSortBy = ['category_name', 'created_at', 'category_id'];
+const allowedSortBy = ['category_name', 'category_id'];
 const allowedSortOrder = ['ASC', 'DESC'];
 
-const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : 'category_name';
+const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : null;
 const orderByDirection = allowedSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
 
 const sql = `

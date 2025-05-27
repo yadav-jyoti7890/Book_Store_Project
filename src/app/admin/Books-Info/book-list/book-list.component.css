@@ -327,18 +327,30 @@ table tr{
   opacity: 0.6;
 }
 
-.category i {
+.category {
   display: flex;
   flex-direction: column;
   font-size: 16px;
   color: rgb(190, 48, 48);
   cursor: pointer;
   transition: color 0.3s ease;
+  line-height: -50px;
 }
 
-.category i.active {
-  color: rgb(75, 15, 217); /* active dark color */
+.active-icon {
+  color: #e82c2c;
 }
+
+.inactive-icon {
+  color: rgb(7, 7, 7);
+}
+
+.category i {
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 18px;
+}
+
 
 
 

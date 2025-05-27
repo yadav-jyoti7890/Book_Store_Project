@@ -29,11 +29,11 @@
       <tr>
         <th>S.N</th>
         <th>Image</th>
-         <th>
-        <div class="sortable-header">
-          Category Name
-          <i class="ri-arrow-up-line" (click)="ascending('category_name')"></i>
-          <i class="ri-arrow-down-line"></i>
+        <th style="display: flex; justify-content: center; align-items: center">
+         category_Name
+        <div class="category">
+          <i class="ri-skip-up-fill" (click)="ascending('category_name')"   [ngClass]="sortBy === 'category_name' && sortOrder === 'asc' ? 'active-icon' : 'inactive-icon'"></i>
+          <i class="ri-skip-down-fill" (click)="descending('category_name')" [ngClass]="sortBy === 'category_name' && sortOrder === 'desc' ? 'active-icon' : 'inactive-icon'"></i>
         </div>
       </th>
         <th>Description</th>

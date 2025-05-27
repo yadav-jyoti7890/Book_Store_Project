@@ -26,7 +26,8 @@
       <th style="display: flex; justify-content: center; align-items: center">
         category
         <div class="category">
-        
+          <i class="ri-skip-up-fill" (click)="ascending('category_id')"   [ngClass]="sortBy === 'category_id' && sortOrder === 'asc' ? 'active-icon' : 'inactive-icon'"></i>
+          <i class="ri-skip-down-fill" (click)="descending('category_id')" [ngClass]="sortBy === 'category_id' && sortOrder === 'desc' ? 'active-icon' : 'inactive-icon'"></i>
         </div>
       </th>
 
@@ -34,14 +35,25 @@
       <th>Title</th>
       <th>Author</th>
 
-      <th>price</th>
-
-      <!-- <th>Publication Date</th> -->
+    <th style="display: flex; justify-content: center; align-items: center">
+        price
+        <div class="category">
+          <i class="ri-skip-up-fill" (click)="ascending('price')"   [ngClass]="sortBy === 'price' && sortOrder === 'asc' ? 'active-icon' : 'inactive-icon'"></i>
+          <i class="ri-skip-down-fill" (click)="descending('price')" [ngClass]="sortBy === 'price' && sortOrder === 'desc' ? 'active-icon' : 'inactive-icon'"></i>
+        </div>
+      </th>
 
       <th>discount_type</th>
       <th>discount-value</th>
       <th>offer_price</th>
-      <th>publication_date</th>
+      
+       <th style="display: flex; justify-content: center; align-items: center">
+        publication_date
+        <div class="category">
+          <i class="ri-skip-up-fill" (click)="ascending('publication_date')"   [ngClass]="sortBy === 'publication_date' && sortOrder === 'asc' ? 'active-icon' : 'inactive-icon'"></i>
+          <i class="ri-skip-down-fill" (click)="descending('publication_date')" [ngClass]="sortBy === 'publication_date' && sortOrder === 'desc' ? 'active-icon' : 'inactive-icon'"></i>
+        </div>
+      </th>
       <th>Action</th>
     </thead>
 
