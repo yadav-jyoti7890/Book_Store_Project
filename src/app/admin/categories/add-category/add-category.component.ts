@@ -15,9 +15,10 @@ import { RouterLink } from '@angular/router';
 import '@angular/compiler';
 import { ValidationComponent } from '../../../validation/validation/validation.component';
 import { categoryForm } from '../category-interface/category.model';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivate.model';
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 
 @Component({
   selector: 'app-add-category',
@@ -33,7 +34,7 @@ import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivat
   styleUrl: './add-category.component.css',
 })
 export class AddCategoryComponent
-  extends BaseUnsubscribe
+  extends BaseClassComponent
   implements OnInit, CanDeactivateInterface
 {
   public categoryForm!: FormGroup<categoryForm>;

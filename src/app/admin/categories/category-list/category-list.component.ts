@@ -10,9 +10,11 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
+
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 
 @Component({
   selector: 'app-category-list',
@@ -28,7 +30,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './category-list.component.css',
 })
 export class CategoryListComponent
-  extends BaseUnsubscribe
+  extends BaseClassComponent
   implements OnInit, OnDestroy {
   public category: any;
   public imageBaseUrl = environment.BaseUrl;
@@ -43,7 +45,8 @@ export class CategoryListComponent
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   constructor(
     private categoryService: CategoryService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+   
   ) {
     super();
   }
@@ -52,22 +55,23 @@ export class CategoryListComponent
     this.getAllCategory();
 
     this.searchTextChanged.pipe(
-      debounceTime(700),  
-      switchMap((keyword: string) => this.categoryService.filterCategoryByKeyword(keyword))
+      debounceTime(700), 
+      switchMap((keyword: string) =>
+         this.categoryService.filterCategoryByKeyword(keyword))
+       
     ).subscribe(
       (result) => {
+        this.hide()
         if(result){
         this.category = result.category;
         console.log(this.category); 
-      }
-    
+        }
      },
-
-
     );
   }
 
   getAllCategory() {
+     this.show()
     const categoryData = {
       page: this.currentPage,
       pageSize: this.pageSize,
@@ -78,8 +82,10 @@ export class CategoryListComponent
     this.categoryService.GetAllCategory(categoryData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
+        
         next: (response) => {
           console.log(response, "category")
+           this.hide()
           this.category = response.category;
           this.totalRecords = response.totalRecords;
           if (this.paginator) {
@@ -98,6 +104,7 @@ export class CategoryListComponent
 
   public applyFilter() {
     console.log("apply filter")
+      this.show()
     this.searchTextChanged.next(this.searchText);
   }
 
@@ -133,6 +140,7 @@ export class CategoryListComponent
   }
 
   public ascending(name:string){
+
     this.sortBy = name;
     this.sortOrder = 'asc'
     this.getAllCategory();

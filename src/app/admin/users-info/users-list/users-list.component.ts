@@ -3,8 +3,9 @@ import { environment } from '../../../../environments/environment.prod';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../user-services/users.service';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+
 import { takeUntil } from 'rxjs';
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 
 @Component({
   selector: 'app-users-list',
@@ -14,7 +15,7 @@ import { takeUntil } from 'rxjs';
   styleUrl: './users-list.component.css',
 })
 export class UsersListComponent
-  extends BaseUnsubscribe
+  extends BaseClassComponent
   implements OnInit, OnDestroy
 {
   public imageBaseUrl = environment.BaseUrl;

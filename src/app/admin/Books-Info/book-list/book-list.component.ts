@@ -18,7 +18,8 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { category } from '../../categories/category-interface/category.model';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 
 @Component({
   selector: 'app-book-list',
@@ -34,11 +35,12 @@ import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
+    BaseClassComponent
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
 })
-export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDestroy {
+export class BookListComponent extends BaseClassComponent implements OnInit, OnDestroy {
   public imageBaseUrl = environment.BaseUrl;
   public category: any;
   public totalRecords!: number;
@@ -66,9 +68,7 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
   sortBy! : string
   sortOrder! : string
  
-  
-
-
+  @ViewChild('loader') loader!: BaseClassComponent;
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   constructor(
@@ -76,7 +76,8 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
     private productService: ProductService,
     private http: HttpClient,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+ 
   ) { super() }
   
 
@@ -91,6 +92,7 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
   }
 
   loadData(): void {
+    this.show()
     const url = 'http://localhost:3000/api/data';
     this.http.get<any>(url, { 
       params: 
@@ -104,8 +106,10 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
+          console.log(response);
+          this.hide()
           this.data = response.data;
-           this.dataSource = new MatTableDataSource(this.data);
+          //  this.dataSource = new MatTableDataSource(this.data);
           this.totalRecords = response.totalRecords;
              console.log("total records",this.totalRecords,)
           if (this.paginator) {
@@ -170,13 +174,16 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
   }
 
   private applyCategoryFilter(categoryId: number) {
+     this.show()
     if (!categoryId) {
       this.loadData();
     } else {
       this.productService.applyfilterByCategory(categoryId)
+        
        .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
+           this.hide()
           this.data = response.filterCategory;
         },
       });

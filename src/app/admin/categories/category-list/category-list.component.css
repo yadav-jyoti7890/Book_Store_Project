@@ -90,7 +90,7 @@
 
  */
 
- body {
+body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f8fbff;
   padding: 40px;
@@ -103,7 +103,7 @@
   background: #fff;
   padding: 20px 30px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
 .header {
@@ -113,7 +113,7 @@
   margin-bottom: 20px;
 }
 
-.header h2{
+.header h2 {
   font-weight: 800;
   font-family: Helvetica;
 }
@@ -157,13 +157,21 @@ thead {
   background-color: #f4f6f9;
 }
 
-th, td {
+th,
+td {
   padding: 14px 16px;
   border-bottom: 1px solid #eee;
 }
 
 .highlight {
   background-color: #f2f2f2;
+}
+
+.empty {
+  font-family: helvetica;
+  font-weight: 800;
+  font-size: 1.3vw;
+  margin-top: 1.5vw;
 }
 
 .badge {
@@ -203,14 +211,14 @@ th, td {
   display: inline-flex;
   flex-direction: column;
   /* margin-left: 5px; */
-  font-size: 15px; 
+  font-size: 15px;
   vertical-align: middle;
   cursor: pointer;
 }
 
 .sort-icons i {
   line-height: 10px;
-  color: #999; 
+  color: #999;
 }
 
 .sort-icons i:hover {
@@ -244,8 +252,12 @@ th, td {
     gap: 10px;
   }
 
-  table, thead, tbody, th, td, tr {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
     font-size: 14px;
   }
 }
-

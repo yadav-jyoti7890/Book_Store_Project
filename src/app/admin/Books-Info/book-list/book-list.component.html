@@ -1,4 +1,4 @@
-<div class="category-header">
+<!-- <div class="category-header">
   <h1 class="order_list">Product List</h1>
 
   <div class="filter-container">
@@ -58,35 +58,35 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let element of data; let i = index">
+      <tr *ngFor="let Product of data; let i = index">
         <td>{{ i + 1 }}</td>
-        <td>{{ element.category_name }}</td>
+        <td>{{ Product.category_name }}</td>
         <td>
           <img
             [src]="
-              element.image ? imageBaseUrl + 'uploads/' + element.image : ''
+              Product.image ? imageBaseUrl + 'uploads/' + Product.image : ''
             "
             alt="Book image"
             height="80"
             width="80"
           />
         </td>
-        <td>{{ element.title }}</td>
-        <td>{{ element.author }}</td>
-        <td>{{ element.price }}</td>
-        <td>{{ element.discount_type }}</td>
-        <td>{{ element.discount_value }}</td>
-        <td>{{ element.offer_price }}</td>
-        <td>{{ element.publication_date | date : "dd MMM yyyy" }}</td>
+        <td>{{ Product.title }}</td>
+        <td>{{ Product.author }}</td>
+        <td>{{ Product.price }}</td>
+        <td>{{ Product.discount_type }}</td>
+        <td>{{ Product.discount_value }}</td>
+        <td>{{ Product.offer_price }}</td>
+        <td>{{ Product.publication_date | date : "dd MMM yyyy" }}</td>
 
         <td>
           <button
             class="edit-btn"
-            [routerLink]="['../book_update', element.product_id]"
+            [routerLink]="['../book_update', Product.product_id]"
           >
             <i class="ri-edit-box-fill"></i> Edit
           </button>
-          <button class="delete-btn" (click)="deleteBooks(element.product_id)">
+          <button class="delete-btn" (click)="deleteBooks(Product.product_id)">
             <i class="ri-delete-bin-fill"></i> Delete
           </button>
         </td>
@@ -96,6 +96,206 @@
 </div>
 
 <mat-paginator
+  [length]="totalRecords"
+  [pageSize]="pageSize"
+  (page)="onPageChange($event)"
+>
+</mat-paginator> -->
+
+<!-- <div class="category-header">
+  <h1 class="order_list">Category List</h1>
+
+  <div class="filter-container">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search category..."
+      class="search"
+      [(ngModel)]="searchText"
+      (ngModelChange)="applyFilter()"
+    />
+
+    <button class="add-book-btn" routerLink="/admin_dashboard/category">
+      <i class="ri-add-circle-fill"></i> Add More Category
+    </button>
+  </div>
+</div>
+
+
+<div class="read_task">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>S.N</th>
+        <th>Image</th>
+        <th style="display: flex; justify-content: center; align-items: center">
+         category_Name
+        <div class="category">
+          <i class="ri-skip-up-fill" (click)="ascending('category_name')"   [ngClass]="sortBy === 'category_name' && sortOrder === 'asc' ? 'active-icon' : 'inactive-icon'"></i>
+          <i class="ri-skip-down-fill" (click)="descending('category_name')" [ngClass]="sortBy === 'category_name' && sortOrder === 'desc' ? 'active-icon' : 'inactive-icon'"></i>
+        </div>
+      </th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of category; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>
+          <img
+            [src]="
+              category.image ? imageBaseUrl + 'uploads/' + category.image : ''
+            "
+            alt="category-image"
+            class="category-image"
+            height="100px"
+            width="100px"
+            style="border-radius: 5px; object-fit: contain"
+          />
+        </td>
+        <td>{{ category.category_name }}</td>
+        <td>{{ category.description }}</td>
+
+        <td>
+          <button
+            class="edit-btn"
+            [routerLink]="['../update-category', category.category_id]"
+          >
+            <i class="ri-edit-box-fill"></i> Edit
+          </button>
+          <button
+            class="delete-btn"
+            (click)="deleteCategory(category.category_id)"
+          >
+            <i class="ri-delete-bin-fill"></i> Delete
+          </button>
+        </td>
+      </tr>
+    
+    
+    </tbody>
+  </table>
+<mat-paginator
+  [length]="totalRecords"
+  [pageSize]="pageSize"
+  (page)="onPageChange($event)">
+</mat-paginator>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+<app-baseClass #loader></app-baseClass>
+
+<div class="wrapper">
+  <div class="header">
+    <h2>Product List</h2>
+
+    <button class="add-btn" routerLink="/admin_dashboard/add_book">
+      <i class="ri-add-circle-fill"></i> Add More Category
+    </button>
+  </div>
+
+  <div class="table-controls">
+    <div>
+      Show
+      <select>
+        <option>10</option>
+        <option>25</option>
+        <option>50</option>
+      </select>
+      entries
+    </div>
+    <div>
+      Search:
+      <select class="category-filter" [formControl]="categoryControl">
+        <option value="">All Categories</option>
+        <option
+          *ngFor="let categoryItem of category"
+          [value]="categoryItem.category_id"
+        >
+          {{ categoryItem.category_name }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="font-weight: 800; font-family: helvetica">S.N</th>
+       <th>
+          Category
+          <span class="sort-icons" >
+            <i class="ri-skip-up-fill" (click)="ascending('category_id')"  [ngClass]="sortBy === 'category_id' && sortOrder === 'asc' ? 'active-icon' : 'inactive-icon'"></i>
+            <i class="ri-skip-down-fill" (click)="descending('category_id')" [ngClass]="sortBy === 'category_id' && sortOrder === 'desc' ? 'active-icon' : 'inactive-icon'"></i>
+          </span>
+        </th>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Author</th>
+         <th>
+          Price
+          <span class="sort-icons" >
+            <i class="ri-skip-up-fill" (click)="ascending('price')"  [ngClass]="sortBy === 'price' && sortOrder === 'asc' ? 'active-icon' : 'inactive-icon'"></i>
+            <i class="ri-skip-down-fill" (click)="descending('price')" [ngClass]="sortBy === 'price' && sortOrder === 'desc' ? 'active-icon' : 'inactive-icon'"></i>
+          </span>
+        </th>
+        <th>Offer Price</th>
+         <th>
+          created_at
+          <span class="sort-icons" >
+            <i class="ri-skip-up-fill" (click)="ascending('created_at')"  [ngClass]="sortBy === 'created_at' && sortOrder === 'asc' ? 'active-icon' : 'inactive-icon'"></i>
+            <i class="ri-skip-down-fill" (click)="descending('created_at')" [ngClass]="sortBy === 'created_at' && sortOrder === 'desc' ? 'active-icon' : 'inactive-icon'"></i>
+          </span>
+        </th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Product of data; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ Product.category_name }}</td>
+        <img
+            [src]="
+              Product.image ? imageBaseUrl + 'uploads/' + Product.image : ''
+            "
+            alt="category-image"
+            class="category-image"
+            height="80px"
+            width="100px"
+            style="border-radius: 10px !important; object-fit: contain"
+          />
+        <td>{{ Product.title }}</td>
+        <td>{{ Product.author }}</td>
+        <td>{{ Product.price }}</td>
+        <td>{{ Product.offer_price }}</td>
+        <td>{{ Product.created_at | date : "dd MMM yyyy" }}</td>
+        <td>
+          <button
+            class="edit-btn"
+            [routerLink]="['../book_update', Product.product_id]"
+          >
+            <i class="ri-edit-box-fill"></i> Edit
+          </button>
+          <button class="delete-btn" (click)="deleteBooks(Product.product_id)">
+            <i class="ri-delete-bin-fill"></i> Delete
+          </button>
+        </td>
+      </tr>
+      
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+</div>
+<mat-paginator style="background-color: white; color: black; margin-top: 1vw; width: 100%;"
   [length]="totalRecords"
   [pageSize]="pageSize"
   (page)="onPageChange($event)"

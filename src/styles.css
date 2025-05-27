@@ -64,17 +64,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   transform: scale(1.05);
 }
 
-.error-snackbar {
-  background-color: #f44336; /* Red */
+/* .error-snackbar {
+  background-color: #f44336; 
   color: white;
   font-weight: bold;
 }
 
 .success-snackbar {
-  background-color: #4caf50; /* Green */
+  background-color: #4caf50;
   color: white;
   font-weight: bold;
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */

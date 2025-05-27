@@ -10,10 +10,11 @@ import { CategoryService } from '../categories-services/category.service';
 import { category } from '../category-interface/category.model';
 import { environment } from '../../../../environments/environment';
 import { takeUntil } from 'rxjs';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+
 import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivate.model';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 
 
 @Component({
@@ -23,7 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './update-category.component.html',
   styleUrl: './update-category.component.css',
 })
-export class UpdateCategoryComponent extends BaseUnsubscribe implements OnInit, CanDeactivateInterface {
+export class UpdateCategoryComponent extends BaseClassComponent implements OnInit, CanDeactivateInterface {
   public updateCategoryForm!: FormGroup;
   public category_id!: number;
   public categoryData!: category;

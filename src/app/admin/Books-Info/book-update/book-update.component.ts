@@ -12,11 +12,11 @@ import { ProductService } from '../product-services/product.service';
 import { product } from '../product-interface/product.model';
 import { environment } from '../../../../environments/environment';
 import { takeUntil } from 'rxjs';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivate.model';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 
 @Component({
   selector: 'app-book-update',
@@ -25,7 +25,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './book-update.component.html',
   styleUrl: './book-update.component.css',
 })
-export class BookUpdateComponent extends BaseUnsubscribe implements OnInit, OnDestroy, CanDeactivateInterface {
+export class BookUpdateComponent extends BaseClassComponent implements OnInit, OnDestroy, CanDeactivateInterface {
   public productId!: number;
   public imagePreview: string | null | any;
   public selectedFile: File | null = null;

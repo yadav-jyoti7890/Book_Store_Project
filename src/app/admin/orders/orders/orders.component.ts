@@ -6,8 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
 import { OrderService } from '../order-services/order.service';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+
 import { takeUntil } from 'rxjs';
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 
 @Component({
   selector: 'app-orders',
@@ -16,7 +17,7 @@ import { takeUntil } from 'rxjs';
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css',
 })
-export class OrdersComponent extends BaseUnsubscribe implements OnInit {
+export class OrdersComponent extends BaseClassComponent implements OnInit {
   public orderData: any;
   public statuses: string[] = ['Pending', 'Shipping', 'Delivered', 'Canceled'];
   public disabledOrders: { [key: number]: boolean } = {};

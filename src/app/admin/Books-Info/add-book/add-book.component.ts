@@ -15,12 +15,13 @@ import { ProductService } from '../product-services/product.service';
 import { ValidationComponent } from '../../../validation/validation/validation.component';
 import { product, productForm } from '../product-interface/product.model';
 import { takeUntil } from 'rxjs';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+
 import { CanDeactivateInterface } from '../../../candeactive-guards/candeactivate.model';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { NotificationsService } from '../../notification-service/notifications.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { response } from 'express';
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 
 
 
@@ -31,7 +32,7 @@ import { response } from 'express';
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.css',
 })
-export class AddBookComponent extends BaseUnsubscribe implements OnInit, OnDestroy, CanDeactivateInterface {
+export class AddBookComponent extends BaseClassComponent implements OnInit, OnDestroy, CanDeactivateInterface {
   public data: any;
   public selectedFile!: File 
   public addProductForm!: FormGroup<productForm>;

@@ -4,7 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ItemServiceService } from '../order-services/item-service.service';
 import { takeUntil } from 'rxjs';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
+
 
 @Component({
   selector: 'app-orders-detail-list',
@@ -13,7 +14,7 @@ import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
   templateUrl: './orders-detail-list.html',
   styleUrl: './orders-detail-list.css',
 })
-export class OrdersDetailListComponent extends BaseUnsubscribe implements OnInit, OnDestroy {
+export class OrdersDetailListComponent extends BaseClassComponent implements OnInit, OnDestroy {
   public imageBaseUrl = environment.BaseUrl;
   public orderData: any;
   public order_id!: number;

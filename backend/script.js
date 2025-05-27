@@ -292,21 +292,17 @@ express1.get("/api/data", (req, res) => {
   const pageSize = parseInt(req.query.page_size) || 5;
   const offset = (page - 1) * pageSize;
 
-  const sortBy = req.query.sortBy || 'publication_date'; 
-  const sortOrder = (req.query.sortOrder || 'ASC').toUpperCase();
+  const sortBy = req.query.sortBy || 'created_at'; 
+  const sortOrder = (req.query.sortOrder || 'DESC').toUpperCase();
 
   
-  const allowedSortBy = ['publication_date', 'price', 'category_id', 'product_name', 'category_name'];
-  const allowedSortOrder = ['ASC', 'DESC'];
+  const allowedSortBy = ['publication_date', 'created_at', 'price', 'category_id', 'category_name'];
+  const allowedSortOrder = ['ASC', 'DESC'] ;
 
   
-  const orderByColumn = allowedSortBy.includes(sortBy) 
-    ? (sortBy === 'category_id' ? 'c.category_name' : `p.${sortBy}`) 
-    : 'p.publication_date';
+  const orderByColumn = allowedSortBy.includes(sortBy)   ? (sortBy === 'category_id' ? 'c.category_name' : `p.${sortBy}`)   : 'p.created_at';
     
-  const orderByDirection = allowedSortOrder.includes(sortOrder) 
-    ? sortOrder 
-    : 'ASC';
+  const orderByDirection = allowedSortOrder.includes(sortOrder)  ? sortOrder   : 'DESC';
 
   const whereClause = `WHERE p.is_deleted = 0`;
 

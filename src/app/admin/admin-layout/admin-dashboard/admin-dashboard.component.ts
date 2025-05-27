@@ -10,8 +10,9 @@ import { AlluserService } from '../../users-info/user-services/alluser.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { response } from 'express';
 import { environment } from '../../../../environments/environment';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
+
 import { takeUntil } from 'rxjs';
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -21,7 +22,7 @@ import { takeUntil } from 'rxjs';
   styleUrl: './admin-dashboard.component.css',
 })
 export class AdminDashboardComponent
-  extends BaseUnsubscribe
+  extends BaseClassComponent
   implements OnInit, OnDestroy
 {
   private channel = new BroadcastChannel('auth_channel');

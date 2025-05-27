@@ -3,8 +3,8 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminService } from '../admin-services/admin.service';
-import { BaseUnsubscribe } from '../../../baseclass/baseunsubscribe';
 import { takeUntil } from 'rxjs';
+import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -19,7 +19,7 @@ import { takeUntil } from 'rxjs';
   templateUrl: './admin-sidebar.component.html',
   styleUrl: './admin-sidebar.component.css',
 })
-export class AdminSidebarComponent extends BaseUnsubscribe  implements OnInit, OnDestroy {
+export class AdminSidebarComponent extends BaseClassComponent  implements OnInit, OnDestroy {
   public totalUsers!: number;
   public totalProducts!: number;
   public totalContact!: number;
