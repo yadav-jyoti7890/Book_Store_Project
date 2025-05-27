@@ -1,4 +1,4 @@
-.category-header {
+/* .category-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -88,4 +88,164 @@
   
 }
 
+ */
+
+ body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8fbff;
+  padding: 40px;
+  color: #333;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: auto;
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2{
+  font-weight: 800;
+  font-family: Helvetica;
+}
+
+.add-btn {
+  background-color: #7a5ff5;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.add-btn i {
+  margin-right: 6px;
+}
+
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.table-controls select,
+.table-controls input {
+  padding: 5px 10px;
+  margin-left: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+thead {
+  background-color: #f4f6f9;
+}
+
+th, td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.highlight {
+  background-color: #f2f2f2;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #fff;
+}
+
+.published {
+  background-color: #28a745;
+}
+
+.scheduled {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.action {
+  background: none;
+  border: none;
+  padding: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.action.edit {
+  color: #28a745;
+}
+
+.action.delete {
+  color: #dc3545;
+}
+
+.sort-icons {
+  display: inline-flex;
+  flex-direction: column;
+  /* margin-left: 5px; */
+  font-size: 15px; 
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.sort-icons i {
+  line-height: 10px;
+  color: #999; 
+}
+
+.sort-icons i:hover {
+  color: #333 !important;
+}
+
+.active-icon {
+  color: #000 !important;
+}
+
+.inactive-icon {
+  color: #999 !important;
+}
+
+.category i {
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 18px;
+}
+
+
+@media (max-width: 768px) {
+  .table-controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  table, thead, tbody, th, td, tr {
+    font-size: 14px;
+  }
+}
 

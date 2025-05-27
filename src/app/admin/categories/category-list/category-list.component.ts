@@ -56,8 +56,13 @@ export class CategoryListComponent
       switchMap((keyword: string) => this.categoryService.filterCategoryByKeyword(keyword))
     ).subscribe(
       (result) => {
-        this.category = result.category || [];
-      },
+        if(result){
+        this.category = result.category;
+        console.log(this.category); 
+      }
+    
+     },
+
 
     );
   }

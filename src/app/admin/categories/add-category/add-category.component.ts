@@ -71,6 +71,7 @@ export class AddCategoryComponent
   }
 
   public insertCategory() {
+    console.log(this.categoryForm.value)
     if (this.categoryForm.valid) {
       const formData = new FormData();
       if (this.selectedFile) {

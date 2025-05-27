@@ -1,6 +1,4 @@
-<!-- Category Header -->
-<!-- Category Header -->
-<div class="category-header">
+<!-- <div class="category-header">
   <h1 class="order_list">Category List</h1>
 
   <div class="filter-container">
@@ -20,9 +18,6 @@
 </div>
 
 
-
-
-<!-- Category Table -->
 <div class="read_task">
   <table class="table">
     <thead>
@@ -82,4 +77,106 @@
   [pageSize]="pageSize"
   (page)="onPageChange($event)">
 </mat-paginator>
+</div> -->
+
+<div class="wrapper">
+  <div class="header">
+    <h2>Categories List</h2>
+    <button class="add-btn" routerLink="/admin_dashboard/category">
+      <i class="ri-add-circle-fill"></i> Add More Category
+    </button>
+  </div>
+
+  <div class="table-controls">
+    <div>
+      Show
+      <select>
+        <option>10</option>
+        <option>25</option>
+        <option>50</option>
+      </select>
+      entries
+    </div>
+    <div>Search:
+      <input
+      type="text"
+      class="search-input"
+      placeholder="Search category..."
+      class="search"
+      [(ngModel)]="searchText"
+      (ngModelChange)="applyFilter()"
+    />
+    </div>
+     
+  </div>
+
+  
+  <table>
+    <thead>
+      <tr>
+        <th style="font-weight: 800; font-family: helvetica">ID</th>
+        <th>
+          Category
+          <span class="sort-icons" >
+            <i class="ri-skip-up-fill" (click)="ascending('category_name')"  [ngClass]="sortBy === 'category_name' && sortOrder === 'asc' ? 'active-icon' : 'inactive-icon'"></i>
+            <i class="ri-skip-down-fill" (click)="descending('category_name')" [ngClass]="sortBy === 'category_name' && sortOrder === 'desc' ? 'active-icon' : 'inactive-icon'"></i>
+          </span>
+        </th>
+
+        <th>Image</th>
+        <th>Date
+            <span class="sort-icons" >
+            <i class="ri-skip-up-fill" (click)="ascending('create_at')"  [ngClass]="sortBy === 'create_at' && sortOrder === 'asc' ? 'active-icon' : 'inactive-icon'"></i>
+            <i class="ri-skip-down-fill" (click)="descending('create_at')" [ngClass]="sortBy === 'create_at' && sortOrder === 'desc' ? 'active-icon' : 'inactive-icon'"></i>
+          </span>
+        </th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if(category){
+      <tr *ngFor="let category of category; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ category.category_name }}</td>
+        <td>
+          <img
+            [src]="
+              category.image ? imageBaseUrl + 'uploads/' + category.image : ''
+            "
+            alt="category-image"
+            class="category-image"
+            height="100px"
+            width="100px"
+            style="border-radius: 5px; object-fit: contain"
+          />
+        </td>
+        <td>{{ category.create_at | date : "dd MMM yyyy" }}</td>
+        <td>
+          <button
+            class="edit-btn"
+            [routerLink]="['../update-category', category.category_id]"
+          >
+            <i class="ri-edit-box-fill"></i> Edit
+          </button>
+          <button
+            class="delete-btn"
+            (click)="deleteCategory(category.category_id)"
+          >
+            <i class="ri-delete-bin-fill"></i> Delete
+          </button>
+        </td>
+      </tr>
+      }
+    @else{
+      <h1>No matching records found</h1>
+    }
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
 </div>
+<mat-paginator
+  [length]="totalRecords"
+  [pageSize]="pageSize"
+  (page)="onPageChange($event)"
+>
+</mat-paginator>

@@ -1354,7 +1354,7 @@ express1.post("/category", upload.single("image"), function (req, res) {
   const { category_name, category_description } = req.body;
   console.log(category_description, "category");
 
-  const imagePath = req.file ? "uploads/" + req.file.originalname : null;
+  const imagePath = req.file ? "uploads/" + req.file.originalname : 'create_at';
   const image = imagePath.split("/").pop();
 
   if (!image) {
@@ -1396,13 +1396,13 @@ express1.get("/getAllCategory", function (req, res) {
   const limit = Number(req.query.pageSize) || 5;
   const offset = (page - 1) * limit;
   const sortBy = req.query.sortBy;
-  const sortOrder = req.query.sortOrder
+  const sortOrder = req.query.sortOrder;
 
 const allowedSortBy = ['category_name', 'category_id'];
 const allowedSortOrder = ['ASC', 'DESC'];
 
-const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : null;
-const orderByDirection = allowedSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
+const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : 'create_at';
+const orderByDirection = allowedSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'DESC';
 
 const sql = `
   SELECT * FROM category
