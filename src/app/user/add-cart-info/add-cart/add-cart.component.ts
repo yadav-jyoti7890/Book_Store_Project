@@ -177,65 +177,34 @@ export class AddCartComponent implements OnInit {
   //   ]).subscribe((response)=>{},(error)=>{})
   // }
 
-  confirmOrder() {
-    console.log('confirm order');
-    this.address_id = this.select_Address.address_id;
-    console.log(
-      this.address_id,
-      this.user_id,
-      this.total_item,
-      this.sum,
-      this.item
-    );
-    const order_data = {
-      address_id: this.address_id,
+ confirmOrder() {
+  const payload = {
+    order_data: {
+      address_id: this.select_Address.address_id,
       user_id: this.user_id,
       total_item: this.total_item,
       total_amount: this.sum,
-    };
+    },
+    order_items: this.item, // Array of { product_id, price, quantity }
+    user_id: this.user_id,
+  };
 
-    const order_item_data = {
-      address_id: this.address_id,
-      user_id: this.user_id,
-    };
-
-    this.order_item = this.item;
-
-    console.log(
-      'order data ====>',
-      order_data,
-      order_item_data,
-      this.order_item
-    );
-
-    this.add_cart.confirm_Order(order_data).subscribe({
-      next: (response) => {
-        this.order_id = response.order_id;
-        console.log('Order confirmed:', response);
-
-        forkJoin([
-          this.add_cart.order_item(this.order_id, this.order_item),
-          this.add_cart.deleteAllCartData(this.user_id),
-        ]).subscribe({
-          next: ([orderItemResponse, deleteCartResponse]) => {
-            console.log('Order items added:', orderItemResponse);
-            console.log('Cart cleared:', deleteCartResponse);
-
-            this.snackBar.open('Order Confirmed Successfully', 'close', {
-              duration: 3000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-            });
-            this.add_cart_count();
-            this.router.navigate(['/home']);
-          },
-          error: (error) => {
-            console.error('Error in order_item or deleteAllCartData:', error);
-          },
-        });
-      },
-    });
-  }
+  this.add_cart.confirm_Order(payload).subscribe({
+    next: (res) => {
+      console.log('Order + items saved + cart cleared:', res);
+      this.snackBar.open('Order Confirmed Successfully', 'close', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
+      this.add_cart_count();
+      this.router.navigate(['/home']);
+    },
+    error: (err) => {
+      console.error('Order confirmation failed:', err);
+    },
+  });
+}
 
   // confirmOrder(){
   //   console.log(this.item, "my_order")
@@ -273,3 +242,63 @@ export class AddCartComponent implements OnInit {
     this.router.navigate(['/add_cart']); // Navigate back to cart after closing
   }
 }
+
+//  confirmOrder() {
+//     console.log('confirm order');
+//     this.address_id = this.select_Address.address_id;
+//     console.log(
+//       this.address_id,
+//       this.user_id,
+//       this.total_item,
+//       this.sum,
+//       this.item
+//     );
+//     const order_data = {
+//       address_id: this.address_id,
+//       user_id: this.user_id,
+//       total_item: this.total_item,
+//       total_amount: this.sum,
+//     };
+
+//     const order_item_data = {
+//       address_id: this.address_id,
+//       user_id: this.user_id,
+//     };
+
+//     this.order_item = this.item;
+
+//     console.log(
+//       'order data ====>',
+//       order_data,
+//       order_item_data,
+//       this.order_item
+//     );
+
+//     this.add_cart.confirm_Order(order_data).subscribe({
+//       next: (response) => {
+//         this.order_id = response.order_id;
+//         console.log('Order confirmed:', response);
+
+//         forkJoin([
+//           this.add_cart.order_item(this.order_id, this.order_item),
+//           this.add_cart.deleteAllCartData(this.user_id),
+//         ]).subscribe({
+//           next: ([orderItemResponse, deleteCartResponse]) => {
+//             console.log('Order items added:', orderItemResponse);
+//             console.log('Cart cleared:', deleteCartResponse);
+
+//             this.snackBar.open('Order Confirmed Successfully', 'close', {
+//               duration: 3000,
+//               horizontalPosition: 'center',
+//               verticalPosition: 'top',
+//             });
+//             this.add_cart_count();
+//             this.router.navigate(['/home']);
+//           },
+//           error: (error) => {
+//             console.error('Error in order_item or deleteAllCartData:', error);
+//           },
+//         });
+//       },
+//     });
+//   }

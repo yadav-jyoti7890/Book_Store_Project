@@ -25,7 +25,10 @@ export class CategoryService {
   GetAllCategory(categoryData: any): Observable<any> {
   const params = new HttpParams()
     .set('page', categoryData.page)
-    .set('pageSize', categoryData.pageSize);
+    .set('pageSize', categoryData.pageSize)
+    .set('sortBy', categoryData.sortBy)
+    .set('sortOrder', categoryData.sortOrder)
+
 
   return this.http.get(`${this.apiUrl}getAllCategory`, { params });
 }

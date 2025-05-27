@@ -63,6 +63,12 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
   public searchTextChanged: Subject<string> = new Subject<string>();
   public categoryControl = new FormControl('');
   public data:any
+  sortBy: string | null = null;
+sortOrder: 'asc' | 'desc' | null = null;
+sortDirection: 'asc' | 'desc' | null = null;
+sortColumn: string | null = null;
+  
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
@@ -80,18 +86,28 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
     this.loadData();
 
       this.categoryControl.valueChanges.subscribe((selectedId) => {
+        console.log("filter", selectedId)
       this.applyCategoryFilter(Number(selectedId));
     });
   }
 
   loadData(): void {
     const url = 'http://localhost:3000/api/data';
-    this.http.get<any>(url, { params: { page: this.currentPage.toString(),page_size: this.pageSize.toString(), }, })
+    this.http.get<any>(url, { 
+      params: 
+      { 
+        page: this.currentPage.toString(),
+        page_size: this.pageSize.toString(),
+        sortBy : this.sortBy,
+        sortOrder : this.sortOrder,
+       },
+     })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           this.data = response.data;
-          // console.log(response, this.dataSource);
+          console.log(response)
+          console.log(this.data)
           this.totalRecords = response.totalRecords;
              console.log("total records",this.totalRecords,)
           if (this.paginator) {
@@ -103,8 +119,7 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
         }
       });
    }
-      
-
+  
   public onPageChange(event: any): void {
     this.currentPage = event.pageIndex + 1;
     console.log(this.currentPage);
@@ -164,7 +179,7 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
        .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          this.dataSource.data = response.filterCategory;
+          this.data = response.filterCategory;
         },
       });
     }
@@ -179,14 +194,23 @@ export class BookListComponent extends BaseUnsubscribe implements OnInit, OnDest
     });
   }
 
-  public ascending(name:string){
-    console.log(name)
-    this.productService.ascending(name).subscribe({
-      next : (response) => {
-      //  this.data = response.sortData
-      }
-    })
-  }
+  public ascending(name: string) {
+  this.sortBy = name;
+  this.sortOrder = 'asc';
+ 
+  this.loadData();
+}
+
+ public descending(name: string) {
+  this.sortBy = name;
+  this.sortOrder = 'desc';
+  this.loadData();
+}
+
+
+
+
+
 
   ngOnDestroy(){
     this.OnDestroy();

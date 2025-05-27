@@ -29,7 +29,13 @@
       <tr>
         <th>S.N</th>
         <th>Image</th>
-        <th>Category Name</th>
+         <th>
+        <div class="sortable-header">
+          Category Name
+          <i class="ri-arrow-up-line" (click)="ascending('category_name')"></i>
+          <i class="ri-arrow-down-line"></i>
+        </div>
+      </th>
         <th>Description</th>
         <th>Actions</th>
       </tr>

@@ -36,6 +36,8 @@ export class CategoryListComponent
   public totalRecords!: number;
   public pageSize = 5;
   public currentPage = 1;
+  public sortBy : string = 'category_name'
+  public sortOrder : 'asc' | 'desc' = 'asc'
   searchTextChanged: Subject<string> = new Subject<string>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
@@ -64,12 +66,15 @@ export class CategoryListComponent
     const categoryData = {
       page: this.currentPage,
       pageSize: this.pageSize,
+      sortBy : this.sortBy,
+      sortOrder : this.sortOrder
     };
-
+    console.log(categoryData)
     this.categoryService.GetAllCategory(categoryData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
+          console.log(response, "category")
           this.category = response.category;
           this.totalRecords = response.totalRecords;
           if (this.paginator) {
@@ -80,14 +85,11 @@ export class CategoryListComponent
       });
   }
 
-
   public onPageChange(event: any) {
     this.currentPage = event.pageIndex + 1;
     this.pageSize = event.pageSize;
     this.getAllCategory();
   }
-
-
 
   public applyFilter() {
     console.log("apply filter")
@@ -124,6 +126,12 @@ export class CategoryListComponent
       }
     });
   }
+
+  public ascending(name:string){
+    this.sortBy = name;
+    this.sortOrder = 'asc'
+    this.getAllCategory();
+  } 
 
   ngOnDestroy(): void {
     this.OnDestroy();

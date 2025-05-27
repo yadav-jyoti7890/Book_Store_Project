@@ -51,11 +51,39 @@ export class ProductService {
     return this.http.get(`${this.apiUrl}applyCategory/${categoryId}`);
   }
 
- ascending(name: string): Observable<any> {
-  console.log("name",name)
+ascending(params: any): Observable<any> {
+  console.log("Sort Params:", params);
   return this.http.get(`${this.apiUrl}addSorting`, {
-    params: { name }  // sends ?name=title, ?name=price etc.
+    params: {
+      sortBy: params.sortBy,
+      sortOrder: params.sortOrder,
+      page: params.page,
+      page_size: params.page_size,
+    }
   });
 }
 
 }
+
+//  descending(name: string): Observable<any> {
+//   console.log("name",name)
+//   return this.http.get(`${this.apiUrl}addDescending`, {
+//     params: { name }  // sends ?name=title, ?name=price etc.
+//   });
+// }
+
+//  ascending1(name: string): Observable<any> {
+//   console.log("name",name)
+//   return this.http.get(`${this.apiUrl}addSorting1`, {
+//     params: { name }  // sends ?name=title, ?name=price etc.
+//   });
+// }
+
+//  descending1(name: string): Observable<any> {
+//   console.log("name",name)
+//   return this.http.get(`${this.apiUrl}addDescending1`, {
+//     params: { name }  // sends ?name=title, ?name=price etc.
+//   });
+// }
+
+

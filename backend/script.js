@@ -150,7 +150,6 @@ express1.post("/login", function (req, res) {
   });
 });
 
-
 express1.get("/getbooksbyid/:id", function (req, res) {
   let id = req.params.id;
   // console.log(id);
@@ -258,7 +257,7 @@ express1.post("/add_address/:id", function (req, res) {
   const { fullname, contact, pincode, city, state, house_no, road_name } =
     req.body;
 
-  console.log(fullname,contact,pincode,city,state,house_no,road_name,id)
+  console.log(fullname, contact, pincode, city, state, house_no, road_name, id);
   let sql =
     "INSERT INTO user_address (user_id , full_name , contact , pincode, city , state , house_no , road_name) VALUES (?,?,?,?,?,?,?,?)";
   db_connection.query(
@@ -289,47 +288,63 @@ express1.get("/getaddress/:id", function (req, res) {
 });
 
 express1.get("/api/data", (req, res) => {
-  const page = parseInt(req.query.page) || 1; 
-  const pageSize = parseInt(req.query.page_size) || 5; 
-  const offset = (page - 1) * pageSize; 
-  // 1-1*5 = 5 // 2-1 = 1*5=5// 3-1 = 2*5=10/
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.page_size) || 5;
+  const offset = (page - 1) * pageSize;
+
+  const sortBy = req.query.sortBy || 'publication_date'; 
+  const sortOrder = (req.query.sortOrder || 'ASC').toUpperCase();
 
   
-  const dataQuery = `SELECT p.*, c.category_name 
-                     FROM product p
-                     INNER JOIN category c ON p.category_id = c.category_id
-                     WHERE p.is_deleted = 0 
-                     LIMIT ${pageSize} OFFSET ${offset}`;
+  const allowedSortBy = ['publication_date', 'price', 'category_id', 'product_name', 'category_name'];
+  const allowedSortOrder = ['ASC', 'DESC'];
 
   
-  const countQuery = `SELECT COUNT(*) AS totalRecords FROM product where is_deleted = 0`;
+  const orderByColumn = allowedSortBy.includes(sortBy) 
+    ? (sortBy === 'category_id' ? 'c.category_name' : `p.${sortBy}`) 
+    : 'p.publication_date';
+    
+  const orderByDirection = allowedSortOrder.includes(sortOrder) 
+    ? sortOrder 
+    : 'ASC';
 
+  const whereClause = `WHERE p.is_deleted = 0`;
+
+  const dataQuery = `
+    SELECT p.*, c.category_name
+    FROM product p
+    INNER JOIN category c ON p.category_id = c.category_id
+    ${whereClause}
+    ORDER BY ${orderByColumn} ${orderByDirection}
+    LIMIT ${pageSize} OFFSET ${offset}
+  `;
+
+  const countQuery = `SELECT COUNT(*) AS totalRecords FROM product WHERE is_deleted = 0`;
 
   db_connection.query(dataQuery, (err, results) => {
     if (err) {
-      res.status(500).send("Error fetching data");
-      return;
+      return res.status(500).send("Error fetching data");
     }
 
-   
     db_connection.query(countQuery, (err, countResults) => {
       if (err) {
-        res.status(500).send("Error fetching total records count");
-        return;
-    }
+        return res.status(500).send("Error fetching total count");
+      }
 
-    
       const totalRecords = countResults[0].totalRecords;
-
-      return res.json({
-        data: results, 
-        totalRecords: totalRecords, 
-        totalPages: Math.ceil(totalRecords / pageSize), 
-        currentPage: page,
+      res.json({
+        data: results,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / pageSize),
+        currentPage: page
       });
     });
   });
 });
+
+
+
+
 
 //===== admin side code here ======//
 
@@ -360,8 +375,8 @@ express1.post("/add-books", upload.single("image"), function (req, res) {
     discount_value,
     stock,
     date,
-  } = req.body
-  console.log(req.body)
+  } = req.body;
+  console.log(req.body);
   // const imagePath = req.file ? req.file.path : null;
   const imagePath = req.file ? "uploads/" + req.file.originalname : null;
   const image = imagePath.split("/").pop();
@@ -437,21 +452,96 @@ express1.get("/SearchProduct", (req, res) => {
   });
 });
 
-express1.get("/addSorting", function(req, res){
-  console.log("run sorting")
-  const name = req.query.name
-  console.log(name, "name")
+express1.get("/addSorting", function (req, res) {
+  console.log("run sorting");
+
+  const sortBy = req.query.sortBy || 'publication_date'; 
+  const sortOrder = (req.query.sortOrder || 'ASC').toUpperCase();
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.page_size) || 5;
+  const offset = (page - 1) * pageSize;
+
+ 
+  const sql =  `SELECT p.*, c.category_name
+                FROM product p
+                INNER JOIN category c ON p.category_id = c.category_id 
+                ORDER BY category_name ASC 
+                LIMIT ${pageSize} OFFSET ${offset}`;
+
+  db_connection.query(sql, function (error, results) {
+    if (error) {
+      console.error("Database error:", error);
+      return res.status(500).json({ error: "Database error", details: error });
+    }
+
+    // Count total records
+    const countQuery = `SELECT COUNT(*) AS totalRecords FROM product WHERE is_deleted = 0`;
+
+    db_connection.query(countQuery, function (err, countResults) {
+      if (err) {
+        console.error("Count error:", err);
+        return res.status(500).json({ error: "Error fetching total count", details: err });
+      }
+
+      const totalRecords = countResults[0].totalRecords;
+
+      return res.status(200).json({
+        sortData: results,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / pageSize),
+        currentPage: page
+      });
+    });
+  });
+});
+
+
+express1.get("/addDescending", function (req, res) {
+  // console.log("run sorting")
+  const name = req.query.name;
+  console.log(name, "name");
   let sql = `SELECT p.*, c.category_name 
               FROM product p
                INNER JOIN category c ON p.category_id = c.category_id
-               ORDER BY ${name} ASC`
-  db_connection.query(sql, function(error, result){
-    if(error){
-       return res.status(500).json({ error: "Database error", details: err });
+               ORDER BY category_name desc`;
+  db_connection.query(sql, function (error, result) {
+    if (error) {
+      return res.status(500).json({ error: "Database error", details: err });
     }
-    return res.status(200).send({sortData: result})
-  })
-})
+    return res.status(200).send({ descData: result });
+  });
+});
+
+express1.get("/addSorting1", function (req, res) {
+  // console.log("run sorting")
+  const name = req.query.name;
+  console.log(name, "name");
+  let sql = `SELECT p.*, c.category_name 
+              FROM product p
+               INNER JOIN category c ON p.category_id = c.category_id
+               ORDER BY ${name} ASC`;
+  db_connection.query(sql, function (error, result) {
+    if (error) {
+      return res.status(500).json({ error: "Database error", details: err });
+    }
+    return res.status(200).send({ sortData: result });
+  });
+});
+
+express1.get("/addDescending1", function (req, res) {
+  const name = req.query.name;
+  console.log(name, "name");
+  let sql = `SELECT p.*, c.category_name 
+              FROM product p
+               INNER JOIN category c ON p.category_id = c.category_id
+               ORDER BY ${name} desc`;
+  db_connection.query(sql, function (error, result) {
+    if (error) {
+      return res.status(500).json({ error: "Database error", details: err });
+    }
+    return res.status(200).send({ descData: result });
+  });
+});
 
 express1.get("/getalluser", function (req, res) {
   let sql = "SELECT COUNT(*) AS totalUsers FROM users";
@@ -771,64 +861,110 @@ express1.put("/update_books/:id", upload.single("image"), (req, res) => {
   );
 });
 
-express1.post("/confirm_order", (req, res) => {
-  const { address_id, user_id, total_item, total_amount } = req.body;
-  // console.log("confirm order data",  address_id, user_id, total_item, total_amount);
+express1.post('/confirmOrder', (req, res) => {
+  const { order_data, order_items, user_id } = req.body;
 
-  const sql =
-    "INSERT INTO order_table (address_id, user_id, total_item, total_pay) VALUES (?, ?, ?, ?)";
+  if (!order_data || !order_items || !user_id) {
+    return res.status(400).json({ message: "Missing required data" });
+  }
 
-  let query1 = db_connection.query(
-    sql,
-    [address_id, user_id, total_item, total_amount],
-    (err, result) => {
+  const insertOrderSql = `
+    INSERT INTO order_table (address_id, user_id, total_item, total_pay)
+    VALUES (?, ?, ?, ?)
+  `;
+
+  db_connection.beginTransaction((err) => {
+    if (err) return res.status(500).json({ message: "Transaction failed" });
+
+    db_connection.query(insertOrderSql, [
+      order_data.address_id,
+      order_data.user_id,
+      order_data.total_item,
+      order_data.total_amount,
+    ], (err, result) => {
       if (err) {
-        // console.log(query1, err)
-        return res
-          .status(500)
-          .json({ error: "Failed to insert into order table" });
+        return db_connection.rollback(() => {
+          res.status(500).json({ message: "Order creation failed" });
+        });
       }
 
       const order_id = result.insertId;
-      // console.log(order_id)
-      return res
-        .status(200)
-        .send({ message: "Order confirmed successfully", order_id });
-    }
-  );
+
+      const orderItemsData = order_items.map(item => [
+        order_id,
+        item.product_id,
+        item.price,
+        item.quantity,
+        item.price * item.quantity,
+      ]);
+
+      const insertItemsSql = `
+        INSERT INTO order_items (order_id, product_id, price, quantity, total_amount)
+        VALUES ?
+      `;
+
+      db_connection.query(insertItemsSql, [orderItemsData], (err) => {
+        if (err) {
+          return db_connection.rollback(() => {
+            res.status(500).json({ message: "Inserting order items failed" });
+          });
+        }
+
+        const deleteCartSql = `DELETE FROM add_to_cart WHERE user_id = ?`;
+
+        db_connection.query(deleteCartSql, [user_id], (err) => {
+          if (err) {
+            return db_connection.rollback(() => {
+              res.status(500).json({ message: "Cart clear failed" });
+            });
+          }
+
+          db_connection.commit((err) => {
+            if (err) {
+              return db_connection.rollback(() => {
+                res.status(500).json({ message: "Commit failed" });
+              });
+            }
+
+            res.status(200).json({ message: "Order placed successfully", order_id });
+          });
+        });
+      });
+    });
+  });
 });
 
 // Order item route
-express1.post("/order_item/:order_id", (req, res) => {
-  const order_id = req.params.order_id;
-  const orderItems = req.body;
-  // console.log(order_id,orderItems)
-  const sql =
-    "INSERT INTO order_items (order_id, product_id, price,quantity, total_amount) VALUES ?";
+// express1.post("/order_item/:order_id", (req, res) => {
+//   const order_id = req.params.order_id;
+//   const orderItems = req.body;
+ 
+//   const sql =
+//     "INSERT INTO order_items (order_id, product_id, price,quantity, total_amount) VALUES ?";
 
-  const price = orderItems.map((item) => [item.price]);
-  const quantity = orderItems.map((item) => [item.quantity]);
-  const total_amount = price * quantity;
-  console.log(price, quantity, total_amount);
-  const orderItemsData = orderItems.map((item) => [
-    order_id,
-    item.product_id,
-    item.price,
-    item.quantity,
-    item.price * item.quantity,
-  ]);
+//   const price = orderItems.map((item) => [item.price]);
+//   const quantity = orderItems.map((item) => [item.quantity]);
+//   const total_amount = price * quantity;
+//   console.log(price, quantity, total_amount);
+//   const orderItemsData = orderItems.map((item) => [
+//     order_id,
+//     item.product_id,
+//     item.price,
+//     item.quantity,
+//     item.price * item.quantity,
+//   ]);
 
-  console.log(orderItemsData);
+//   console.log(orderItemsData);
 
-  db_connection.query(sql, [orderItemsData], (err, result) => {
-    if (err) {
-      return res
-        .status(500)
-        .json({ error: "Failed to insert into order_items table" });
-    }
-    return res.status(200).json({ message: "Order items added successfully" });
-  });
-});
+//   db_connection.query(sql, [orderItemsData], (err, result) => {
+//     if (err) {
+//       return res
+//         .status(500)
+//         .json({ error: "Failed to insert into order_items table" });
+//     }
+//     return res.status(200).json({ message: "Order items added successfully" });
+//   });
+// });
 
 express1.get("/getCartOrder/:id", function (req, res) {
   let id = req.params.id;
@@ -843,16 +979,16 @@ express1.get("/getCartOrder/:id", function (req, res) {
   });
 });
 
-express1.delete("/deleteAllCartData/:id", function (req, res) {
-  let id = req.params.id;
-  // console.log(id,"delete")
-  let sql = "DELETE FROM add_to_cart WHERE user_id = ?";
-  db_connection.query(sql, [id], function (err, result) {
-    // console.log(result)
-    if (err) return res.status(500).send({ message: "server error" });
-    return res.status(200).send({ message: "get order", data: result });
-  });
-});
+// express1.delete("/deleteAllCartData/:id", function (req, res) {
+//   let id = req.params.id;
+//   // console.log(id,"delete")
+//   let sql = "DELETE FROM add_to_cart WHERE user_id = ?";
+//   db_connection.query(sql, [id], function (err, result) {
+//     // console.log(result)
+//     if (err) return res.status(500).send({ message: "server error" });
+//     return res.status(200).send({ message: "get order", data: result });
+//   });
+// });
 
 express1.get("/AllOrder", function (req, res) {
   let sql = `SELECT o.*, u.user_name
@@ -1167,9 +1303,8 @@ express1.get("/getUserItems/:user_id", function (req, res) {
 express1.post("/update-profile", upload.single("profilePic"), (req, res) => {
   console.log("use_profile");
 
-
   const userId = req.body.userId; // Get userId from form-data
-   const profileImage = req.file ? "uploads/" + req.file.originalname : null;
+  const profileImage = req.file ? "uploads/" + req.file.originalname : null;
   const image = profileImage.split("/").pop();
 
   // console.log(userId, image);
@@ -1217,7 +1352,7 @@ express1.get("/getOderDetail/:order_id", function (req, res) {
 
 express1.post("/category", upload.single("image"), function (req, res) {
   const { category_name, category_description } = req.body;
-  console.log(category_description,  "category");
+  console.log(category_description, "category");
 
   const imagePath = req.file ? "uploads/" + req.file.originalname : null;
   const image = imagePath.split("/").pop();
@@ -1260,20 +1395,36 @@ express1.get("/getAllCategory", function (req, res) {
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.pageSize) || 5;
   const offset = (page - 1) * limit;
+  const sortBy = req.query.sortBy;
+  const sortOrder = req.query.sortOrder
 
-  console.log("Page:", page, "Limit:", limit, "Offset:", offset);
+const allowedSortBy = ['category_name', 'created_at', 'category_id'];
+const allowedSortOrder = ['ASC', 'DESC'];
 
-  const sql = `SELECT * FROM category WHERE is_deleted = 0 LIMIT ${limit} OFFSET ${offset}`;
+const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : 'category_name';
+const orderByDirection = allowedSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
+
+const sql = `
+  SELECT * FROM category
+  WHERE is_deleted = 0
+  ORDER BY ${orderByColumn} ${orderByDirection}
+  LIMIT ${limit} OFFSET ${offset}
+`;
+
   const sqlCount = `SELECT COUNT(*) AS totalCategory FROM category WHERE is_deleted = 0`;
 
   db_connection.query(sql, function (error, results) {
     if (error) {
-      return res.status(500).json({ message: "Server error while fetching data" });
+      return res
+        .status(500)
+        .json({ message: "Server error while fetching data" });
     }
 
     db_connection.query(sqlCount, function (countError, countResult) {
       if (countError) {
-        return res.status(500).json({ message: "Server error while counting data" });
+        return res
+          .status(500)
+          .json({ message: "Server error while counting data" });
       }
 
       const totalRecords = countResult[0].totalCategory;
@@ -1290,19 +1441,18 @@ express1.get("/getAllCategory", function (req, res) {
 });
 
 express1.get("/getCategory1", function (req, res) {
-
   let sql = `select * from category where is_deleted = 0`;
 
   db_connection.query(sql, function (error, results) {
     if (error) {
-      return res.status(500).json({ message: "Server error while fetching data" });
+      return res
+        .status(500)
+        .json({ message: "Server error while fetching data" });
     }
 
     return res.status(200).json({ message: "", category: results });
-
-    });
   });
-
+});
 
 express1.delete("/deleteCategory/:id", (req, res) => {
   const categoryId = req.params.id;

@@ -4,7 +4,10 @@
   <div class="filter-container">
     <select class="category-filter" [formControl]="categoryControl">
       <option value="">All Categories</option>
-      <option *ngFor="let categoryItem of category" [value]="categoryItem.category_id">
+      <option
+        *ngFor="let categoryItem of category"
+        [value]="categoryItem.category_id"
+      >
         {{ categoryItem.category_name }}
       </option>
     </select>
@@ -15,73 +18,31 @@
   </div>
 </div>
 
-
-<div class="scroll" style="overflow-x: auto;">
+<div class="scroll" style="overflow-x: auto">
   <table class="normal-table">
     <thead>
-      <tr>
-        <th>SN</th>
+      <th>SN</th>
 
-        <th>
-          <div class="sortable-header" >
-            Category
-            <i class="ri-arrow-up-line" (click)="ascending('category_id')"></i>
-            <i class="ri-arrow-down-line"></i>
-          </div>
-        </th>
+      <th style="display: flex; justify-content: center; align-items: center">
+        category
+        <div class="category">
+        
+        </div>
+      </th>
 
-        <th>Image</th>
+      <th>Image</th>
+      <th>Title</th>
+      <th>Author</th>
 
-        <th>
-          <div class="sortable-header" >
-            Title
-            <i class="ri-arrow-up-line"></i>
-            <i class="ri-arrow-down-line"></i>
-          </div>
-        </th>
+      <th>price</th>
 
-        <th>
-          <div class="sortable-header" >
-            Author
-            <i class="ri-arrow-up-line"></i>
-            <i class="ri-arrow-down-line"></i>
-          </div>
-        </th>
+      <!-- <th>Publication Date</th> -->
 
-         <th>
-          <div class="sortable-header" >
-            price
-            <i class="ri-arrow-up-line"></i>
-            <i class="ri-arrow-down-line"></i>
-          </div>
-        </th>
-
-          <th>
-          <div class="sortable-header" >
-            Discount Type
-            <i class="ri-arrow-up-line"></i>
-            <i class="ri-arrow-down-line"></i>
-          </div>
-        </th>
-
-          <th>
-          <div class="sortable-header" >
-            Discount Value
-            <i class="ri-arrow-up-line"></i>
-            <i class="ri-arrow-down-line"></i>
-          </div>
-        </th>
-
-          <th>
-          <div class="sortable-header" >
-            Offer Price
-            <i class="ri-arrow-up-line"></i>
-            <i class="ri-arrow-down-line"></i>
-          </div>
-        </th>
-
-        <th>Action</th>
-      </tr>
+      <th>discount_type</th>
+      <th>discount-value</th>
+      <th>offer_price</th>
+      <th>publication_date</th>
+      <th>Action</th>
     </thead>
 
     <tbody>
@@ -90,7 +51,9 @@
         <td>{{ element.category_name }}</td>
         <td>
           <img
-            [src]="element.image ? imageBaseUrl + 'uploads/' + element.image : ''"
+            [src]="
+              element.image ? imageBaseUrl + 'uploads/' + element.image : ''
+            "
             alt="Book image"
             height="80"
             width="80"
@@ -102,8 +65,13 @@
         <td>{{ element.discount_type }}</td>
         <td>{{ element.discount_value }}</td>
         <td>{{ element.offer_price }}</td>
+        <td>{{ element.publication_date | date : "dd MMM yyyy" }}</td>
+
         <td>
-          <button class="edit-btn" [routerLink]="['../book_update', element.product_id]">
+          <button
+            class="edit-btn"
+            [routerLink]="['../book_update', element.product_id]"
+          >
             <i class="ri-edit-box-fill"></i> Edit
           </button>
           <button class="delete-btn" (click)="deleteBooks(element.product_id)">
@@ -118,5 +86,6 @@
 <mat-paginator
   [length]="totalRecords"
   [pageSize]="pageSize"
-  (page)="onPageChange($event)">
+  (page)="onPageChange($event)"
+>
 </mat-paginator>

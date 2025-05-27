@@ -38,18 +38,23 @@ export class AddCartService {
     return this.http.post(`${this.apiUrl}orderItem/`,data)
   }
 
-  confirm_Order(order_data: any): Observable<any>{
-    console.log(order_data);
-    return this.http.post(`${this.apiUrl}confirm_order`, order_data);
-  }
+  // confirm_Order(order_data: any): Observable<any>{
+  //   console.log(order_data);
+  //   return this.http.post(`${this.apiUrl}confirm_order`, order_data);
+  // }
+
+  confirm_Order(payload: any) {
+  return this.http.post<any>('http://localhost:3000/confirmOrder', payload);
+}
+
   
 
-  order_item(order_id:number, order_item: any[]) {
-    console.log("order_item", order_item)
-    const url = `${this.apiUrl}order_item/${order_id}`;
-    console.log( "order items and order_id =>", order_item, order_id);
-    return this.http.post(url, order_item);
-  }
+  // order_item(order_id:number, order_item: any[]) {
+  //   console.log("order_item", order_item)
+  //   const url = `${this.apiUrl}order_item/${order_id}`;
+  //   console.log( "order items and order_id =>", order_item, order_id);
+  //   return this.http.post(url, order_item);
+  // }
 
   my_Order(item:any){
    return this.http.post(`${this.apiUrl}/addMyOrder`,item)
@@ -59,9 +64,9 @@ export class AddCartService {
     return this.http.get(`${this.apiUrl}/getCartOrder/${user_id}`)
   }
 
-  deleteAllCartData(id:number){
-    return this.http.delete(`${this.apiUrl}deleteAllCartData/${id}`)
-  }
+  // deleteAllCartData(id:number){
+  //   return this.http.delete(`${this.apiUrl}deleteAllCartData/${id}`)
+  // }
 
   getOrderData(user_id:number){
     console.log("remove obserable")

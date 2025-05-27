@@ -183,7 +183,7 @@ table tr{
 
 .normal-table {
   width: 100%;
-  border-collapse: collapse;
+  /* border-collapse: collapse; */
   margin-top: 15px;
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -191,8 +191,9 @@ table tr{
 
 .normal-table th,
 .normal-table td {
-  padding: 12px 15px;
+  /* padding: 15px 15px; */
   /* text-align: center; */
+  padding: 1vw 0;
   border-bottom: 1px solid #ddd;
 }
 
@@ -205,6 +206,22 @@ table tr{
   border-radius: 5px;
   object-fit: cover;
 }
+
+.toggle-icon {
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.toggle-icon.ri-arrow-up-line {
+  transform: rotate(0deg);
+  color: green;
+}
+
+.toggle-icon.ri-arrow-down-line {
+  transform: rotate(180deg);
+  color: red;
+}
+
 
 /* .edit-btn,
 .delete-btn {
@@ -299,6 +316,29 @@ table tr{
   gap: 4px;
 }
 
+
+.icon-active {
+  color: #00bcd4;
+  transform: scale(1.2);
+}
+
+.icon-default {
+  color: gray;
+  opacity: 0.6;
+}
+
+.category i {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  color: rgb(190, 48, 48);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.category i.active {
+  color: rgb(75, 15, 217); /* active dark color */
+}
 
 
 
