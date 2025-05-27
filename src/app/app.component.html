@@ -1,6 +1,11 @@
 <app-header></app-header>
-<app-baseClass></app-baseClass>
-<!-- <router-outlet></router-outlet> -->
+<ng-container *ngIf="isLoading()">
+  <div class="overlay">
+    <div class="spinner"></div>
+  </div>
+</ng-container>
+
+<router-outlet></router-outlet>
 
 <div class="dynamic-content">
     <router-outlet></router-outlet>

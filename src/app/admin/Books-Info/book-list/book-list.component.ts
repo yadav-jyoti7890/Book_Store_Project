@@ -20,6 +20,7 @@ import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dia
 import { category } from '../../categories/category-interface/category.model';
 
 import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
+import { LoaderBase } from '../../../loader/loader';
 
 @Component({
   selector: 'app-book-list',
@@ -40,7 +41,7 @@ import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.compo
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
 })
-export class BookListComponent extends BaseClassComponent implements OnInit, OnDestroy {
+export class BookListComponent extends LoaderBase  implements OnInit, OnDestroy {
   public imageBaseUrl = environment.BaseUrl;
   public category: any;
   public totalRecords!: number;
@@ -92,7 +93,7 @@ export class BookListComponent extends BaseClassComponent implements OnInit, OnD
   }
 
   loadData(): void {
-    this.show()
+    this.showLoader()
     const url = 'http://localhost:3000/api/data';
     this.http.get<any>(url, { 
       params: 
@@ -107,7 +108,7 @@ export class BookListComponent extends BaseClassComponent implements OnInit, OnD
       .subscribe({
         next: (response) => {
           console.log(response);
-          this.hide()
+          this.hideLoader()
           this.data = response.data;
           //  this.dataSource = new MatTableDataSource(this.data);
           this.totalRecords = response.totalRecords;
@@ -174,7 +175,7 @@ export class BookListComponent extends BaseClassComponent implements OnInit, OnD
   }
 
   private applyCategoryFilter(categoryId: number) {
-     this.show()
+     this.showLoader()
     if (!categoryId) {
       this.loadData();
     } else {
@@ -183,7 +184,7 @@ export class BookListComponent extends BaseClassComponent implements OnInit, OnD
        .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-           this.hide()
+           this.hideLoader()
           this.data = response.filterCategory;
         },
       });

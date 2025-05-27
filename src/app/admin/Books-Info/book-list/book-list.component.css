@@ -185,6 +185,26 @@ th, td {
   font-size: 18px;
 }
 
+.mat-paginator .mat-icon {
+  color: black !important;
+}
+
+
+.mat-paginator .mat-paginator-navigation-next,
+.mat-paginator .mat-paginator-navigation-previous {
+  color: black !important;
+}
+
+
+.mat-paginator {
+  color: black !important;
+  background-color: white !important;
+}
+
+::ng-deep .mat-paginator .mat-icon {
+  color: black !important;
+}
+
 
 
 

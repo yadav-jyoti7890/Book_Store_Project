@@ -278,6 +278,10 @@ button:hover:not(:disabled) {
   background-color: #333;
 }
 
+
+
+
+
 /* Responsive */
 @media (max-width: 768px) {
   .grid-2 {

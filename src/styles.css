@@ -64,6 +64,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   transform: scale(1.05);
 }
 
+::ng-deep .mat-paginator .mat-icon {
+  color: black;
+}
+
 /* .error-snackbar {
   background-color: #f44336; 
   color: white;

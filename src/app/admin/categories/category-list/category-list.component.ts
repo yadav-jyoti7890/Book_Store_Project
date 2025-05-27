@@ -15,6 +15,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 
 import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
+import { LoaderBase } from '../../../loader/loader';
 
 @Component({
   selector: 'app-category-list',
@@ -30,7 +31,7 @@ import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.compo
   styleUrl: './category-list.component.css',
 })
 export class CategoryListComponent
-  extends BaseClassComponent
+  extends LoaderBase
   implements OnInit, OnDestroy {
   public category: any;
   public imageBaseUrl = environment.BaseUrl;
@@ -53,7 +54,7 @@ export class CategoryListComponent
 
   ngOnInit(): void {
     this.getAllCategory();
-
+   
     this.searchTextChanged.pipe(
       debounceTime(700), 
       switchMap((keyword: string) =>
@@ -61,7 +62,7 @@ export class CategoryListComponent
        
     ).subscribe(
       (result) => {
-        this.hide()
+        this.hideLoader()
         if(result){
         this.category = result.category;
         console.log(this.category); 
@@ -70,8 +71,8 @@ export class CategoryListComponent
     );
   }
 
-  getAllCategory() {
-     this.show()
+  private getAllCategory() {
+     this.showLoader()
     const categoryData = {
       page: this.currentPage,
       pageSize: this.pageSize,
@@ -85,7 +86,7 @@ export class CategoryListComponent
         
         next: (response) => {
           console.log(response, "category")
-           this.hide()
+           this.hideLoader()
           this.category = response.category;
           this.totalRecords = response.totalRecords;
           if (this.paginator) {
@@ -104,7 +105,7 @@ export class CategoryListComponent
 
   public applyFilter() {
     console.log("apply filter")
-      this.show()
+      this.showLoader()
     this.searchTextChanged.next(this.searchText);
   }
 
@@ -146,7 +147,7 @@ export class CategoryListComponent
     this.getAllCategory();
   } 
 
-    public descending(name:string){
+  public descending(name:string){
     this.sortBy = name;
     this.sortOrder = 'desc'
     this.getAllCategory();
