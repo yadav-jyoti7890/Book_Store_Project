@@ -10,7 +10,7 @@ import {
 import { UsersService } from '../user-services/users.service';
 
 import { takeUntil } from 'rxjs';
-import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
+
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,11 +18,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { LoaderBase } from '../../../loader/loader';
+import { ReuseableComponent } from '../../../reuseable/reuseable.component';
 
 @Component({
   selector: 'app-users-list',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule,  MatIconModule,
+  imports: [FormsModule, CommonModule, ReactiveFormsModule,  MatIconModule,ReuseableComponent,
       MatToolbarModule,
       MatButtonModule,
       MatTableModule,
@@ -35,6 +36,7 @@ export class UsersListComponent
   extends LoaderBase
   implements OnInit, OnDestroy
 {
+  public showLoader = false
   public imageBaseUrl = environment.BaseUrl;
   public selectedRole: any = '';
   public searchQuery: any = '';
@@ -60,7 +62,7 @@ export class UsersListComponent
   }
 
   private getAllUsersFromDataBase() {
-    this.showLoader()
+      this.showLoader = true
       const categoryData = {
       page: this.currentPage,
       pageSize: this.pageSize,
@@ -71,12 +73,14 @@ export class UsersListComponent
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          this.hideLoader()
+         this.showLoader = false;
           this.usersData = response.users;
+          
             this.totalRecords = response.totalRecords;
           if (this.paginator) {
             this.paginator.length = this.totalRecords;
           }
+           
         },
         error: (error) => {
           console.log('users get all data problem accurse');
@@ -100,7 +104,7 @@ export class UsersListComponent
   }
 
   public applyFilters(value: string) {
-    this.showLoader()
+    
     console.log(value);
     if (!value) {
       this.getAllUsersFromDataBase();
@@ -110,7 +114,7 @@ export class UsersListComponent
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
-            this.hideLoader()
+            
             this.usersData = response.filter;
             console.log('Filtered Data:', response);
           },

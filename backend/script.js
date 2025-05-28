@@ -1058,10 +1058,10 @@ express1.get("/users", function (req, res) {
   const sortBy = req.query.sortBy;
   const sortOrder = req.query.sortOrder;
 
-const allowedSortBy = ['category_name', 'category_id'];
+const allowedSortBy = ['user_name', 'email'];
 const allowedSortOrder = ['ASC', 'DESC'];
 
-const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : 'user_name';
+const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : null;
 const orderByDirection = allowedSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
 
 const sql = `
@@ -1089,12 +1089,25 @@ const sql = `
       const totalRecords = countResult[0].totalUsers;
       const totalPages = Math.ceil(totalRecords / limit);
 
-      return res.json({
-        users: results,
+
+
+      // return res.json({
+      //   users: results,
+      //   totalRecords: totalRecords,
+      //   totalPages: totalPages,
+      //   currentPage: page,
+      // });
+
+   setTimeout(() => {
+        return res.json({
+         users: results,
         totalRecords: totalRecords,
         totalPages: totalPages,
         currentPage: page,
-      });
+        });
+      }, 10000);
+
+
     });
   });
 });

@@ -1,4 +1,4 @@
-import { Component, computed, viewChild, ViewChild } from '@angular/core';
+import { Component, computed, OnInit, viewChild, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './authentication/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -7,8 +7,7 @@ import { HomeComponent } from './user/home-page/home/home.component';
 import { ViewDetailComponent } from './user/view-info/view-detail/view-detail.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BaseClassComponent } from './baseclass/baseclass/baseclass.component';
-import { LoaderBase } from './loader/loader';
-import { CommonModule } from '@angular/common';
+
 
 
 @Component({
@@ -23,12 +22,13 @@ import { CommonModule } from '@angular/common';
     ViewDetailComponent,
     MatSnackBarModule,
     BaseClassComponent,
-    CommonModule
+    
    ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent extends BaseClassComponent{
+export class AppComponent{
+ 
   
-   override isLoading = computed(() => LoaderBase.getSignal()());
+ 
 }

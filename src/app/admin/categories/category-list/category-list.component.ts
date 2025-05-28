@@ -58,11 +58,10 @@ export class CategoryListComponent
     this.searchTextChanged.pipe(
       debounceTime(700), 
       switchMap((keyword: string) =>
-         this.categoryService.filterCategoryByKeyword(keyword))
-       
+        this.categoryService.filterCategoryByKeyword(keyword))    
     ).subscribe(
       (result) => {
-        this.hideLoader()
+        // this.hideLoader()
         if(result){
         this.category = result.category;
         console.log(this.category); 
@@ -72,7 +71,7 @@ export class CategoryListComponent
   }
 
   private getAllCategory() {
-     this.showLoader()
+    //  this.showLoader()
     const categoryData = {
       page: this.currentPage,
       pageSize: this.pageSize,
@@ -82,11 +81,10 @@ export class CategoryListComponent
     console.log(categoryData)
     this.categoryService.GetAllCategory(categoryData)
       .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        
+      .subscribe({    
         next: (response) => {
           console.log(response, "category")
-           this.hideLoader()
+          //  this.hideLoader()
           this.category = response.category;
           this.totalRecords = response.totalRecords;
           if (this.paginator) {
@@ -105,7 +103,7 @@ export class CategoryListComponent
 
   public applyFilter() {
     console.log("apply filter")
-      this.showLoader()
+      // this.showLoader()
     this.searchTextChanged.next(this.searchText);
   }
 
@@ -126,6 +124,7 @@ export class CategoryListComponent
           .subscribe({
             next: (response) => {
               if (response) {
+                //  this.hideLoader()
                 alert('Category is deleted');
                 this.getAllCategory();
               }

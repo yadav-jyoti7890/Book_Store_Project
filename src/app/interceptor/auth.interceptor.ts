@@ -7,12 +7,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = localStorage.getItem('token');
   const notification = inject(NotificationsService);
   
-
-
   let clonedReq = req;
   if (token) {
     clonedReq = req.clone({
-      headers: req.headers.set('Authorization', 'Bearer ' + token),
+      headers: req.headers.set('Authorization', 'Bearer' + token),
     });
   }
 

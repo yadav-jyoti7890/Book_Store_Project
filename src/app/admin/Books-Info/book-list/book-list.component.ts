@@ -18,8 +18,6 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { category } from '../../categories/category-interface/category.model';
-
-import { BaseClassComponent } from '../../../baseclass/baseclass/baseclass.component';
 import { LoaderBase } from '../../../loader/loader';
 
 @Component({
@@ -36,12 +34,13 @@ import { LoaderBase } from '../../../loader/loader';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    BaseClassComponent
+    
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
 })
-export class BookListComponent extends LoaderBase  implements OnInit, OnDestroy {
+export class BookListComponent extends LoaderBase implements OnInit, OnDestroy {
+  
   public imageBaseUrl = environment.BaseUrl;
   public category: any;
   public totalRecords!: number;
@@ -69,7 +68,7 @@ export class BookListComponent extends LoaderBase  implements OnInit, OnDestroy 
   sortBy! : string
   sortOrder! : string
  
-  @ViewChild('loader') loader!: BaseClassComponent;
+
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   constructor(
@@ -93,7 +92,7 @@ export class BookListComponent extends LoaderBase  implements OnInit, OnDestroy 
   }
 
   loadData(): void {
-    this.showLoader()
+    // this.showLoader()
     const url = 'http://localhost:3000/api/data';
     this.http.get<any>(url, { 
       params: 
@@ -107,8 +106,7 @@ export class BookListComponent extends LoaderBase  implements OnInit, OnDestroy 
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          console.log(response);
-          this.hideLoader()
+          //  this.hideLoader()  
           this.data = response.data;
           //  this.dataSource = new MatTableDataSource(this.data);
           this.totalRecords = response.totalRecords;
@@ -175,7 +173,7 @@ export class BookListComponent extends LoaderBase  implements OnInit, OnDestroy 
   }
 
   private applyCategoryFilter(categoryId: number) {
-     this.showLoader()
+    //  this.showLoader()
     if (!categoryId) {
       this.loadData();
     } else {
@@ -184,7 +182,7 @@ export class BookListComponent extends LoaderBase  implements OnInit, OnDestroy 
        .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-           this.hideLoader()
+          //  this.hideLoader()
           this.data = response.filterCategory;
         },
       });
