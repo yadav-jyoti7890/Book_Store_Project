@@ -1,17 +1,25 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { __param } from 'tslib';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  private apiUrl = 'http://localhost:3000/users';
+  private apiUrl = environment.BaseUrl
+  // private apiUrl = 'http://localhost:3000/users';
   private apiUrl1 = 'http://localhost:3000/users_Delete'
   constructor(private http:HttpClient) { }
 
-  GetAllUsers(): Observable<any>{
-    return this.http.get(this.apiUrl)
+  GetAllUsers(categoryData : any): Observable<any>{
+      const params = new HttpParams()
+        .set('page', categoryData.page)
+        .set('pageSize', categoryData.pageSize)
+        .set('sortBy', categoryData.sortBy)
+        .set('sortOrder', categoryData.sortOrder)
+    return this.http.get(`${this.apiUrl}users`, {params})
   }
 
   deleteUsers(id: number) {

@@ -345,7 +345,7 @@ express1.get("/api/data", (req, res) => {
 //===== admin side code here ======//
 
 express1.get("/SearchCategory", (req, res) => {
-  console.log("search category");
+  // console.log("search category");
   const keyword = req.query.keyword;
   const sqlQuery = "SELECT * FROM category WHERE category_name LIKE ?";
   const values = [`%${keyword}%`];
@@ -359,7 +359,7 @@ express1.get("/SearchCategory", (req, res) => {
 });
 
 express1.post("/add-books", upload.single("image"), function (req, res) {
-  console.log("add_book route access");
+  // console.log("add_book route access");
   const {
     title,
     author,
@@ -372,35 +372,35 @@ express1.post("/add-books", upload.single("image"), function (req, res) {
     stock,
     date,
   } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   // const imagePath = req.file ? req.file.path : null;
   const imagePath = req.file ? "uploads/" + req.file.originalname : null;
   const image = imagePath.split("/").pop();
 
-  console.log(
-    "title",
-    title,
-    "author",
-    author,
-    "description",
-    description,
-    "price",
-    price,
-    "imagePath",
-    imagePath,
-    "category_id",
-    category_id,
-    " offer_price",
-    offer_price,
-    "discount_type",
-    discount_type,
-    "discount_value",
-    discount_value,
-    "stock",
-    stock,
-    "date",
-    date
-  );
+  // console.log(
+  //   "title",
+  //   title,
+  //   "author",
+  //   author,
+  //   "description",
+  //   description,
+  //   "price",
+  //   price,
+  //   "imagePath",
+  //   imagePath,
+  //   "category_id",
+  //   category_id,
+  //   " offer_price",
+  //   offer_price,
+  //   "discount_type",
+  //   discount_type,
+  //   "discount_value",
+  //   discount_value,
+  //   "stock",
+  //   stock,
+  //   "date",
+  //   date
+  // );
 
   if (!imagePath) {
     return res.status(400).json({ message: "Image file is required" });
@@ -1051,18 +1051,51 @@ express1.get("/getCartOrderbyOrderId/:user_id", function (req, res) {
 //Get all users From Database//
 
 express1.get("/users", function (req, res) {
-  // console.log("user1")
-  let sql = "SELECT * FROM users";
-  // console.log("user2", sql)
+  
+ const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.pageSize) || 5;
+  const offset = (page - 1) * limit;
+  const sortBy = req.query.sortBy;
+  const sortOrder = req.query.sortOrder;
 
-  db_connection.query(sql, function (error, result) {
+const allowedSortBy = ['category_name', 'category_id'];
+const allowedSortOrder = ['ASC', 'DESC'];
+
+const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : 'user_name';
+const orderByDirection = allowedSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
+
+const sql = `
+  SELECT * FROM users
+  ORDER BY ${orderByColumn} ${orderByDirection}
+  LIMIT ${limit} OFFSET ${offset}
+`;
+
+  const sqlCount = `SELECT COUNT(*) AS totalUsers FROM users`;
+
+  db_connection.query(sql, function (error, results) {
     if (error) {
-      //  console.log("user3 user error",)
-      return res.status(500).json({ message: "server error" });
-    } else {
-      // console.log("result")
-      return res.status(200).send({ message: "data", users: result });
+      return res
+        .status(500)
+        .json({ message: "Server error while fetching data" });
     }
+
+    db_connection.query(sqlCount, function (countError, countResult) {
+      if (countError) {
+        return res
+          .status(500)
+          .json({ message: "Server error while counting data" });
+      }
+
+      const totalRecords = countResult[0].totalUsers;
+      const totalPages = Math.ceil(totalRecords / limit);
+
+      return res.json({
+        users: results,
+        totalRecords: totalRecords,
+        totalPages: totalPages,
+        currentPage: page,
+      });
+    });
   });
 });
 
