@@ -187,8 +187,7 @@ span{
   .profile {
     display: flex;
     padding: 1vw 2vw;
-    align-items: end;
-    
+    align-items: end; 
     gap: 10px;
   }
   

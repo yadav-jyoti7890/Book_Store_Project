@@ -1,0 +1,112 @@
+<!-- <main class="products">
+      <h1>All Products</h1>
+      <div class="product-grid">
+       
+        <div class="product-card">
+          <img src="https://via.placeholder.com/150x200" alt="Book">
+          <h4>Thunder Stunt</h4>
+          <p>Adventure, Drama</p>
+          <div class="stars">⭐⭐⭐⭐</div>
+        </div>
+
+        <div class="product-card">
+          <img src="https://via.placeholder.com/150x200" alt="Book">
+          <h4>All Good News</h4>
+          <p>Biography</p>
+          <div class="stars">⭐⭐⭐</div>
+        </div>
+
+       
+      </div>
+
+      <div class="pagination">
+        <button class="page-btn">Previous</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">Next</button>
+      </div>
+    </main> -->
+
+<!-- <div class="book_store">
+  <div class="book_in">
+    <div class="book_box" *ngFor="let book of product">
+      <img
+        [src]="book.image ? imageBaseUrl + 'uploads/' + book.image: ''"
+        alt="Book image"
+        height="100"
+        width="100"
+      />
+      <div class="card-text">
+        <h5>title : {{ book.title }}</h5>
+        <span>description: {{ book.description }}</span>
+        <span>price: {{ book.price }} </span>
+        <span>author : {{ book.author }}</span>
+        <h6 [routerLink]="['/view_detail', book.product_id]">view</h6>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="header" style="background-color: #fafafadc; padding: 1vw 2vw">
+    <h2 style="margin: auto 0">All Products</h2>
+    <div class="search-bar">
+      <input type="text" placeholder="Search Kar..." 
+       [(ngModel)]="searchText"
+       (ngModelChange)="applyFilter()"
+      />
+    </div>
+  </div>
+
+  <div class="book-grid">
+    <!-- Book Card Start -->
+    @if(product.length > 0){
+    <div class="book-card" *ngFor="let book of product" [routerLink]="['/product-page', 'view-detail', book.product_id]">
+      <div class="book-image">
+        <img
+          [src]="book.image ? imageBaseUrl + 'uploads/' + book.image : ''"
+          alt="Book image"
+          height="100"
+          width="100"
+        />
+        <div class="wishlist">❤</div>
+      </div>
+      <div class="book-info">
+        <h3
+          style="
+            font-family: helvetica;
+            font-weight: 500 !important;
+            font-size: 1vw;
+          "
+        >
+          {{ book.title | titlecase }}
+        </h3>
+        <p class="genre">{{ book.author }}</p>
+        <div class="price" style="display: flex">
+          <span class="discounted" style="font-weight: 600 !important"
+            >RS.{{ book.price }}</span
+          >
+          <span class="original">RS.{{ book.offer_price }}</span>
+        </div>
+         <div class="flex" style="display: flex; gap:10px;">
+        <button class="add-cart" style="width: 50%; display: flex; justify-content: center; align-items: center;">Add to cart</button>
+        <h6 class="add-cart" style="width: 50%; display: flex; justify-content: center; align-items: center;" [routerLink]="['/product-page', 'view-detail', book.product_id]">view</h6>
+         </div>
+
+
+        <div class="stars">⭐️⭐️⭐️⭐️</div>
+      </div>
+
+
+    </div>
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+    } 
+     @else{
+      <h1>data not found</h1>
+    }
+   
+  </div>
+</div>

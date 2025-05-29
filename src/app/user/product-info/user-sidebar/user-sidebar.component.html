@@ -1,0 +1,92 @@
+
+    <aside class="sidebar">
+      <!-- <h2 style="font-weight: 600 !important;">Category</h2> -->
+      <!-- <ul class="editor-list">
+        <li>Best Sales</li>
+        <li>Most Commented</li>
+        <li>Newest Books</li>
+        <li>Featured</li>
+        <li>Watch History</li>
+        <li>Best Books</li>
+      </ul>
+
+      <div class="filter-section">
+        <h3>Choose Publisher</h3>
+         Just dummy text for now
+        <select>
+          <option>Choose...</option>
+        </select>
+      </div>
+
+      <div class="filter-section">
+        <h3>Select Year</h3>
+        <select>
+          <option>Choose Year...</option>
+        </select>
+      </div> -->
+
+
+
+      <div class="filter-section">
+        <h3 class="category">Shop by Category</h3>
+        <div class="category_items"
+        *ngFor="let item of category"
+        >
+            <span (click)="categoryFilter(item.category_id)">{{item.category_name}}</span>
+        </div>
+        
+        <!-- Add more -->
+      </div>
+
+      <div class="filter-section">
+        <h3 class="category">Price</h3>
+        <div class="category_items">
+          <span *ngFor="let price of priceRanges" (click)="onPriceClick(price.value)">
+           {{ price.label }}
+          </span>
+         </div>
+      </div>
+
+        <div class="filter-section">
+        <h3 class="category">New Arrivals</h3>
+        <div class="category_items">
+             <span *ngFor="let date of date" >
+           {{ date.label }}
+          </span>
+        <!-- <span>Latest</span>
+        <span>Last 30 days</span>
+        <span>Last 90 days</span> -->
+        </div>
+      </div>
+
+
+
+
+
+    
+    </aside>
+
+    <!-- <div class="book_store">
+  <div class="book_in">
+    <div class="book_box" *ngFor="let book of product">
+      <img
+        [src]="book.image ? imageBaseUrl + 'uploads/' + book.image: ''"
+        alt="Book image"
+        height="100"
+        width="100"
+      />
+      <div class="card-text">
+        <h5>title : {{ book.title }}</h5>
+        <span>description: {{ book.description }}</span>
+        <span>price: {{ book.price }} </span>
+        <span>author : {{ book.author }}</span>
+        <h6 [routerLink]="['/view_detail', book.product_id]">view</h6>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+   
+ 
+
+

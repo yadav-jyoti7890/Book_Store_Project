@@ -1,0 +1,15 @@
+.product-page{
+    display: flex;
+    gap: 2vw;
+}
+
+.sidebar{
+    width: 250px;
+    /* background-color: red; */
+}
+
+.product-list{
+    width: 80%;
+    /* background-color: brown; */
+}
+

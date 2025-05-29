@@ -6,6 +6,7 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
+const { log } = require("console");
 const router = express.Router();
 const JWT_SECRET = "email@gmail";
 
@@ -1482,6 +1483,48 @@ express1.get("/getCategory1", function (req, res) {
     return res.status(200).json({ message: "", category: results });
   });
 });
+
+express1.get("/filterCategory/:id", function (req, res) {
+  const categoryId = req.params.id;
+  console.log(categoryId,"sidebar")
+  let sql = `select * from product where is_deleted = 0 and category_id = ${categoryId}`;
+  db_connection.query(sql, function (error, results) {
+    if (error) {
+      return res
+        .status(500)
+        .json({ message: "Server error while fetching data" });
+    }
+
+    return res.status(200).json({ message: "", filterCategoryResult: results });
+  });
+});
+
+express1.get("/searchApplyFilter", function(req, res){
+  const search = req.query.term || '';
+  const query = `SELECT * FROM product WHERE title LIKE ?`;
+  db_connection.query(query, [`%${search}%`], (err, results) => {
+    if (err) return res.status(500).send('Database Error');
+    return res.status(200).json({ message: "", searchData: results });
+  });
+});
+
+express1.get("/searchByPrice", function(req, res){
+ const min = Number(req.query.minPrice);
+const max = Number(req.query.maxPrice);
+  console.log(req.query.min, max)
+  if (isNaN(min) || isNaN(max)) {
+    return res.status(400).send("Invalid price range");
+  }
+  console.log(min, max)
+  console.log(min, max, "selected price")
+  const query = `SELECT * FROM product WHERE price BETWEEN ${min} AND ${max}`
+  db_connection.query(query, (err, results) => {
+    if (err) return res.status(500).send('Database Error');
+    return res.status(200).json({ message: "", SearchByPrice: results });
+  });
+});
+
+
 
 express1.delete("/deleteCategory/:id", (req, res) => {
   const categoryId = req.params.id;

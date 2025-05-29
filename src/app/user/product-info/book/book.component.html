@@ -1,4 +1,4 @@
-<div class="book_store">
+<!-- <div class="book_store">
   <div class="book_in">
     <div class="book_box" *ngFor="let book of product">
       <img
@@ -16,4 +16,47 @@
       </div>
     </div>
   </div>
+</div> -->
+
+<div class="product">
+
+  <div class="user-sidebar">
+     <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  
+  <div class="allProducT">
+  <main class="products">
+      <h1>All Products</h1>
+      <div class="product-grid">
+        <!-- Sample Book -->
+        <div class="product-card">
+          <img src="https://via.placeholder.com/150x200" alt="Book">
+          <h4>Thunder Stunt</h4>
+          <p>Adventure, Drama</p>
+          <div class="stars">⭐⭐⭐⭐</div>
+        </div>
+
+        <div class="product-card">
+          <img src="https://via.placeholder.com/150x200" alt="Book">
+          <h4>All Good News</h4>
+          <p>Biography</p>
+          <div class="stars">⭐⭐⭐</div>
+        </div>
+
+        <!-- Add more product-card -->
+      </div>
+
+      <div class="pagination">
+        <button class="page-btn">Previous</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">Next</button>
+      </div>
+    </main>
+  </div>
 </div>
+
+

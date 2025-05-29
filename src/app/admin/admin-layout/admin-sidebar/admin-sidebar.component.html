@@ -1,17 +1,13 @@
 
 <div class="container">
-    <!-- Top Navigation -->
+   
     <div class="top-bar">
         <input type="text" class="search-bar" placeholder="Search">
         <div class="user-info">
          <strong>🕒 <b style="font-weight: 600; font-family: helvetica;"> Current Time</b>: {{ currentTime }}</strong>
-
         </div>
     </div>
 
-  
-
-    <!-- Metrics Grid -->
     <div class="metrics-grid">
         <div class="metric" routerLink="/admin_dashboard/users-list" [class.active]="isActive" (click)="toggleActive()">
             <div class="flex">
@@ -88,4 +84,5 @@
        
 
     </div>
+    
 </div>

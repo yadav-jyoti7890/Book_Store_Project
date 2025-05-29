@@ -192,28 +192,40 @@ export const routes: Routes = [
   },
 
   {
-    path: 'book',
+    path: 'product-page',
     loadComponent: () =>
-      import('./user/product-info/book/book.component').then(
-        (m) => m.BookComponent
+      import('./user/product-info/product-page/product-page.component').then(
+        (m) => m.ProductPageComponent
       ),
     canActivate: [AuthGuard],
+     children: [
+    {
+      path: '',           
+      loadComponent: () =>
+        import('./user/product-info/all-product/all-product.component').then(m => m.AllProductComponent)
+    },
+    {
+      path: 'view-detail/:id',
+      loadComponent: () =>
+        import('./user/view-info/view-detail/view-detail.component').then(m => m.ViewDetailComponent)
+    }
+  ]
   },
+
+    {
+        path: 'view_detail/:id',
+        loadComponent: () =>
+          import('./user/view-info/view-detail/view-detail.component').then(
+            (m) => m.ViewDetailComponent
+          ),
+        canActivate: [AuthGuard],
+      },
 
   {
     path: 'contact_us',
     loadComponent: () =>
       import('./user/contact-info/contact-us/contact-us.component').then(
         (m) => m.ContactUsComponent
-      ),
-    canActivate: [AuthGuard],
-  },
-
-  {
-    path: 'view_detail/:id',
-    loadComponent: () =>
-      import('./user/view-info/view-detail/view-detail.component').then(
-        (m) => m.ViewDetailComponent
       ),
     canActivate: [AuthGuard],
   },
