@@ -1,4 +1,4 @@
-<div class="orders-container">
+<!-- <div class="orders-container">
   <div class="orders-header">
     <div>
       <h2>Orders List</h2>
@@ -49,4 +49,72 @@
     </div>
   }
 
-</div>
+</div> -->
+
+
+ <div class="container">
+    <h2>Order List</h2>
+    <div class="table-controls">
+      <label>Show
+        <select>
+          <option>10</option>
+          <option>25</option>
+          <option>50</option>
+        </select>
+        entries
+      </label>
+      <label class="search-box">
+        Search:
+        <input type="text" placeholder="Search..." />
+      </label>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>CUSTOMER Name</th>
+          <th>ITEMS</th>
+          <th>AMOUNT</th>
+          <th>STATUS</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orderData; let i = index">
+       <td><span style="font-weight: 700 !important; color: black;">Order#{{ order.random_number }}</span></td>
+          <td>{{ order.user_name }}</td>
+          <td>{{ order.total_item }}</td>
+          <td>₹{{ order.total_pay }}</td>
+          <td>
+            <select [ngClass]="colorCode(order.order_status)" [(ngModel)]="order.order_status"
+              (change)="changeStatus(order.random_number, $event)">
+              <option value="Pending" [disabled]="order.order_status" selected>Pending</option>
+              <option value="Shipping"
+                [disabled]="order.order_status === 'Delivered' || order.order_status === 'Canceled'">Shipping</option>
+              <option value="Delivered" [disabled]="order.order_status === 'Canceled'">Delivered</option>
+              <option value="Canceled">Canceled</option>
+            </select>
+          </td>
+           <td>
+          <button
+            class="edit-btn"
+          >
+            <i class="ri-edit-box-fill"></i> Edit
+          </button>
+          <button class="delete-btn">
+            <i class="ri-delete-bin-fill"></i> Delete
+          </button>
+           <button class="detail-btn" [routerLink]="['../items', order.order_id]">
+             <i class="ri-eye-line"></i> Detail
+          </button>
+        
+<!--         
+          <td>
+            <i class="ri-delete-bin-6-fill"></i>
+          </td>
+          <td [routerLink]="['../items', order.order_id]"> <i class="ri-eye-line"></i></td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>

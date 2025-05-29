@@ -6,8 +6,7 @@ import { AdminDashboardComponent } from './admin/admin-layout/admin-dashboard/ad
 import { HomeComponent } from './user/home-page/home/home.component';
 import { ViewDetailComponent } from './user/view-info/view-detail/view-detail.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BaseClassComponent } from './baseclass/baseclass/baseclass.component';
-
+import { NgxSpinnerComponent } from 'ngx-spinner';
 
 
 @Component({
@@ -21,14 +20,11 @@ import { BaseClassComponent } from './baseclass/baseclass/baseclass.component';
     AdminDashboardComponent,
     ViewDetailComponent,
     MatSnackBarModule,
-    BaseClassComponent,
-    
+    NgxSpinnerComponent
    ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent{
- 
-  
  
 }

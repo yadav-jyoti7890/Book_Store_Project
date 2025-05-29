@@ -43,6 +43,8 @@ export class OrdersDetailListComponent extends BaseClassComponent implements OnI
      .pipe(takeUntil(this.destroy$))
     .subscribe({
     next:  (response) => {
+        console.log(response);
+        
         this.user_items = response.items;
         console.log(this.user_items, 'user items');
       },

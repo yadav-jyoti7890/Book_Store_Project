@@ -27,7 +27,8 @@ html, body { height: 100%; width: 100%;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .edit-btn,
-.delete-btn {
+.delete-btn,
+.detail-btn {
   border: none;
   padding: 6px 14px;
   font-size: 14px;
@@ -63,6 +64,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: #d32f2f;
   transform: scale(1.05);
 }
+
+.detail-btn{
+  background-color: #663399;
+  color: white;
+  margin-left:8px;
+}
+
+.detail-btn:hover{
+  background-color: #8641cb;
+  color: white;
+  margin-left:8px;
+}
+
 
 ::ng-deep .mat-paginator .mat-icon-button svg {
   color: black !important;

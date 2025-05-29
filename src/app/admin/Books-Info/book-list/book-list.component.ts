@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -19,6 +25,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 import { category } from '../../categories/category-interface/category.model';
 import { LoaderBase } from '../../../loader/loader';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-book-list',
@@ -34,13 +41,11 @@ import { LoaderBase } from '../../../loader/loader';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
 })
 export class BookListComponent extends LoaderBase implements OnInit, OnDestroy {
-  
   public imageBaseUrl = environment.BaseUrl;
   public category: any;
   public totalRecords!: number;
@@ -64,10 +69,9 @@ export class BookListComponent extends LoaderBase implements OnInit, OnDestroy {
   public searchText: string = '';
   public searchTextChanged: Subject<string> = new Subject<string>();
   public categoryControl = new FormControl('');
-  public data:any
-  sortBy! : string
-  sortOrder! : string
- 
+  public data: any;
+  sortBy!: string;
+  sortOrder!: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
@@ -77,56 +81,61 @@ export class BookListComponent extends LoaderBase implements OnInit, OnDestroy {
     private http: HttpClient,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
- 
-  ) { super() }
-  
+    private spinner: NgxSpinnerService
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.getCategory();
     this.loadData();
 
-      this.categoryControl.valueChanges.subscribe((selectedId) => {
-        console.log("filter", selectedId)
+    this.categoryControl.valueChanges.subscribe((selectedId) => {
+      console.log('filter', selectedId);
       this.applyCategoryFilter(Number(selectedId));
     });
   }
 
   loadData(): void {
     // this.showLoader()
+    this.spinner.show();
     const url = 'http://localhost:3000/api/data';
-    this.http.get<any>(url, { 
-      params: 
-      { 
-        page: this.currentPage.toString(),
-        page_size: this.pageSize.toString(),
-        sortBy : this.sortBy,
-        sortOrder : this.sortOrder,
-       },
-     })
+    this.http
+      .get<any>(url, {
+        params: {
+          page: this.currentPage.toString(),
+          page_size: this.pageSize.toString(),
+          sortBy: this.sortBy,
+          sortOrder: this.sortOrder,
+        },
+      })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          //  this.hideLoader()  
+          setTimeout(() => {
+            this.spinner.hide();
+          }, 5000);
+          //  this.hideLoader()
           this.data = response.data;
           //  this.dataSource = new MatTableDataSource(this.data);
           this.totalRecords = response.totalRecords;
-             console.log("total records",this.totalRecords,)
+          console.log('total records', this.totalRecords);
           if (this.paginator) {
             this.paginator.length = this.totalRecords;
           }
         },
         error: (error) => {
           console.error('Error fetching data:', error);
-        }
+        },
       });
-   }
-  
+  }
+
   public onPageChange(event: any): void {
     this.currentPage = event.pageIndex + 1;
     console.log(this.currentPage);
     this.pageSize = event.pageSize;
-    console.log(this.pageSize) 
-    this.loadData(); 
+    console.log(this.pageSize);
+    this.loadData();
   }
 
   public deleteBooks(id: number) {
@@ -134,38 +143,38 @@ export class BookListComponent extends LoaderBase implements OnInit, OnDestroy {
       data: { message: `Are you sure you want to delete product ?` }, // custom message
     });
 
-    dialogRef.afterClosed()
-     .pipe(takeUntil(this.destroy$))
-    .subscribe((result) => {
-      if (result) {
-        console.log(result);
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        if (result) {
+          console.log(result);
 
-        this.productService.deleteBook(id).subscribe({
-          next: (response) => {
-            this.snackBar.open('Product Delete Successfully ✅', 'close', {
-              duration: 3000,
-              horizontalPosition: 'end',
-              verticalPosition: 'top',
-            });
-            this.loadData();
-          },
-          error:  (error) => {
-            this.snackBar.open('Some Error to Delete Product ❌', 'close', {
-              duration: 3000,
-              horizontalPosition: 'end',
-              verticalPosition: 'top',
-            });
-          }
-        });
-         
-      } else {
-        this.snackBar.open('Product not deleted ❌', 'close', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'top',
-        });
-      }
-    });
+          this.productService.deleteBook(id).subscribe({
+            next: (response) => {
+              this.snackBar.open('Product Delete Successfully ✅', 'close', {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+              });
+              this.loadData();
+            },
+            error: (error) => {
+              this.snackBar.open('Some Error to Delete Product ❌', 'close', {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+              });
+            },
+          });
+        } else {
+          this.snackBar.open('Product not deleted ❌', 'close', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+          });
+        }
+      });
   }
 
   public updateBooks(id: number) {
@@ -177,15 +186,16 @@ export class BookListComponent extends LoaderBase implements OnInit, OnDestroy {
     if (!categoryId) {
       this.loadData();
     } else {
-      this.productService.applyfilterByCategory(categoryId)
-        
-       .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          //  this.hideLoader()
-          this.data = response.filterCategory;
-        },
-      });
+      this.productService
+        .applyfilterByCategory(categoryId)
+
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            //  this.hideLoader()
+            this.data = response.filterCategory;
+          },
+        });
     }
   }
 
@@ -199,26 +209,19 @@ export class BookListComponent extends LoaderBase implements OnInit, OnDestroy {
   }
 
   public ascending(name: string) {
-  this.sortBy = name;
-  this.sortOrder = 'asc';
- 
-  this.loadData();
-}
+    this.sortBy = name;
+    this.sortOrder = 'asc';
 
- public descending(name: string) {
-  this.sortBy = name;
-  this.sortOrder = 'desc';
-  this.loadData();
-}
+    this.loadData();
+  }
 
+  public descending(name: string) {
+    this.sortBy = name;
+    this.sortOrder = 'desc';
+    this.loadData();
+  }
 
-
-
-
-
-
-
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.OnDestroy();
   }
 }

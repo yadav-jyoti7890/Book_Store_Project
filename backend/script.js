@@ -1089,11 +1089,9 @@ const sql = `
       const totalRecords = countResult[0].totalUsers;
       const totalPages = Math.ceil(totalRecords / limit);
 
-
-
       // return res.json({
       //   users: results,
-      //   totalRecords: totalRecords,
+      //   totalRecords: totalRecords,}
       //   totalPages: totalPages,
       //   currentPage: page,
       // });
@@ -1105,7 +1103,7 @@ const sql = `
         totalPages: totalPages,
         currentPage: page,
         });
-      }, 10000);
+      }, 200);
 
 
     });
@@ -1294,9 +1292,9 @@ express1.get("/items/:id", function (req, res) {
 FROM
   order_table AS o  
 JOIN
-  order_items AS oi ON o.order_id = oi.order_id  
+  order_items AS oi ON o.order_id = oi.order_id  = 99
 JOIN
-  product AS p ON oi.product_id = p.product_id
+  product AS p ON oi.product_id = p.product_id = 
 JOIN
   user_address AS a ON o.address_id = A.address_id
 

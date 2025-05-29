@@ -1,130 +1,94 @@
-/* Container Styling */
-.orders-container {
-  width: 100%;
-  /* padding: 20px; */
-  background: #f8f9fa;
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-select{
-  padding:0.8vw;
-  width: 100%;
-  border: 1px solid #dadada;
-  border-radius: 7px;
-  background-color: #bc78ed76;
-  color: #000;
-  letter-spacing: 1px;
-  text-transform: capitalize;
-  font-weight: 700;
+body {
+  background-color: #f9fbfd;
+  margin: 0;
+  padding: 20px;
 }
-/* Header Section */
-.orders-header {
+
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 1100px;
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.table-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  padding: 15px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
 }
 
-/* Filter Controls */
-.filter-controls {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* Entries Select */
-.entries-select {
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+.table-controls label {
   font-size: 14px;
+  color: #333;
 }
 
-/* Search Box */
-.search-box {
-  padding: 8px 12px;
-  border-radius: 5px;
+.search-box input {
+  padding: 5px 10px;
+  margin-left: 5px;
   border: 1px solid #ccc;
-  font-size: 14px;
-  width: 200px;
-  display: flex;
-  align-items: center;
+  border-radius: 5px;
 }
 
-.search-box::placeholder {
-  color: #999;
-}
-
-/* Table Styling */
-.table {
+table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
 }
 
-.table thead {
-  background: #6a0dad;
-  color: white;
+thead {
+  background-color: #f1f5f9;
 }
 
-.table th, .table td {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: center;
+th, td {
+  text-align: left;
+  padding: 15px 12px;
+  vertical-align: middle;
 }
 
-/* Status Dropdown */
-.table select {
-  padding: 6px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-/* Buttons */
-.action-btn {
-  padding: 6px 10px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-}
-
-.delete-btn {
-  background: #dc3545;
-  color: white;
-}
-
-.view-btn {
-  background: #007bff;
-  color: white;
-}
-
-.delete-btn:hover {
-  background: #c82333;
-}
-
-.view-btn:hover {
-  background: #0056b3;
-}
-
-i{
-  cursor: pointer;
-  color: blueviolet;
-  font-size: 1.3vw;
-}
-
-.else_Section{
-  height: calc(100vh - 200px);
-  /* width: 100vh; */
+.item-cell {
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-family: Helvetica;
-  text-transform: capitalize;
-  font-weight: 600;
-  color: #c82333;
-  transform: translate(-50% -50%);
+  gap: 10px;
 }
+
+.item-cell img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.status {
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status.completed {
+  background-color: #d1f7e4;
+  color: #0c9f4e;
+}
+
+.status.progress {
+  background-color: #ffe9b3;
+  color: #d08700;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9fbfd;
+}
+
+
