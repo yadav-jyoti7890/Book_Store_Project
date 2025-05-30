@@ -78,6 +78,7 @@ img{
 
 .container {
   max-width: 100%;
+  min-height: 100%;
   margin: 3vw auto;
   padding: 1vw 20px; 
 }
@@ -142,6 +143,9 @@ h1 {
   font-size: 18px;
   color: #333;
   margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .genre {

@@ -42,6 +42,7 @@ export class AdminSidebarComponent extends BaseClassComponent  implements OnInit
     this.getAllOrderCount();
     this.getAllCompanyDataCount();
     this.getAllCategoryCount();
+    
 
     setInterval(() => {
       const now = new Date();

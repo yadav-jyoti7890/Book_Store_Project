@@ -32,13 +32,16 @@ fetchProductsByPriceRange(min:number, max:number): Observable<any>{
  return this.http.get(`http://localhost:3000/searchByPrice?minPrice=${min}&maxPrice=${max}`)
 }
 
-// fetchLatestProducts(): void {
-//   this.http.get(`http://localhost:3000/searchByLatest`)
-//   }
+getProductsByDateFilter(filterValue: string | number): Observable<any> {
+  return this.http.get(`http://localhost:3000/dateFilter?filter=${filterValue}`);
+}
 
-  // searchByLatest(): Observable<any>{
-  //     this.http.get(`http://localhost:3000/searchByLatest`)
-  // }
+getPriceRange():Observable<any>{
+  return this.http.get(`${this.apiUrl}price-range`);
+}
+
+
+
 
  
 

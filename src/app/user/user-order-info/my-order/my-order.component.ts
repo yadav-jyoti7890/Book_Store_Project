@@ -35,7 +35,6 @@ export class MyOrderComponent implements OnInit {
       (response) => {
         this.user_items = response.UserItems;
         this.extractUniqueOrderIds();
-        console.log('useritems', this.user_items);
       },
       (error) => {}
     );

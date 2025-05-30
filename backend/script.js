@@ -154,7 +154,12 @@ express1.post("/login", function (req, res) {
 express1.get("/getbooksbyid/:id", function (req, res) {
   let id = req.params.id;
   // console.log(id);
-  let sql = "SELECT * FROM product WHERE product_id = ?";
+  let sql = `SELECT 
+      p.*, 
+      c.category_name 
+    FROM product p
+    INNER JOIN category c ON p.category_id = c.category_id
+    WHERE p.product_id = ?`;
   db_connection.query(sql, [id], function (err, result) {
     if (err) {
       return res.status(500).json({ message: "server error" });
@@ -293,17 +298,27 @@ express1.get("/api/data", (req, res) => {
   const pageSize = parseInt(req.query.page_size) || 5;
   const offset = (page - 1) * pageSize;
 
-  const sortBy = req.query.sortBy || 'created_at'; 
-  const sortOrder = (req.query.sortOrder || 'DESC').toUpperCase();
+  const sortBy = req.query.sortBy || "created_at";
+  const sortOrder = (req.query.sortOrder || "DESC").toUpperCase();
 
-  
-  const allowedSortBy = ['publication_date', 'created_at', 'price', 'category_id', 'category_name'];
-  const allowedSortOrder = ['ASC', 'DESC'] ;
+  const allowedSortBy = [
+    "publication_date",
+    "created_at",
+    "price",
+    "category_id",
+    "category_name",
+  ];
+  const allowedSortOrder = ["ASC", "DESC"];
 
-  
-  const orderByColumn = allowedSortBy.includes(sortBy)   ? (sortBy === 'category_id' ? 'c.category_name' : `p.${sortBy}`)   : 'p.created_at';
-    
-  const orderByDirection = allowedSortOrder.includes(sortOrder)  ? sortOrder   : 'DESC';
+  const orderByColumn = allowedSortBy.includes(sortBy)
+    ? sortBy === "category_id"
+      ? "c.category_name"
+      : `p.${sortBy}`
+    : "p.created_at";
+
+  const orderByDirection = allowedSortOrder.includes(sortOrder)
+    ? sortOrder
+    : "DESC";
 
   const whereClause = `WHERE p.is_deleted = 0`;
 
@@ -333,15 +348,42 @@ express1.get("/api/data", (req, res) => {
         data: results,
         totalRecords,
         totalPages: Math.ceil(totalRecords / pageSize),
-        currentPage: page
+        currentPage: page,
       });
     });
   });
 });
 
+express1.get("/dateFilter", (req, res) => {
+  const value = req.query.filter;
 
+  if (value === "Latest") {
+    const query = `
+   SELECT * FROM product
+WHERE DATE(created_at) = CURDATE()
+ORDER BY created_at DESC;
+    `;
+    db_connection.query(query, (err, results) => {
+      if (err) return res.status(500).send(err);
+      return res.json({ date: results });
+    });
+  } else {
+    const days = parseInt(value);
+    if (isNaN(days)) {
+      return res.status(400).send({ error: "Invalid days parameter" });
+    }
 
-
+    const query = `
+      SELECT * FROM product 
+      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+      ORDER BY created_at DESC
+    `;
+    db_connection.query(query, [days], (err, results) => {
+      if (err) return res.status(500).send(err);
+      return res.json({ date: results });
+    });
+  }
+});
 
 //===== admin side code here ======//
 
@@ -452,14 +494,13 @@ express1.get("/SearchProduct", (req, res) => {
 express1.get("/addSorting", function (req, res) {
   console.log("run sorting");
 
-  const sortBy = req.query.sortBy || 'publication_date'; 
-  const sortOrder = (req.query.sortOrder || 'ASC').toUpperCase();
+  const sortBy = req.query.sortBy || "publication_date";
+  const sortOrder = (req.query.sortOrder || "ASC").toUpperCase();
   const page = parseInt(req.query.page) || 1;
   const pageSize = parseInt(req.query.page_size) || 5;
   const offset = (page - 1) * pageSize;
 
- 
-  const sql =  `SELECT p.*, c.category_name
+  const sql = `SELECT p.*, c.category_name
                 FROM product p
                 INNER JOIN category c ON p.category_id = c.category_id 
                 ORDER BY category_name ASC 
@@ -477,7 +518,9 @@ express1.get("/addSorting", function (req, res) {
     db_connection.query(countQuery, function (err, countResults) {
       if (err) {
         console.error("Count error:", err);
-        return res.status(500).json({ error: "Error fetching total count", details: err });
+        return res
+          .status(500)
+          .json({ error: "Error fetching total count", details: err });
       }
 
       const totalRecords = countResults[0].totalRecords;
@@ -486,12 +529,11 @@ express1.get("/addSorting", function (req, res) {
         sortData: results,
         totalRecords,
         totalPages: Math.ceil(totalRecords / pageSize),
-        currentPage: page
+        currentPage: page,
       });
     });
   });
 });
-
 
 express1.get("/addDescending", function (req, res) {
   // console.log("run sorting")
@@ -858,7 +900,7 @@ express1.put("/update_books/:id", upload.single("image"), (req, res) => {
   );
 });
 
-express1.post('/confirmOrder', (req, res) => {
+express1.post("/confirmOrder", (req, res) => {
   const { order_data, order_items, user_id } = req.body;
 
   if (!order_data || !order_items || !user_id) {
@@ -873,61 +915,67 @@ express1.post('/confirmOrder', (req, res) => {
   db_connection.beginTransaction((err) => {
     if (err) return res.status(500).json({ message: "Transaction failed" });
 
-    db_connection.query(insertOrderSql, [
-      order_data.address_id,
-      order_data.user_id,
-      order_data.total_item,
-      order_data.total_amount,
-    ], (err, result) => {
-      if (err) {
-        return db_connection.rollback(() => {
-          res.status(500).json({ message: "Order creation failed" });
-        });
-      }
+    db_connection.query(
+      insertOrderSql,
+      [
+        order_data.address_id,
+        order_data.user_id,
+        order_data.total_item,
+        order_data.total_amount,
+      ],
+      (err, result) => {
+        if (err) {
+          return db_connection.rollback(() => {
+            res.status(500).json({ message: "Order creation failed" });
+          });
+        }
 
-      const order_id = result.insertId;
+        const order_id = result.insertId;
 
-      const orderItemsData = order_items.map(item => [
-        order_id,
-        item.product_id,
-        item.price,
-        item.quantity,
-        item.price * item.quantity,
-      ]);
+        const orderItemsData = order_items.map((item) => [
+          order_id,
+          item.product_id,
+          item.price,
+          item.quantity,
+          item.price * item.quantity,
+        ]);
 
-      const insertItemsSql = `
+        const insertItemsSql = `
         INSERT INTO order_items (order_id, product_id, price, quantity, total_amount)
         VALUES ?
       `;
 
-      db_connection.query(insertItemsSql, [orderItemsData], (err) => {
-        if (err) {
-          return db_connection.rollback(() => {
-            res.status(500).json({ message: "Inserting order items failed" });
-          });
-        }
-
-        const deleteCartSql = `DELETE FROM add_to_cart WHERE user_id = ?`;
-
-        db_connection.query(deleteCartSql, [user_id], (err) => {
+        db_connection.query(insertItemsSql, [orderItemsData], (err) => {
           if (err) {
             return db_connection.rollback(() => {
-              res.status(500).json({ message: "Cart clear failed" });
+              res.status(500).json({ message: "Inserting order items failed" });
             });
           }
 
-          db_connection.commit((err) => {
+          const deleteCartSql = `DELETE FROM add_to_cart WHERE user_id = ?`;
+
+          db_connection.query(deleteCartSql, [user_id], (err) => {
             if (err) {
               return db_connection.rollback(() => {
-                res.status(500).json({ message: "Commit failed" });
+                res.status(500).json({ message: "Cart clear failed" });
               });
             }
 
-            res.status(200).json({ message: "Order placed successfully", order_id });
+            db_connection.commit((err) => {
+              if (err) {
+                return db_connection.rollback(() => {
+                  res.status(500).json({ message: "Commit failed" });
+                });
+              }
+
+              res
+                .status(200)
+                .json({ message: "Order placed successfully", order_id });
+            });
           });
         });
-      });
-    });
+      }
+    );
   });
 });
 
@@ -935,7 +983,7 @@ express1.post('/confirmOrder', (req, res) => {
 // express1.post("/order_item/:order_id", (req, res) => {
 //   const order_id = req.params.order_id;
 //   const orderItems = req.body;
- 
+
 //   const sql =
 //     "INSERT INTO order_items (order_id, product_id, price,quantity, total_amount) VALUES ?";
 
@@ -1052,20 +1100,21 @@ express1.get("/getCartOrderbyOrderId/:user_id", function (req, res) {
 //Get all users From Database//
 
 express1.get("/users", function (req, res) {
-  
- const page = Number(req.query.page) || 1;
+  const page = Number(req.query.page) || 1;
   const limit = Number(req.query.pageSize) || 5;
   const offset = (page - 1) * limit;
   const sortBy = req.query.sortBy;
   const sortOrder = req.query.sortOrder;
 
-const allowedSortBy = ['category_name', 'category_id'];
-const allowedSortOrder = ['ASC', 'DESC'];
+  const allowedSortBy = ["category_name", "category_id"];
+  const allowedSortOrder = ["ASC", "DESC"];
 
-const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : 'user_name';
-const orderByDirection = allowedSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
+  const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : "user_name";
+  const orderByDirection = allowedSortOrder.includes(sortOrder?.toUpperCase())
+    ? sortOrder.toUpperCase()
+    : "ASC";
 
-const sql = `
+  const sql = `
   SELECT * FROM users
   ORDER BY ${orderByColumn} ${orderByDirection}
   LIMIT ${limit} OFFSET ${offset}
@@ -1384,7 +1433,7 @@ express1.post("/category", upload.single("image"), function (req, res) {
   const { category_name, category_description } = req.body;
   console.log(category_description, "category");
 
-  const imagePath = req.file ? "uploads/" + req.file.originalname : 'create_at';
+  const imagePath = req.file ? "uploads/" + req.file.originalname : "create_at";
   const image = imagePath.split("/").pop();
 
   if (!image) {
@@ -1428,13 +1477,15 @@ express1.get("/getAllCategory", function (req, res) {
   const sortBy = req.query.sortBy;
   const sortOrder = req.query.sortOrder;
 
-const allowedSortBy = ['category_name', 'category_id'];
-const allowedSortOrder = ['ASC', 'DESC'];
+  const allowedSortBy = ["category_name", "category_id"];
+  const allowedSortOrder = ["ASC", "DESC"];
 
-const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : 'create_at';
-const orderByDirection = allowedSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'DESC';
+  const orderByColumn = allowedSortBy.includes(sortBy) ? sortBy : "create_at";
+  const orderByDirection = allowedSortOrder.includes(sortOrder?.toUpperCase())
+    ? sortOrder.toUpperCase()
+    : "DESC";
 
-const sql = `
+  const sql = `
   SELECT * FROM category
   WHERE is_deleted = 0
   ORDER BY ${orderByColumn} ${orderByDirection}
@@ -1486,7 +1537,7 @@ express1.get("/getCategory1", function (req, res) {
 
 express1.get("/filterCategory/:id", function (req, res) {
   const categoryId = req.params.id;
-  console.log(categoryId,"sidebar")
+  console.log(categoryId, "sidebar");
   let sql = `select * from product where is_deleted = 0 and category_id = ${categoryId}`;
   db_connection.query(sql, function (error, results) {
     if (error) {
@@ -1499,32 +1550,42 @@ express1.get("/filterCategory/:id", function (req, res) {
   });
 });
 
-express1.get("/searchApplyFilter", function(req, res){
-  const search = req.query.term || '';
+express1.get("/searchApplyFilter", function (req, res) {
+  const search = req.query.term || "";
   const query = `SELECT * FROM product WHERE title LIKE ?`;
   db_connection.query(query, [`%${search}%`], (err, results) => {
-    if (err) return res.status(500).send('Database Error');
+    if (err) return res.status(500).send("Database Error");
     return res.status(200).json({ message: "", searchData: results });
   });
 });
 
-express1.get("/searchByPrice", function(req, res){
- const min = Number(req.query.minPrice);
-const max = Number(req.query.maxPrice);
-  console.log(req.query.min, max)
+express1.get("/searchByPrice", function (req, res) {
+  const min = Number(req.query.minPrice);
+  const max = Number(req.query.maxPrice);
+  console.log(req.query.min, max);
   if (isNaN(min) || isNaN(max)) {
     return res.status(400).send("Invalid price range");
   }
-  console.log(min, max)
-  console.log(min, max, "selected price")
-  const query = `SELECT * FROM product WHERE price BETWEEN ${min} AND ${max}`
+  console.log(min, max);
+  console.log(min, max, "selected price");
+  const query = `SELECT * FROM product WHERE price BETWEEN ${min} AND ${max} ORDER BY price ASC;`;
   db_connection.query(query, (err, results) => {
-    if (err) return res.status(500).send('Database Error');
+    if (err) return res.status(500).send("Database Error");
     return res.status(200).json({ message: "", SearchByPrice: results });
   });
 });
 
+express1.get("/price-range", (req, res) => {
+  const query = 'SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM product ';
 
+  db_connection.query(query, (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error' });
+    }
+     return res.status(200).json({ message: "", getPrice: result[0]});
+    
+  });
+});
 
 express1.delete("/deleteCategory/:id", (req, res) => {
   const categoryId = req.params.id;

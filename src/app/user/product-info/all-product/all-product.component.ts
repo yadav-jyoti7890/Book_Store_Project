@@ -17,7 +17,7 @@ import { LoaderBase } from '../../../loader/loader';
   templateUrl: './all-product.component.html',
   styleUrl: './all-product.component.css',
 })
-export class AllProductComponent extends LoaderBase{
+export class AllProductComponent extends LoaderBase {
   public imageBaseUrl = environment.BaseUrl;
   public product: product[] = [];
   public searchText = '';
@@ -25,6 +25,14 @@ export class AllProductComponent extends LoaderBase{
 
   ngOnInit(): void {
     this.getallbooks();
+
+    this.sharedService.resetSearch$.subscribe((shouldReset) => {
+      if (shouldReset) {
+        this.searchText = ''; // 🔴 Reset kar diya
+        this.getallbooks(); // 🔄 Optionally re-fetch
+      }
+    });
+
     this.getCategoryFromSharedService();
     this.searchSubject.pipe(debounceTime(300)).subscribe((search) => {
       this.fetchResults(search);
@@ -32,27 +40,29 @@ export class AllProductComponent extends LoaderBase{
   }
 
   constructor(
-  
     private productService: GetbooksService,
     private sharedService: SharedServiceService
-  ) {super()}
+  ) {
+    super();
+  }
 
   getallbooks() {
-    this.showLoader()
+    this.showLoader();
     this.productService.receivebooks().subscribe((response) => {
-      this.hideLoader()
+      this.hideLoader();
       this.product = response.data;
       // console.log(this.product)
     });
   }
 
   getCategoryFromSharedService() {
-    this.showLoader()
+    this.showLoader();
     this.sharedService.filteredProducts$.subscribe((data) => {
       if (data && data.length > 0) {
-        this.hideLoader()
+        this.hideLoader();
         this.product = data;
-        console.log(this.product, 'date receive');
+      } else {
+        this.product = [];
       }
     });
   }
@@ -62,15 +72,12 @@ export class AllProductComponent extends LoaderBase{
   }
 
   fetchResults(search: string) {
-    this.showLoader()
+    this.showLoader();
     this.productService.applySearchFilter(search).subscribe({
       next: (response) => {
-        this.hideLoader()
-        // console.log(response);
+        this.hideLoader();
         this.product = response.searchData;
       },
     });
   }
-
-  
 }

@@ -7,7 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { environment } from '../../../../environments/environment.prod';
 import { category } from '../category-interface/category.model';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../confirmation-dialog/confirm-dialog/confirm-dialog.component';
 
@@ -32,68 +37,67 @@ import { LoaderBase } from '../../../loader/loader';
 })
 export class CategoryListComponent
   extends LoaderBase
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   public category: any;
   public imageBaseUrl = environment.BaseUrl;
   public searchText: string = '';
   public totalRecords!: number;
   public pageSize = 5;
   public currentPage = 1;
-  sortBy! : string
-  sortOrder! : string
+  sortBy!: string;
+  sortOrder!: string;
   searchTextChanged: Subject<string> = new Subject<string>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   constructor(
     private categoryService: CategoryService,
-    private dialog: MatDialog,
-   
+    private dialog: MatDialog
   ) {
     super();
   }
 
   ngOnInit(): void {
     this.getAllCategory();
-   
-    this.searchTextChanged.pipe(
-      debounceTime(700), 
-      switchMap((keyword: string) =>
-         this.categoryService.filterCategoryByKeyword(keyword))
-       
-    ).subscribe(
-      (result) => {
-        this.hideLoader()
-        if(result){
-        this.category = result.category;
-        console.log(this.category); 
+
+    this.searchTextChanged
+      .pipe(
+        debounceTime(700),
+        switchMap((keyword: string) =>
+          this.categoryService.filterCategoryByKeyword(keyword)
+        )
+      )
+      .subscribe((result) => {
+        this.hideLoader();
+        if (result) {
+          this.category = result.category;
+          console.log(this.category);
         }
-     },
-    );
+      });
   }
 
   private getAllCategory() {
-     this.showLoader()
+    this.showLoader();
     const categoryData = {
       page: this.currentPage,
       pageSize: this.pageSize,
-      sortBy : this.sortBy,
-      sortOrder : this.sortOrder
+      sortBy: this.sortBy,
+      sortOrder: this.sortOrder,
     };
-    console.log(categoryData)
-    this.categoryService.GetAllCategory(categoryData)
+    console.log(categoryData);
+    this.categoryService
+      .GetAllCategory(categoryData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        
         next: (response) => {
-          console.log(response, "category")
-           this.hideLoader()
+          console.log(response, 'category');
+          this.hideLoader();
           this.category = response.category;
           this.totalRecords = response.totalRecords;
           if (this.paginator) {
             this.paginator.length = this.totalRecords;
           }
         },
-
       });
   }
 
@@ -104,8 +108,8 @@ export class CategoryListComponent
   }
 
   public applyFilter() {
-    console.log("apply filter")
-      this.showLoader()
+    console.log('apply filter');
+    this.showLoader();
     this.searchTextChanged.next(this.searchText);
   }
 
@@ -140,18 +144,17 @@ export class CategoryListComponent
     });
   }
 
-  public ascending(name:string){
-
+  public ascending(name: string) {
     this.sortBy = name;
-    this.sortOrder = 'asc'
+    this.sortOrder = 'asc';
     this.getAllCategory();
-  } 
+  }
 
-  public descending(name:string){
+  public descending(name: string) {
     this.sortBy = name;
-    this.sortOrder = 'desc'
+    this.sortOrder = 'desc';
     this.getAllCategory();
-  } 
+  }
 
   ngOnDestroy(): void {
     this.OnDestroy();

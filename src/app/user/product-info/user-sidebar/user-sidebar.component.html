@@ -1,7 +1,6 @@
-
-    <aside class="sidebar">
-      <!-- <h2 style="font-weight: 600 !important;">Category</h2> -->
-      <!-- <ul class="editor-list">
+<aside class="sidebar">
+  <!-- <h2 style="font-weight: 600 !important;">Category</h2> -->
+  <!-- <ul class="editor-list">
         <li>Best Sales</li>
         <li>Most Commented</li>
         <li>Newest Books</li>
@@ -25,46 +24,59 @@
         </select>
       </div> -->
 
+  <div class="filter-section">
+    <h3 class="category" style="margin-top: 2vw">Shop by Category</h3>
+    <div class="category_items" *ngFor="let item of category">
+      <span (click)="categoryFilter(item.category_id)">{{
+        item.category_name
+      }}</span>
+    </div>
+
+    <!-- Add more -->
+  </div>
+
+<div style="width: 250px; padding: 10px;">
+  <label><strong>Price</strong></label>
+
+  <div style="display: flex; justify-content: space-between; margin: 5px 0;">
+    <div>₹{{ minValue }}</div>
+    <div>₹{{ maxValue }}</div>
+  </div>
+
+  <ngx-slider
+    [(value)]="minValue"
+    [(highValue)]="maxValue"
+    [options]="options">
+  </ngx-slider>
+
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+    <a (click)="resetPriceRange()" style="cursor:pointer; color: #ffffff; text-decoration: underline;">Reset price range</a>
+    <button (click)="applyPriceFilter()" style="border: 1px solid #ccc; padding: 5px 15px; border-radius: 10px;">Go</button>
+  </div>
+</div>
 
 
-      <div class="filter-section">
-        <h3 class="category">Shop by Category</h3>
-        <div class="category_items"
-        *ngFor="let item of category"
+    <div class="filter-section">
+      <h3 class="category">New Arrivals</h3>
+      <div class="category_items">
+        <span
+          *ngFor="let date of date"
+          (click)="onDateFilterChange(date.value)"
         >
-            <span (click)="categoryFilter(item.category_id)">{{item.category_name}}</span>
-        </div>
-        
-        <!-- Add more -->
+          {{ date.label }}
+        </span>
       </div>
+    </div>
 
-      <div class="filter-section">
-        <h3 class="category">Price</h3>
-        <div class="category_items">
-          <span *ngFor="let price of priceRanges" (click)="onPriceClick(price.value)">
-           {{ price.label }}
-          </span>
-         </div>
-      </div>
-
-        <div class="filter-section">
-        <h3 class="category">New Arrivals</h3>
-        <div class="category_items">
-             <span *ngFor="let date of date" >
-           {{ date.label }}
-          </span>
-        <!-- <span>Latest</span>
-        <span>Last 30 days</span>
-        <span>Last 90 days</span> -->
-        </div>
-      </div>
-
-
-
-
-
-    
-    </aside>
+    <!-- <div class="filter-section">
+    <h3 class="category">New Arrivals</h3>
+    <div class="category_items" *ngFor="let date of date">
+      <span (click)="onDateFilterChange(data.label)">
+        {{ date.label }}
+      </span>
+    </div>
+  </div>
+</aside> -->
 
     <!-- <div class="book_store">
   <div class="book_in">
@@ -85,8 +97,4 @@
     </div>
   </div>
 </div> -->
-
-   
- 
-
-
+  

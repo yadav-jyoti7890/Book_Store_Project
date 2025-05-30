@@ -48,11 +48,11 @@
   </div>
 </div> -->
 
-<div class="container">
-  <div class="header" style="background-color: #fafafadc; padding: 1vw 2vw">
+<div class="container" style="background-color: #F4F4F4 ;">
+  <div class="header" style="background-color: #fff; padding: 1vw 2vw">
     <h2 style="margin: auto 0">All Products</h2>
     <div class="search-bar">
-      <input type="text" placeholder="Search Kar..." 
+      <input type="text" placeholder="Search Product..." 
        [(ngModel)]="searchText"
        (ngModelChange)="applyFilter()"
       />
@@ -85,12 +85,12 @@
         <p class="genre">{{ book.author }}</p>
         <div class="price" style="display: flex">
           <span class="discounted" style="font-weight: 600 !important"
-            >RS.{{ book.price }}</span
+            >RS.{{ book.offer_price }}</span
           >
-          <span class="original">RS.{{ book.offer_price }}</span>
+          <span class="original">RS.{{ book.price }} </span>
         </div>
          <div class="flex" style="display: flex; gap:10px;">
-        <button class="add-cart" style="width: 50%; display: flex; justify-content: center; align-items: center;">Add to cart</button>
+        <!-- <button class="add-cart" style="width: 50%; display: flex; justify-content: center; align-items: center;">Add to cart</button> -->
         <h6 class="add-cart" style="width: 50%; display: flex; justify-content: center; align-items: center;" [routerLink]="['/product-page', 'view-detail', book.product_id]">view</h6>
          </div>
 
@@ -100,13 +100,14 @@
 
 
     </div>
-    <div>
-        <router-outlet></router-outlet>
-    </div>
-    } 
+      } 
      @else{
       <h1>data not found</h1>
     }
    
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+  
   </div>
 </div>

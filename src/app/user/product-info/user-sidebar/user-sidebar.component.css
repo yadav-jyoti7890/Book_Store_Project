@@ -2,17 +2,17 @@
   display: flex;
 }
 
-/* Sidebar */
 .sidebar {
   width: 270px;
   height: 100%;
   overflow: scroll;
   scroll-behavior: smooth;
-  background: #fafafa;
+  background: #4c1d95;
   padding: 20px;
   border-right: 1px solid #eee;
   position: fixed;
-  margin-top: 4vw;
+  margin-top: 2vw;
+  color:  white !important;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -21,7 +21,7 @@
 
 .sidebar h2 {
   font-size: 1.1vw;
-  /* background-color: #4c1d95; */
+
 }
 
 .editor-list {
@@ -29,13 +29,7 @@
   padding-left: 0;
 }
 
-.editor-list li {
-  padding: 4px 0;
-  font-size: 0.95rem;
-  margin-left: 1vw;
-  font-weight: 500 !important;
-  cursor: pointer;
-}
+
 
 .filter-section {
   margin-bottom: 20px;
@@ -146,8 +140,8 @@
 
 .category {
   font-family: helvetica !important;
-  font-weight: 700 !important;
-  color: black !important;
+  font-weight: 700;
+  color: rgb(255, 255, 255) !important;
   border-bottom: 1px solid gray;
 }
 
@@ -157,12 +151,25 @@
   margin-left: 1vw;
   cursor: pointer;
   margin-bottom: 0.2vw;
-  color: #000000d1 !important;
-  font-weight: 400 !important;
+  color: #fff !important;
+  font-weight: 300 !important;
 }
 
 .category_items span:hover{
     color: #000 !important;
     font-weight: 600 !important;
 }
+
+::ng-deep .ngx-slider .ngx-slider-pointer:after {
+  color: white !important;
+}
+
+
+/* .editor-list li {
+  padding: 4px 0;
+  font-size: 0.95rem;
+  margin-left: 1vw;
+  font-weight: 500 !important;
+  cursor: pointer;
+} */
 
