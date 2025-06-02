@@ -55,9 +55,7 @@ export class ViewDetailComponent implements OnInit {
         this.view_book = response.data;
         console.log(this.view_book[0].image, 'view');
       },
-      // (error) => {
-      //   console.error('Error fetching books', error);
-      // }
+  
     );
   }
 
@@ -109,7 +107,7 @@ export class ViewDetailComponent implements OnInit {
   }
 
   add_cart_count() {
-    console.log('User logout up!');
+    // console.log('User logout up!');
     this.count.postMessage({ type: 'add_cart_count' });
   }
 

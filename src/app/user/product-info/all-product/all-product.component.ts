@@ -20,6 +20,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './all-product.component.css',
 })
 export class AllProductComponent extends LoaderBase {
+    private wishLis = new BroadcastChannel('wishListCount');
   public imageBaseUrl = environment.BaseUrl;
   public product: product[] = [];
   public searchText = '';
@@ -93,13 +94,16 @@ export class AllProductComponent extends LoaderBase {
 
   public toggleWishlist(bookId: number) {
     const isWishListed = this.wishlistBookIds.includes(bookId);
-
+     console.log(isWishListed);
+     
     if (isWishListed) {
+      console.log(isWishListed)
       this.productService.removeWishList(this.userId, bookId).subscribe(
         () => {
           this.wishlistBookIds = this.wishlistBookIds.filter(
             (id) => id !== bookId
           );
+          this.wishListCount();
           console.log('Removed from wishlist:', bookId);
         },
         (error) => {
@@ -110,6 +114,7 @@ export class AllProductComponent extends LoaderBase {
       this.productService.addWishList(this.userId, bookId).subscribe(
         () => {
           this.wishlistBookIds.push(bookId);
+           this.wishListCount();
           console.log('Added to wishlist:', bookId);
         },
         (error) => {
@@ -159,7 +164,13 @@ export class AllProductComponent extends LoaderBase {
   }
 
   add_cart_count() {
-    console.log('User logout up!');
+    // console.log('User logout up!');
     this.count.postMessage({ type: 'add_cart_count' });
   }
+
+  wishListCount(){
+     this.count.postMessage({ type: 'wishListCount' });
+  }
+
+
 }

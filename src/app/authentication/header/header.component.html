@@ -9,11 +9,23 @@
         <h3 routerLink="/product-page">Product</h3>
         <h3 routerLink="/contact_us">contact</h3>
         <h3 routerLink="/my_order">My Orders</h3>
-        <h3 routerLink="/wishlist">Wishlist</h3>
+        <!-- <h3 routerLink="/wishlist">Wishlist</h3> -->
+
+         <h3 class="s-m position-relative" routerLink="/wishlist">
+         <i class="ri-heart-add-2-line" style="font-size: 1.3vw"></i>
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-light text-dark"
+          >
+            {{wishListItemsCount }}
+            <span class="visually-hidden">wishlist</span>
+          </span>
+        </h3>
+         
+        
         <h3 class="s-m position-relative" routerLink="add_cart">
           <i class="ri-shopping-cart-line" style="font-size: 1.3vw"></i>
           <span
-            class="position-absolute top-0 start-100 translate-middle badge bg-light text-dark"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-light text-dark"
           >
             {{ total_count }}
             <span class="visually-hidden">unread messages</span>

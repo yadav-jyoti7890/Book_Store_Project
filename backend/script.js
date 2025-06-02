@@ -219,7 +219,6 @@ express1.post('/api/add-wishlist', (req, res) => {
   });
 });
 
-// backend: GET /api/wishlist/:userId
 express1.get('/api/wishlist/:userId', (req, res) => {
   const userId = req.params.userId;
   const sql = 'SELECT product_id FROM wishlist WHERE user_id = ?';
@@ -252,6 +251,30 @@ express1.get('/api/wishlist-books/:userId', (req, res) => {
   });
 });
 
+express1.get('/getWishListItems/:userId', (req, res) => {
+ const userId = req.params.userId;
+ console.log("get wishlist items")
+ let sql = `select count(*) as wishListCount from wishlist where user_id = ${userId}`
+
+db_connection.query(sql, function(err, result){
+
+  if(err) res.status(500).send({message: "network error", err})
+
+    if (result.length > 0) {
+      return res.status(200).send({
+        status: true,
+        message: "User count",
+        wishListCount: result[0].wishListCount,
+      });
+    } else {
+      return res.status(200).send({
+        status: true,
+        message: "User count",
+        wishListCount: 0,
+      });
+    }
+})
+})
 
 express1.get("/getallproduct/:id", function (req, res) {
   const id = req.params.id;
@@ -285,7 +308,6 @@ express1.get("/getproductbyid/:id", function (req, res) {
     }
 
     if (result.length > 0) {
-      // console.log() //.log(result.length)
       return res.status(200).send({
         status: true,
         message: "User count",

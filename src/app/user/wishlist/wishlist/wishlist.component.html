@@ -4,7 +4,7 @@
 
   <div *ngIf="wishlistBooks.length === 0" class="empty">
     <p>No books in your wishlist 😔</p>
-    <button routerLink="/books">Browse Books</button>
+    <button  routerLink="./user/product-info/product-page" class="edit-btn">Shop Now</button>
   </div>
 
   <div class="book-card" *ngFor="let book of wishlistBooks">
@@ -19,8 +19,8 @@
       <p>₹{{ book.price }}</p>
 
       <div class="actions">
-        <button >🛒 Add to Cart</button>
-        <button class="delete-btn"><i class="ri-delete-bin-6-fill"></i> Remove</button>
+        <button (click)="addCart(book)">🛒 Add to Cart</button>
+        <button class="delete-btn" (click)="Remove(book)"><i class="ri-delete-bin-6-fill"></i> Remove</button>
       </div>
     </div>
   </div>

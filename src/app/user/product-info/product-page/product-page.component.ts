@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { UserSidebarComponent } from '../user-sidebar/user-sidebar.component';
 import { AllProductComponent } from '../all-product/all-product.component';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-product-page',
   standalone: true,
-  imports: [UserSidebarComponent, AllProductComponent, RouterOutlet, CommonModule],
+  imports: [UserSidebarComponent,RouterLink, AllProductComponent, RouterOutlet, CommonModule],
   templateUrl: './product-page.component.html',
   styleUrl: './product-page.component.css'
 })

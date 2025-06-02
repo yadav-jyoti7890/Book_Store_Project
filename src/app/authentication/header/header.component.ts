@@ -30,14 +30,17 @@ export class HeaderComponent implements OnInit {
   public side_Menu: boolean = false;
   private channel = new BroadcastChannel('auth_channel');
   private count = new BroadcastChannel('count');
+    private wishLis = new BroadcastChannel('wishListCount');
   private selectedFile: any;
   public profileImage: any;
   public image!: string | null;
-  public imageBaseUrl = environment.BaseUrl
+  public imageBaseUrl = environment.BaseUrl;
+  public wishListItemsCount! : number
 
   ngOnInit() {
     this.productCount();
     this.getProfile();
+    this.wishListCount();
   }
 
   log() {
@@ -109,6 +112,9 @@ export class HeaderComponent implements OnInit {
         if (event.data.type === 'add_cart_count') {
           this.productCount();
         }
+        else if(event.data.type === 'wishListCount'){
+          this.wishListCount();
+        }
       });
     };
   }
@@ -142,6 +148,16 @@ export class HeaderComponent implements OnInit {
       },
       (error) => {}
     );
+  }
+
+  wishListCount(){
+   this.user_id = localStorage.getItem('user_id');
+    this.authService.wishListCount(this.user_id).subscribe({
+      next :(response) => {
+       this.wishListItemsCount = response.wishListCount
+       console.log(this.wishListItemsCount)
+      }
+    })
   }
 
   onFileSelected(event: any) {

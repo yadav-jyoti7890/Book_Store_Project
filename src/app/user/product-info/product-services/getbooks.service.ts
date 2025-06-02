@@ -17,9 +17,6 @@ export class GetbooksService {
     return this.http.get<any>(`${this.apiUrl}getbooks`);
   }
 
-  // getAllCategory(): Observable<any> {
-  //   return this.http.get(`${this.apiUrl}getCategory1`)
-  // }
 
     getAllCategory(): Observable<any> {
     const cachedData = this.cache.get('categories');
@@ -69,29 +66,18 @@ export class GetbooksService {
     );
   }
 
-// addToWishlist(data: any): Observable<any> {
-//   return this.http.post(`${this.apiUrl}wishlist/add`, data);
-// }
 
-// removeFromWishlist(data: any): Observable<any> {
-//   return this.http.post(`${this.apiUrl}wishlist/remove`, data);
-// }
 
 removeWishList(userId: number, bookId: number){
-  // this.http.post('/api/remove-wishlist', { userId: this.userId, bookId }).subscribe(() => {
-  //     this.wishlistBookIds = this.wishlistBookIds.filter(id => id !== bookId);
-  //   });
   return this.http.post(`${this.apiUrl}api/remove-wishlist`, { userId, bookId })
 }
 
 addWishList(userId: number, bookId: number){
 return this.http.post(`${this.apiUrl}api/add-wishlist`, { userId, bookId })
-// this.http.post('/api/add-wishlist', { userId: this.userId, bookId }).subscribe(() => {
-//       this.wishlistBookIds.push(bookId);
-//     });
+
 }
 
-// wishlist.service.ts
+
 getWishlist(userId: number): Observable<any> {
   return this.http.get(`${this.apiUrl}api/wishlist/${userId}`);
 }

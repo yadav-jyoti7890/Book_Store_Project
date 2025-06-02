@@ -13,4 +13,12 @@ export class WishlistService {
   getWishlistBooks(userId:number): Observable<any>{
   return this.http.get(`${this.apiUrl}api/wishlist-books/${userId}`)
   }
+
+  // removeWishListItems(userId: number, bookId:number){
+  //   return this.http.post(`${this.apiUrl}api/removeWishListItems`,{ userId, bookId })
+  // }
+
+  removeWishListItems(userId: number, bookId: number){
+  return this.http.post(`${this.apiUrl}api/remove-wishlist`, { userId, bookId })
+}
 }
