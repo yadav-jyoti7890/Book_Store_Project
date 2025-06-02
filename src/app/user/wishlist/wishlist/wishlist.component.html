@@ -1,0 +1,28 @@
+<div class="wishlist-container">
+  <h2><i class="ri-heart-3-fill"></i> My Wishlist</h2>
+  <hr>
+
+  <div *ngIf="wishlistBooks.length === 0" class="empty">
+    <p>No books in your wishlist 😔</p>
+    <button routerLink="/books">Browse Books</button>
+  </div>
+
+  <div class="book-card" *ngFor="let book of wishlistBooks">
+    <img
+          [src]="book.image ? imageBaseUrl + 'uploads/' + book.image : ''"
+        
+        />
+    
+    <div class="details">
+      <h3>{{ book.title }}</h3>
+      <p>{{ book.author }}</p>
+      <p>₹{{ book.price }}</p>
+
+      <div class="actions">
+        <button >🛒 Add to Cart</button>
+        <button class="delete-btn"><i class="ri-delete-bin-6-fill"></i> Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
+

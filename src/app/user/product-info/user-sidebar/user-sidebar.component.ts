@@ -5,6 +5,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { SharedServiceService } from '../product-services/shared-service.service';
 import { LoaderBase } from '../../../loader/loader';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
+import { switchMap, timer } from 'rxjs';
+import { response } from 'express';
+import { CacheService } from '../../../cache/cache.service';
 
 @Component({
   selector: 'app-user-sidebar',
@@ -40,22 +43,23 @@ export class UserSidebarComponent extends LoaderBase implements OnInit {
 
   constructor(
     private productService: GetbooksService,
-    private sharedService: SharedServiceService
+    private sharedService: SharedServiceService,
+    private cache : CacheService
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.getAllCategory();
+    this.getAllCategory()
     this.getPriceRange();
+    // this.cache.logAll();
   }
 
   getAllCategory() {
-    this.productService.getAllCategory().subscribe({
+    return this.productService.getAllCategory().subscribe({
       next: (response) => {
         if (response) {
           this.category = response.category;
-          console.log(this.category, 'category sidebar');
         }
       },
     });
@@ -81,11 +85,9 @@ export class UserSidebarComponent extends LoaderBase implements OnInit {
           const floor = Number(response.getPrice.min_price);
           const ceil = Number(response.getPrice.max_price);
 
-          // Save default values (for reset)
           this.defaultMin = floor;
           this.defaultMax = ceil;
 
-          // Assign values for slider control
           this.minValue = floor;
           this.maxValue = ceil;
 
@@ -111,39 +113,47 @@ export class UserSidebarComponent extends LoaderBase implements OnInit {
     this.sharedService.triggerSearchReset();
     this.showLoader();
 
-    const [minPrice, maxPrice] = priceRange.split('-').map(val => Number(val.trim()));
+    const [minPrice, maxPrice] = priceRange
+      .split('-')
+      .map((val) => Number(val.trim()));
 
-    this.productService.fetchProductsByPriceRange(minPrice, maxPrice).subscribe({
-      next: (response) => {
-        this.hideLoader();
-        this.searchByPrice = response.SearchByPrice;
-        this.sharedService.sendFilterData(this.searchByPrice);
-      },
-    });
+    this.productService
+      .fetchProductsByPriceRange(minPrice, maxPrice)
+      .subscribe({
+        next: (response) => {
+          this.hideLoader();
+          this.searchByPrice = response.SearchByPrice;
+          this.sharedService.sendFilterData(this.searchByPrice);
+        },
+      });
   }
 
   onDateFilterChange(selectedValue: string | number) {
     if (!selectedValue) return;
 
-    this.productService.getProductsByDateFilter(selectedValue).subscribe((response) => {
-      this.filterCategory = response.date;
-      this.sharedService.sendFilterData(this.filterCategory);
-    });
+    this.productService
+      .getProductsByDateFilter(selectedValue)
+      .subscribe((response) => {
+        this.filterCategory = response.date;
+        this.sharedService.sendFilterData(this.filterCategory);
+      });
   }
 
   applyPriceFilter() {
     console.log('Sending price range:', this.minValue, this.maxValue);
 
-    this.productService.fetchProductsByPriceRange(this.minValue, this.maxValue).subscribe({
-      next: (response) => {
-        this.hideLoader();
-        this.searchByPrice = response.SearchByPrice;
-        this.sharedService.sendFilterData(this.searchByPrice);
-      },
-      error: (err) => {
-        console.error('Error fetching data', err);
-      },
-    });
+    this.productService
+      .fetchProductsByPriceRange(this.minValue, this.maxValue)
+      .subscribe({
+        next: (response) => {
+          this.hideLoader();
+          this.searchByPrice = response.SearchByPrice;
+          this.sharedService.sendFilterData(this.searchByPrice);
+        },
+        error: (err) => {
+          console.error('Error fetching data', err);
+        },
+      });
   }
 
   resetPriceRange() {

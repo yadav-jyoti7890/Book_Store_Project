@@ -48,13 +48,15 @@
   </div>
 </div> -->
 
-<div class="container" style="background-color: #F4F4F4 ;">
+<div class="container" style="background-color: #f4f4f4">
   <div class="header" style="background-color: #fff; padding: 1vw 2vw">
     <h2 style="margin: auto 0">All Products</h2>
     <div class="search-bar">
-      <input type="text" placeholder="Search Product..." 
-       [(ngModel)]="searchText"
-       (ngModelChange)="applyFilter()"
+      <input
+        type="text"
+        placeholder="Search Product..."
+        [(ngModel)]="searchText"
+        (ngModelChange)="applyFilter()"
       />
     </div>
   </div>
@@ -62,15 +64,25 @@
   <div class="book-grid">
     <!-- Book Card Start -->
     @if(product.length > 0){
-    <div class="book-card" *ngFor="let book of product" [routerLink]="['/product-page', 'view-detail', book.product_id]">
+    <div class="book-card" *ngFor="let book of product">
       <div class="book-image">
         <img
           [src]="book.image ? imageBaseUrl + 'uploads/' + book.image : ''"
           alt="Book image"
           height="100"
           width="100"
+          [routerLink]="['/view_detail', book.product_id]"
         />
-        <div class="wishlist">❤</div>
+        <i
+          (click)="toggleWishlist(book.product_id)"
+          [ngClass]="
+            wishlistBookIds.includes(book.product_id)
+              ? 'ri-heart-3-fill'
+              : 'ri-heart-3-line'
+          "
+          class="wishlist"
+        >
+        </i>
       </div>
       <div class="book-info">
         <h3
@@ -89,25 +101,43 @@
           >
           <span class="original">RS.{{ book.price }} </span>
         </div>
-         <div class="flex" style="display: flex; gap:10px;">
-        <!-- <button class="add-cart" style="width: 50%; display: flex; justify-content: center; align-items: center;">Add to cart</button> -->
-        <h6 class="add-cart" style="width: 50%; display: flex; justify-content: center; align-items: center;" [routerLink]="['/product-page', 'view-detail', book.product_id]">view</h6>
-         </div>
+        <div class="flex" style="display: flex; gap: 10px">
+          <button
+            class="add-cart"
+            style="
+              width: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+            (click)="addCart(book)"
+          >
 
+            Add to cart
+          </button>
+          <h6
+            class="view-button"
+            style="
+              width: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+            [routerLink]="['/view_detail', book.product_id]"
+          >
+            view
+          </h6>
+        </div>
 
         <div class="stars">⭐️⭐️⭐️⭐️</div>
       </div>
-
-
     </div>
-      } 
-     @else{
-      <h1>data not found</h1>
+    } @else{
+    <h1>data not found</h1>
     }
-   
+
     <div>
-        <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </div>
-  
   </div>
 </div>

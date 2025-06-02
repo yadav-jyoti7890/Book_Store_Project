@@ -8,11 +8,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment';
 import { product } from '../../product-info/product-interface/product-interface';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-view-detail',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, FormsModule],
   templateUrl: './view-detail.component.html',
   styleUrl: './view-detail.component.css',
 })
@@ -52,12 +53,11 @@ export class ViewDetailComponent implements OnInit {
     this.view_detail.getbookdetail(this.id).subscribe(
       (response) => {
         this.view_book = response.data;
-
         console.log(this.view_book[0].image, 'view');
       },
-      (error) => {
-        console.error('Error fetching books', error);
-      }
+      // (error) => {
+      //   console.error('Error fetching books', error);
+      // }
     );
   }
 
@@ -85,7 +85,6 @@ export class ViewDetailComponent implements OnInit {
       user_id: user_id,
       book_id: data.product_id,
       price: data.price,
-      quantity1: this.quantity,
       image: data.image,
     };
     this.view_detail.addToCart(addtobook).subscribe(
@@ -97,7 +96,6 @@ export class ViewDetailComponent implements OnInit {
           verticalPosition: 'top',
         });
         this.router.navigate(['./book']);
-
         console.log('add');
       },
       (error) => {

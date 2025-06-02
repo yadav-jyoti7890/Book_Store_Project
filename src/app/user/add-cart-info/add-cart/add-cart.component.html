@@ -1,134 +1,135 @@
-
 @if(item.length !== 0){
 <div class="cart">
-    <div class="left">
-        <div class="left_content" *ngFor="let cart_data of item">
-            <div class="flex">
-
-                <img
-                [src]="cart_data.image ? imageBaseUrl +'uploads/' + cart_data.image : ''"  height="200px" width="150px"
-                    id="image" class="img1"> 
-                <div class="detail">
-                    <label>title : {{ cart_data.title }}</label>
-                    <p>description : {{ cart_data.description }}</p>
-                    <p>price : {{ cart_data.price }}</p>
-                    <p>quantity : {{ cart_data.quantity }}</p>
-                    <p>pay : {{ cart_data.total_amount }}</p>
-                    <button (click)="removeToCart(cart_data.cart_id)">remove
-                    </button>
-                </div>
-
-            </div>
+  <div class="left">
+    <div class="left_content" *ngFor="let cart_data of item">
+      <div class="flex">
+        <img
+          [src]="
+            cart_data.image ? imageBaseUrl + 'uploads/' + cart_data.image : ''
+          "
+          height="200px"
+          width="150px"
+          id="image"
+          class="img1"
+        />
+        <div class="detail">
+          <label>title : {{ cart_data.title }}</label>
+          <p>description : {{ cart_data.description }}</p>
+          <p>price : {{ cart_data.price }}</p>
+          <!-- <p>quantity : {{ cart_data.quantity }}</p> -->
+          <div class="qty-row">
+            <button (click)="substract(cart_data )">−</button>
+            <span>{{ cart_data.quantity }}</span>
+            <button (click)="add(cart_data)">+</button>
+          </div>
+          <p>pay : {{cart_data.quantity * cart_data.price }}</p>
+          <button (click)="removeToCart(cart_data.cart_id)">remove</button>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="right">
-
-        <div class="about_address">
-            <div class="delivery_address">
-                <i class="ri-map-pin-fill"></i> <h1>delivery address</h1>
-                <hr>
-            </div>
-            @if(address_data.length === 0 && item.length > 0){
-            <div class="address">
-                <button  [routerLink]="['/add_cart/address']" routerLinkActive="address">Add address</button>
-            </div>
-            }
-
-            @else if(item.length > 0){
-            <div class="address_wrapper">
-                
-                <div class="selected_address">
-                    <div>
-                        @if(select_Address){
-                        <label> {{select_Address.full_name}} : </label><br>
-                        <span>{{select_Address.house_no}} {{select_Address.road_name}} </span><br>
-                        <span>{{select_Address.pincode}}, {{select_Address.city}},{{select_Address.state}}</span><br>
-                        <span>{{select_Address.contact}}</span>
-                        
-                        }
-                    </div>
-                 
-                    <div class="flex1">
-                        <p>change <i class="ri-skip-down-line"
-                                (click)="popup()"></i></p>
-                    </div>
-                </div>
-
-                <div class="hidden_address" *ngIf="pop_up">
-                    <button  (click)="openAddress()">Add More Address</button>
-                    <div class="hidden_flex"
-                        *ngFor="let user_addresses of address_data">
-                        <div class="user_addresses">
-                            <label> {{user_addresses.full_name}} : </label><br>
-                            <span>{{user_addresses.house_no}} {{user_addresses.road_name}} </span><br>
-                            <span>{{user_addresses.pincode}}, {{user_addresses.city}},{{user_addresses.state}}</span><br>
-                            <span>{{user_addresses.contact}}</span>
-                            
-                        </div>
-                        <input type="radio" [(ngModel)]="select_Address"
-                            [ngModelOptions]="{standalone: true}"
-                            [value]="user_addresses"
-                            (change)="selectAddress(user_addresses)">
-                    </div>
-                    <div class="new_address">
-                        <button (click)="change_address()">Set delivery
-                            address</button>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="biling_info">
-                <h1><i class="ri-bill-fill"></i> Billing Information</h1><hr>
-
-                <div class="bill_box">
-                        <span>total number of items : ({{total_item}})</span><br>
-                        <span>Subtotal : {{ sum }}</span><br>
-                        <span>discount: 10%</span><br>
-                        <hr>
-                        <div class="last">
-                            <label>grand total : {{sum}}</label><br> 
-                        <button (click)="confirmOrder()" class="confirm">continue</button>
-                    
-                        </div>
-                </div>
-            </div>
-
-          
+  <div class="right">
+    <div class="about_address">
+      <div class="delivery_address">
+        <i class="ri-map-pin-fill"></i>
+        <h1>delivery address</h1>
+        <hr />
+      </div>
+      @if(address_data.length === 0 && item.length > 0){
+      <div class="address">
+        <button [routerLink]="['/add_cart/address']" routerLinkActive="address">
+          Add address
+        </button>
+      </div>
+      } @else if(item.length > 0){
+      <div class="address_wrapper">
+        <div class="selected_address">
+          <div>
+            @if(select_Address){
+            <label> {{ select_Address.full_name }} : </label><br />
+            <span
+              >{{ select_Address.house_no }}
+              {{ select_Address.road_name }} </span
+            ><br />
+            <span
+              >{{ select_Address.pincode }}, {{ select_Address.city }},{{
+                select_Address.state
+              }}</span
+            ><br />
+            <span>{{ select_Address.contact }}</span>
 
             }
-           
+          </div>
+
+          <div class="flex1">
+            <p>change <i class="ri-skip-down-line" (click)="popup()"></i></p>
+          </div>
         </div>
 
-        <div class="overlay" *ngIf="showAddressForm">
-            <router-outlet></router-outlet>
+        <div class="hidden_address" *ngIf="pop_up">
+          <button (click)="openAddress()">Add More Address</button>
+          <div class="hidden_flex" *ngFor="let user_addresses of address_data">
+            <div class="user_addresses">
+              <label> {{ user_addresses.full_name }} : </label><br />
+              <span
+                >{{ user_addresses.house_no }}
+                {{ user_addresses.road_name }} </span
+              ><br />
+              <span
+                >{{ user_addresses.pincode }}, {{ user_addresses.city }},{{
+                  user_addresses.state
+                }}</span
+              ><br />
+              <span>{{ user_addresses.contact }}</span>
+            </div>
+            <input
+              type="radio"
+              [(ngModel)]="select_Address"
+              [ngModelOptions]="{ standalone: true }"
+              [value]="user_addresses"
+              (change)="selectAddress(user_addresses)"
+            />
+          </div>
+          <div class="new_address">
+            <button (click)="change_address()">Set delivery address</button>
+          </div>
         </div>
+      </div>
 
+      <div class="biling_info">
+        <h1><i class="ri-bill-fill"></i> Billing Information</h1>
+        <hr />
+
+        <div class="bill_box">
+          <span>total number of items : ({{ total_item }})</span><br />
+          <span>Subtotal : {{ sum }}</span
+          ><br />
+          <span>discount: 10%</span><br />
+          <hr />
+          <div class="last">
+            <label>grand total : {{ sum }}</label
+            ><br />
+            <button (click)="confirmOrder()" class="confirm">continue</button>
+          </div>
+        </div>
+      </div>
+
+      }
     </div>
 
-    
+    <div class="overlay" *ngIf="showAddressForm">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
 
+} @else{
+<div class="empty">
+  <img src="./assets/image/cart6.png" alt="" id="cart_img" />
+  <h1>your cart is empty</h1>
+</div>
 }
-@else{
-    <div class="empty">
-        <img src="./assets/image/cart6.png" alt="" id="cart_img">
-        <h1>your cart is empty</h1>
-    </div>
-}
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- <div class="add_cart">
     <div class="about_address">

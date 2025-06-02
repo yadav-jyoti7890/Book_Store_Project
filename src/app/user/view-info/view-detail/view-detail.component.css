@@ -1,291 +1,154 @@
-/* .view_page{
-    min-height: 100vh;
-    width: 100%;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.view_in{
-    min-height: 50% !important;
-    min-width: 70%;
-    background-color:#fff;
-    color: 000;
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    gap: 30px;
-    border-radius: 10px;
-    padding: 2vw;
-}
-.view_in .left{
-    width: 30%;
-    height: 100%;
-}
-.view_in .right{
-    width: 70%;
-    height: 100%;
-}
-
-.left img{
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
-}
-img{
-    border-radius: 10px;
-}
-.right .flex{
-    display: flex;
-    flex-direction: column;
-}
-
-
-
-.addtocart{
-    background-color: #4b0082;
-    color: #fff;
-    font-size: 1vw;
-    font-family: neue-bold;
-    text-transform: uppercase;
-    margin-left: 1vw;
-}
-#heart{
-    font-size: 2vw;
-    margin: 0vw 1vw;
-    cursor: pointer;
-}
-
-@media (max-width:500px) {
-
-    .view_page{
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-    }
-    .view_in{
-        height: 100%;
-        width: 100%;
-        background-color:#121212;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        flex-direction: row;
-        gap: 10px;
-        border-radius: 10px;
-        padding: 2vw;
-    }
-    .view_in .right{
-        width: 100%;
-        height: 100%;
-        padding: 0vw 4vw;
-    }
-    .left img{
-        height: 300px;
-        object-fit: contain;
-    }
-    img{
-        border-radius: 10px;
-    }
-    .right h5{
-        font-size: 4vw;
-        font-family: neue-bold;
-        color:#24CFA6;
-        text-transform: capitalize;
-        margin-top: 1vw;
-    }
-    .right p{
-        font-size: 3.7vw;
-        font-family: neue-light;
-        text-transform: capitalize;
-        margin: 0.6vw;
-        line-height: 5vw;
-    }
-     
-    label{
-        border: 1px solid #dadada;
-        width: 100%;
-    }
-    
-    label button{
-       padding: 1vw 2.5vw;
-       object-fit: cover;
-    }
-    span{
-        padding: 0vw 1vw;
-    }
-    
-    button{
-        margin-top: 4vw;
-        padding: 3vw 6vw;
-        border-radius: 4px; 
-        cursor: pointer;  
-    }
-    .addtocart{
-        width: 70%;
-        background-color: #24CFA6;
-        color: #000;
-        font-size: 3vw;
-        font-family: neue-bold;
-        text-transform: uppercase;
-        margin-left: 1vw;
-    }
-    #heart{
-        font-size: 8vw;
-        margin: 0vw 3vw;
-        cursor: pointer;
-    }
-}
-
-
- */
-/* 🟪 Wrapper */
-.view_page {
-  width: 100%;
-  min-height: 100vh;
-  background-color: #f5f5f5;
-  padding: 2rem;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-/* 🟪 Header with Back Arrow */
-.product_header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.product_header h2 {
-  font-size: 1.8rem;
-  font-weight: bold;
-}
-
-.back_arrow {
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #4b0082;
-  user-select: none;
-}
-
-/* 🟪 Main Book Card */
-.view_in {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
+.product-wrapper {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
   background: #fff;
   border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  margin-bottom: 2rem;
-  align-items: flex-start;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* 🔹 Left: Book Image */
-.view_in .left {
-  flex: 1;
-  max-width: 250px;
+.product-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
 }
 
-.left img {
-  width: 100%;
+.product-image {
+  flex: 1 1 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-image img {
+  max-width: 100%;
   height: auto;
-  object-fit: cover;
   border-radius: 10px;
-  border: 1px solid #ddd;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* 🔹 Right: Book Info */
-.view_in .right {
-  flex: 2;
+.product-details {
+  flex: 2 1 500px;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 16px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.right .flex span {
-  font-size: 1rem;
+.title {
+  font-size: 2rem;
+  font-weight: 600;
   color: #333;
 }
 
-.right .flex span:first-child {
-  font-weight: bold;
-  font-size: 1.2rem;
+.category,
+.author,
+.description,
+.info,
+.stock {
+  font-size: 1rem;
+  color: #555;
 }
 
-/* Quantity Buttons */
-label {
+.description {
+  line-height: 1.6;
+}
+
+.price-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 0.25rem 0.5rem;
-  width: fit-content;
+  gap: 15px;
 }
 
-label button {
+.old-price {
+  font-size: 1.2rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.new-price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e53935;
+}
+
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.qty-row button {
+  padding: 6px 14px;
+  font-size: 1.2rem;
   border: none;
+  border-radius: 6px;
   background-color: #e0e0e0;
-  padding: 0.4rem 0.8rem;
-  font-size: 1rem;
   cursor: pointer;
-  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
-/* Add to Cart Button */
-.addtocart {
-  margin-top: 1rem;
-  background-color: #4b0082;
+.qty-row button:hover {
+  background-color: #ccc;
+}
+
+.btn-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  flex: 1;
+  padding: 12px;
+  background-color: #1976d2;
   color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  font-weight: bold;
-  text-transform: uppercase;
+  font-weight: 500;
+  border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
-.addtocart:hover {
-  background-color: #370062;
+.btn-primary:hover {
+  background-color: #1565c0;
 }
 
-/* Heart Icon */
-#heart {
-  font-size: 1.5rem;
-  color: #888;
+.btn-secondary {
+  padding: 12px;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 1.2rem;
+  color: #e53935;
+  transition: background-color 0.3s;
 }
 
-/* 🔹 Responsive Design */
+.btn-secondary:hover {
+  background-color: #e0e0e0;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .view_in {
+  .product-box {
     flex-direction: column;
-    padding: 1rem;
   }
 
-  .view_in .left,
-  .view_in .right {
+  .product-details {
+    align-items: center;
+    text-align: center;
+  }
+
+  .btn-row {
+    flex-direction: column;
     width: 100%;
   }
 
-  .product_header {
-    justify-content: space-between;
-  }
-
-  .product_header h2 {
-    font-size: 1.4rem;
-  }
-
-  .addtocart {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
   }
 }
-
-

@@ -110,7 +110,6 @@ add_cart(data:any){
   user_id : user_id,
   book_id : data.product_id,
   price : data.price,
-  quantity1 : this.quantity,
   image:data.image
  }
  this.viewService.addToCart(addtobook).subscribe((data)=>{

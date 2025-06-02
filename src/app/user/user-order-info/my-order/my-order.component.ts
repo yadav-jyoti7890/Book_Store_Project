@@ -33,6 +33,8 @@ export class MyOrderComponent implements OnInit {
     this.user_id = Number(localStorage.getItem('user_id'))
     this.userOrderService.getUserItems(this.user_id).subscribe(
       (response) => {
+        console.log(response, "user data");
+        
         this.user_items = response.UserItems;
         this.extractUniqueOrderIds();
       },

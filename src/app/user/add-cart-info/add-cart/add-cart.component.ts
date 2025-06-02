@@ -48,6 +48,7 @@ export class AddCartComponent implements OnInit {
   public cartData: any;
   public showAddressForm = false;
   public imageBaseUrl = environment.BaseUrl;
+    quantity:number =  1;
 
   private count = new BroadcastChannel('count');
 
@@ -76,28 +77,27 @@ export class AddCartComponent implements OnInit {
     if (this.user_id) {
       this.add_cart.getAllProduct(this.user_id).subscribe(
         (response: { data: any }) => {
+          // console.log(response, "cart data is come");
           this.item = response.data;
-          console.log(this.item);
+          // // console.log(this.item);
           this.user_address = localStorage.getItem('user_address');
 
           this.item.forEach((value: any) => {
             this.sum = this.sum + value.total_amount;
             this.total_item += 1;
-            console.log(this.sum);
+            // console.log(this.sum);
           });
 
-          console.log(this.total_amount);
-          console.log(this.item, 'addcartpage');
+          // console.log(this.total_amount);
+          // console.log(this.item, 'addcartpage');
         },
-        (error) => {
-          alert('data nhi mila');
-        }
+      
       );
     }
   }
 
   removeToCart(id: number) {
-    console.log(id);
+    // // console.log(id);
     this.add_cart.deleteCartItem(id).subscribe(
       (data) => {
         this.allcartdata();
@@ -120,7 +120,7 @@ export class AddCartComponent implements OnInit {
   }
 
   add_cart_count() {
-    console.log('User logout up!');
+    // console.log('User logout up!');
     this.count.postMessage({ type: 'add_cart_count' });
   }
 
@@ -129,23 +129,17 @@ export class AddCartComponent implements OnInit {
       (response) => {
         if (response.data) {
           this.address_data = response.data;
-          // console.log(this.address_data,"pura")
           this.select_Address = response.data[0];
-          // console.log(this.select_Address,"ek")
           this.router.navigate(['/add_cart']);
         }
-        // alert("user address is existing on address table you want to add more address")
       },
-      (error) => {
-        // alert("user address is not existing on address table you want to add more address")
-      }
     );
   }
 
   popup() {
-    // console.log("popup")
+    // // console.log("popup")
     this.pop_up = !this.pop_up;
-    //  console.log(this.pop_up)
+    //  // console.log(this.pop_up)
   }
 
   selectAddress(address: any) {
@@ -153,29 +147,9 @@ export class AddCartComponent implements OnInit {
   }
 
   change_address() {
-    console.log(this.select_Address, 'change address');
+    // console.log(this.select_Address, 'change address');
     this.pop_up = false;
   }
-
-  //  confirmOrder() {
-  //   console.log("confirm order")
-  //   this.address_id = this.select_Address.address_id
-  //   console.log(this.address_id,this.user_id,this.total_item,this.sum,this.item)
-  //   const order_data = {
-  //     address_id:this.address_id,
-  //     user_id:this.user_id,
-  //     total_item:this.total_item,
-  //     total_amount : this.sum
-  //   }
-
-  //   this.order_item = this.item;
-
-  //   console.log(order_data,this.order_item)
-  //   forkJoin([
-  //     this.add_cart.confirm_Order(order_data),   // Confirm order request
-  //     this.add_cart.order_item(this.address_id,this.order_item)  // Order item request
-  //   ]).subscribe((response)=>{},(error)=>{})
-  // }
 
  confirmOrder() {
   const payload = {
@@ -191,7 +165,7 @@ export class AddCartComponent implements OnInit {
 
   this.add_cart.confirm_Order(payload).subscribe({
     next: (res) => {
-      console.log('Order + items saved + cart cleared:', res);
+      // console.log('Order + items saved + cart cleared:', res);
       this.snackBar.open('Order Confirmed Successfully', 'close', {
         duration: 3000,
         horizontalPosition: 'center',
@@ -206,8 +180,22 @@ export class AddCartComponent implements OnInit {
   });
 }
 
+  add(data:any) {
+    // console.log('add', data);
+    if (data.quantity < 10) {
+      data.quantity += 1;
+    }
+  }
+
+  substract(data:any) {
+    // console.log('minus', data);
+    if (data.quantity > 1) {
+      data.quantity -= 1;
+    }
+  }
+
   // confirmOrder(){
-  //   console.log(this.item, "my_order")
+  //   // console.log(this.item, "my_order")
   //   this.add_cart.my_Order(this.item).subscribe((response)=>{
 
   //  },(error)=>{
@@ -244,9 +232,9 @@ export class AddCartComponent implements OnInit {
 }
 
 //  confirmOrder() {
-//     console.log('confirm order');
+//     // console.log('confirm order');
 //     this.address_id = this.select_Address.address_id;
-//     console.log(
+//     // console.log(
 //       this.address_id,
 //       this.user_id,
 //       this.total_item,
@@ -267,7 +255,7 @@ export class AddCartComponent implements OnInit {
 
 //     this.order_item = this.item;
 
-//     console.log(
+//     // console.log(
 //       'order data ====>',
 //       order_data,
 //       order_item_data,
@@ -277,15 +265,15 @@ export class AddCartComponent implements OnInit {
 //     this.add_cart.confirm_Order(order_data).subscribe({
 //       next: (response) => {
 //         this.order_id = response.order_id;
-//         console.log('Order confirmed:', response);
+//         // console.log('Order confirmed:', response);
 
 //         forkJoin([
 //           this.add_cart.order_item(this.order_id, this.order_item),
 //           this.add_cart.deleteAllCartData(this.user_id),
 //         ]).subscribe({
 //           next: ([orderItemResponse, deleteCartResponse]) => {
-//             console.log('Order items added:', orderItemResponse);
-//             console.log('Cart cleared:', deleteCartResponse);
+//             // console.log('Order items added:', orderItemResponse);
+//             // console.log('Cart cleared:', deleteCartResponse);
 
 //             this.snackBar.open('Order Confirmed Successfully', 'close', {
 //               duration: 3000,

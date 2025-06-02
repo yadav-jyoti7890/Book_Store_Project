@@ -204,11 +204,11 @@ export const routes: Routes = [
       loadComponent: () =>
         import('./user/product-info/all-product/all-product.component').then(m => m.AllProductComponent)
     },
-    {
-      path: 'view-detail/:id',
-      loadComponent: () =>
-        import('./user/view-info/view-detail/view-detail.component').then(m => m.ViewDetailComponent)
-    }
+    // {
+    //   path: 'view-detail/:id',
+    //   loadComponent: () =>
+    //     import('./user/view-info/view-detail/view-detail.component').then(m => m.ViewDetailComponent)
+    // }
   ]
   },
 
@@ -220,6 +220,16 @@ export const routes: Routes = [
           ),
         canActivate: [AuthGuard],
       },
+
+       {
+        path: 'wishlist',
+        loadComponent: () =>
+          import('./user/wishlist/wishlist/wishlist.component').then(
+            (m) => m.WishlistComponent
+          ),
+        canActivate: [AuthGuard],
+      },
+
 
   {
     path: 'contact_us',

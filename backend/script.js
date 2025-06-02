@@ -170,23 +170,20 @@ express1.get("/getbooksbyid/:id", function (req, res) {
 });
 
 express1.post("/addtocart", function (req, res) {
-  const { title, user_id, book_id, quantity1, price, image, description } =
+  const { title, user_id, book_id, price, image, description } =
     req.body;
-  console.log(title, user_id, book_id, quantity1, price, image, description);
-  const total_amount = price * quantity1;
+  console.log(title, user_id, book_id, price, image, description);
 
   let sql =
-    "INSERT INTO add_to_cart (user_id,product_id,quantity,price,title,image,total_amount,description) VALUES (?,?,?,?,?,?,?,?)";
+    "INSERT INTO add_to_cart (user_id,product_id,price,title,image,description) VALUES (?,?,?,?,?,?)";
   db_connection.query(
     sql,
     [
       user_id,
       book_id,
-      quantity1,
       price,
       title,
       image,
-      total_amount,
       description,
     ],
     function (err, result) {
@@ -198,6 +195,63 @@ express1.post("/addtocart", function (req, res) {
     }
   );
 });
+
+express1.post('/api/remove-wishlist', (req, res) => {
+  const { userId, bookId } = req.body;
+  console.log(userId, bookId, "delete wisslist")
+  const query = 'DELETE FROM wishlist WHERE user_id = ? AND product_id = ?';
+  db_connection.query(query, [userId, bookId], (err, result) => {
+     console.log("remove successful")
+    if (err) return res.status(500).send(err);
+
+    res.send({ message: 'Book removed from wishlist' });
+  });
+});
+
+express1.post('/api/add-wishlist', (req, res) => {
+  const { userId, bookId } = req.body;
+
+  const query = 'INSERT INTO wishlist (user_id, product_id) VALUES (?, ?)';
+  db_connection.query(query, [userId, bookId], (err, result) => {
+    console.log("add successful")
+    if (err) return res.status(500).send(err);
+    res.send({ message: 'Book added to wishlist' });
+  });
+});
+
+// backend: GET /api/wishlist/:userId
+express1.get('/api/wishlist/:userId', (req, res) => {
+  const userId = req.params.userId;
+  const sql = 'SELECT product_id FROM wishlist WHERE user_id = ?';
+
+  db_connection.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error('Error loading wishlist:', err);
+      return res.status(500).send('Error loading wishlist');
+    }
+
+    const bookIds = results.map(row => row.product_id);
+     return res.json(bookIds); // returns: [2, 5, 7]
+  });
+});
+
+
+express1.get('/api/wishlist-books/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  const sql = `
+    SELECT p.product_id, p.title, p.author, p.price, p.image
+    FROM product p
+    INNER JOIN wishlist w ON p.product_id = w.product_id
+    WHERE w.user_id = ?;
+  `;
+
+  db_connection.query(sql, [userId], (err, results) => {
+    if (err) return res.status(500).send('Error loading wishlist books');
+    return  res.json(results);
+  });
+});
+
 
 express1.get("/getallproduct/:id", function (req, res) {
   const id = req.params.id;
