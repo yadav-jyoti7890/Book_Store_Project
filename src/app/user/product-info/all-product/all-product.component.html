@@ -112,7 +112,6 @@
             "
             (click)="addCart(book)"
           >
-
             Add to cart
           </button>
           <h6
@@ -129,12 +128,65 @@
           </h6>
         </div>
 
-        <div class="stars">⭐️⭐️⭐️⭐️</div>
+        <div
+          class="flex"
+          style="display: flex; gap: 10px; justify-content: space-between"
+        >
+          <!-- <div class="stars">{{ book.rating}}</div> -->
+         <span class="review-rating">
+         {{ book.rating }} {{ book.rating | starRating }}
+          </span>
+          <!-- Show only if order_status === 'delivered' -->
+          <span
+            *ngIf="book.order_status === 'Delivered'"
+            style="
+              font-family: helvetica;
+              font-weight: 400 !important;
+              cursor: pointer;
+            "
+            (click)="openFeedback(book.product_id)"
+          >
+            Give Feedback
+          </span>
+        </div>
       </div>
     </div>
     } @else{
     <h1>data not found</h1>
     }
+
+    <div *ngIf="showFeedbackPopup" class="modal-backdrop">
+      <div class="modal-content">
+        <h3>Feedback Form</h3>
+        <input
+          type="text"
+          placeholder="Enter your feedback"
+          [(ngModel)]="commit"
+          name="commit"
+        />
+        <span class="star">
+          <i
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            class="ri-star-line"
+            [class.filled]="star <= rating"
+            (click)="feedback(star)"
+          ></i>
+        </span>
+
+        <div class="flex">
+          <label>Very bad</label>
+          <label>Bad</label>
+          <label>ok-ok</label>
+          <label>Good</label>
+          <label>Excellent</label>
+        </div>
+
+        <div class="button-group">
+          <button (click)="submitFeedback()">Submit</button>
+          <button (click)="closeFeedback()" class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
 
     <div>
       <router-outlet></router-outlet>

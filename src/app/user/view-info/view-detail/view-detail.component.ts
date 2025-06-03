@@ -9,15 +9,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment';
 import { product } from '../../product-info/product-interface/product-interface';
 import { FormsModule } from '@angular/forms';
+import { StarRatingPipe } from '../../pipes/star-rating.pipe';
+import { LoaderBase } from '../../../loader/loader';
 
 @Component({
   selector: 'app-view-detail',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule, FormsModule, StarRatingPipe],
   templateUrl: './view-detail.component.html',
   styleUrl: './view-detail.component.css',
 })
-export class ViewDetailComponent implements OnInit {
+export class ViewDetailComponent extends LoaderBase implements OnInit {
   private count = new BroadcastChannel('count');
   public imageBaseUrl = environment.BaseUrl;
   public id!: number;
@@ -27,6 +29,11 @@ export class ViewDetailComponent implements OnInit {
   public increase: any;
   public user_id: any;
   public total_count: any;
+  public FeedBack: any;
+  public currentIndex = 0;
+  public batchSize = 2; // byDefault
+  public visibleFeedbacks: any[] = [];
+  showAll: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,28 +42,27 @@ export class ViewDetailComponent implements OnInit {
     private ngzone: NgZone,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-   private _location: Location
-  ) {}
+    private _location: Location
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const view_detail_Id = params.get('id');
-      console.log(view_detail_Id);
       if (view_detail_Id) {
         this.id = +view_detail_Id;
-        this.viewdetail();
+        this.viewDetail();
       }
     });
+    this.getAllFeedBack();
   }
 
-  viewdetail() {
-    this.view_detail.getbookdetail(this.id).subscribe(
-      (response) => {
-        this.view_book = response.data;
-        console.log(this.view_book[0].image, 'view');
-      },
-  
-    );
+  private viewDetail() {
+    this.view_detail.getBookDetail(this.id).subscribe((response) => {
+      // console.log(response);
+      this.view_book = response.data;
+    });
   }
 
   add() {
@@ -113,5 +119,51 @@ export class ViewDetailComponent implements OnInit {
 
   goBack() {
     this._location.back();
+  }
+
+  getAllFeedBack() {
+    this.view_detail.getAllFeedBack(this.id).subscribe((response) => {
+      // console.log(response, "feedback");
+
+      this.FeedBack = response.data;
+      this.currentIndex = this.batchSize;
+      this.visibleFeedbacks = this.FeedBack.slice(0, this.currentIndex);
+      // console.log(this.batchSize, this.currentIndex,this.visibleFeedbacks)
+    });
+  }
+
+  loadMoreFeedback(): void {
+    // console.log(this.FeedBack, this.currentIndex,this.visibleFeedbacks)
+    this.showLoader();
+    const nextBatch = this.FeedBack.slice(
+      this.currentIndex,
+      this.currentIndex + this.batchSize
+    );
+    console.log(
+      nextBatch,
+      '=nextbatch',
+      this.currentIndex,
+      this.currentIndex + this.batchSize
+    );
+    this.visibleFeedbacks = [...this.visibleFeedbacks, ...nextBatch];
+    this.currentIndex += this.batchSize;
+    // console.log(this.currentIndex);
+
+    this.hideLoader();
+  }
+
+  loadLessFeedback() {
+    this.showLoader();
+    this.currentIndex = this.batchSize;
+    this.visibleFeedbacks = this.FeedBack.slice(0, this.currentIndex);
+    this.hideLoader();
+  }
+
+  get hasMore(): boolean {
+    return this.currentIndex < this.FeedBack.length;
+  }
+
+  toggleFeedback() {
+    this.showAll = !this.showAll;
   }
 }

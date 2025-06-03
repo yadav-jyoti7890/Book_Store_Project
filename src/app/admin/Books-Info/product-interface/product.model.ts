@@ -12,6 +12,7 @@ export interface product {
   stock: number | null;
   image: string | null;
   date: Date | null;
+  order_status:string | null
 }
 
 

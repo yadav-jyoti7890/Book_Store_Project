@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { ViewDetailService } from '../../view-info/view-services/view-detail.service';
+import { CountingService } from '../../centralize-services/counting.service';
 
 @Component({
   selector: 'app-wishlist',
@@ -22,7 +23,8 @@ export class WishlistComponent implements OnInit {
   constructor(
     private wishlistService: WishlistService,
     private snackBar: MatSnackBar,
-    private viewService: ViewDetailService
+    private viewService: ViewDetailService,
+    private counting : CountingService
   ) {}
 
   ngOnInit(): void {
@@ -42,8 +44,8 @@ export class WishlistComponent implements OnInit {
     console.log(this.userId, product.product_id)
     this.wishlistService.removeWishListItems(this.userId, product.product_id).subscribe({
       next: (response) =>{
+        this.counting.removeFromWishlist()
         if(response){
-          this.wishListCount()
           this.snackBar.open('remove item from the cart ✅', 'close', {
           duration: 3000,
           horizontalPosition: 'center',
@@ -67,6 +69,7 @@ export class WishlistComponent implements OnInit {
     };
     this.viewService.addToCart(addtobook).subscribe({
       next: (data) => {
+       
         this.snackBar.open('add to cart successfully', 'close', {
           duration: 2000,
           horizontalPosition: 'center',
@@ -83,9 +86,7 @@ export class WishlistComponent implements OnInit {
     this.count.postMessage({ type: 'add_cart_count' });
   }
 
-    wishListCount(){
-     this.count.postMessage({ type: 'wishListCount' });
-  }
+
 
 
 }

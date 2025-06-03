@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlluserService } from '../../admin/users-info/user-services/alluser.service';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../../environments/environment';
+import { CountingService } from '../../user/centralize-services/counting.service';
 
 @Component({
   selector: 'app-header',
@@ -30,17 +31,22 @@ export class HeaderComponent implements OnInit {
   public side_Menu: boolean = false;
   private channel = new BroadcastChannel('auth_channel');
   private count = new BroadcastChannel('count');
-    private wishLis = new BroadcastChannel('wishListCount');
+  // private wishLis = new BroadcastChannel('wishListCount');
   private selectedFile: any;
   public profileImage: any;
   public image!: string | null;
   public imageBaseUrl = environment.BaseUrl;
-  public wishListItemsCount! : number
+  public wishListItemsCount!: number;
+  public wishlistCount = 0;
 
   ngOnInit() {
     this.productCount();
     this.getProfile();
     this.wishListCount();
+    this.cartService.wishlistCount$.subscribe((count) => {
+      this.wishlistCount = count;
+      // this.wishListCount();
+    });
   }
 
   log() {
@@ -96,7 +102,8 @@ export class HeaderComponent implements OnInit {
     private view_service: ViewDetailService,
     private authService: AuthService,
     private snackBar: MatSnackBar,
-    private userservice: AlluserService
+    private userservice: AlluserService,
+    private cartService: CountingService
   ) {
     this.checkLoginStatus();
     this.broadcastChannelSetup();
@@ -111,9 +118,6 @@ export class HeaderComponent implements OnInit {
       this.ngZone.run(() => {
         if (event.data.type === 'add_cart_count') {
           this.productCount();
-        }
-        else if(event.data.type === 'wishListCount'){
-          this.wishListCount();
         }
       });
     };
@@ -150,14 +154,14 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  wishListCount(){
-   this.user_id = localStorage.getItem('user_id');
+  wishListCount() {
+    this.user_id = localStorage.getItem('user_id');
     this.authService.wishListCount(this.user_id).subscribe({
-      next :(response) => {
-       this.wishListItemsCount = response.wishListCount
-       console.log(this.wishListItemsCount)
-      }
-    })
+      next: (response) => {
+        this.wishlistCount = response.wishListCount;
+        console.log(this.wishListItemsCount);
+      },
+    });
   }
 
   onFileSelected(event: any) {
@@ -165,7 +169,6 @@ export class HeaderComponent implements OnInit {
     this.uploadProfilePicture();
   }
 
-  // ✅ Upload Profile Picture
   uploadProfilePicture() {
     if (!this.selectedFile) {
       alert('Please select a file!');
@@ -177,14 +180,14 @@ export class HeaderComponent implements OnInit {
     this.userservice
       .uploadProfilePicture(this.user_id, this.selectedFile)
       .subscribe({
-      next: (response) => {
+        next: (response) => {
           alert(response.message);
           this.getProfile();
         },
-      error: (error) => {
+        error: (error) => {
           alert('Error updating profile');
-        }
-  });
+        },
+      });
   }
 
   getProfile() {
@@ -197,7 +200,7 @@ export class HeaderComponent implements OnInit {
           response.userData[0].profile_image
         ) {
           this.image = response.userData[0].profile_image;
-          console.log(this.image)
+          console.log(this.image);
         } else {
           this.image = null; // Default case
         }

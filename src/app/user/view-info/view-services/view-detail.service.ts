@@ -13,8 +13,12 @@ export class ViewDetailService {
   constructor(private http:HttpClient) { }
 
 
-  getbookdetail(id:number|undefined): Observable<any>{
+  getBookDetail(id:number|undefined): Observable<any>{
     return this.http.get<any>(`http://localhost:3000/getbooksbyid/${id}`);
+  }
+
+  getAllFeedBack(product_id:number){
+    return this.http.get<any>(`http://localhost:3000/getFeedBackById/${product_id}`);
   }
 
   order(data:any):Observable<any>{

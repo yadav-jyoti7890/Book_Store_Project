@@ -16,7 +16,7 @@
           <label>title : {{ cart_data.title }}</label>
           <p>description : {{ cart_data.description }}</p>
           <p>price : {{ cart_data.price }}</p>
-          <!-- <p>quantity : {{ cart_data.quantity }}</p> -->
+          <p>quantity : {{ cart_data.quantity }}</p>
           <div class="qty-row">
             <button (click)="substract(cart_data )">−</button>
             <span>{{ cart_data.quantity }}</span>
@@ -129,79 +129,111 @@
   <img src="./assets/image/cart6.png" alt="" id="cart_img" />
   <h1>your cart is empty</h1>
 </div>
-}
+} -->
 
-<!-- <div class="add_cart">
-    <div class="about_address">
-
-        @if(address_data.length === 0){
-        <div class="address">
-            <button [routerLink]="['/address']">Add address</button>
-        </div>
-        }
-
-        @else{
-        <div class="address_wraper">
-            <div class="selected_address">
-                <div class="flex">
-                    @if(select_Address){
-                    <p><span> {{select_Address.full_name}} : </span>
-                        {{select_Address.contact}} </p>
-                    <p> {{select_Address.pincode}}, {{select_Address.city}},
-                        {{select_Address.state}}</p>
-                    <p>{{select_Address.house_no}} ,
-                        {{select_Address.road_name}} </p>
-                    }
-                </div>
-                <div class="flex1">
-                   <p>change <i class="ri-skip-down-line" (click)="popup()"></i></p>
-                </div>
-            </div>
-
-            <div class="hidden_address" *ngIf="pop_up">
-                <button [routerLink]="['/address']">Add More Address</button>
-                <div class="hidden_flex" *ngFor="let user_addresses of address_data">
-                    <div class="user_addresses">
-                        <p><span>{{user_addresses.full_name}} : </span>
-                            {{user_addresses.contact}}</p>
-                        <p> {{user_addresses.pincode}} , {{user_addresses.city}}
-                            , {{select_Address.state}}</p>
-                        <p> {{user_addresses.house_no}} ,
-                            {{user_addresses.road_name}}</p>
-                    </div>
-                    <input type="radio" [(ngModel)]="select_Address" [ngModelOptions]="{standalone: true}"
-                        [value]="user_addresses" (change)="selectAddress(user_addresses)">
-                </div>
-                <div class="new_address">
-                    <button (click)="change_address()">Set delivery address</button>
-                </div>
-
+ <!-- <div class="cart-container">
+        <h1>Cart</h1>
+        
+        <div class="cart-item">
+            <div class="item-name">Relaxed Fit T-shirt</div>
+            <div class="item-price">$12.99</div>
+            <div class="item-stock">in Stock</div>
+            <div class="item-details">
+                <div class="item-size">XL</div>
+                <div class="item-color">Blue</div>
+                <button class="save-btn">Save</button>
             </div>
         </div>
-        }
-
-    </div>
-
-    @if(item && item.length > 0){
-    <div class="cart" *ngFor="let cart_data of item">
-        <img [src]="cart_data.image ? 'http://localhost:3000/' + cart_data.image : ''" alt="Book image" />
-        <div class="detail">
-            <h2>title : {{ cart_data.title }}</h2>
-            <p>description : {{ cart_data.description }}</p>
-            <p>price : {{ cart_data.price }}</p>
-            <p>quantity : {{ cart_data.quantity }}</p>
-            <p>pay : {{ cart_data.total_amount }}</p>
-            <button (click)="removeToCart(cart_data.id)">
-                <i class="ri-chat-delete-line"></i>remove
-            </button>
+        
+        <hr>
+        
+        <div class="cart-item">
+            <div class="item-name">Nylon Sports Cap</div>
+            <div class="item-price">$14.99</div>
+            <div class="item-stock">Available in 2 days</div>
         </div>
-        <footer>
-            <h3>total amount : {{ sum }}</h3>
-            <button (click)="ConfirmOrder(cart_data)">continue</button>
-        </footer>
-   
-    } @else{
-    <h1>your card is empty !</h1>
-    }
+        
+        <div class="cart-item">
+            <div class="item-name">Sneakers</div>
+            <div class="item-price">$34.99</div>
+            <div class="item-out-of-stock">Out of stock</div>
+            <div class="quantity-selector">
+                <div class="item-size">UK B</div>
+                <button class="quantity-btn">-</button>
+                <div class="quantity">1</div>
+                <button class="quantity-btn">+</button>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="cart-item">
+            <div class="item-name">Slim Fit Suit Vest</div>
+            <div class="item-price">$17.99</div>
+            <div class="item-stock">in Stock</div>
+            <div class="item-details">
+                <div class="item-size">XL</div>
+                <div class="item-color">Yellow</div>
+                <button class="save-btn">Save</button>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="delivery-section">
+            <div class="item-name">Delivery</div>
+            <div class="delivery-option"><strong>Free</strong></div>
+            <div class="delivery-option">Express: $9.90</div>
+            <div class="delivery-date">Delivery date: June 24, 2022</div>
+        </div>
+        
+        <hr>
+        
+        <div class="promo-section">
+            <div class="item-name">Promocode</div>
+            <div class="promo-code">20% off discount</div>
+        </div>
+        
+        <div class="summary-section">
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>$30.96</span>
+            </div>
+            <div class="summary-row">
+                <span>Discount</span>
+                <span>(20%) - $18.19</span>
+            </div>
+            <div class="summary-row">
+                <span>Delivery</span>
+                <span>$0.00</span>
+            </div>
+            <div class="total-row">
+                <span>Total</span>
+                <span>$14.00</span>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="continue-btn">Continue shopping</button>
+            <button class="checkout-btn">Proceed to checkout</button>
+        </div>
     </div>
-</div> -->
+
+    <!-- <div class="container1">
+      
+        <div class="left" style="margin-top: 1.5vw;">
+         <h2 >Cart</h2>
+         <div class="card">
+          <div class="image" >
+            <img  src="https://i.pinimg.com/736x/3a/ee/b1/3aeeb15ff6f89e7b5eeb378d5c1cedde.jpg" alt="">
+          </div>
+          <div class="product_info"></div>
+          <div class="action"></div>
+         
+         </div>
+       </div>
+      <div class="right">
+
+      </div>
+    
+    </div> -->

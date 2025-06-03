@@ -1,12 +1,11 @@
-<div class="product-wrapper" *ngFor="let book_detail of view_book">
+<!-- <div class="product-wrapper" *ngFor="let book_detail of view_book">
   <div class="product-box">
 
-    <!-- 🔹 Left Side: Image -->
+    
     <div class="product-image">
       <img [src]="book_detail.image ? imageBaseUrl + 'uploads/' + book_detail.image : ''" alt="Book" />
     </div>
 
-    <!-- 🔹 Right Side: Text Info -->
     <div class="product-details">
       <h2 class="title">{{ book_detail.title | titlecase }}</h2>
       <p class="category">{{ book_detail.category_name | titlecase }}</p>
@@ -22,11 +21,7 @@
       <p class="info">🚚 Delivery by: {{ book_detail.estimate_date | date:'fullDate' }}</p>
       <p class="stock">🛒 Only 2 books left!</p>
 
-      <!-- <div class="qty-row">
-        <button (click)="substract()">−</button>
-        <span>{{ quantity }}</span>
-        <button (click)="add()">+</button>
-      </div> -->
+   
 
       <div class="btn-row">
         <button class="btn-primary" (click)="add_cart(book_detail)">Add to Cart</button>
@@ -37,4 +32,172 @@
     </div>
 
   </div>
+</div> -->
+
+<div class="outer_container">
+  <div class="book-card" style="margin-top: 3vw !important">
+    <div class="book-content" *ngFor="let book_detail of view_book">
+      <div class="book-cover">
+        <div class="tag science-tag">
+          {{ book_detail.category_name | titlecase }}
+        </div>
+        <img
+          [src]="
+            book_detail.image
+              ? imageBaseUrl + 'uploads/' + book_detail.image
+              : ''
+          "
+          alt="Book"
+          height="200px"
+          width="200px"
+          style="object-fit: contain; border-radius: 3px"
+        />
+      </div>
+
+      <div class="book-details">
+        <h3
+          class="book-title"
+          style="
+            font-family: helvetica;
+            font-size: 1.3vw;
+            font-weight: 600 !important;
+          "
+        >
+          {{ book_detail.title | titlecase }}
+        </h3>
+        <p class="author">By {{ book_detail.author | titlecase }}</p>
+        <span class="description">{{ book_detail.description }}</span>
+
+        <div class="pricing">
+          <span class="current-price">{{
+            book_detail.offer_price | currency : "INR"
+          }}</span>
+          <span class="original-price">{{
+            book_detail.price | currency : "INR"
+          }}</span>
+          <span
+            class="discount"
+            *ngIf="book_detail.discount_type === 'percent'"
+          >
+            {{ book_detail.discount_value }}% OFF
+          </span>
+
+          <span class="discount" *ngIf="book_detail.discount_type === 'amount'">
+            ₹{{ book_detail.discount_value }} OFF
+          </span>
+        </div>
+
+        <div class="meta-info">
+          <p>
+            <i class="ri-calendar-2-fill"></i> Published on:
+            {{ book_detail.publication_date | date : "dd MMM yyyy" }}
+          </p>
+          <p><i class="ri-truck-line"></i> Delivery by: [Date]</p>
+          <p class="stock"><i class="ri-stock-line"></i> Only 2 books left!</p>
+        </div>
+
+        <button class="add-to-cart" (click)="add_cart(book_detail)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+    <div class="commit-section">
+      <h4>Our Commitment</h4>
+      <ul>
+        <li><i class="check-icon"></i> Genuine Product</li>
+        <li><i class="check-icon"></i> 7-Day Return Policy</li>
+        <li><i class="check-icon"></i> Free Bookmark Included</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr />
+
+  @if(FeedBack.length > 0){
+  <div class="ratings-reviews-container">
+    <h2 class="section-title">Product Ratings & Reviews</h2>
+
+    <div class="ratings-summary">
+      <div class="overall-rating">
+        <div class="average-rating">4</div>
+        <div class="stars">★★★★☆</div>
+        <div class="total-count">835 Ratings, 371 Reviews</div>
+      </div>
+
+      <div class="rating-bars">
+        <div class="rating-bar">
+          <span class="label">Excellent</span>
+          <div class="bar-container">
+            <div class="bar" style="width: 70%"></div>
+          </div>
+          <span class="count">407</span>
+        </div>
+
+        <div class="rating-bar">
+          <span class="label">Very Good</span>
+          <div class="bar-container">
+            <div class="bar" style="width: 30%"></div>
+          </div>
+          <span class="count">182</span>
+        </div>
+
+        <div class="rating-bar">
+          <span class="label">Good</span>
+          <div class="bar-container">
+            <div class="bar" style="width: 15%"></div>
+          </div>
+          <span class="count">92</span>
+        </div>
+
+        <div class="rating-bar">
+          <span class="label">Average</span>
+          <div class="bar-container">
+            <div class="bar" style="width: 8%"></div>
+          </div>
+          <span class="count">55</span>
+        </div>
+
+        <div class="rating-bar">
+          <span class="label">Poor</span>
+          <div class="bar-container">
+            <div class="bar" style="width: 15%"></div>
+          </div>
+          <span class="count">99</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 class="sub-section-title">Real Images and videos from customers</h3>
+
+    <div
+      class="customer-review"
+      *ngFor="let feedback of visibleFeedbacks"
+    >
+      <div class="review-header">
+        <span class="customer-name">{{ feedback.user_name }}</span>
+        <span class="review-rating">
+          {{ feedback.rating }} {{ feedback.rating | starRating }}
+        </span>
+      </div>
+
+      <div class="review-date">
+        {{ feedback.submitted_at | date : "dd/MM/yyyy" }}
+      </div>
+
+      <div class="review-content">
+        {{ feedback.comments }}
+      </div>
+    </div>
+
+     <button *ngIf="hasMore" (click)="loadMoreFeedback()" class="down">
+    <i class="ri-arrow-up-long-fill"></i> Read More
+    </button>
+     <button *ngIf="!hasMore" (click)="loadLessFeedback()" class="up">Show Less</button>
+  </div>
+  }
+
+
 </div>

@@ -1,52 +1,39 @@
-
-<div class="container">
-        
+<div class="container1">
+  <!-- Product List Section -->
   <div class="product-section">
-      <div class="product" *ngFor="let item of order_details; let i = index">
-        <img [src]="item.image ? imageBaseUrl + 'uploads/' + item.image : ''" alt="Book image">
-          <div class="product-info">
-              <h2>Title: {{item.title}}</h2>
-              <p>Description:{{item.description}}.</p>
-              <p><strong>Price:</strong> {{item.price | currency:'INR'}}</p>
-              <p><strong>Quantity:</strong> {{item.quantity}}</p>
-              <!-- <p><strong>Pay:</strong> {{item.total_amount | currency:'INR'}}</p> -->
-              <!-- <button class="remove-btn">Remove</button> -->
-          </div>
+    <h3 class="section-heading" style="font-weight: 600 !important;">🛒 Order Summary</h3>
+    <div class="product" *ngFor="let item of order_details">
+      <img [src]="item.image ? imageBaseUrl + 'uploads/' + item.image : ''" alt="Book image" />
+      <div class="product-info">
+        <h3>{{ item.title }}</h3>
+        <p><strong>Description:</strong> {{ item.description }}</p>
+        <p><strong>Price:</strong> {{ item.price | currency: 'INR' }}</p>
+        <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+        <span  style="font-weight: 600 !important; margin-top: 10px !important; text-align: end !important; cursor: pointer; color: rgb(75, 5, 141);">ADD FEEDBACK</span>
       </div>
+      <hr>
+    </div>
   </div>
 
-  
+  <!-- Address & Billing Section -->
   <div class="details-section">
-      
-      <!-- Delivery Address -->
-      <h3><i class="ri-map-pin-2-fill"></i><strong> Delivery Address</strong></h3><hr>
-      <div class="address" >
-        <div *ngFor="let item of order_details; let i = index">
-          <div class="address-box" *ngIf="i === 0">
-              <p><strong>{{item.full_name}}</strong></p>
-              <p>{{item.house_no}}, {{item.road_name}}</p>
-              <p>{{item.city}},  {{item.state}} - {{item.pincode}}</p>
-              <p>📞 {{item.contact}}</p>
-          </div>
-        </div> 
-      </div>
-
-      <!-- Billing Information -->
-      <h3><i class="ri-file-list-3-fill"></i> <strong>Billing Information</strong></h3><hr>
-      <div class="billing">
-        <div  *ngFor="let item of order_details; let i = index">
-         <div *ngIf="i === 0"> 
-          <p><strong>Total Items:</strong> {{item.total_item}}</p>
-          <p><strong>Subtotal:</strong>  {{item.total_pay | currency:'INR'}}</p>
-          <p><strong>Discount:</strong> 10%</p>
-          <hr>
-          <p class="grand-total"><strong>Grand Total:</strong>  {{item.total_pay | currency:'INR'}}</p>
-         </div>
-         
-      </div>
+    <!-- Delivery Address -->
+    <h2 class="section-heading"  style="font-weight: 600 !important;">📍 Delivery Address</h2>
+    <div *ngIf="order_details.length > 0" class="address">
+      <p><strong>{{ order_details[0].full_name }}</strong></p>
+      <p>{{ order_details[0].house_no }}, {{ order_details[0].road_name }}</p>
+      <p>{{ order_details[0].city }}, {{ order_details[0].state }} - {{ order_details[0].pincode }}</p>
+      <p>📞 {{ order_details[0].contact }}</p>
     </div>
 
+    <!-- Billing Information -->
+    <h2 class="section-heading"  style="font-weight: 600 !important;">🧾 Billing Information</h2>
+    <div class="billing">
+      <p><strong>Total Items:</strong> {{ order_details[0].total_item }}</p>
+      <p><strong>Subtotal:</strong> {{ order_details[0].total_pay | currency: 'INR' }}</p>
+      <p><strong>Discount:</strong> 10%</p>
+      <hr />
+      <p class="grand-total"><strong>Grand Total:</strong> {{ order_details[0].total_pay | currency: 'INR' }}</p>
+    </div>
   </div>
-
 </div>
-

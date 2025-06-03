@@ -153,13 +153,11 @@ express1.post("/login", function (req, res) {
 
 express1.get("/getbooksbyid/:id", function (req, res) {
   let id = req.params.id;
-  // console.log(id);
-  let sql = `SELECT 
-      p.*, 
-      c.category_name 
-    FROM product p
-    INNER JOIN category c ON p.category_id = c.category_id
-    WHERE p.product_id = ?`;
+ 
+  let sql = `SELECT  p.*, c.category_name 
+             FROM product p
+            INNER JOIN category c ON p.category_id = c.category_id
+            WHERE p.product_id = ?;`;
   db_connection.query(sql, [id], function (err, result) {
     if (err) {
       return res.status(500).json({ message: "server error" });
@@ -169,23 +167,33 @@ express1.get("/getbooksbyid/:id", function (req, res) {
   });
 });
 
+express1.get("/getFeedBackById/:id", function (req, res) {
+  let id = req.params.id;  
+  let sql = `
+    SELECT f.*, u.user_name
+    FROM feedback f 
+    LEFT JOIN users u ON f.user_id = u.user_id 
+    WHERE f.product_id = ?;
+  `;
+
+  db_connection.query(sql, [id], function (err, result) {
+    if (err) {
+      return res.status(500).json({ message: "Server error" });
+    }
+    return res.status(200).json({ data: result });
+  });
+});
+
+
 express1.post("/addtocart", function (req, res) {
-  const { title, user_id, book_id, price, image, description } =
-    req.body;
+  const { title, user_id, book_id, price, image, description } = req.body;
   console.log(title, user_id, book_id, price, image, description);
 
   let sql =
     "INSERT INTO add_to_cart (user_id,product_id,price,title,image,description) VALUES (?,?,?,?,?,?)";
   db_connection.query(
     sql,
-    [
-      user_id,
-      book_id,
-      price,
-      title,
-      image,
-      description,
-    ],
+    [user_id, book_id, price, title, image, description],
     function (err, result) {
       if (err) {
         return res.status(500).json({ message: "server error addtocart", err });
@@ -196,46 +204,45 @@ express1.post("/addtocart", function (req, res) {
   );
 });
 
-express1.post('/api/remove-wishlist', (req, res) => {
+express1.post("/api/remove-wishlist", (req, res) => {
   const { userId, bookId } = req.body;
-  console.log(userId, bookId, "delete wisslist")
-  const query = 'DELETE FROM wishlist WHERE user_id = ? AND product_id = ?';
+  console.log(userId, bookId, "delete wisslist");
+  const query = "DELETE FROM wishlist WHERE user_id = ? AND product_id = ?";
   db_connection.query(query, [userId, bookId], (err, result) => {
-     console.log("remove successful")
+    console.log("remove successful");
     if (err) return res.status(500).send(err);
 
-    res.send({ message: 'Book removed from wishlist' });
+    res.send({ message: "Book removed from wishlist" });
   });
 });
 
-express1.post('/api/add-wishlist', (req, res) => {
+express1.post("/api/add-wishlist", (req, res) => {
   const { userId, bookId } = req.body;
 
-  const query = 'INSERT INTO wishlist (user_id, product_id) VALUES (?, ?)';
+  const query = "INSERT INTO wishlist (user_id, product_id) VALUES (?, ?)";
   db_connection.query(query, [userId, bookId], (err, result) => {
-    console.log("add successful")
+    console.log("add successful");
     if (err) return res.status(500).send(err);
-    res.send({ message: 'Book added to wishlist' });
+    res.send({ message: "Book added to wishlist" });
   });
 });
 
-express1.get('/api/wishlist/:userId', (req, res) => {
+express1.get("/api/wishlist/:userId", (req, res) => {
   const userId = req.params.userId;
-  const sql = 'SELECT product_id FROM wishlist WHERE user_id = ?';
+  const sql = "SELECT product_id FROM wishlist WHERE user_id = ?";
 
   db_connection.query(sql, [userId], (err, results) => {
     if (err) {
-      console.error('Error loading wishlist:', err);
-      return res.status(500).send('Error loading wishlist');
+      console.error("Error loading wishlist:", err);
+      return res.status(500).send("Error loading wishlist");
     }
 
-    const bookIds = results.map(row => row.product_id);
-     return res.json(bookIds); // returns: [2, 5, 7]
+    const bookIds = results.map((row) => row.product_id);
+    return res.json(bookIds); // returns: [2, 5, 7]
   });
 });
 
-
-express1.get('/api/wishlist-books/:userId', (req, res) => {
+express1.get("/api/wishlist-books/:userId", (req, res) => {
   const userId = req.params.userId;
 
   const sql = `
@@ -246,19 +253,18 @@ express1.get('/api/wishlist-books/:userId', (req, res) => {
   `;
 
   db_connection.query(sql, [userId], (err, results) => {
-    if (err) return res.status(500).send('Error loading wishlist books');
-    return  res.json(results);
+    if (err) return res.status(500).send("Error loading wishlist books");
+    return res.json(results);
   });
 });
 
-express1.get('/getWishListItems/:userId', (req, res) => {
- const userId = req.params.userId;
- console.log("get wishlist items")
- let sql = `select count(*) as wishListCount from wishlist where user_id = ${userId}`
+express1.get("/getWishListItems/:userId", (req, res) => {
+  const userId = req.params.userId;
+  console.log("get wishlist items");
+  let sql = `select count(*) as wishListCount from wishlist where user_id = ${userId}`;
 
-db_connection.query(sql, function(err, result){
-
-  if(err) res.status(500).send({message: "network error", err})
+  db_connection.query(sql, function (err, result) {
+    if (err) res.status(500).send({ message: "network error", err });
 
     if (result.length > 0) {
       return res.status(200).send({
@@ -273,8 +279,22 @@ db_connection.query(sql, function(err, result){
         wishListCount: 0,
       });
     }
-})
-})
+  });
+});
+
+express1.post("/feedback", (req, res) => {
+  console.log("feedback");
+  const { userId, productId, rating, commit } = req.body;
+  let sql = `insert into feedback (user_id, product_id, rating, comments) value (?,?,?,?)`;
+  db_connection.query(
+    sql,
+    [userId, productId, rating, commit],
+    function (err, result) {
+      if (err) res.status(500).send({ message: "network error", err });
+      return res.status(200).send({ message: "add feedback" });
+    }
+  );
+});
 
 express1.get("/getallproduct/:id", function (req, res) {
   const id = req.params.id;
@@ -334,20 +354,21 @@ express1.delete("/deleteCartItem/:id", function (req, res) {
   });
 });
 
-express1.post("/add_address/:id", function (req, res) {
+express1.post("/addAddress/:id", function (req, res) {
   const id = req.params.id;
   const { fullname, contact, pincode, city, state, house_no, road_name } =
     req.body;
 
-  console.log(fullname, contact, pincode, city, state, house_no, road_name, id);
-  let sql =
-    "INSERT INTO user_address (user_id , full_name , contact , pincode, city , state , house_no , road_name) VALUES (?,?,?,?,?,?,?,?)";
+  const sql = `INSERT INTO user_address 
+    (user_id, full_name, contact, pincode, city, state, house_no, road_name) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+
   db_connection.query(
     sql,
     [id, fullname, contact, pincode, city, state, house_no, road_name],
     function (err, result) {
-      // console.log(result)
       if (err) {
+        console.log("DB Error:", err);
         return res.status(500).json({ message: "server error" });
       }
       return res.status(200).json({ message: "inserted address successfully" });
@@ -461,7 +482,17 @@ ORDER BY created_at DESC;
   }
 });
 
-//===== admin side code here ======//
+express1.get("/getOrdersById/:userId", function (req, res) {
+  let userId = req.params.userId;
+  let sql = ` SELECT *
+              FROM order_table o
+              INNER JOIN order_items oi ON o.order_id = oi.order_id where user_id = ${userId}`;
+
+  db_connection.query(sql, function (err, result) {
+    if (err) return res.status(500).send({ message: "internal server error" });
+    return res.status(200).send({ getOrders: result });
+  });
+});
 
 express1.get("/SearchCategory", (req, res) => {
   // console.log("search category");
@@ -772,7 +803,17 @@ express1.get("/getCategoryCount", function (req, res) {
 
 express1.use("/uploads", express.static(path.join(__dirname, "uploads")));
 express1.get("/getbooks", function (req, res) {
-  let sql = "SELECT * FROM product";
+  let sql = `
+    SELECT 
+      p.*, 
+      ROUND(AVG(f.rating), 1) AS rating
+    FROM 
+      product p
+    LEFT JOIN 
+      feedback f ON p.product_id = f.product_id
+    GROUP BY 
+      p.product_id
+  `;
   db_connection.query(sql, function (err, result) {
     if (err) {
       // console.log(err)
@@ -1652,14 +1693,14 @@ express1.get("/searchByPrice", function (req, res) {
 });
 
 express1.get("/price-range", (req, res) => {
-  const query = 'SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM product ';
+  const query =
+    "SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM product ";
 
   db_connection.query(query, (err, result) => {
     if (err) {
-      return res.status(500).json({ error: 'Database error' });
+      return res.status(500).json({ error: "Database error" });
     }
-     return res.status(200).json({ message: "", getPrice: result[0]});
-    
+    return res.status(200).json({ message: "", getPrice: result[0] });
   });
 });
 

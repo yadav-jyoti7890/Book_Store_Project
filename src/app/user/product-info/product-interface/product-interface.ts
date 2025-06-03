@@ -10,5 +10,7 @@ export interface product{
     offer_price : number,
     stock_quantity : number,
     sold_quantity : number,
-    publication_date : number
+    publication_date : number,
+    order_status:string,
+    rating:number,
 }

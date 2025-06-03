@@ -82,6 +82,14 @@ getWishlist(userId: number): Observable<any> {
   return this.http.get(`${this.apiUrl}api/wishlist/${userId}`);
 }
 
+submitFeedback(feedback:any){
+   return this.http.post(`${this.apiUrl}feedback`, feedback);
+}
+
+getAllOrders(userId:number): Observable<any>{
+     return this.http.get(`${this.apiUrl}getOrdersById/${userId}`);
+}
+
 
 
 }

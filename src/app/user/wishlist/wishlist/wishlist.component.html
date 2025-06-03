@@ -1,18 +1,17 @@
 <div class="wishlist-container">
   <h2><i class="ri-heart-3-fill"></i> My Wishlist</h2>
-  <hr>
+  <hr />
 
   <div *ngIf="wishlistBooks.length === 0" class="empty">
     <p>No books in your wishlist 😔</p>
-    <button  routerLink="./user/product-info/product-page" class="edit-btn">Shop Now</button>
+    <button routerLink="./user/product-info/product-page" class="edit-btn">
+      Shop Now
+    </button>
   </div>
 
   <div class="book-card" *ngFor="let book of wishlistBooks">
-    <img
-          [src]="book.image ? imageBaseUrl + 'uploads/' + book.image : ''"
-        
-        />
-    
+    <img [src]="book.image ? imageBaseUrl + 'uploads/' + book.image : ''" />
+
     <div class="details">
       <h3>{{ book.title }}</h3>
       <p>{{ book.author }}</p>
@@ -20,9 +19,27 @@
 
       <div class="actions">
         <button (click)="addCart(book)">🛒 Add to Cart</button>
-        <button class="delete-btn" (click)="Remove(book)"><i class="ri-delete-bin-6-fill"></i> Remove</button>
+        <button class="delete-btn" (click)="Remove(book)">
+          <i class="ri-delete-bin-6-fill"></i> Remove
+        </button>
       </div>
+      <hr />
+      <span
+        style="
+          font-size: 1vw;
+          font-family: helvetica;
+          font-weight: 500 !important;
+          display: flex;
+          justify-content: end;
+          align-items: end;
+          cursor: pointer;
+          color: purple;
+          padding-right: 1vw;
+        "
+        >ADD FEEDBACK</span
+      >
     </div>
+    
   </div>
+  <hr>
 </div>
-
