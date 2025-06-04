@@ -123,7 +123,7 @@ export class BookUpdateComponent extends BaseClassComponent implements OnInit, O
   }
 
   private getAllProduct() {
-    this.productService.getAllproduct()
+    this.productService.getAllProduct()
      .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (response) => { },

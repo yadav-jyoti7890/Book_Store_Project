@@ -23,7 +23,6 @@ export class HeaderComponent implements OnInit {
   public admin: string | null = '';
   public user_id: any;
   public total_count: any;
-  public cartCount: any;
   public protectedData: any;
   public isLoggedIn: boolean = false;
   public username: any;
@@ -38,6 +37,7 @@ export class HeaderComponent implements OnInit {
   public imageBaseUrl = environment.BaseUrl;
   public wishListItemsCount!: number;
   public wishlistCount = 0;
+  public cartCount = 0
 
   ngOnInit() {
     this.productCount();
@@ -45,6 +45,10 @@ export class HeaderComponent implements OnInit {
     this.wishListCount();
     this.cartService.wishlistCount$.subscribe((count) => {
       this.wishlistCount = count;
+      // this.wishListCount();
+    });
+    this.cartService.cartCount$.subscribe((count) => {
+      this.cartCount = count;
       // this.wishListCount();
     });
   }
@@ -114,13 +118,13 @@ export class HeaderComponent implements OnInit {
         }
       });
     };
-    this.count.onmessage = (event) => {
-      this.ngZone.run(() => {
-        if (event.data.type === 'add_cart_count') {
-          this.productCount();
-        }
-      });
-    };
+    // this.count.onmessage = (event) => {
+    //   this.ngZone.run(() => {
+    //     if (event.data.type === 'add_cart_count') {
+    //       this.productCount();
+    //     }
+    //   });
+    // };
   }
 
   logout() {
@@ -143,14 +147,11 @@ export class HeaderComponent implements OnInit {
 
   productCount() {
     this.user_id = localStorage.getItem('user_id');
-    this.view_service.total_val(this.user_id).subscribe(
-      (data) => {
-        if (data) {
-          this.total_count = data.total_product;
-          console.log(this.total_count);
-        }
-      },
-      (error) => {}
+    this.view_service.total_val(this.user_id).subscribe({
+      next : (response) => {
+          this.cartCount = response.total_product;
+      }
+    }
     );
   }
 
@@ -212,4 +213,5 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
+  
 }

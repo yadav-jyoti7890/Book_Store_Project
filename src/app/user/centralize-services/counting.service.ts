@@ -11,13 +11,21 @@ export class CountingService {
   cartCount$ = this.cartCount.asObservable();
   wishlistCount$ = this.wishlistCount.asObservable();
 
+  addToCart() {
+    this.cartCount.next(this.cartCount.value + 1);
+  }
+
+  removeToCart() {
+    this.cartCount.next(this.cartCount.value - 1);
+  }
+
   
   addToWishlist() {
     this.wishlistCount.next(this.wishlistCount.value + 1);
   }
 
   removeFromWishlist() {
-    this.wishlistCount.next(Math.max(0, this.wishlistCount.value - 1));
+    this.wishlistCount.next(this.wishlistCount.value - 1);
   }
 
 }

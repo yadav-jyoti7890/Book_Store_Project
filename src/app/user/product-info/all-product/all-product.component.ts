@@ -30,7 +30,6 @@ import { CountingService } from '../../centralize-services/counting.service';
   styleUrl: './all-product.component.css',
 })
 export class AllProductComponent extends LoaderBase {
-  private wishLis = new BroadcastChannel('wishListCount');
   public imageBaseUrl = environment.BaseUrl;
   public product: product[] = [];
   public searchText = '';
@@ -38,7 +37,6 @@ export class AllProductComponent extends LoaderBase {
   public isWishListed: boolean = false;
   private userId = Number(localStorage.getItem('user_id'));
   public wishlistBookIds: number[] = [];
-  private count = new BroadcastChannel('count');
   public productId!: number;
   showFeedbackPopup: boolean = false;
   commit: string = '';
@@ -188,32 +186,18 @@ export class AllProductComponent extends LoaderBase {
       image: product.image,
     };
     this.viewService.addToCart(addtobook).subscribe(
-      (data) => {
+      (response) => {
+      this.counting.addToCart();
         this.snackBar.open('add to cart successfully', 'close', {
           duration: 2000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
         });
-        this.add_cart_count();
-        //console.log()('add');
+         
       },
-      (error) => {
-        this.snackBar.open('not add inside the cart', 'close', {
-          duration: 2000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-        });
-      }
     );
   }
 
-  private add_cart_count() {
-    this.count.postMessage({ type: 'add_cart_count' });
-  }
-
-  // private wishListCount() {
-  //   this.count.postMessage({ type: 'wishListCount' });
-  // }
 
   public openFeedback(product_id: number) {
     this.showFeedbackPopup = true;

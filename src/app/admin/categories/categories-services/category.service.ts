@@ -29,11 +29,10 @@ export class CategoryService {
     .set('sortBy', categoryData.sortBy)
     .set('sortOrder', categoryData.sortOrder)
 
-
   return this.http.get(`${this.apiUrl}getAllCategory`, { params });
 }
 
-getcategory(): Observable<any>{
+getAllCategory(): Observable<any>{
    return this.http.get(`${this.apiUrl}getCategory1`);
 }
 

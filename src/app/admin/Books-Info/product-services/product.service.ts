@@ -38,7 +38,7 @@ export class ProductService {
     return this.http.delete(`${this.apiUrl}deleteProducts/${id}`);
   }
 
-  getAllproduct(): Observable<any> {
+  getAllProduct(): Observable<any> {
     const url = this.apiUrl + 'getallbookinadminpanel';
     return this.http.get(url);
   }

@@ -11,6 +11,7 @@ import { product } from '../../product-info/product-interface/product-interface'
 import { FormsModule } from '@angular/forms';
 import { StarRatingPipe } from '../../pipes/star-rating.pipe';
 import { LoaderBase } from '../../../loader/loader';
+import { CountingService } from '../../centralize-services/counting.service';
 
 @Component({
   selector: 'app-view-detail',
@@ -20,7 +21,6 @@ import { LoaderBase } from '../../../loader/loader';
   styleUrl: './view-detail.component.css',
 })
 export class ViewDetailComponent extends LoaderBase implements OnInit {
-  private count = new BroadcastChannel('count');
   public imageBaseUrl = environment.BaseUrl;
   public id!: number;
   public view_book: any[] = [];
@@ -33,16 +33,25 @@ export class ViewDetailComponent extends LoaderBase implements OnInit {
   public currentIndex = 0;
   public batchSize = 2; // byDefault
   public visibleFeedbacks: any[] = [];
-  showAll: boolean = false;
+  public ratingSummary: RatingItem[] = [];
+
+
+labelMap: { [key: number]: { label: string; color: string } } = {
+  5: { label: 'Excellent', color: 'green' },
+  4: { label: 'Very Good', color: 'blue' },
+  3: { label: 'Good', color: 'orange' },
+  2: { label: 'Average', color: 'gold' },
+  1: { label: 'Poor', color: 'red' },
+};
+
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private view_detail: ViewDetailService,
-    private ngzone: NgZone,
-    private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private _location: Location
+    private _location: Location,
+    private cartCountingService: CountingService
   ) {
     super();
   }
@@ -93,7 +102,7 @@ export class ViewDetailComponent extends LoaderBase implements OnInit {
     };
     this.view_detail.addToCart(addtobook).subscribe(
       (data) => {
-        this.add_cart_count();
+        this.cartCountingService.addToCart()
         this.snackBar.open('add to cart successfully', 'close', {
           duration: 2000,
           horizontalPosition: 'center',
@@ -102,19 +111,7 @@ export class ViewDetailComponent extends LoaderBase implements OnInit {
         this.router.navigate(['./book']);
         console.log('add');
       },
-      (error) => {
-        this.snackBar.open('not add inside the cart', 'close', {
-          duration: 2000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-        });
-      }
     );
-  }
-
-  add_cart_count() {
-    // console.log('User logout up!');
-    this.count.postMessage({ type: 'add_cart_count' });
   }
 
   goBack() {
@@ -126,6 +123,9 @@ export class ViewDetailComponent extends LoaderBase implements OnInit {
       // console.log(response, "feedback");
 
       this.FeedBack = response.data;
+      this. ratingSummary = response.ratingSummary;
+      console.log(this.ratingSummary);
+      
       this.currentIndex = this.batchSize;
       this.visibleFeedbacks = this.FeedBack.slice(0, this.currentIndex);
       // console.log(this.batchSize, this.currentIndex,this.visibleFeedbacks)
@@ -163,7 +163,17 @@ export class ViewDetailComponent extends LoaderBase implements OnInit {
     return this.currentIndex < this.FeedBack.length;
   }
 
-  toggleFeedback() {
-    this.showAll = !this.showAll;
-  }
+getTotalRatings(): number {
+  return this.ratingSummary.reduce((sum:any, item:any) => sum + item.count, 0);
 }
+
+
+  
+}
+
+interface RatingItem {
+  rating: 1 | 2 | 3 | 4 | 5;
+  count: number;
+}
+
+

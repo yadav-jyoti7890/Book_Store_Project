@@ -16,6 +16,7 @@ import { forkJoin } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment.prod';
+import { CountingService } from '../../centralize-services/counting.service';
 
 @Component({
   selector: 'app-add-cart',
@@ -48,7 +49,7 @@ export class AddCartComponent implements OnInit {
   public cartData: any;
   public showAddressForm = false;
   public imageBaseUrl = environment.BaseUrl;
-    quantity:number =  1;
+  quantity: number = 1;
 
   private count = new BroadcastChannel('count');
 
@@ -63,7 +64,8 @@ export class AddCartComponent implements OnInit {
     private location: Location,
     private router: Router,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private removeCartCounting: CountingService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -75,33 +77,25 @@ export class AddCartComponent implements OnInit {
   allcartdata() {
     this.user_id = Number(localStorage.getItem('user_id'));
     if (this.user_id) {
-      this.add_cart.getAllProduct(this.user_id).subscribe(
-        (response: { data: any }) => {
-          // console.log(response, "cart data is come");
+      this.add_cart
+        .getAllProduct(this.user_id)
+        .subscribe((response: { data: any }) => {
           this.item = response.data;
-          // // console.log(this.item);
           this.user_address = localStorage.getItem('user_address');
 
           this.item.forEach((value: any) => {
             this.sum = this.sum + value.total_amount;
             this.total_item += 1;
-            // console.log(this.sum);
           });
-
-          // console.log(this.total_amount);
-          // console.log(this.item, 'addcartpage');
-        },
-      
-      );
+        });
     }
   }
 
   removeToCart(id: number) {
-    // // console.log(id);
     this.add_cart.deleteCartItem(id).subscribe(
       (data) => {
         this.allcartdata();
-        this.add_cart_count();
+        this.removeCartCounting.removeToCart();
         this.snackBar.open('remove item from the cart ✅', 'close', {
           duration: 3000,
           horizontalPosition: 'center',
@@ -119,21 +113,14 @@ export class AddCartComponent implements OnInit {
     );
   }
 
-  add_cart_count() {
-    // console.log('User logout up!');
-    this.count.postMessage({ type: 'add_cart_count' });
-  }
-
   alluseraddress() {
-    this.add_cart.getuseraddress(this.user_id).subscribe(
-      (response) => {
-        if (response.data) {
-          this.address_data = response.data;
-          this.select_Address = response.data[0];
-          this.router.navigate(['/add_cart']);
-        }
-      },
-    );
+    this.add_cart.getuseraddress(this.user_id).subscribe((response) => {
+      if (response.data) {
+        this.address_data = response.data;
+        this.select_Address = response.data[0];
+        this.router.navigate(['/add_cart']);
+      }
+    });
   }
 
   popup() {
@@ -147,78 +134,51 @@ export class AddCartComponent implements OnInit {
   }
 
   change_address() {
-    // console.log(this.select_Address, 'change address');
     this.pop_up = false;
   }
 
- confirmOrder() {
-  const payload = {
-    order_data: {
-      address_id: this.select_Address.address_id,
+  confirmOrder() {
+    const payload = {
+      order_data: {
+        address_id: this.select_Address.address_id,
+        user_id: this.user_id,
+        total_item: this.total_item,
+        total_amount: this.sum,
+      },
+      order_items: this.item, // Array of { product_id, price, quantity }
       user_id: this.user_id,
-      total_item: this.total_item,
-      total_amount: this.sum,
-    },
-    order_items: this.item, // Array of { product_id, price, quantity }
-    user_id: this.user_id,
-  };
+    };
 
-  this.add_cart.confirm_Order(payload).subscribe({
-    next: (res) => {
-      // console.log('Order + items saved + cart cleared:', res);
-      this.snackBar.open('Order Confirmed Successfully', 'close', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      });
-      this.add_cart_count();
-      this.router.navigate(['/home']);
-    },
-    error: (err) => {
-      console.error('Order confirmation failed:', err);
-    },
-  });
-}
+    this.add_cart.confirm_Order(payload).subscribe({
+      next: (res) => {
+        // console.log('Order + items saved + cart cleared:', res);
+        this.snackBar.open('Order Confirmed Successfully', 'close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+        this.removeCartCounting.removeToCart();
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        console.error('Order confirmation failed:', err);
+      },
+    });
+  }
 
-  add(data:any) {
+  add(data: any) {
     // console.log('add', data);
     if (data.quantity < 10) {
       data.quantity += 1;
     }
   }
 
-  substract(data:any) {
+  substract(data: any) {
     // console.log('minus', data);
     if (data.quantity > 1) {
       data.quantity -= 1;
     }
   }
-
-  // confirmOrder(){
-  //   // console.log(this.item, "my_order")
-  //   this.add_cart.my_Order(this.item).subscribe((response)=>{
-
-  //  },(error)=>{
-
-  //  })
-  // }
-
-  // confirmOrder(){
-  //   this.user_id = localStorage.getItem('user_id');
-  //   this.add_cart.deleteAllCartData(this.user_id).subscribe((response)=>{
-  //     window.location.reload();
-  //   },(error)=>{})
-  // }
-
-  // ngAfterViewInit(): void {
-  //   let cart_img = document.querySelector('#cart_img')
-  //   gsap.from(cart_img, {
-  //     // y:100,
-  //     opacity: 0,
-  //     duration: 1
-  //   })
-  //   throw new Error('Method not implemented.');
-  // }
 
   openAddress() {
     this.showAddressForm = true; // Show the address form overlay
@@ -230,63 +190,3 @@ export class AddCartComponent implements OnInit {
     this.router.navigate(['/add_cart']); // Navigate back to cart after closing
   }
 }
-
-//  confirmOrder() {
-//     // console.log('confirm order');
-//     this.address_id = this.select_Address.address_id;
-//     // console.log(
-//       this.address_id,
-//       this.user_id,
-//       this.total_item,
-//       this.sum,
-//       this.item
-//     );
-//     const order_data = {
-//       address_id: this.address_id,
-//       user_id: this.user_id,
-//       total_item: this.total_item,
-//       total_amount: this.sum,
-//     };
-
-//     const order_item_data = {
-//       address_id: this.address_id,
-//       user_id: this.user_id,
-//     };
-
-//     this.order_item = this.item;
-
-//     // console.log(
-//       'order data ====>',
-//       order_data,
-//       order_item_data,
-//       this.order_item
-//     );
-
-//     this.add_cart.confirm_Order(order_data).subscribe({
-//       next: (response) => {
-//         this.order_id = response.order_id;
-//         // console.log('Order confirmed:', response);
-
-//         forkJoin([
-//           this.add_cart.order_item(this.order_id, this.order_item),
-//           this.add_cart.deleteAllCartData(this.user_id),
-//         ]).subscribe({
-//           next: ([orderItemResponse, deleteCartResponse]) => {
-//             // console.log('Order items added:', orderItemResponse);
-//             // console.log('Cart cleared:', deleteCartResponse);
-
-//             this.snackBar.open('Order Confirmed Successfully', 'close', {
-//               duration: 3000,
-//               horizontalPosition: 'center',
-//               verticalPosition: 'top',
-//             });
-//             this.add_cart_count();
-//             this.router.navigate(['/home']);
-//           },
-//           error: (error) => {
-//             console.error('Error in order_item or deleteAllCartData:', error);
-//           },
-//         });
-//       },
-//     });
-//   }

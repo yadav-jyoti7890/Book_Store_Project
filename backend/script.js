@@ -176,12 +176,30 @@ express1.get("/getFeedBackById/:id", function (req, res) {
     WHERE f.product_id = ?;
   `;
 
+    let ratingSummaryQuery = `
+    SELECT rating, COUNT(*) AS count
+    FROM feedback
+    WHERE product_id = ?
+    GROUP BY rating
+    ORDER BY rating DESC
+  `;
+
   db_connection.query(sql, [id], function (err, result) {
     if (err) {
       return res.status(500).json({ message: "Server error" });
     }
-    return res.status(200).json({ data: result });
+
+      db_connection.query(ratingSummaryQuery, [id], function (err2, ratingSummaryResults) {
+      if (err2) {
+        return res.status(500).json({ message: "Server error 2" });
+      }
+
+      return res.status(200).json({
+        data: result,
+        ratingSummary: ratingSummaryResults
+      });
   });
+});
 });
 
 

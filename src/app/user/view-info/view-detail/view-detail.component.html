@@ -50,8 +50,7 @@
           alt="Book"
           height="200px"
           width="200px"
-          style="object-fit: contain; border-radius: 3px"
-        />
+          style="object-fit: contain; border-radius: 3px" />
       </div>
 
       <div class="book-details">
@@ -61,8 +60,7 @@
             font-family: helvetica;
             font-size: 1.3vw;
             font-weight: 600 !important;
-          "
-        >
+          ">
           {{ book_detail.title | titlecase }}
         </h3>
         <p class="author">By {{ book_detail.author | titlecase }}</p>
@@ -71,14 +69,13 @@
         <div class="pricing">
           <span class="current-price">{{
             book_detail.offer_price | currency : "INR"
-          }}</span>
+            }}</span>
           <span class="original-price">{{
             book_detail.price | currency : "INR"
-          }}</span>
+            }}</span>
           <span
             class="discount"
-            *ngIf="book_detail.discount_type === 'percent'"
-          >
+            *ngIf="book_detail.discount_type === 'percent'">
             {{ book_detail.discount_value }}% OFF
           </span>
 
@@ -121,51 +118,31 @@
     <div class="ratings-summary">
       <div class="overall-rating">
         <div class="average-rating">4</div>
-        <div class="stars">★★★★☆</div>
+        <div class="stars">857 ★★★★☆</div>
         <div class="total-count">835 Ratings, 371 Reviews</div>
       </div>
 
-      <div class="rating-bars">
-        <div class="rating-bar">
-          <span class="label">Excellent</span>
-          <div class="bar-container">
-            <div class="bar" style="width: 70%"></div>
-          </div>
-          <span class="count">407</span>
-        </div>
+    <div class="rating-bars">
+  <div *ngFor="let item of ratingSummary" style="display: flex; align-items: center; gap: 10px;">
+    <span class="label">{{ labelMap[item.rating]?.label }}</span>
 
-        <div class="rating-bar">
-          <span class="label">Very Good</span>
-          <div class="bar-container">
-            <div class="bar" style="width: 30%"></div>
-          </div>
-          <span class="count">182</span>
-        </div>
+    <!-- Outer full width bar -->
+    <div class="bar-outer" style="width: 100%; height: 8px; background-color: #eee; border-radius: 5px; overflow: hidden;">
 
-        <div class="rating-bar">
-          <span class="label">Good</span>
-          <div class="bar-container">
-            <div class="bar" style="width: 15%"></div>
-          </div>
-          <span class="count">92</span>
-        </div>
-
-        <div class="rating-bar">
-          <span class="label">Average</span>
-          <div class="bar-container">
-            <div class="bar" style="width: 8%"></div>
-          </div>
-          <span class="count">55</span>
-        </div>
-
-        <div class="rating-bar">
-          <span class="label">Poor</span>
-          <div class="bar-container">
-            <div class="bar" style="width: 15%"></div>
-          </div>
-          <span class="count">99</span>
-        </div>
+      <!-- Inner colored bar indicating percentage -->
+      <div class="bar-inner"
+        [style.width.%]="(item.count / getTotalRatings()) * 100"
+        [style.backgroundColor]="labelMap[item.rating]?.color"
+        style="height: 100%; border-radius: 5px 0 0 5px;">
       </div>
+    </div>
+
+    <p>{{ item.count }}</p>
+  </div>
+</div>
+
+     
+
     </div>
 
     <div class="divider"></div>
@@ -174,8 +151,7 @@
 
     <div
       class="customer-review"
-      *ngFor="let feedback of visibleFeedbacks"
-    >
+      *ngFor="let feedback of visibleFeedbacks">
       <div class="review-header">
         <span class="customer-name">{{ feedback.user_name }}</span>
         <span class="review-rating">
@@ -192,12 +168,12 @@
       </div>
     </div>
 
-     <button *ngIf="hasMore" (click)="loadMoreFeedback()" class="down">
-    <i class="ri-arrow-up-long-fill"></i> Read More
+    <button *ngIf="hasMore" (click)="loadMoreFeedback()" class="down">
+      <i class="ri-arrow-up-long-fill"></i> Read More
     </button>
-     <button *ngIf="!hasMore" (click)="loadLessFeedback()" class="up">Show Less</button>
+    <button *ngIf="!hasMore" (click)="loadLessFeedback()" class="up">Show
+      Less</button>
   </div>
   }
-
 
 </div>

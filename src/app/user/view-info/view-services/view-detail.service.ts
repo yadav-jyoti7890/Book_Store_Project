@@ -33,4 +33,6 @@ export class ViewDetailService {
   total_val(id:number): Observable<any> {
     return this.http.get(`http://localhost:3000/getproductbyid/${id}`);
   }
+
+  
 }
