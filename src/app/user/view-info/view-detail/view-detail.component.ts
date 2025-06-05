@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { StarRatingPipe } from '../../pipes/star-rating.pipe';
 import { LoaderBase } from '../../../loader/loader';
 import { CountingService } from '../../centralize-services/counting.service';
+// import { StarRatingPipe } from '../../pipes/star-rating.pipe';
 
 @Component({
   selector: 'app-view-detail',
@@ -34,7 +35,8 @@ export class ViewDetailComponent extends LoaderBase implements OnInit {
   public batchSize = 2; // byDefault
   public visibleFeedbacks: any[] = [];
   public ratingSummary: RatingItem[] = [];
-
+  public averageRating! : any
+  public totalRating: any;
 
 labelMap: { [key: number]: { label: string; color: string } } = {
   5: { label: 'Excellent', color: 'green' },
@@ -43,6 +45,7 @@ labelMap: { [key: number]: { label: string; color: string } } = {
   2: { label: 'Average', color: 'gold' },
   1: { label: 'Poor', color: 'red' },
 };
+  
 
 
   constructor(
@@ -65,6 +68,7 @@ labelMap: { [key: number]: { label: string; color: string } } = {
       }
     });
     this.getAllFeedBack();
+    // this.getTotalRatings();
   }
 
   private viewDetail() {
@@ -121,13 +125,15 @@ labelMap: { [key: number]: { label: string; color: string } } = {
   getAllFeedBack() {
     this.view_detail.getAllFeedBack(this.id).subscribe((response) => {
       // console.log(response, "feedback");
-
-      this.FeedBack = response.data;
-      this. ratingSummary = response.ratingSummary;
-      console.log(this.ratingSummary);
       
+      this.FeedBack = response.data;
+        this.totalRating = this.FeedBack.reduce((sum:any, feedback:any) => sum + feedback.rating, 0);
+        this.averageRating = this.FeedBack.length > 0 ? (this.totalRating / this.FeedBack.length).toFixed(1) : 0;
+      this.ratingSummary = response.ratingSummary;
+    
       this.currentIndex = this.batchSize;
       this.visibleFeedbacks = this.FeedBack.slice(0, this.currentIndex);
+
       // console.log(this.batchSize, this.currentIndex,this.visibleFeedbacks)
     });
   }
@@ -163,12 +169,9 @@ labelMap: { [key: number]: { label: string; color: string } } = {
     return this.currentIndex < this.FeedBack.length;
   }
 
-getTotalRatings(): number {
+  public getTotalRatings(): number {
   return this.ratingSummary.reduce((sum:any, item:any) => sum + item.count, 0);
-}
-
-
-  
+  } 
 }
 
 interface RatingItem {

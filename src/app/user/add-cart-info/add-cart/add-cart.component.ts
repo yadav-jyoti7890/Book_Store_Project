@@ -49,9 +49,7 @@ export class AddCartComponent implements OnInit {
   public cartData: any;
   public showAddressForm = false;
   public imageBaseUrl = environment.BaseUrl;
-  quantity: number = 1;
-
-  private count = new BroadcastChannel('count');
+  public quantity: number = 1;
 
   ngOnInit(): void {
     this.allcartdata();
@@ -66,6 +64,7 @@ export class AddCartComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private removeCartCounting: CountingService
+    
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -74,7 +73,7 @@ export class AddCartComponent implements OnInit {
     });
   }
 
-  allcartdata() {
+  private allcartdata() {
     this.user_id = Number(localStorage.getItem('user_id'));
     if (this.user_id) {
       this.add_cart
@@ -91,7 +90,7 @@ export class AddCartComponent implements OnInit {
     }
   }
 
-  removeToCart(id: number) {
+  public removeToCart(id: number) {
     this.add_cart.deleteCartItem(id).subscribe(
       (data) => {
         this.allcartdata();
@@ -113,7 +112,7 @@ export class AddCartComponent implements OnInit {
     );
   }
 
-  alluseraddress() {
+  private alluseraddress() {
     this.add_cart.getuseraddress(this.user_id).subscribe((response) => {
       if (response.data) {
         this.address_data = response.data;
@@ -129,15 +128,15 @@ export class AddCartComponent implements OnInit {
     //  // console.log(this.pop_up)
   }
 
-  selectAddress(address: any) {
+  public selectAddress(address: any) {
     this.select_Address = address;
   }
 
-  change_address() {
+  public change_address() {
     this.pop_up = false;
   }
 
-  confirmOrder() {
+  public confirmOrder() {
     const payload = {
       order_data: {
         address_id: this.select_Address.address_id,
@@ -145,7 +144,7 @@ export class AddCartComponent implements OnInit {
         total_item: this.total_item,
         total_amount: this.sum,
       },
-      order_items: this.item, // Array of { product_id, price, quantity }
+      order_items: this.item, 
       user_id: this.user_id,
     };
 
@@ -166,14 +165,14 @@ export class AddCartComponent implements OnInit {
     });
   }
 
-  add(data: any) {
+  public add(data: any) {
     // console.log('add', data);
     if (data.quantity < 10) {
       data.quantity += 1;
     }
   }
 
-  substract(data: any) {
+  public subtract(data: any) {
     // console.log('minus', data);
     if (data.quantity > 1) {
       data.quantity -= 1;

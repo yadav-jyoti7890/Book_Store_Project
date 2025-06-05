@@ -14,6 +14,7 @@ export class ValidationComponent {
   @Input() control!: FormControl;
   @Input() type: string = 'text';
   @Input() placeholder : string = '';
+ 
   
 
   get errorMessage(): string {
@@ -21,6 +22,13 @@ export class ValidationComponent {
 
     if (this.control.errors['required']) return `This Filed is required`;
     if (this.control.errors['email']) return 'Invalid email format';
+      if (this.control.errors['pattern']) {
+    if (this.type === 'email') {
+      return 'Invalid email format';
+    } else {
+      return 'Invalid format'; 
+    }
+  }
     if (this.control.errors['minlength']) {
       const required = this.control.errors['minlength'].requiredLength;
       return `must be at least ${required} characters`;
@@ -35,6 +43,10 @@ export class ValidationComponent {
     if(this.control.errors['pattern']){
        return 'only number allowed'
     }
+
+    if (this.control.errors['usernameTaken']) return 'Username already exists';
+    if (this.control.errors['emailTaken']) return 'email already exists';
+    
 
 
     if (this.control.errors['max']) {

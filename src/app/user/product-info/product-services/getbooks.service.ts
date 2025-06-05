@@ -14,7 +14,7 @@ export class GetbooksService {
   constructor(private http: HttpClient, private cache:CacheService) {}
 
   receivebooks(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}getbooks`);
+    return this.http.get(`${this.apiUrl}getbooks`);
   }
 
 

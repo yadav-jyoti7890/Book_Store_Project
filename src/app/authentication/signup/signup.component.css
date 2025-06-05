@@ -1,144 +1,113 @@
-.form{
-    min-height: 100vh;
-    width: 100%;
-    background-color: #f4f4f4;
-    color: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-form{
-    min-width:400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 3vw;
-    z-index: 10;
-    background-color: #fff;
-    border-radius: 10px;
-}
-form label{
-    color: #000;
-    font-size: 1vw;
-    text-transform: capitalize;
-    font-family: neue-light;
-    font-weight: 200;
-    letter-spacing: 0.1vw;
-    margin-bottom: 0.5vw;
-}
-form h1{
-    color: #000;
-    text-align: center;
-    margin-bottom: 2vw;
-    font-size: 3vw;
-    text-transform: uppercase;
-    font-family: Helvetica;
-    font-weight: 200;
-}
-form input,button{
-    display: block;
-    width: 100%;
-    padding: 0.7vw;
-    margin-bottom: 1vw;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    color: #000;
-    padding-left: 1vw;
-    background-color:#f2f2f2;
+
+.form {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px 25px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-input,textarea::placeholder{
-    font-family: verdana;
-    font-weight: 100;
-    font-size: 1vw;
-    font-family: neue-light;
-    letter-spacing: 0.1vw;
-    color: #000;
+/* Heading */
+h1.signup {
+  font-weight: 500 !important;
+  font-size: 1.4vw;
+  color: #222;
+  margin-bottom: 25px;
+  text-transform: capitalize;
 }
-span{
-    color: #4b0084;
+
+h1.signup span {
+  color: #3b0267;
+  font-weight: 500 !important;
 }
-button{
-    width: 50%;
-    background-color: #4b0084;
-    color: #fff;
-    font-family: neue-bold;
-    font-size: 1vw;
-    margin: auto auto;
-    cursor: pointer;
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #444;
+  font-size: 0.95rem;
 }
-.flex{
-    padding-bottom: 1vw;
-    width: 100%;
-    display: flex;
-    justify-content: space-between !important;
-    align-items: center;
+
+/* Password section container */
+.password_sec {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
- .flex p{
-    text-transform: uppercase;
-    font-family: verdana;
-    font-weight: 100;
-    font-size: 0.9vw;
-    color: #000;
+
+/* Eye icon for show/hide password */
+.password_sec i {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #666;
+  user-select: none;
 }
- .flex a{
-    text-decoration: none;
-    text-transform: uppercase;
-    font-family: verdana;
-    font-weight: 100;
-    font-size: 0.9vw;
-    color: #000;
-    cursor: pointer;
+
+/* Adjust app-validation component styles */
+app-validation {
+  display: block;
+  width: 100%;
+  margin-bottom: 18px;
 }
-form textarea{
-    display: block;
-    width: 100%;
-    padding: 0.7vw;
-    margin-bottom: 1vw;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    background-color: rgba(67, 66, 66, 0.848);
-    color: #000;
-    padding-left: 1vw;
+
+/* Flex container for "Have you account?" + link */
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0 25px;
+  font-size: 0.9rem;
+  color: #555;
 }
-small{
-    color: red;
-    font-size: 1vw;
-    text-transform: capitalize;
-    font-family: neue-light;
-    letter-spacing: 1px;
+
+/* Link style */
+.flex a {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
-button:disabled{
-    background-color: #857e7e85;
-    cursor: not-allowed;
-    color: #fff;
+
+.flex a:hover {
+  color: #0056b3;
 }
-button:valid{
-    background-color: #4b0084;
-    color: #fff;
+
+/* Signup button */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #4B0084;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-.password_sec{
-    width: 100%;
-    position: relative;
-    display: flex;
-    color: red;  
+
+button[type="submit"]:hover:not(:disabled) {
+  background-color: #4B0084;
 }
-.password_sec i{
-    position: absolute;
-    font-size: 1.3vw;
-    color: #000;
-    right: 10px;
-    top: 30%;
-    transform: translateY(-30%);
+
+/* Disabled button */
+button[type="submit"]:disabled {
+  background-color: #4b0084a6;
+  cursor: not-allowed;
 }
-/* styles.css or app.component.css */
-.top-snackbar {
-    margin-top: 20px;  /* Adjust as needed */
-    background-color: #1976d2;  /* Custom background color */
-    color: #fff;  /* Custom text color */
+
+/* Responsive for small screens */
+@media (max-width: 420px) {
+  .form {
+    margin: 20px 15px;
+    padding: 25px 20px;
   }
-  
+}
 

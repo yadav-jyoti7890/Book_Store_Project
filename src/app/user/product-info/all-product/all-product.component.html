@@ -132,11 +132,10 @@
           class="flex"
           style="display: flex; gap: 10px; justify-content: space-between"
         >
-          <!-- <div class="stars">{{ book.rating}}</div> -->
-         <span class="review-rating">
-         {{ book.rating }} {{ book.rating | starRating }}
+          <span class="review-rating">
+            {{ book.rating }} {{ book.rating | starRating }}
           </span>
-          <!-- Show only if order_status === 'delivered' -->
+
           <span
             *ngIf="book.order_status === 'Delivered'"
             style="

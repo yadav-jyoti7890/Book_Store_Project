@@ -1,38 +1,4 @@
-<!-- <div class="product-wrapper" *ngFor="let book_detail of view_book">
-  <div class="product-box">
 
-    
-    <div class="product-image">
-      <img [src]="book_detail.image ? imageBaseUrl + 'uploads/' + book_detail.image : ''" alt="Book" />
-    </div>
-
-    <div class="product-details">
-      <h2 class="title">{{ book_detail.title | titlecase }}</h2>
-      <p class="category">{{ book_detail.category_name | titlecase }}</p>
-      <p class="author">By {{ book_detail.author | titlecase }}</p>
-      <p class="description">{{ book_detail.description }}</p>
-
-      <div class="price-row">
-        <del class="old-price">{{ book_detail.offer_price | currency:'INR' }}</del>
-        <span class="new-price">{{ book_detail.price | currency:'INR' }}</span>
-      </div>
-
-      <p class="info">📅 Published on: {{ book_detail.publication_date | date:'dd MMM yyyy' }}</p>
-      <p class="info">🚚 Delivery by: {{ book_detail.estimate_date | date:'fullDate' }}</p>
-      <p class="stock">🛒 Only 2 books left!</p>
-
-   
-
-      <div class="btn-row">
-        <button class="btn-primary" (click)="add_cart(book_detail)">Add to Cart</button>
-        <button class="btn-secondary">
-          <i class="ri-heart-line"></i>
-        </button>
-      </div>
-    </div>
-
-  </div>
-</div> -->
 
 <div class="outer_container">
   <div class="book-card" style="margin-top: 3vw !important">
@@ -117,9 +83,12 @@
 
     <div class="ratings-summary">
       <div class="overall-rating">
-        <div class="average-rating">4</div>
-        <div class="stars">857 ★★★★☆</div>
-        <div class="total-count">835 Ratings, 371 Reviews</div>
+        <div class="average-rating">{{averageRating}}</div><br>
+        <p class="stars">{{totalRating}} Ratings</p>
+        <!-- <div class="total-count">{{totalRating}} Ratings, </div> -->
+         <span class="review-rating" style="color: rgba(24, 68, 4, 0.789);">
+            {{ averageRating }} {{ averageRating | starRating }}
+          </span>
       </div>
 
     <div class="rating-bars">
@@ -131,7 +100,7 @@
 
       <!-- Inner colored bar indicating percentage -->
       <div class="bar-inner"
-        [style.width.%]="(item.count / getTotalRatings()) * 100"
+         [style.width.%]="(item.count / getTotalRatings()) * 100"
         [style.backgroundColor]="labelMap[item.rating]?.color"
         style="height: 100%; border-radius: 5px 0 0 5px;">
       </div>

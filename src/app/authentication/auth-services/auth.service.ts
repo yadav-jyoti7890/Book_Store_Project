@@ -1,9 +1,9 @@
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { login, signup } from '../signup/signup.component';
 import {catchError, map, Observable, of } from 'rxjs';
 import { Route } from '@angular/router';
 import { environment } from '../../../environments/environment.prod';
+import { login, signup } from '../auth-interface/signup-interface/signup-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +20,9 @@ export class AuthService {
    }
 
 
-   loginauth(email:string,password:string): Observable<any> {
-    const loginData = {email , password };
-    return this.http.post<any>(`${this.apiUrl}login`,loginData)
+   login(data:login): Observable<any> {
+    console.log(data)
+    return this.http.post<any>(`${this.apiUrl}login`,data)
   }
 
   wishListCount(userId: number): Observable<any>{

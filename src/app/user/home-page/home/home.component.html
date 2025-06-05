@@ -160,7 +160,7 @@
 
       <div class="book-info">
         <h3 class="book-title" style="font-weight: 800 !important;">{{ book.title }}</h3>
-        <p class="book-author">by {{ book.author }}</p>
+        <p class="book-author">by {{ book.author }}  </p>
 
         <div class="book-price">
           <span class="new-price">₹{{ book.offer_price }}</span>
@@ -168,9 +168,10 @@
         </div>
 
         <div class="book-rating">
-          <i>⭐⭐⭐⭐⭐</i>
+            <span class="review-rating">
+            {{ book.rating }} {{ book.rating | starRating }}
+          </span>
         </div>
-
         <!-- <div class="quantity-controls">
           <button (click)="minus()">–</button>
           <span>{{quantity}}</span>

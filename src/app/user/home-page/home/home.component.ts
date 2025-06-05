@@ -23,11 +23,14 @@ import { ViewDetailService } from '../../view-info/view-services/view-detail.ser
 import { HomeService } from '../home-services/home.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CountingService } from '../../centralize-services/counting.service';
+import { GetstorageitemService } from '../../../storage/getstorageitem.service';
+import { GetbooksService } from '../../product-info/product-services/getbooks.service';
+import { StarRatingPipe } from '../../pipes/star-rating.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, StarRatingPipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -35,6 +38,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   public imageBaseUrl = environment.BaseUrl;
   public categoryData: category[] = [];
   public allItems: product[] = [];
+  private userId ! : number;
   quantity: number = 0;
   @ViewChild('swiperContainer2', { static: false })
   swiperContainer2!: ElementRef;
@@ -43,14 +47,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getAllCategory();
     this.getAllProduct();
+    this.userId = Number(this.storageService.getUserId());
   }
 
   constructor(
     private categoryService: CategoryService,
-    private productService: ProductService,
+    private productService: GetbooksService,
     private viewService: ViewDetailService,
     private snackBar: MatSnackBar,
-    private countingCartService: CountingService
+    private countingCartService: CountingService, 
+    private storageService: GetstorageitemService,
+     
   ) {}
 
   public add() {
@@ -65,9 +72,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.categoryService.getAllCategory().subscribe(
       (response) => {
         this.categoryData = response.category;
-        console.log(this.categoryData);
       },
-      () => {}
     );
   }
 
@@ -83,26 +88,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   private getAllProduct() {
-    this.productService.getAllProduct().subscribe(
+    this.productService.receivebooks().subscribe(
       (response) => {
-        this.allItems = response.data;
-        console.log(this.allItems, 'getAllProduct');
+        this.allItems = response.data; 
       },
-      (error) => {}
     );
   }
+  
 
   public add_cart(data: any) {
-    console.log(data, 'home');
-    let user_id = localStorage.getItem('user_id');
     const addtobook = {
       title: data.title,
       description: data.description,
-      user_id: user_id,
+      user_id: this.userId,
       book_id: data.product_id,
       price: data.price,
       image: data.image,
     };
+    
     this.viewService.addToCart(addtobook).subscribe((data) => {
       this.countingCartService.addToCart()
       this.snackBar.open('add to cart successfully', 'close', {

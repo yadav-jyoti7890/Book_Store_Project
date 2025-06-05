@@ -8,6 +8,7 @@ export interface product{
    discount_value : number;
    offer_price : number;
    publication_date : Date;
+   rating: number;
 }
 
 export interface addToCartData{

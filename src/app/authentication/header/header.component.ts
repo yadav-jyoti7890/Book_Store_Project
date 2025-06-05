@@ -37,7 +37,27 @@ export class HeaderComponent implements OnInit {
   public imageBaseUrl = environment.BaseUrl;
   public wishListItemsCount!: number;
   public wishlistCount = 0;
-  public cartCount = 0
+  public cartCount = 0;
+
+  constructor(
+    private router: Router,
+    private ngZone: NgZone,
+    private view_service: ViewDetailService,
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    private userservice: AlluserService,
+    private cartService: CountingService
+  ) {
+    this.checkLoginStatus();
+    this.broadcastChannelSetup();
+    this.channel.onmessage = (event) => {
+      this.ngZone.run(() => {
+        if (event.data.type === 'logout') {
+          this.logout();
+        }
+      });
+    };
+  }
 
   ngOnInit() {
     this.productCount();
@@ -61,15 +81,15 @@ export class HeaderComponent implements OnInit {
     };
   }
 
-  side_menu() {
-    if (this.side_Menu === true) {
-      this.side_Menu = false;
-    } else {
-      this.side_Menu = true;
-    }
-  }
+  // side_menu() {
+  //   if (this.side_Menu === true) {
+  //     this.side_Menu = false;
+  //   } else {
+  //     this.side_Menu = true;
+  //   }
+  // }
 
-  checkLoginStatus(): void {
+  private checkLoginStatus(): void {
     const token = localStorage.getItem('token');
     if (token) {
       this.isLoggedIn = true;
@@ -84,7 +104,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  broadcastChannelSetup(): void {
+  private broadcastChannelSetup(): void {
     const broadcastChannel = new BroadcastChannel('authentication');
     broadcastChannel.onmessage = (event) => {
       this.ngZone.run(() => {
@@ -100,34 +120,7 @@ export class HeaderComponent implements OnInit {
     };
   }
 
-  constructor(
-    private router: Router,
-    private ngZone: NgZone,
-    private view_service: ViewDetailService,
-    private authService: AuthService,
-    private snackBar: MatSnackBar,
-    private userservice: AlluserService,
-    private cartService: CountingService
-  ) {
-    this.checkLoginStatus();
-    this.broadcastChannelSetup();
-    this.channel.onmessage = (event) => {
-      this.ngZone.run(() => {
-        if (event.data.type === 'logout') {
-          this.logout();
-        }
-      });
-    };
-    // this.count.onmessage = (event) => {
-    //   this.ngZone.run(() => {
-    //     if (event.data.type === 'add_cart_count') {
-    //       this.productCount();
-    //     }
-    //   });
-    // };
-  }
-
-  logout() {
+  public logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('role');
@@ -145,17 +138,16 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  productCount() {
+  private productCount() {
     this.user_id = localStorage.getItem('user_id');
     this.view_service.total_val(this.user_id).subscribe({
-      next : (response) => {
-          this.cartCount = response.total_product;
-      }
-    }
-    );
+      next: (response) => {
+        this.cartCount = response.total_product;
+      },
+    });
   }
 
-  wishListCount() {
+  private wishListCount() {
     this.user_id = localStorage.getItem('user_id');
     this.authService.wishListCount(this.user_id).subscribe({
       next: (response) => {
@@ -165,12 +157,12 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  onFileSelected(event: any) {
+  public onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
     this.uploadProfilePicture();
   }
 
-  uploadProfilePicture() {
+  private uploadProfilePicture() {
     if (!this.selectedFile) {
       alert('Please select a file!');
       return;
@@ -191,7 +183,7 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  getProfile() {
+  private getProfile() {
     this.user_id = localStorage.getItem('user_id');
     this.userservice.getImages(this.user_id).subscribe(
       (response) => {
@@ -213,5 +205,4 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
-  
 }
