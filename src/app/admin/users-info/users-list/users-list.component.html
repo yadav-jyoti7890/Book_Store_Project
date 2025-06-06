@@ -130,7 +130,7 @@
         <td colspan="6" class="empty">No matching records found</td>
       </tr>
 
-      <tr *ngFor="let users of usersData; let i = index">
+      <tr *ngFor="let users of usersData; let i = index"  [routerLink] = "['../user-detail', users.user_id]">
         <td>{{ i + 1 }}</td>
         <td>{{ users.user_name }}</td>
         <td>

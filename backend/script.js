@@ -105,8 +105,9 @@ express1.post("/login", function (req, res) {
   // console.log(email, password)
   // console.log("Received login request for email:");
 
-  const sql1 = "SELECT email, password, role, user_id, user_name FROM users WHERE email = ?";
-     db_connection.query(sql1, [email], (err, result) => {
+  const sql1 =
+    "SELECT email, password, role, user_id, user_name FROM users WHERE email = ?";
+  db_connection.query(sql1, [email], (err, result) => {
     if (err) {
       console.error("Database error:", err);
       return res
@@ -149,35 +150,35 @@ express1.post("/login", function (req, res) {
   });
 });
 
-express1.get('/check-username', (req, res) => { 
+express1.get("/check-username", (req, res) => {
   const { username } = req.query;
   //  console.log("check ", username)
   if (!username) {
-    return res.status(400).json({ error: 'Username is required' });
+    return res.status(400).json({ error: "Username is required" });
   }
-  const sql = 'SELECT EXISTS(SELECT 1 FROM users WHERE user_name = ?) AS user';
+  const sql = "SELECT EXISTS(SELECT 1 FROM users WHERE user_name = ?) AS user";
   db_connection.query(sql, [username], (err, results) => {
-    if (err) return res.status(500).json({ error: 'Database error' });
-    return res.json({ exists: !!results[0].user});
+    if (err) return res.status(500).json({ error: "Database error" });
+    return res.json({ exists: !!results[0].user });
   });
 });
 
-express1.get('/check-email', (req, res) => { 
+express1.get("/check-email", (req, res) => {
   const { email } = req.query;
   //  console.log("check ", username)
   if (!email) {
-    return res.status(400).json({ error: 'email is required' });
+    return res.status(400).json({ error: "email is required" });
   }
-  const sql = 'SELECT EXISTS(SELECT 1 FROM users WHERE email = ?) AS email';
+  const sql = "SELECT EXISTS(SELECT 1 FROM users WHERE email = ?) AS email";
   db_connection.query(sql, [email], (err, results) => {
-    if (err) return res.status(500).json({ error: 'Database error' });
-    return res.json({ exists: !!results[0].email});
+    if (err) return res.status(500).json({ error: "Database error" });
+    return res.json({ exists: !!results[0].email });
   });
 });
 
 express1.get("/getbooksbyid/:id", function (req, res) {
   let id = req.params.id;
- 
+
   let sql = `SELECT  p.*, c.category_name 
              FROM product p
             INNER JOIN category c ON p.category_id = c.category_id
@@ -192,7 +193,7 @@ express1.get("/getbooksbyid/:id", function (req, res) {
 });
 
 express1.get("/getFeedBackById/:id", function (req, res) {
-  let id = req.params.id;  
+  let id = req.params.id;
   let sql = `
     SELECT f.*, u.user_name
     FROM feedback f 
@@ -200,7 +201,7 @@ express1.get("/getFeedBackById/:id", function (req, res) {
     WHERE f.product_id = ?;
   `;
 
-    let ratingSummaryQuery = `
+  let ratingSummaryQuery = `
     SELECT rating, COUNT(*) AS count
     FROM feedback
     WHERE product_id = ?
@@ -213,19 +214,22 @@ express1.get("/getFeedBackById/:id", function (req, res) {
       return res.status(500).json({ message: "Server error" });
     }
 
-      db_connection.query(ratingSummaryQuery, [id], function (err2, ratingSummaryResults) {
-      if (err2) {
-        return res.status(500).json({ message: "Server error 2" });
-      }
+    db_connection.query(
+      ratingSummaryQuery,
+      [id],
+      function (err2, ratingSummaryResults) {
+        if (err2) {
+          return res.status(500).json({ message: "Server error 2" });
+        }
 
-      return res.status(200).json({
-        data: result,
-        ratingSummary: ratingSummaryResults
-      });
+        return res.status(200).json({
+          data: result,
+          ratingSummary: ratingSummaryResults,
+        });
+      }
+    );
   });
 });
-});
-
 
 express1.post("/addtocart", function (req, res) {
   const { title, user_id, book_id, price, image, description } = req.body;
@@ -342,7 +346,9 @@ express1.get("/getallproduct/:id", function (req, res) {
   const id = req.params.id;
   // //console.log()(id)
   if (id) {
-    let sql = "SELECT * FROM add_to_cart WHERE user_id = ?";
+    let sql = `SELECT c.*, p.stock_quantity FROM 
+               add_to_cart c INNER JOIN product p ON c.product_id = p.product_id WHERE 
+               c.user_id = ?`
     db_connection.query(sql, [id], function (err, result) {
       // //console.log()(result)
       if (err) {
@@ -1071,9 +1077,21 @@ express1.post("/confirmOrder", (req, res) => {
     VALUES (?, ?, ?, ?)
   `;
 
+  const insertItemsSql = `
+    INSERT INTO order_items (order_id, product_id, price, quantity, total_amount)
+    VALUES ?
+  `;
+
+  const deleteCartSql = `DELETE FROM add_to_cart WHERE user_id = ?`;
+
+  const updateStockSql = `
+    UPDATE product SET stock_quantity = stock_quantity - ? WHERE product_id = ?
+  `;
+
   db_connection.beginTransaction((err) => {
     if (err) return res.status(500).json({ message: "Transaction failed" });
 
+    // Step 1: Insert order
     db_connection.query(
       insertOrderSql,
       [
@@ -1091,6 +1109,7 @@ express1.post("/confirmOrder", (req, res) => {
 
         const order_id = result.insertId;
 
+        // Step 2: Prepare order items data
         const orderItemsData = order_items.map((item) => [
           order_id,
           item.product_id,
@@ -1099,11 +1118,7 @@ express1.post("/confirmOrder", (req, res) => {
           item.price * item.quantity,
         ]);
 
-        const insertItemsSql = `
-        INSERT INTO order_items (order_id, product_id, price, quantity, total_amount)
-        VALUES ?
-      `;
-
+        // Step 3: Insert order items
         db_connection.query(insertItemsSql, [orderItemsData], (err) => {
           if (err) {
             return db_connection.rollback(() => {
@@ -1111,64 +1126,58 @@ express1.post("/confirmOrder", (req, res) => {
             });
           }
 
-          const deleteCartSql = `DELETE FROM add_to_cart WHERE user_id = ?`;
-
+          // Step 4: Delete from cart
           db_connection.query(deleteCartSql, [user_id], (err) => {
             if (err) {
               return db_connection.rollback(() => {
-                res.status(500).json({ message: "Cart clear failed" });
+                res.status(500).json({ message: "Clearing cart failed" });
               });
             }
 
-            db_connection.commit((err) => {
-              if (err) {
-                return db_connection.rollback(() => {
-                  res.status(500).json({ message: "Commit failed" });
+            // Step 5: Update stock for each item
+            const updateStockForItems = (index) => {
+              if (index >= order_items.length) {
+                // All stock updated, commit now
+                db_connection.commit((err) => {
+                  if (err) {
+                    return db_connection.rollback(() => {
+                      res.status(500).json({ message: "Commit failed" });
+                    });
+                  }
+
+                  res.status(200).json({
+                    message: "Order placed successfully",
+                    order_id,
+                  });
                 });
+                return;
               }
 
-              res
-                .status(200)
-                .json({ message: "Order placed successfully", order_id });
-            });
+              const item = order_items[index];
+
+              db_connection.query(
+                updateStockSql,
+                [item.quantity, item.product_id],
+                (err) => {
+                  if (err) {
+                    return db_connection.rollback(() => {
+                      res.status(500).json({ message: "Stock update failed" });
+                    });
+                  }
+
+                  // Recursively update next item
+                  updateStockForItems(index + 1);
+                }
+              );
+            };
+
+            updateStockForItems(0); // Start stock update loop
           });
         });
       }
     );
   });
 });
-
-// Order item route
-// express1.post("/order_item/:order_id", (req, res) => {
-//   const order_id = req.params.order_id;
-//   const orderItems = req.body;
-
-//   const sql =
-//     "INSERT INTO order_items (order_id, product_id, price,quantity, total_amount) VALUES ?";
-
-//   const price = orderItems.map((item) => [item.price]);
-//   const quantity = orderItems.map((item) => [item.quantity]);
-//   const total_amount = price * quantity;
-//   //console.log()(price, quantity, total_amount);
-//   const orderItemsData = orderItems.map((item) => [
-//     order_id,
-//     item.product_id,
-//     item.price,
-//     item.quantity,
-//     item.price * item.quantity,
-//   ]);
-
-//   //console.log()(orderItemsData);
-
-//   db_connection.query(sql, [orderItemsData], (err, result) => {
-//     if (err) {
-//       return res
-//         .status(500)
-//         .json({ error: "Failed to insert into order_items table" });
-//     }
-//     return res.status(200).json({ message: "Order items added successfully" });
-//   });
-// });
 
 express1.get("/getCartOrder/:id", function (req, res) {
   let id = req.params.id;
@@ -1182,17 +1191,6 @@ express1.get("/getCartOrder/:id", function (req, res) {
     return res.status(200).send({ message: "get order", data: result });
   });
 });
-
-// express1.delete("/deleteAllCartData/:id", function (req, res) {
-//   let id = req.params.id;
-//   // //console.log()(id,"delete")
-//   let sql = "DELETE FROM add_to_cart WHERE user_id = ?";
-//   db_connection.query(sql, [id], function (err, result) {
-//     // //console.log()(result)
-//     if (err) return res.status(500).send({ message: "server error" });
-//     return res.status(200).send({ message: "get order", data: result });
-//   });
-// });
 
 express1.get("/AllOrder", function (req, res) {
   let sql = `SELECT o.*, u.user_name
@@ -1812,7 +1810,6 @@ express1.put("/updateCategory/:id", upload.single("image"), (req, res) => {
   //console.log()("update category");
   const { category_name, category_description } = req.body;
   const category_id = req.params.id;
-
 
   // let image = req.file ? req.file.path : null;
 

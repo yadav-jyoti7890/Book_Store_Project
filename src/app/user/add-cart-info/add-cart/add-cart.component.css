@@ -376,6 +376,8 @@ footer p{
   align-items: center;
   gap: 12px;
   margin-top: 8px;
+  background-color: #e4dcdc;
+  width: 80%;
 }
 
 .qty-row button {
@@ -383,20 +385,31 @@ footer p{
   font-size: 1.2rem;
   border: none;
   border-radius: 6px;
-  background-color: #e0e0e0;
+  background-color: #4b0084;
   cursor: pointer;
+  color: white;
   transition: background-color 0.3s;
 }
 
-.qty-row button:hover {
+/* .qty-row button:hover {
   background-color: #ccc;
-}
+} */
 
 .btn-row {
   display: flex;
   gap: 15px;
   margin-top: 20px;
 }
+
+    .stock {
+      color: #E53935;
+      font-weight: bold;
+    }
+
+    :disabled{
+        background-color:#f4f4f498;
+        cursor: not-allowed;
+    }
 
 
 

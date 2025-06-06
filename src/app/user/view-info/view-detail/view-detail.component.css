@@ -331,3 +331,9 @@
   border-radius: 5px 0 0 5px;
 }
 
+:disabled{
+  cursor: not-allowed;
+  background-color: #47007d98;
+  color: white;
+}
+

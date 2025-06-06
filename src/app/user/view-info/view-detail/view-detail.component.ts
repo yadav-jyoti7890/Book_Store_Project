@@ -24,7 +24,7 @@ import { CountingService } from '../../centralize-services/counting.service';
 export class ViewDetailComponent extends LoaderBase implements OnInit {
   public imageBaseUrl = environment.BaseUrl;
   public id!: number;
-  public view_book: any[] = [];
+  public view_book: product[] = [];
   public quantity: number = 1;
   public getuserid: any;
   public increase: any;
@@ -73,7 +73,7 @@ labelMap: { [key: number]: { label: string; color: string } } = {
 
   private viewDetail() {
     this.view_detail.getBookDetail(this.id).subscribe((response) => {
-      // console.log(response);
+      console.log(response);
       this.view_book = response.data;
     });
   }

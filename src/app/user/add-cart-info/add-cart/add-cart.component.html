@@ -1,7 +1,7 @@
 @if(item.length !== 0){
 <div class="cart">
   <div class="left">
-    <div class="left_content" *ngFor="let cart_data of item">
+    <div class="left_content" *ngFor="let cart_data of item" >
       <div class="flex">
         <img
           [src]="
@@ -17,10 +17,15 @@
           <p>description : {{ cart_data.description }}</p>
           <p>price : {{ cart_data.price }}</p>
           <p>quantity : {{ cart_data.quantity }}</p>
+            <div>
+             <p *ngIf="cart_data.stock_quantity > 0 && cart_data.stock_quantity >= 5 " class="stock"><i class="ri-stock-line"></i>In Stock</p>
+             <p *ngIf="cart_data.stock_quantity < 5  && cart_data.stock_quantity > 0" class="stock"><i class="ri-stock-line"></i>Only {{cart_data.stock_quantity}} Stock Available</p>
+             <p *ngIf="cart_data.stock_quantity == 0" class="stock"><i class="ri-stock-line"></i>Out Of Stock</p>
+          </div>
           <div class="qty-row">
-            <button (click)="subtract(cart_data )">−</button>
+            <button (click)="subtract(cart_data )" [disabled]="cart_data.stock_quantity == 0">−</button>
             <span>{{ cart_data.quantity }}</span>
-            <button (click)="add(cart_data)">+</button>
+            <button (click)="add(cart_data)" [disabled]="cart_data.stock_quantity == 0">+</button>
           </div>
           <p>pay : {{cart_data.quantity * cart_data.price }}</p>
           <button (click)="removeToCart(cart_data.cart_id)">remove</button>
@@ -103,12 +108,13 @@
 
         <div class="bill_box">
           <span>total number of items : ({{ total_item }})</span><br />
-          <span>Subtotal : {{ sum }}</span
-          ><br />
+          <span>Subtotal : </span> 
+          <!-- {{ sum }} -->
+          <br />
           <span>discount: 10%</span><br />
           <hr />
           <div class="last">
-            <label>grand total : {{ sum }}</label
+            <!-- <label>grand total : {{ sum }}</label -->
             ><br />
             <button (click)="confirmOrder()" class="confirm">continue</button>
           </div>

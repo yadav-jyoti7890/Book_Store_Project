@@ -4,94 +4,58 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.prod';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AddCartService {
-  private apiUrl =  environment.BaseUrl
+  private apiUrl = environment.BaseUrl;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getAllProduct(id:number): Observable<any>{
-    return this.http.get(`${this.apiUrl}getallproduct/${id}`)
+  getAllProduct(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}getallproduct/${id}`);
   }
 
-
-  deleteCartItem(id:number){
-    return this.http.delete(`${this.apiUrl}deleteCartItem/${id}`)
+  deleteCartItem(id: number) {
+    return this.http.delete(`${this.apiUrl}deleteCartItem/${id}`);
   }
 
-  update_address(id:number, data:any): Observable<any>{
-    return this.http.put(`${this.apiUrl}update_address/${id}`,data)
+  update_address(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}update_address/${id}`, data);
   }
 
-  getuseraddress(id:number): Observable<any>{
-    return this.http.get(`${this.apiUrl}getaddress/${id}`)
-  } 
-  
-  addOrderItem(address_id:number, item: any[]){
-   const data ={
-    address_id : address_id,
-    item : item
-   }
-   console.log(data)
-    
-    return this.http.post(`${this.apiUrl}orderItem/`,data)
+  getuseraddress(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}getaddress/${id}`);
   }
 
-  // confirm_Order(order_data: any): Observable<any>{
-  //   console.log(order_data);
-  //   return this.http.post(`${this.apiUrl}confirm_order`, order_data);
-  // }
+  addOrderItem(address_id: number, item: any[]) {
+    const data = {
+      address_id: address_id,
+      item: item,
+    };
+    console.log(data);
+
+    return this.http.post(`${this.apiUrl}orderItem/`, data);
+  }
 
   confirm_Order(payload: any) {
-  return this.http.post<any>('http://localhost:3000/confirmOrder', payload);
-}
-
-  
-
-  // order_item(order_id:number, order_item: any[]) {
-  //   console.log("order_item", order_item)
-  //   const url = `${this.apiUrl}order_item/${order_id}`;
-  //   console.log( "order items and order_id =>", order_item, order_id);
-  //   return this.http.post(url, order_item);
-  // }
-
-  my_Order(item:any){
-   return this.http.post(`${this.apiUrl}/addMyOrder`,item)
+    return this.http.post<any>('http://localhost:3000/confirmOrder', payload);
   }
 
-  getCartDataInMyOrder(user_id:number): Observable<any>{
-    return this.http.get(`${this.apiUrl}/getCartOrder/${user_id}`)
+  my_Order(item: any) {
+    return this.http.post(`${this.apiUrl}/addMyOrder`, item);
   }
 
-  // deleteAllCartData(id:number){
-  //   return this.http.delete(`${this.apiUrl}deleteAllCartData/${id}`)
-  // }
-
-  getOrderData(user_id:number){
-    console.log("remove obserable")
-    return this.http.get(`${this.apiUrl}/getCartOrderbyOrderId/${user_id}`)
+  getCartDataInMyOrder(user_id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/getCartOrder/${user_id}`);
   }
 
-  
+  getOrderData(user_id: number) {
+    return this.http.get(`${this.apiUrl}/getCartOrderbyOrderId/${user_id}`);
+  }
+
   getOrderDetails(orderId: number) {
-    console.log("order_detail_id",orderId)
     return this.http.get(`${this.apiUrl}/order-details/${orderId}`);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 // SELECT

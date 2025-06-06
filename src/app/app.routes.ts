@@ -64,6 +64,14 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+         path: 'user-detail/:id',
+        loadComponent: () =>
+          import(
+            './admin/users-info/user-detail/user-detail.component'
+          ).then((m) => m.UserDetailComponent),
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'add_book',
         loadComponent: () =>
           import('./admin/Books-Info/add-book/add-book.component').then(

@@ -18,11 +18,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { LoaderBase } from '../../../loader/loader';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-users-list',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule,  MatIconModule,
+  imports: [FormsModule, CommonModule, ReactiveFormsModule,  MatIconModule, RouterLink,
       MatToolbarModule,
       MatButtonModule,
       MatTableModule,

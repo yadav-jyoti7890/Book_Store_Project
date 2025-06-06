@@ -56,10 +56,15 @@
             {{ book_detail.publication_date | date : "dd MMM yyyy" }}
           </p>
           <p><i class="ri-truck-line"></i> Delivery by: [Date]</p>
-          <p class="stock"><i class="ri-stock-line"></i> Only 2 books left!</p>
+          <div>
+             <p *ngIf="book_detail.stock_quantity > 0 && book_detail.stock_quantity >= 5 " class="stock"><i class="ri-stock-line"></i>In Stock</p>
+             <p *ngIf="book_detail.stock_quantity < 5  && book_detail.stock_quantity > 0" class="stock"><i class="ri-stock-line"></i>Only {{book_detail.stock_quantity}} Stock Available</p>
+             <p *ngIf="book_detail.stock_quantity == 0" class="stock"><i class="ri-stock-line"></i>Out Of Stock</p>
+
+          </div>
         </div>
 
-        <button class="add-to-cart" (click)="add_cart(book_detail)">
+        <button class="add-to-cart" (click)="add_cart(book_detail)" [disabled] = "book_detail.stock_quantity === 0">
           Add to Cart
         </button>
       </div>

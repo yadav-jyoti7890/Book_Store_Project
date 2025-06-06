@@ -2,7 +2,7 @@
 
  body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f8fbff;
+  background-color: #fafafa;
   padding: 40px;
   color: #333;
 }
@@ -10,9 +10,9 @@
 .wrapper {
   max-width: 1200px;
   margin: auto;
-  background: #fff;
+  background: #ffffff;
   padding: 20px 30px;
-  border-radius: 10px;
+  border-radius: 7px;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
@@ -24,12 +24,12 @@
 }
 
 .header h2{
-  font-weight: 800;
+  font-weight: 600 !important;
   font-family: Helvetica;
 }
 
 .add-btn {
-  background-color: #7a5ff5;
+  background-color: #4B0084;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -70,6 +70,14 @@ thead {
 th, td {
   padding: 14px 16px;
   border-bottom: 1px solid #eee;
+}
+
+th{
+  font-weight: 500 !important;
+}
+
+td{
+  cursor: pointer;
 }
 
 .highlight {

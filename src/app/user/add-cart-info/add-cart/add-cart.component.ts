@@ -82,10 +82,10 @@ export class AddCartComponent implements OnInit {
           this.item = response.data;
           this.user_address = localStorage.getItem('user_address');
 
-          this.item.forEach((value: any) => {
-            this.sum = this.sum + value.total_amount;
-            this.total_item += 1;
-          });
+          // this.item.forEach((value: any) => {
+          //   this.sum = this.sum + value.total_amount;
+          //   this.total_item += 1;
+          // });
         });
     }
   }
@@ -179,12 +179,12 @@ export class AddCartComponent implements OnInit {
     }
   }
 
-  openAddress() {
+  public openAddress() {
     this.showAddressForm = true; // Show the address form overlay
     this.router.navigate(['/add_cart/address']);
   }
 
-  closeAddress() {
+  public closeAddress() {
     this.showAddressForm = false;
     this.router.navigate(['/add_cart']); // Navigate back to cart after closing
   }
